@@ -1,0 +1,17 @@
+" map esc to jk in insert mode, don't interpret the map
+inoremap jk <Esc>
+colorscheme elflord
+syntax on
+" <Tab> produces spaces
+set tabstop=2  " number of visual spaces per <Tab> character
+set expandtab  " <Tab> converted to spaces
+set shiftwidth=2
+set softtabstop=2  " number of spaces <Tab> converted to
+" auto indenting
+set smartindent
+" UI
+set number  " show line numbers
+set cursorline  " highlight current line
+set wildmenu  " visual autocomplete for comand menu
+" Folding
+set 
