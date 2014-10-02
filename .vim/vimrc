@@ -1,6 +1,6 @@
 " map esc to jk in insert mode, don't interpret the map
 inoremap jk <Esc>
-colorscheme elflord
+colorscheme slate 
 syntax on
 " <Tab> produces spaces
 set tabstop=2  " number of visual spaces per <Tab> character
