@@ -7,31 +7,44 @@ update
 # Upgrade any already-installed formulae
 upgrade
 
-# repos to tap
+######################################
+# Repos to tap
+######################################
 tap homebrew/versions
 tap homebrew/dupes  # system tools like grep, screen, etc.
 tap homebrew/science  # R, etc.
 
-# Install more recent versions of some OS X tools
+######################################
+# Updated OS X tools
+######################################
+install bash
+install bash-completion
 install vim --override-system-vi
 install grep
 install screen
 install wget
 
+######################################
 # Dev tools
+######################################
 install git
+install git-extras
 install zsh
 install zsh-syntax-highlighting
 install tmux
 install emacs
 
+######################################
 # Languages
-brew install R
-brew install pyenv
-brew install sbt  # might get an error.  Google for fix and then document
-# brew install node
+######################################
+install R
+install pyenv  # python version manager
+install sbt  # might get an error.  Google for fix and then document
+# install node
 
+######################################
 # Databases
-brew install mysql
-# brew install mongo
-# brew install redis
+######################################
+# install mysql
+# install mongo
+# install redis

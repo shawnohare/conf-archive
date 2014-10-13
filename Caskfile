@@ -1,0 +1,46 @@
+# Install native apps
+# Usage: `brew bundle Caskfile`
+
+######################################
+# Install Homebrew cask
+######################################
+install caskroom/cask/brew-cask
+tap caskroom/versions
+
+######################################
+# Interface tools
+######################################
+cask install cakebrew  # gui for Homebrew
+cask install github
+cask install iterm2  # better terminal
+cask install sourcetree  # git client
+cask install spectacle  # window movement
+
+######################################
+# Text Editors & IDEs
+######################################
+cask install atom
+# cask install light-table  # try for clojure?
+cask install macvim
+cask install scala-ide
+cask install sublime-text3
+
+######################################
+# File synching
+######################################
+cask install dropbox
+cask install google-drive
+
+######################################
+# Virtual machines
+######################################
+cask install vagrant
+cask install virtualbox
+
+######################################
+# Alfred
+######################################
+cask install alfred
+cask alfred link
+
+cleanup
