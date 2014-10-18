@@ -1,11 +1,14 @@
 # Install native apps
 # Usage: `brew bundle Caskfile`
 
-######################################
 # Install Homebrew cask
-######################################
 install caskroom/cask/brew-cask
 tap caskroom/versions
+
+######################################
+# Database tools
+######################################
+cask install induction  # is this the induction you want?
 
 ######################################
 # Interface tools
