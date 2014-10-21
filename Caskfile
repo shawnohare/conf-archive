@@ -51,7 +51,8 @@ cask install virtualbox
 ######################################
 # Alfred
 ######################################
-cask install alfred
-cask alfred link
+# pay for "magic" features or just use emcas
+# cask install alfred
+# cask alfred link
 
 cleanup
