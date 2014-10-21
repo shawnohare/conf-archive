@@ -11,6 +11,13 @@ tap caskroom/versions
 cask install induction  # is this the induction you want?
 
 ######################################
+# Languages
+######################################
+cask install mactex
+cask install java
+
+
+######################################
 # Interface tools
 ######################################
 cask install cakebrew  # gui for Homebrew
@@ -18,6 +25,7 @@ cask install github
 cask install iterm2  # better terminal
 cask install sourcetree  # git client
 cask install spectacle  # window movement
+cask install little-snitch  # network monitor
 
 ######################################
 # Text Editors & IDEs
