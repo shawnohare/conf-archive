@@ -1,12 +1,18 @@
-
 MKL_NUM_THREADS=1
 export MKL_NUM_THREADS
 
-source ~/.bashrc
+# source the appropriate files
+if [ -f ~/.bashrc ]; then
+  source ~/.bashrc
+fi
+source ~/.profile
+
+# make sure usr/local/bin occurs before usr/bin
+export PATH="/usr/local/bin:$PATH"
 
 # color for lists
-export CLICOLOR=1
-export LSCOLORS=GxFxCxDxBxegedabagaced
+#export CLICOLOR=1
+#export LSCOLORS=GxFxCxDxBxegedabagaced
 
 # brandan's color for lists
 #export CLICOLOR=1
