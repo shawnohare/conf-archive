@@ -5,57 +5,42 @@
 install caskroom/cask/brew-cask
 tap caskroom/versions
 
-######################################
-# Database tools
-######################################
+#-----< Database tools >----------------------------------#
 # cask install induction  # is this the induction you want?
 
-######################################
-# Languages
-######################################
-cask install mactex
-cask install java
+#-----< File Synching >-----------------------------------#
+cask install dropbox
+cask install google-drive
 
-
-######################################
-# Interface tools
-######################################
+#-----< GUI Clients >-------------------------------------#
 cask install cakebrew  # gui for Homebrew
 cask install github
 cask install iterm2  # better terminal
 cask install sourcetree  # git client
-cask install spectacle  # window movement
 cask install little-snitch  # network monitor
 
-######################################
-# Text Editors & IDEs
-######################################
+#-----< Interface >---------------------------------------#
+cask install seil  # remap esc key
+cask install spectacle  # window movement
+
+#-----< Languages >---------------------------------------#
+cask install java
+
+#-----< Text Editors & IDEs >-----------------------------#
 cask install atom
 # cask install light-table  # try for clojure?
 cask install macvim
 cask install scala-ide
 cask install sublime-text3
 
-######################################
-# File synching
-######################################
-cask install dropbox
-cask install google-drive
-
-######################################
-# Virtual machines
-######################################
+#-----< Virtual Machines >--------------------------------#
 cask install vagrant
 cask install virtualbox
 
-######################################
-# Other
-######################################
+#-----< Other >-------------------------------------------#
 cask install skim  # pdf viewer
 
-######################################
-# Alfred
-######################################
+#-----< Alfred >------------------------------------------#
 # pay for "magic" features or just use emcas
 # cask install alfred
 # cask alfred link
