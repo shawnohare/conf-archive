@@ -1,3 +1,5 @@
+" Before setting any VIM-only options, enable full VIM features
+set nocompatible  " make VIM iMproved rather than legacy compatible
 " map esc to jk in insert mode, don't interpret the map
 inoremap jk <Esc>
 " ===== Colors =====
@@ -27,7 +29,6 @@ set foldmethod=indent  " fold based on indent
 set foldnestmax=3  " deepest fold level
 set nofoldenable  " don't fold by default 
 " ===== Status line =====
-set ruler
 set laststatus=2
 set statusline=%t       "tail of the filename
 set statusline+=[%{strlen(&fenc)?&fenc:'none'} "file encoding
@@ -37,6 +38,6 @@ set statusline+=%m      "modified flag
 set statusline+=%r      "read only flag
 set statusline+=%y      "filetype
 set statusline+=%=      "left/right separator
-set statusline+=%c     "cursor column
+set statusline+=%c,     "cursor column
 set statusline+=%l/%L   "cursor line/total lines
 set statusline+=\ %P    "percent through file
