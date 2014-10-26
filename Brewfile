@@ -12,12 +12,16 @@ tap homebrew/versions
 tap homebrew/dupes  # system tools like grep, screen, etc.
 tap homebrew/science  # R, etc.
 
-#-----< Databases >----------------------------------------#
+#----------------------------------------------------------------------#
+# Databases
+#----------------------------------------------------------------------#
 # install mysql
 # install mongo
 # install redis
 
-#-----< Dev tools >---------------------------------------#
+#----------------------------------------------------------------------#
+# Dev Tools
+#----------------------------------------------------------------------#
 install git
 install git-extras
 install zsh
@@ -25,13 +29,17 @@ install zsh-syntax-highlighting
 install tmux
 install emacs
 
-#-----< Languages >---------------------------------------#
+#----------------------------------------------------------------------#
+# Languages
+#----------------------------------------------------------------------#
 install R
 install pyenv  # python version manager
 install sbt  # might get an error.  Google for fix and then document
 # install node
 
-#-----< Updated OS X tools >------------------------------#
+#----------------------------------------------------------------------#
+# Update some OS X tools
+#----------------------------------------------------------------------#
 install bash
 install bash-completion
 install vim --override-system-vi

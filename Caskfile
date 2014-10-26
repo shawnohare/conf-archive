@@ -5,42 +5,60 @@
 install caskroom/cask/brew-cask
 tap caskroom/versions
 
-#-----< Database tools >----------------------------------#
+#----------------------------------------------------------------------#
+# Database tools 
+#----------------------------------------------------------------------#
 # cask install induction  # is this the induction you want?
 
-#-----< File Synching >-----------------------------------#
+#----------------------------------------------------------------------#
+# File synching
+#----------------------------------------------------------------------#
 cask install dropbox
 cask install google-drive
 
-#-----< GUI Clients >-------------------------------------#
+#----------------------------------------------------------------------#
+# Gui Clients
+#----------------------------------------------------------------------#
 cask install cakebrew  # gui for Homebrew
 cask install github
 cask install iterm2  # better terminal
 cask install sourcetree  # git client
 cask install little-snitch  # network monitor
 
-#-----< Interface >---------------------------------------#
+#----------------------------------------------------------------------#
+# Interface
+#----------------------------------------------------------------------#
 cask install seil  # remap esc key
 cask install spectacle  # window movement
 
-#-----< Languages >---------------------------------------#
+#----------------------------------------------------------------------#
+# Languages
+#----------------------------------------------------------------------#
 cask install java
 
-#-----< Text Editors & IDEs >-----------------------------#
+#----------------------------------------------------------------------#
+# Text Editors and IDEs
+#----------------------------------------------------------------------#
 cask install atom
 # cask install light-table  # try for clojure?
 cask install macvim
 cask install scala-ide
 cask install sublime-text3
 
-#-----< Virtual Machines >--------------------------------#
+#----------------------------------------------------------------------#
+# Virtual Machines
+#----------------------------------------------------------------------#
 cask install vagrant
 cask install virtualbox
 
-#-----< Other >-------------------------------------------#
+#----------------------------------------------------------------------#
+# Other
+#----------------------------------------------------------------------#
 cask install skim  # pdf viewer
 
-#-----< Alfred >------------------------------------------#
+#----------------------------------------------------------------------#
+# Alfred
+#----------------------------------------------------------------------#
 # pay for "magic" features or just use emcas
 # cask install alfred
 # cask alfred link
