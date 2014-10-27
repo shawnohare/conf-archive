@@ -1,11 +1,204 @@
-" Before setting any VIM-only options, enable full VIM features
+"======================================================================"
+" .vimrc
+" Settings for VIM
+"======================================================================"
 set nocompatible  " make VIM iMproved rather than legacy compatible
+
+"======================================================================"
+" Plugins  # managed with vim-plug
+"======================================================================"
+
+call plug#begin('~/.vim/plugged')
+
+" Appearance
+Plug 'altercation/vim-colors-solarized' 
+
+" Completion & Search
+Plug 'kien/ctrlp.vim'          " full path fuzzy file/buffer/MRU/tag finder
+Plug 'ervandew/supertab'       " use '<Tab>' for smart omnicompletions
+
+" Editing Enhancement 
+Plug 'mbbill/undotree'         " visual navigation of VIM undotree
+Plug 'tpope/vim-surround'      " easy handling of surrounding brackets etc.
+Plug 'Raimondi/delimitMate'    " automatic closing of parentheses etc.
+Plug 'junegunn/vim-easy-align' " easy alignment of text blocks
+Plug 'tpope/vim-commentary'    " easy toggling of comment markers
+
+" Source Code Management Tool 
+Plug 'tpope/vim-fugitive'      " git integration for VIM
+Plug 'scrooloose/syntastic'    " syntax checking for many languages
+
+" Filetype Specific 
+Plug 'LaTeX-Box-Team/LaTeX-Box', {'for': 'tex'} 
+
+" Other
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
+call plug#end()
+
+"----------------------------------------------------------------------"
+" Plugin Config
+"----------------------------------------------------------------------"
+
+" netrw (built-in)
+let g:netrw_liststyle = 3      " default to tree-style file listing
+let g:netrw_winsize   = 30     " use 30% of columns for list
+let g:netrw_preview   = 1      " default to vertical splitting for preview
+ 
+" ctrlp
+if executable("ag")
+    " Use Ag in CtrlP for listing files
+    let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+
+    " Ag is fast enough that CtrlP doesn't need to cache
+    let g:ctrlp_use_caching = 0
+endif
+
+" supertab
+let g:SuperTabDefaultCompletionType = "context"
+
+" undotree
+nnoremap <Leader>u :UndotreeToggle<cr>
+
+" vim-easy-align
+
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
+nmap <Leader>a <Plug>(EasyAlign)
+
+" vim-colors-solarized
+
+" Toggle solarized colorscheme background between dark and light
+call togglebg#map("<F5>")
+
+" syntastic
+let g:syntastic_mode_map = { "mode":"passive",
+            \"active_filetypes": ["haskell", "tex", "python",
+            \ "ruby", "scala"],
+            \"passive_filetypes": [ ]}
+let g:syntastic_haskell_checkers = ['hdevtools', 'hlint']
+let g:syntastic_tex_checkers = ['chktex', 'lacheck']
+let g:syntastic_python_checkers = ['flake8', 'python']
+let g:syntastic_ruby_checkers = ['mri', 'ruby']
+let g:syntastic_scala_checkers = ['scalac', 'scalastyle']
+let g:syntastic_markdown_checkers = ['mdl']
+
+let g:syntastic_enable_signs=1
+
+"======================================================================"
+" Settings
+"======================================================================"
+
+"----------------------------------------------------------------------"
+" Buffers & Windows
+"----------------------------------------------------------------------"
+
+set hidden      " don't close windowless buffers
+set confirm     " get confirmation to discard unwritten buffers
+set splitbelow  " open new buffers below
+set splitright  " and to the right of the current.  Default is opposite.
+
+"----------------------------------------------------------------------"
+" Completion
+"----------------------------------------------------------------------"
+
+set completeopt+=longest
+set wildmenu                             " command-line completion
+set wildmode=list:longest,full           " shell-style completion behavior
+" File types to ignore for command-line completion
+set wildignore+=*.DS_Store               " OSX folder meta-data file
+set wildignore+=.git,.hg,.svn            " version control system files
+set wildignore+=*.o,*.obj,*.exe          " compiled object files
+set wildignore+=*.jpg,*.gif,*.png,*.jpeg "binary image files
+set wildignore+=*.aux,*.out,*.toc,*.pdf  "LaTeX intermediate/output files
+set wildignore+=*.pyc                    " python object codes
+set wildignore+=*.luac                   " lua byte code
+set wildignore+=*.class                  " java/scala class files
+set wildignore+=*/target/*               " sbt target directory
+
+"----------------------------------------------------------------------"
+" Display
+"----------------------------------------------------------------------"
+
+syntax on                    " enable syntax highlighting
+"set cursorline               " highlight current line
+set showmode                 " show current mode at bottom of screen
+set showcmd                  " show (partial) commands below statusline
+set showmatch                " show matching delimiters
+set relativenumber           " show relative line numbers
+set number                   " show line number of cursor
+set numberwidth=4            " always make room for 4-digit line numbers
+set display+=lastline        " display as much as possible of the last line
+set colorcolumn=+1           " show where lines should end
+set lazyredraw               " don't redraw unnecessarily during macros etc.
+set ttyfast                  " terminal connection is fast
+set wrap                     " wrap long lines
+set linebreak                " don't break words at wrap; disabled by list
+set list                     " show whitespace
+set listchars=tab:>-,trail:.,extends:#,nbsp:.",eol:¶ " customize whitespace look
+set visualbell               " flash screen instead of audio bell for alert
+" set visualbell t_vb=         " turn off visualbell effect
+" set title                    " update terminal window title
+set shortmess+=A             " don't show warning for existing swapfiles
+set background=dark
+colorscheme solarized
+" When using solarized without custom terminal colors use the following
+" let g:solarized_termcolors=256
+" When running without plugins use the desert colorscheme
+" colorscheme desert " a nice dark built-in colorscheme
+
+"----------------------------------------------------------------------"
+" Editing
+"----------------------------------------------------------------------"
+
+set backspace=indent,eol,start " backspace over line breaks, insertion, start
+set history=1000               " increase history level
+set undolevels=1000            " enable many levels of undo
+set undofile                   " save undo tree to file for persistent undos
+set clipboard+=unnamed         " make yanked text available in system clipboard
+set scrolloff=3                " always show 3 lines above or below cursor
+set scrolljump=3               " scroll 3 lines when the cursor leaves screen
+
+"----------------------------------------------------------------------"
+" File Handling
+"----------------------------------------------------------------------"
+
+set nomodeline         " modelines are a security risk
+set autoread           " reread files that have been changed while open
+set autowrite          " write when moving to other buffers/windows
+set encoding=utf-8     " the encoding displayed
+
+"----------------------------------------------------------------------"
+" Files (VIM)
+"----------------------------------------------------------------------"
+set directory=/var/tmp//,/tmp//    "  swap file directory
+set backupdir=/var/tmp//,/tmp//    "  backup file directory
+set undodir=/var/tmp//,/tmp//      "  undo file directory
+
+"----------------------------------------------------------------------"
+" Folding
+"----------------------------------------------------------------------"
+
+set foldenable          " default to folding on, can be toggled with 'zi'
+set foldlevelstart=99   " open files completely unfolded
+set foldnestmax=8       " no more than 8 levels of folds
+set foldmethod=indent   " default to indentation-based folding
+
+"----------------------------------------------------------------------"
+" Indentation
+"----------------------------------------------------------------------"
+" FILL IN
+
+"----------------------------------------------------------------------"
+" Random Stuff
+"----------------------------------------------------------------------"
+
 " map esc to jk in insert mode, don't interpret the map
 inoremap jk <Esc>
 " ===== Colors =====
 syntax on  " turn on syntax highlighting
-set cursorline  " highlight current line
-colorscheme slate 
+"set cursorline  " highlight current line
 " ===== General =====
 set number " show line numbers
 set backspace=indent,eol,start " allow backspaces in insert mode
