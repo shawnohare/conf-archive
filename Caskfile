@@ -8,7 +8,7 @@ tap caskroom/versions
 #----------------------------------------------------------------------#
 # Database tools 
 #----------------------------------------------------------------------#
-# cask install induction  # is this the induction you want?
+# cask install induction  # is this the induction you want? unstable?
 
 #----------------------------------------------------------------------#
 # File synching

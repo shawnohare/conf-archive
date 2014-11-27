@@ -15,17 +15,19 @@ tap homebrew/science  # R, etc.
 #----------------------------------------------------------------------#
 # Databases
 #----------------------------------------------------------------------#
-# install mysql
-# install mongo
-# install redis
+install mysql
+install mongo
+install redis
 
 #----------------------------------------------------------------------#
 # Dev Tools
 #----------------------------------------------------------------------#
+install fish
 install git
 install git-extras
 install zsh
 install zsh-syntax-highlighting
+install zsh-history-substring-search
 install tmux
 install emacs
 
