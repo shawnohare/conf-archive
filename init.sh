@@ -26,3 +26,12 @@ echo Installing vim-plug for plugin managing
 mkdir -p ~/.vim/autoload
 curl -fLo ~/.vim/autoload/plug.vim \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+# install auxillary repos
+mkdir ~/repos
+cd ~/repos
+# TODO prezto
+# powerline
+git clone https://github.com/Lokaltog/powerline-fonts.git
+source powerline-fonts/install.sh
+
