@@ -12,13 +12,13 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 # zsh scripts installed by homebrew
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/local/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
+#source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#source /usr/local/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
 #----------------------------------------------------------------------#
 # Setup for zsh-history-substring-search
 #----------------------------------------------------------------------#
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
+#bindkey '^[[A' history-substring-search-up
+#bindkey '^[[B' history-substring-search-down
 #----------------------------------------------------------------------#
 # Files to source
 #----------------------------------------------------------------------#
