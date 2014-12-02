@@ -22,14 +22,15 @@ install redis
 #----------------------------------------------------------------------#
 # Dev Tools
 #----------------------------------------------------------------------#
+install emacs
 install fish
 install git
 install git-extras
-install zsh
-install zsh-syntax-highlighting
-install zsh-history-substring-search
 install tmux
-install emacs
+install zsh
+install zsh-history-substring-search
+install zsh-syntax-highlighting
+
 
 #----------------------------------------------------------------------#
 # Languages
@@ -37,7 +38,7 @@ install emacs
 install R
 install pyenv  # python version manager
 install sbt  # might get an error.  Google for fix and then document
-# install node
+install node
 
 #----------------------------------------------------------------------#
 # Update some OS X tools
@@ -48,3 +49,5 @@ install vim --override-system-vi
 install grep
 install screen
 install wget
+
+cleanup

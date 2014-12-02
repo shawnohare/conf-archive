@@ -28,7 +28,8 @@ cask install little-snitch  # network monitor
 #----------------------------------------------------------------------#
 # Interface
 #----------------------------------------------------------------------#
-cask install seil  # remap esc key
+cask install karabiner  # key remapper (cannot remap ESC)
+cask install seil  # remap ESC
 cask install spectacle  # window movement
 
 #----------------------------------------------------------------------#

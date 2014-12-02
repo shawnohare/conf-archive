@@ -1,4 +1,14 @@
 #  Lines configured by zsh-newuser-install
+
+#----------------------------------------------------------------------#
+# Antigen
+#----------------------------------------------------------------------#
+source ~/antigen.zsh
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-history-substring-search
+#antigen bundle tarruda/zsh-autosuggestions
+antigen apply
+
 HISTFILE=~/.histfile
 HISTSIZE=100000
 SAVEHIST=100000
@@ -14,12 +24,19 @@ compinit
 # zsh scripts installed by homebrew
 #source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 #source /usr/local/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
+# Setup for zsh-autosuggestions
+#zle-line-init() {
+#    zle autosuggest-start
+#  }
+#zle -N zle-line-init
+#export AUTOSUGGESTION_HIGHLIGHT_COLOR=fg=246
 #----------------------------------------------------------------------#
 # Setup for zsh-history-substring-search
 #----------------------------------------------------------------------#
-#bindkey '^[[A' history-substring-search-up
-#bindkey '^[[B' history-substring-search-down
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
 #----------------------------------------------------------------------#
 # Files to source
 #----------------------------------------------------------------------#
 source .profile
+EOF
