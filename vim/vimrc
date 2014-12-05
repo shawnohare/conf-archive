@@ -90,6 +90,22 @@ let g:syntastic_enable_signs=1
 " Settings
 "======================================================================"
 
+
+"----------------------------------------------------------------------"
+" Abbreviations
+"----------------------------------------------------------------------"
+
+" Abbreviation for date and time stamp in RFC822 format
+iabbrev <expr> dts strftime("%a, %d %b %Y %H:%M:%S %z")
+
+" Abbreviations for horizontal rules: 70 each so comment characters on each
+" end make for 72 character rules
+iabbrev --- ----------------------------------------------------------------------
+iabbrev === ======================================================================
+iabbrev *** **********************************************************************
+iabbrev ___ ______________________________________________________________________
+
+
 "----------------------------------------------------------------------"
 " Buffers & Windows
 "----------------------------------------------------------------------"
@@ -98,6 +114,7 @@ set hidden      " don't close windowless buffers
 set confirm     " get confirmation to discard unwritten buffers
 set splitbelow  " open new buffers below
 set splitright  " and to the right of the current.  Default is opposite.
+
 
 "----------------------------------------------------------------------"
 " Completion
@@ -116,6 +133,7 @@ set wildignore+=*.pyc                    " python object codes
 set wildignore+=*.luac                   " lua byte code
 set wildignore+=*.class                  " java/scala class files
 set wildignore+=*/target/*               " sbt target directory
+
 
 "----------------------------------------------------------------------"
 " Display
@@ -142,11 +160,13 @@ set visualbell               " flash screen instead of audio bell for alert
 " set title                    " update terminal window title
 set shortmess+=A             " don't show warning for existing swapfiles
 set background=dark
+let g:solarized_bold=0           " force Solarized to not bold things
 colorscheme solarized
 " When using solarized without custom terminal colors use the following
 " let g:solarized_termcolors=256
 " When running without plugins use the desert colorscheme
 " colorscheme desert " a nice dark built-in colorscheme
+
 
 "----------------------------------------------------------------------"
 " Editing
@@ -157,8 +177,9 @@ set history=1000               " increase history level
 set undolevels=1000            " enable many levels of undo
 set undofile                   " save undo tree to file for persistent undos
 set clipboard+=unnamed         " make yanked text available in system clipboard
-set scrolloff=3                " always show 3 lines above or below cursor
+set scrolloff=5                " always show n lines above or below cursor
 set scrolljump=3               " scroll 3 lines when the cursor leaves screen
+
 
 "----------------------------------------------------------------------"
 " File Handling
@@ -169,12 +190,14 @@ set autoread           " reread files that have been changed while open
 set autowrite          " write when moving to other buffers/windows
 set encoding=utf-8     " the encoding displayed
 
+
 "----------------------------------------------------------------------"
 " Files (VIM)
 "----------------------------------------------------------------------"
 set directory=/var/tmp//,/tmp//    "  swap file directory
 set backupdir=/var/tmp//,/tmp//    "  backup file directory
 set undodir=/var/tmp//,/tmp//      "  undo file directory
+
 
 "----------------------------------------------------------------------"
 " Folding
@@ -185,10 +208,12 @@ set foldlevelstart=99   " open files completely unfolded
 set foldnestmax=8       " no more than 8 levels of folds
 set foldmethod=indent   " default to indentation-based folding
 
+
 "----------------------------------------------------------------------"
 " Indentation
 "----------------------------------------------------------------------"
 " FILL IN
+
 
 "----------------------------------------------------------------------"
 " Random Stuff
