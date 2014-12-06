@@ -1,8 +1,8 @@
 #  Lines configured by zsh-newuser-install
 
-#----------------------------------------------------------------------#
+#
 # Antigen
-#----------------------------------------------------------------------#
+#
 
 # source ~/antigen.zsh
 # antigen bundle zsh-users/zsh-syntax-highlighting
@@ -23,15 +23,40 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-#----------------------------------------------------------------------#
+#
 # Exports
-#----------------------------------------------------------------------#
+#
  
 export EDITOR="vim"
 
-#----------------------------------------------------------------------#
-# zsh scripts installed by homebrew
-#----------------------------------------------------------------------#
+
+#
+# PROMPT
+#
+
+setopt PROMPT_SUBST      # allow for more extensive expansion in prompts
+#setopt TRANSIENT_RPROMPT # right prompt does not persist
+# hostname: cwd [exit status] %
+#PROMPT='%{%F{blue}%}%m:%{%f%} ${${PWD/#$HOME/~}:t} %(?..%{%F{green}%}%? %{%f%})%{%F{white}%}%#%{%f%} '
+PROMPT='%{%F{blue}%}%m:%{%f%} %F{green}%~ %(?..%{%F{yellow}%}%? %{%f%})%{%F{white}%}%#%{%f%} '
+# Righthand prompt displays vcs_info: [(un)staged changes] branch
+autoload -Uz vcs_info
+
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:git:*' formats '%u%c%{%F{green}%}%b%{%f%}'
+zstyle ':vcs_info:git:*' stagedstr '%{%F{yellow}%}+%{%f%} '
+zstyle ':vcs_info:git:*' unstagedstr '%{%F{red}%}*%{%f%} '
+precmd() {
+  vcs_info
+}
+RPROMPT='${vcs_info_msg_0_}'
+
+
+
+#
+# Modules installed by homebrew
+#
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/local/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
@@ -44,9 +69,9 @@ source /usr/local/opt/zsh-history-substring-search/zsh-history-substring-search.
 #zle -N zle-line-init
 #export AUTOSUGGESTION_HIGHLIGHT_COLOR=fg=246
 
-#----------------------------------------------------------------------#
+#
 # Setup for zsh-syntax-highlighting
-#----------------------------------------------------------------------#
+#
 # Tries to be Solarized-ish
 # 166 = orange
 # Enable highlighters
