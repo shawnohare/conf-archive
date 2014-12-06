@@ -37,8 +37,7 @@ export EDITOR="vim"
 setopt PROMPT_SUBST      # allow for more extensive expansion in prompts
 #setopt TRANSIENT_RPROMPT # right prompt does not persist
 # hostname: cwd [exit status] %
-#PROMPT='%{%F{blue}%}%m:%{%f%} ${${PWD/#$HOME/~}:t} %(?..%{%F{green}%}%? %{%f%})%{%F{white}%}%#%{%f%} '
-PROMPT='%{%F{blue}%}%m:%{%f%} %F{green}%~ %(?..%{%F{yellow}%}%? %{%f%})%{%F{white}%}%#%{%f%} '
+PROMPT='%{%F{yellow}%}%m:%{%f%} %F{blue}%~ %(?..%{%F{yellow}%}%? %{%f%})%{%F{white}%}%#%{%f%} '
 # Righthand prompt displays vcs_info: [(un)staged changes] branch
 autoload -Uz vcs_info
 
