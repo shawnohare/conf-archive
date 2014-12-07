@@ -1,0 +1,7 @@
+##
+# Standard aliases
+# Date modified Sun, 07 Dec 2014 15:48:52 -0800 
+##
+
+alias ls="ls -GF"
+alias la="ls -GFlash"

@@ -203,9 +203,8 @@ ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=cyan'
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
-#----------------------------------------------------------------------#
-# Files to source
-#----------------------------------------------------------------------#
+##
+# Sourcing
+##
 
-source $HOME/.profile
-# EOF
+source $HOME/.aliases

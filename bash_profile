@@ -6,6 +6,7 @@ if [ -f ~/.bashrc ]; then
   source ~/.bashrc
 fi
 source ~/.profile
+source ~/.aliases
 
 # make sure usr/local/bin occurs before usr/bin
 export PATH="/usr/local/bin:$PATH"
@@ -22,4 +23,4 @@ eval "$(pyenv init -)"
 #eval "$(pyenv virtualenv-init -)"
 
 ### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
+#export PATH="/usr/local/heroku/bin:$PATH"
