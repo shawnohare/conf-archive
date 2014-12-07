@@ -35,15 +35,15 @@ export EDITOR="vim"
 #
 
 setopt PROMPT_SUBST      # allow for more extensive expansion in prompts
-#setopt TRANSIENT_RPROMPT # right prompt does not persist
+setopt TRANSIENT_RPROMPT # right prompt does not persist
 # hostname: cwd [exit status] %
-PROMPT='%{%F{yellow}%}%m:%{%f%} %F{blue}%~ %(?..%{%F{yellow}%}%? %{%f%})%{%F{white}%}%#%{%f%} '
+PROMPT='%{%F{yellow}%}%m:%{%f%} %F{blue}%~ %(?..%{%F{yellow}%}%? %{%f%})%{%F{yellow}%}>%{%f%} '
 # Righthand prompt displays vcs_info: [(un)staged changes] branch
 autoload -Uz vcs_info
 
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:git:*' formats '%u%c%{%F{green}%}%b%{%f%}'
+zstyle ':vcs_info:git:*' formats '%u%c%{%F{blue}%}%b%{%f%}'
 zstyle ':vcs_info:git:*' stagedstr '%{%F{yellow}%}+%{%f%} '
 zstyle ':vcs_info:git:*' unstagedstr '%{%F{red}%}*%{%f%} '
 precmd() {
