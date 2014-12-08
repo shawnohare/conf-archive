@@ -1,7 +1,12 @@
+###
+# Main zsh  config file
+# Last modified Mon, 08 Dec 2014 10:27:53 -0800  
+###
+
 ##
 #  Lines configured by zsh-newuser-install
 ##
-
+# TODO eventually integrate appropriate subsections
 setopt autocd extendedglob nomatch notify
 bindkey -v
 # End of lines configured by zsh-newuser-install
@@ -134,7 +139,6 @@ precmd() {
 RPROMPT='${vcs_info_msg_0_}'
 
 
-
 ##
 # Modules installed by homebrew
 ##
@@ -142,28 +146,30 @@ RPROMPT='${vcs_info_msg_0_}'
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/local/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
 
-# Setup for zsh-autosuggestions
-
+##
+# Module setup for zsh-autosuggestions
+##
+# had some issues with this mod playing nice with history-substring-search
 #zle-line-init() {
 #    zle autosuggest-start
 #  }
 #zle -N zle-line-init
 #export AUTOSUGGESTION_HIGHLIGHT_COLOR=fg=246
 
-#
-# Setup for zsh-syntax-highlighting
-#
+##
+# Module setup for zsh-syntax-highlighting
+##
+
 # Tries to be Solarized-ish
 # 166 = orange
 # Enable highlighters
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
-
 # brackets
 ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=blue,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=166,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=yellow,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=magenta,bold'
-#cursor
+# cursor
 ZSH_HIGHLIGHT_STYLES[cursor]='bg=black'
 # main
 # default & unknown
@@ -195,13 +201,6 @@ ZSH_HIGHLIGHT_STYLES[assign]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=cyan'
 ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=cyan'
 
-
-#----------------------------------------------------------------------#
-# Setup for zsh-history-substring-search
-#----------------------------------------------------------------------#
-
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
 
 ##
 # Sourcing
