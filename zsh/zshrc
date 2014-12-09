@@ -181,10 +181,10 @@ bindkey '^[[B' history-substring-search-down
 # Enable highlighters
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 # brackets
-ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=blue,bold'
-ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=166,bold'
-ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=yellow,bold'
-ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=magenta,bold'
+ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=blue'
+ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=166'
+ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=yellow'
+ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=magenta'
 # cursor
 ZSH_HIGHLIGHT_STYLES[cursor]='bg=black'
 # main
@@ -192,7 +192,7 @@ ZSH_HIGHLIGHT_STYLES[cursor]='bg=black'
 ZSH_HIGHLIGHT_STYLES[default]=none
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
 # command
-ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=yellow,bold'
+ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=yellow'
 ZSH_HIGHLIGHT_STYLES[alias]='fg=yellow'
 ZSH_HIGHLIGHT_STYLES[builtin]='fg=green'
 ZSH_HIGHLIGHT_STYLES[function]='fg=166'
