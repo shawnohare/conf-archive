@@ -3,9 +3,10 @@
 # Last modified Mon, 08 Dec 2014 10:27:53 -0800  
 ###
 
-##
+###
 #  Lines configured by zsh-newuser-install
 ##
+
 # TODO eventually integrate appropriate subsections
 setopt autocd extendedglob nomatch notify
 bindkey -v
@@ -149,12 +150,27 @@ source /usr/local/opt/zsh-history-substring-search/zsh-history-substring-search.
 ##
 # Module setup for zsh-autosuggestions
 ##
+
 # had some issues with this mod playing nice with history-substring-search
 #zle-line-init() {
 #    zle autosuggest-start
 #  }
 #zle -N zle-line-init
 #export AUTOSUGGESTION_HIGHLIGHT_COLOR=fg=246
+
+
+##
+# Module setup for zsh-completions
+##
+
+fpath=(/usr/local/share/zsh-completions $fpath)
+
+##
+# Module setup for zsh-history-substring-search
+##
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
 
 ##
 # Module setup for zsh-syntax-highlighting
