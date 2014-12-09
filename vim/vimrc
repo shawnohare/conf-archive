@@ -5,9 +5,9 @@
 "======================================================================"
 set nocompatible  " make VIM iMproved rather than legacy compatible
 
-"
+""
 " PLUGINS  (managed with vim-plug)
-"
+""
 
 call plug#begin('~/.vim/plugged')
 
@@ -39,15 +39,16 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 call plug#end()
 
-"
+""
 " Plugin Config
-"
+"""
 
 " netrw (built-in)
 let g:netrw_liststyle = 3      " default to tree-style file listing
 let g:netrw_winsize   = 30     " use 30% of columns for list
 let g:netrw_preview   = 1      " default to vertical splitting for preview
  
+
 " ctrlp
 if executable("ag")
     " Use Ag in CtrlP for listing files
@@ -64,14 +65,12 @@ let g:SuperTabDefaultCompletionType = "context"
 nnoremap <Leader>u :UndotreeToggle<cr>
 
 " vim-easy-align
-
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
 nmap <Leader>a <Plug>(EasyAlign)
 
 " vim-colors-solarized
-
 " Toggle solarized colorscheme background between dark and light
 call togglebg#map("<F5>")
 
@@ -93,21 +92,21 @@ nnoremap <Leader>e :Errors<CR>
 imap <F3> <C-O><F3>
 nnoremap <F3> :SyntasticReset<CR>
 
-"
+""
 " SETTINGS
-"
+""
 
-"
+""
 " Abbreviations
-"
+""
 
 " Abbreviation for date and time stamp in RFC822 format
 iabbrev <expr> dts strftime("%a, %d %b %Y %H:%M:%S %z")
 
 
-"
+""
 " Buffers & Windows
-"
+""
 
 set hidden      " don't close windowless buffers
 set confirm     " get confirmation to discard unwritten buffers
@@ -115,9 +114,9 @@ set splitbelow  " open new buffers below
 set splitright  " and to the right of the current.  Default is opposite.
 
 
-"
+""
 " Completion
-"
+""
 
 set completeopt+=longest
 set wildmenu                             " command-line completion
@@ -134,9 +133,9 @@ set wildignore+=*.class                  " java/scala class files
 set wildignore+=*/target/*               " sbt target directory
 
 
-"
+""
 " Display
-"
+""
 
 syntax on                    " enable syntax highlighting
 "set cursorline               " highlight current line
@@ -167,9 +166,9 @@ colorscheme solarized
 " colorscheme desert " a nice dark built-in colorscheme
 
 
-"
+""
 " Editing
-"
+""
 
 set backspace=indent,eol,start " backspace over line breaks, insertion, start
 set history=1000               " increase history level
@@ -180,9 +179,9 @@ set scrolloff=5                " always show n lines above or below cursor
 set scrolljump=3               " scroll 3 lines when the cursor leaves screen
 
 
-"
+""
 " File Handling
-"
+""
 
 set nomodeline         " modelines are a security risk
 set autoread           " reread files that have been changed while open
@@ -190,18 +189,18 @@ set autowrite          " write when moving to other buffers/windows
 set encoding=utf-8     " the encoding displayed
 
 
-"
+""
 " Files (VIM)
-"
+""
 
 set directory=/var/tmp//,/tmp//    "  swap file directory
 set backupdir=/var/tmp//,/tmp//    "  backup file directory
 set undodir=/var/tmp//,/tmp//      "  undo file directory
 
 
-"
+""
 " Folding
-"
+""
 
 set foldenable          " default to folding on, can be toggled with 'zi'
 set foldlevelstart=99   " open files completely unfolded
@@ -209,15 +208,15 @@ set foldnestmax=8       " no more than 8 levels of folds
 set foldmethod=indent   " default to indentation-based folding
 
 
-"
+""
 " Indentation
-
+"
 " FILL IN
 
 
-"
-" Random Stuff
-"
+""
+" Various
+""
 
 " map esc to jk in insert mode, don't interpret the map
 inoremap jk <Esc>
