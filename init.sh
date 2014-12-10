@@ -27,11 +27,13 @@ mkdir -p ~/.vim/autoload
 curl -fLo ~/.vim/autoload/plug.vim \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-# install auxillary repos
-mkdir ~/repos
-cd ~/repos
-# TODO prezto
-# powerline
-git clone https://github.com/Lokaltog/powerline-fonts.git
-source powerline-fonts/install.sh
+# # install auxillary repos
+# mkdir ~/repos
+# cd ~/repos
+# # TODO prezto
+# # powerline
+# git clone https://github.com/Lokaltog/powerline-fonts.git
+# source powerline-fonts/install.sh
 
+# make zsh the default shell
+chsh -s /bin/zsh
