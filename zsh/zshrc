@@ -101,6 +101,7 @@ compdef _gnu_generic gdb
 ##
  
 export EDITOR="vim"
+export VISUAL="vim"
 
 ##
 # History
