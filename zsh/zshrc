@@ -61,7 +61,7 @@ export GREP_OPTIONS='--color=auto'
 
 autoload -U compinit
 compinit
-zmodload -i zsh/complist        
+zmodload -i zsh/complist
 setopt hash_list_all            # hash everything before completion
 setopt completealiases          # complete alisases
 setopt always_to_end            # when completing from the middle of a word, move the cursor to the end of the word    
