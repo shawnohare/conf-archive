@@ -224,4 +224,4 @@ ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=cyan'
 ##
 
 source $HOME/.aliases
-source $HOME/.bash_profile
+source $HOME/.profile
