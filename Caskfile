@@ -5,61 +5,61 @@
 install caskroom/cask/brew-cask
 tap caskroom/versions
 
-#----------------------------------------------------------------------#
-# Database tools 
-#----------------------------------------------------------------------#
+#####
+# DATABASE TOOLS
+#####
 # cask install induction  # is this the induction you want? unstable?
 
-#----------------------------------------------------------------------#
-# File synching
-#----------------------------------------------------------------------#
+#####
+# FILE SYNCHING
+#####
 cask install dropbox
 cask install google-drive
 
-#----------------------------------------------------------------------#
-# Gui Clients
-#----------------------------------------------------------------------#
-cask install cakebrew  # gui for Homebrew
+#####
+# GUI CLIENTS
+#####
+cask install cakebrew       # gui for Homebrew
 cask install github
-cask install iterm2  # better terminal
-cask install sourcetree  # git client
+cask install iterm2         # better terminal
+cask install sourcetree     # git client
 cask install little-snitch  # network monitor
 
-#----------------------------------------------------------------------#
-# Interface
-#----------------------------------------------------------------------#
-cask install karabiner  # key remapper (cannot remap ESC)
-cask install seil  # remap ESC
-cask install spectacle  # window movement
+#####
+# INTERFACE
+#####
+# cask install karabiner    # key remapper (cannot remap ESC)
+# cask install seil         # remap ESC
+cask install spectacle    # window movement
 
-#----------------------------------------------------------------------#
-# Languages
-#----------------------------------------------------------------------#
+#####
+# LANGUAGES
+#####
 cask install java
 
-#----------------------------------------------------------------------#
-# Text Editors and IDEs
-#----------------------------------------------------------------------#
-cask install atom
+#####
+# TEXT EDITORS AND IDEs
+#####
+# cask install atom
 # cask install light-table  # try for clojure?
 cask install macvim
 cask install scala-ide
 cask install sublime-text3
 
-#----------------------------------------------------------------------#
-# Virtual Machines
-#----------------------------------------------------------------------#
+#####
+# VIRTUAL MACHINES
+#####
 cask install vagrant
 cask install virtualbox
 
-#----------------------------------------------------------------------#
-# Other
-#----------------------------------------------------------------------#
+#####
+# OTHER
+#####
 cask install skim  # pdf viewer
 
-#----------------------------------------------------------------------#
-# Alfred
-#----------------------------------------------------------------------#
+#####
+# ALFRED
+#####
 # pay for "magic" features or just use emcas
 # cask install alfred
 # cask alfred link
