@@ -9,8 +9,8 @@ upgrade
 
 # Repos to tap
 tap homebrew/versions
-tap homebrew/dupes  # system tools like grep, screen, etc.
-tap homebrew/science  # R, etc.
+tap homebrew/dupes      # system tools like grep, screen, etc.
+tap homebrew/science    # R, etc.
 
 #----------------------------------------------------------------------#
 # Databases
@@ -22,8 +22,8 @@ install redis
 #----------------------------------------------------------------------#
 # Dev Tools
 #----------------------------------------------------------------------#
-install emacs
-install fish
+# install emacs
+# install fish
 install git
 install git-extras
 install tmux
@@ -35,9 +35,9 @@ install zsh-syntax-highlighting
 #----------------------------------------------------------------------#
 # Languages
 #----------------------------------------------------------------------#
-install R
+# install r    # best to install RStudio through CRAN it seems
 install pyenv  # python version manager
-install sbt  # might get an error.  Google for fix and then document
+install sbt    # might get an error.  Google for fix and then document
 install node
 
 #----------------------------------------------------------------------#
