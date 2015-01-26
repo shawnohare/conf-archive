@@ -1,4 +1,3 @@
-"======================================================================"
 " .vimrc
 " Settings for VIM
 " last modified: Fri, 05 Dec 2014 18:23:57 -0800
@@ -32,7 +31,8 @@ Plug 'tpope/vim-fugitive'      " git integration for VIM
 Plug 'scrooloose/syntastic'    " syntax checking for many languages
 
 " Filetype Specific 
-Plug 'LaTeX-Box-Team/LaTeX-Box', {'for': 'tex'} 
+Plug 'LaTeX-Box-Team/LaTeX-Box', {'for': 'tex'}
+Plug 'fatih/vim-go', {'for': 'go'}
 
 " Other
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -74,6 +74,12 @@ nmap <Leader>a <Plug>(EasyAlign)
 " Toggle solarized colorscheme background between dark and light
 call togglebg#map("<F5>")
 
+" vim-go
+" By default syntax-highlighting for funcs, methods, structs is disable.
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+
 " syntastic
 let g:syntastic_mode_map = { "mode":"passive",
             \"active_filetypes": ["haskell", "tex", "python",
@@ -92,6 +98,8 @@ nnoremap <Leader>e :Errors<CR>
 imap <F3> <C-O><F3>
 nnoremap <F3> :SyntasticReset<CR>
 
+" tagbar
+nmap <F8> :TagbarToggle<CR>
 ""
 " SETTINGS
 ""

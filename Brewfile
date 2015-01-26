@@ -12,9 +12,9 @@ tap homebrew/versions
 tap homebrew/dupes      # system tools like grep, screen, etc.
 tap homebrew/science    # R, etc.
 
-#----------------------------------------------------------------------#
-# Databases
-#----------------------------------------------------------------------#
+##
+# DATABASES
+##
 install mysql
 install mongo
 install redis
@@ -22,10 +22,12 @@ install redis
 #----------------------------------------------------------------------#
 # Dev Tools
 #----------------------------------------------------------------------#
+install ctags  # used for some vim plugins to find func defs
 # install emacs
 # install fish
 install git
 install git-extras
+install hg
 install tmux
 install zsh
 install zsh-history-substring-search
@@ -45,7 +47,7 @@ install node
 #----------------------------------------------------------------------#
 install bash
 install bash-completion
-install vim --override-system-vi
+install vim --override-system-vi --with-lua
 install grep
 install screen
 install wget
