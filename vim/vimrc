@@ -62,6 +62,36 @@ endif
 " supertab
 let g:SuperTabDefaultCompletionType = "context"
 
+" tagbar
+" gotags
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
+
 " undotree
 nnoremap <Leader>u :UndotreeToggle<cr>
 
@@ -186,7 +216,7 @@ set undofile                   " save undo tree to file for persistent undos
 set clipboard+=unnamed         " make yanked text available in system clipboard
 set scrolloff=5                " always show n lines above or below cursor
 set scrolljump=1               " scroll n lines when the cursor leaves screen
-
+set mouse=a
 
 ""
 " File Handling
