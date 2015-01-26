@@ -126,7 +126,7 @@ setopt bang_hist                # !keyword
 setopt PROMPT_SUBST      # allow for more extensive expansion in prompts
 setopt TRANSIENT_RPROMPT # right prompt does not persist
 # hostname: cwd [exit status] %
-PROMPT='%{%F{yellow}%}%m:%{%f%} %F{blue}%~ %(?..%{%F{yellow}%}%? %{%f%})%{%F{yellow}%}>%{%f%} '
+PROMPT='%{%F{yellow}%}%m:%{%f%} %F{blue}%1~ %(?..%{%F{yellow}%}%? %{%f%})%{%F{yellow}%}>%{%f%} '
 # Righthand prompt displays vcs_info: [(un)staged changes] branch
 autoload -Uz vcs_info
 
