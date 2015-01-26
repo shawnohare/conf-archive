@@ -15,7 +15,8 @@ Plug 'altercation/vim-colors-solarized'
 
 " Completion & Search
 Plug 'kien/ctrlp.vim'          " full path fuzzy file/buffer/MRU/tag finder
-Plug 'ervandew/supertab'       " use '<Tab>' for smart omnicompletions
+" use '<Tab>' for smart omnicompletions
+Plug 'ervandew/supertab', {'on': 'supertabToggle'}
 Plug 'tpope/vim-vinegar'       " enhanced netrw file browser
 Plug 'majutsushi/tagbar'       " display tags in a window
 
