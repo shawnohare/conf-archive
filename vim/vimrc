@@ -342,7 +342,7 @@ set numberwidth=4            " always make room for 4-digit line numbers
 set display+=lastline        " display as much as possible of the last line
 set colorcolumn=+1           " show where lines should end
 set lazyredraw               " don't redraw unnecessarily during macros etc.
-set ttyfast                  " terminal connection is fast
+set tf                       " fast term connection.  
 set wrap                     " wrap long lines
 set linebreak                " don't break words at wrap; disabled by list
 "  set list                     " show whitespace
@@ -438,8 +438,3 @@ set statusline+=%*
 
 " map esc to in insert mode, don't interpret the map
 inoremap ;; <Esc>
-
-" ===== Colors =====
-syntax on  " turn on syntax highlighting
-"set cursorline  " highlight current line
-
