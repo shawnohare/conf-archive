@@ -213,7 +213,7 @@ precmd() {
 PROMPT='%{%F{yellow}%}>%{%f%} %F{blue}%1~ '
 # PROMPT+='%(?..%{%F{yellow}%}%? ' # exit codes 
 # PROMPT+='%{%f%})%{%F{yellow}%}:%{%f%} '
-PROMPT+='${vcs_info_msg_0_} ' # git info
+PROMPT+='${vcs_info_msg_0_}' # git info
 # Righthand prompt displays vcs_info: [(un)staged changes] branch
 # RPROMPT='${vcs_info_msg_0_}'
 RPROMPT='%* %D'
