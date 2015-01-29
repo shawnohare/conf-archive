@@ -198,20 +198,25 @@ set_title_tab
 setopt PROMPT_SUBST      # allow for more extensive expansion in prompts
 setopt TRANSIENT_RPROMPT # right prompt does not persist
 # hostname: cwd [exit status] %
-PROMPT='%{%F{yellow}%}%m:%{%f%} %F{blue}%1~ %(?..%{%F{yellow}%}%? %{%f%})%{%F{yellow}%}>%{%f%} '
-# Righthand prompt displays vcs_info: [(un)staged changes] branch
+
 autoload -Uz vcs_info
 
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:git:*' formats '%u%c%{%F{blue}%}%b%{%f%}'
-zstyle ':vcs_info:git:*' stagedstr '%{%F{yellow}%}+%{%f%} '
-zstyle ':vcs_info:git:*' unstagedstr '%{%F{red}%}*%{%f%} '
+zstyle ':vcs_info:git:*' formats '%u%c%{%F{cyan}%}[%b]%{%f%} '
+zstyle ':vcs_info:git:*' stagedstr '%{%F{yellow}%}+%{%f%}'
+zstyle ':vcs_info:git:*' unstagedstr '%{%F{red}%}*%{%f%}'
 precmd() {
   vcs_info
 }
-RPROMPT='${vcs_info_msg_0_}'
 
+PROMPT='%{%F{yellow}%}>%{%f%} %F{blue}%1~ '
+# PROMPT+='%(?..%{%F{yellow}%}%? ' # exit codes 
+# PROMPT+='%{%f%})%{%F{yellow}%}:%{%f%} '
+PROMPT+='${vcs_info_msg_0_} ' # git info
+# Righthand prompt displays vcs_info: [(un)staged changes] branch
+# RPROMPT='${vcs_info_msg_0_}'
+RPROMPT='%* %D'
 
 ##
 # Modules installed by homebrew
