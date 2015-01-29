@@ -42,7 +42,7 @@ cask install java
 #####
 # cask install atom
 # cask install light-table  # try for clojure?
-cask install macvim
+# cask install macvim # using brew instead of cask
 cask install scala-ide
 cask install sublime-text3
 

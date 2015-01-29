@@ -49,6 +49,9 @@ install bash
 install bash-completion
 install vim --override-system-vi --with-lua
 install grep
+# need Xcode to install macvim.  lua is for neocomplete.
+brew install macvim --with-cscope --with-lua --with-python
+brew linkapps macvim
 install screen
 install wget
 
