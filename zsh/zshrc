@@ -210,13 +210,11 @@ precmd() {
   vcs_info
 }
 
-PROMPT='%{%F{yellow}%}>%{%f%} %F{blue}%1~ '
-# PROMPT+='%(?..%{%F{yellow}%}%? ' # exit codes 
-# PROMPT+='%{%f%})%{%F{yellow}%}:%{%f%} '
-PROMPT+='${vcs_info_msg_0_}' # git info
-# Righthand prompt displays vcs_info: [(un)staged changes] branch
-# RPROMPT='${vcs_info_msg_0_}'
-RPROMPT='%* %D'
+PROMPT='%{%F{yellow}%}>%{%f%} '        # prompt indicator
+PROMPT+='%{%F{blue}%}%1~%{%f%} '        # current directory
+# PROMPT+='%(?..%{%F{yellow}%}%? '     # exit codes 
+PROMPT+='${vcs_info_msg_0_}'           # git info
+RPROMPT='%* %D'                        # time and date
 
 ##
 # Modules installed by homebrew
