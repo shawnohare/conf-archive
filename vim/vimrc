@@ -340,7 +340,7 @@ set showmatch                " show matching delimiters
 set number                   " show line number of cursor
 set numberwidth=4            " always make room for 4-digit line numbers
 set display+=lastline        " display as much as possible of the last line
-set colorcolumn=+1           " show where lines should end
+set colorcolumn=79           " show where lines should end
 set lazyredraw               " don't redraw unnecessarily during macros etc.
 set tf                       " fast term connection.  
 set wrap                     " wrap long lines
@@ -399,7 +399,8 @@ set undodir=/var/tmp//,/tmp//      "  undo file directory
 set foldenable          " default to folding on, can be toggled with 'zi'
 set foldlevelstart=99   " open files completely unfolded
 set foldnestmax=8       " no more than 8 levels of folds
-set foldmethod=indent   " default to indentation-based folding
+set foldmethod=syntax   " default folding method
+" set foldcolumn=1        " gutter fold marks
 
 
 ""
