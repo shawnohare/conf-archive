@@ -5,9 +5,15 @@ export PATH="/usr/local/bin:$PATH"
 #export CLICOLOR=1
 #export LSCOLORS=GxFxCxDxBxegedabagaced
 
+##
+# pyenv
+#
+eval "$(pyenv init -)"
 #eval "$(pyenv virtualenv-init -)"
 
-# go-lang
+##
+# golang
+##
 export GOPATH="$HOME/dev/go"
 export PATH=$PATH:$GOPATH/bin
 #export GOROOT=/usr/local/Cellar/go/1.4/libexec/
