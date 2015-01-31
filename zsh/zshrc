@@ -214,6 +214,7 @@ PROMPT='%{%F{yellow}%}>%{%f%} '        # prompt indicator
 PROMPT+='%{%F{blue}%}%1~%{%f%} '        # current directory
 # PROMPT+='%(?..%{%F{yellow}%}%? '     # exit codes 
 PROMPT+='${vcs_info_msg_0_}'           # git info
+PROMPT+='%{$%} '                       # $ indicator
 RPROMPT='%* %D'                        # time and date
 
 ##
