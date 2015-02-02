@@ -203,7 +203,7 @@ autoload -Uz vcs_info
 
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:git:*' formats '%u%c%{%F{cyan}%}[%b]%{%f%} '
+zstyle ':vcs_info:git:*' formats '%u%c%{%F{green}%}[%b]%{%f%} '
 zstyle ':vcs_info:git:*' stagedstr '%{%F{yellow}%}+%{%f%}'
 zstyle ':vcs_info:git:*' unstagedstr '%{%F{red}%}*%{%f%}'
 precmd() {
