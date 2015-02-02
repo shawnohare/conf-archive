@@ -257,7 +257,7 @@ call togglebg#map("<F5>")
 " vim-go
 ""
 " By default syntax-highlighting for funcs, methods, structs is disable.
-let g:go_highlight_functions = 0 
+let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
 " play nice with neosnippet
