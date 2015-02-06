@@ -3,11 +3,6 @@
 " last modified: Fri, 05 Dec 2014 18:23:57 -0800
 "======================================================================"
 set nocompatible  " make VIM iMproved rather than legacy compatible
-
-""
-" PLUGINS  (managed with vim-plug)
-""
-
 call plug#begin('~/.vim/plugged')
 
 " Appearance
@@ -52,6 +47,18 @@ call plug#end()
 ""
 " PLUGIN CONFIG
 """
+
+"""
+" delimitMate
+"""
+" pressing return between delimiters results in an indent
+let g:delimitMate_expand_cr=2
+let g:delimitMate_expand_space=1
+let g:delimitMate_jump_expansion=1
+" don't expand <cr> in pop-up menus
+ imap <expr> <CR> pumvisible()
+                     \ ? "\<C-Y>"
+                     \ : "<Plug>delimitMateCR"
 
 ""
 " netrw (built-in)
@@ -262,10 +269,14 @@ call togglebg#map("<F5>")
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
 " play nice with neosnippet
 " let g:go_disable_autoinstall = 1
 " let g:go_loaded_gosnippets = 1
 let g:go_snippet_engine = "neosnippet"
+" let g:go_auto_type_info = 1
+" au FileType go nmap <Leader>i <Plug>(go-info)
+" au FileType go nmap <Leader>gd <Plug>(go-doc)
 
 " syntastic
 let g:syntastic_mode_map = { "mode":"passive",
@@ -377,6 +388,7 @@ set scrolloff=5                " always show n lines above or below cursor
 set scrolljump=1               " scroll n lines when the cursor leaves screen
 set mouse=a
 
+
 ""
 " File Handling
 ""
@@ -415,8 +427,13 @@ set tabstop=2  " number of visual spaces per <Tab> character
 set expandtab  " <Tab> converted to softtabstop # spaces
 set softtabstop=2 " number of spaces <Tab> converted to
 set shiftwidth=2 " <Tab> converts to this # spaces at beginning of line
-set smartindent
+" set smartindent " dumbindent?
 set autoindent
+" set cindent " also dumb?
+filetype indent on
+" indent when between delimeters by typing <C-Return>
+" Now using delimitMate to handle this.
+" imap <C-Return> <CR><CR><C-o>k<C-t>
 
 ""
 " STATUSLINE
