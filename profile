@@ -19,6 +19,3 @@ export PATH=$PATH:$GOPATH/bin
 #export GOROOT=/usr/local/Cellar/go/1.4/libexec/
 #export PATH="$PATH:$GOROOT"
 
-
-### Added by the Heroku Toolbelt
-#export PATH="/usr/local/heroku/bin:$PATH"
