@@ -22,7 +22,6 @@ Plug 'majutsushi/tagbar'  " display tags in a window
 " Editing Enhancement 
 " Plug 'mbbill/undotree'         " visual navigation of VIM undotree
 Plug 'tpope/vim-surround'      " easy handling of surrounding brackets etc.
-" delimitMate seemed to cause slowdowns
 Plug 'Raimondi/delimitMate'    " automatic closing of parentheses etc.
 Plug 'junegunn/vim-easy-align' " easy alignment of text blocks
 Plug 'tpope/vim-commentary'    " easy toggling of comment markers
@@ -38,10 +37,11 @@ Plug 'LaTeX-Box-Team/LaTeX-Box', {'for': 'tex'}
 Plug 'fatih/vim-go'
 
 " Other
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+" Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 " Visual
 Plug 'bling/vim-airline'
+
 call plug#end()
 
 ""
@@ -63,10 +63,49 @@ let g:delimitMate_jump_expansion=1
 ""
 " netrw (built-in)
 ""
+
+let g:netrw_banner    = 0      " Do not display info on top
 let g:netrw_liststyle = 3      " default to tree-style file listing
 let g:netrw_winsize   = 30     " use 30% of columns for list
 let g:netrw_preview   = 1      " default to vertical splitting for preview
- 
+ " Toggle Vexplore with Ctrl-E
+map <silent> <C-E> :Lexplore <CR>
+" Hit enter in the file browser to open the selected
+" file with :vsplit to the right of the browser.
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+" Change directory to the current buffer when opening files.
+set autochdir
+
+" com!  -nargs=* -bar -bang -complete=dir  Lexplore  call netrw#Lexplore(<q-args>, <bang>0)
+
+" fun! Lexplore(dir, right)
+"   if exists("t:netrw_lexbufnr")
+"   " close down netrw explorer window
+"   let lexwinnr = bufwinnr(t:netrw_lexbufnr)
+"   if lexwinnr != -1
+"     let curwin = winnr()
+"     exe lexwinnr."wincmd w"
+"     close
+"     exe curwin."wincmd w"
+"   endif
+"   unlet t:netrw_lexbufnr
+
+"   else
+"     " open netrw explorer window in the dir of current file
+"     " (even on remote files)
+"     let path = substitute(exists("b:netrw_curdir")? b:netrw_curdir : expand("%:p"), '^\(.*[/\\]\)[^/\\]*$','\1','e')
+"     exe (a:right? "botright" : "topleft")." vertical ".((g:netrw_winsize > 0)? (g:netrw_winsize*winwidth(0))/100 : -g:netrw_winsize) . " new"
+"     if a:dir != ""
+"       exe "Explore ".a:dir
+"     else
+"       exe "Explore ".path
+"     endif
+"     setlocal winfixwidth
+"     let t:netrw_lexbufnr = bufnr("%")
+"   endif
+" endfun
+
 
 ""
 " ctrlp
