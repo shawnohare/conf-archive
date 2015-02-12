@@ -1,6 +1,6 @@
 " .vimrc
 " Settings for VIM
-" last modified: Fri, 05 Dec 2014 18:23:57 -0800
+" last modified: Tue, 10 Feb 2015 09:24:38 -0800 
 "======================================================================"
 set nocompatible  " make VIM iMproved rather than legacy compatible
 call plug#begin('~/.vim/plugged')
@@ -68,8 +68,7 @@ let g:netrw_banner    = 0      " Do not display info on top
 let g:netrw_liststyle = 3      " default to tree-style file listing
 let g:netrw_winsize   = 30     " use 30% of columns for list
 let g:netrw_preview   = 1      " default to vertical splitting for preview
- " Toggle Vexplore with Ctrl-E
-map <silent> <C-E> :Lexplore <CR>
+
 " Hit enter in the file browser to open the selected
 " file with :vsplit to the right of the browser.
 let g:netrw_browse_split = 4
@@ -77,34 +76,38 @@ let g:netrw_altv = 1
 " Change directory to the current buffer when opening files.
 set autochdir
 
-" com!  -nargs=* -bar -bang -complete=dir  Lexplore  call netrw#Lexplore(<q-args>, <bang>0)
+" How Lexplore command behaves
+com!  -nargs=* -bar -bang -complete=dir  Lexplore  call netrw#Lexplore(<q-args>, <bang>0)
 
-" fun! Lexplore(dir, right)
-"   if exists("t:netrw_lexbufnr")
-"   " close down netrw explorer window
-"   let lexwinnr = bufwinnr(t:netrw_lexbufnr)
-"   if lexwinnr != -1
-"     let curwin = winnr()
-"     exe lexwinnr."wincmd w"
-"     close
-"     exe curwin."wincmd w"
-"   endif
-"   unlet t:netrw_lexbufnr
+fun! Lexplore(dir, right)
+  if exists("t:netrw_lexbufnr")
+  " close down netrw explorer window
+  let lexwinnr = bufwinnr(t:netrw_lexbufnr)
+  if lexwinnr != -1
+    let curwin = winnr()
+    exe lexwinnr."wincmd w"
+    close
+    exe curwin."wincmd w"
+  endif
+  unlet t:netrw_lexbufnr
 
-"   else
-"     " open netrw explorer window in the dir of current file
-"     " (even on remote files)
-"     let path = substitute(exists("b:netrw_curdir")? b:netrw_curdir : expand("%:p"), '^\(.*[/\\]\)[^/\\]*$','\1','e')
-"     exe (a:right? "botright" : "topleft")." vertical ".((g:netrw_winsize > 0)? (g:netrw_winsize*winwidth(0))/100 : -g:netrw_winsize) . " new"
-"     if a:dir != ""
-"       exe "Explore ".a:dir
-"     else
-"       exe "Explore ".path
-"     endif
-"     setlocal winfixwidth
-"     let t:netrw_lexbufnr = bufnr("%")
-"   endif
-" endfun
+  else
+    " open netrw explorer window in the dir of current file
+    " (even on remote files)
+    let path = substitute(exists("b:netrw_curdir")? b:netrw_curdir : expand("%:p"), '^\(.*[/\\]\)[^/\\]*$','\1','e')
+    exe (a:right? "botright" : "topleft")." vertical ".((g:netrw_winsize > 0)? (g:netrw_winsize*winwidth(0))/100 : -g:netrw_winsize) . " new"
+    if a:dir != ""
+      exe "Explore ".a:dir
+    else
+      exe "Explore ".path
+    endif
+    setlocal winfixwidth
+    let t:netrw_lexbufnr = bufnr("%")
+  endif
+endfun
+
+ " Toggle Lexplore with Ctrl-E
+map <silent> <C-E> :Lexplore <CR>
 
 
 ""
@@ -338,7 +341,7 @@ nnoremap <F3> :SyntasticReset<CR>
 ""
 " tagbar
 ""
-nmap <F8> :TagbarToggle<CR>
+nmap <F12> :TagbarToggle<CR>
 
 ""
 " SETTINGS
