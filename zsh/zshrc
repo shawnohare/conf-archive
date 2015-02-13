@@ -9,7 +9,7 @@
 
 # TODO eventually integrate appropriate subsections
 setopt autocd extendedglob nomatch notify
-bindkey -v
+bindkey -v # vim normal mode keybindings
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
 #zstyle :compinstall filename '/Users/shawn/.zshrc'
