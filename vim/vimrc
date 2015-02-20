@@ -389,7 +389,7 @@ set wildignore+=*/target/*               " sbt target directory
 ""
 
 syntax on                    " enable syntax highlighting
-"set cursorline               " highlight current line
+set cursorline               " highlight current line
 set showmode                 " show current mode at bottom of screen
 set showcmd                  " show (partial) commands below statusline
 " set showmatch                " show matching delimiters
