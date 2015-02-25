@@ -489,7 +489,7 @@ set statusline+=%m              " modified flag
 set statusline+=%r              " read only flag
 set statusline+=%y              " filetype
 set statusline+=%=              " left/right separator
-set statusline+=%P : %l: %c     " % through file : line num: column num
+set statusline+=%P\ :\ %l:\ %c " % through file : line num: column num
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
