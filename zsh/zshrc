@@ -247,6 +247,7 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 ##
 
 bindkey '^[[A' history-substring-search-up
+bindkey '^K' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 ##
