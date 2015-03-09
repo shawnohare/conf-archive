@@ -3,6 +3,8 @@
 # Date modified Sun, 07 Dec 2014 15:48:52 -0800 
 ##
 
+alias ..="cd .."
+alias ...="cd ../.."
 alias ls="ls -GF"
 alias la="ls -GFlash"
 alias g="git"
