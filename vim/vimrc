@@ -38,7 +38,7 @@ Plug 'fatih/vim-go'
 Plug 'chrisbra/csv.vim'
 
 " Other
-" Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 " Visual
 Plug 'bling/vim-airline'
