@@ -398,6 +398,7 @@ set showcmd                  " show (partial) commands below statusline
 set number                   " show line number of cursor
 set numberwidth=4            " always make room for 4-digit line numbers
 set display+=lastline        " display as much as possible of the last line
+set hlsearch                 " highlight search on "
 set colorcolumn=79           " show where lines should end
 set lazyredraw               " don't redraw unnecessarily during macros etc.
 set tf                       " fast term connection.  
