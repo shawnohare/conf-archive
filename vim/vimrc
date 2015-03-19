@@ -41,6 +41,7 @@ Plug 'chrisbra/csv.vim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 " Visual
+" Plug 'itchyny/lightline.vim' " like airline, but orthogonal to other plugins
 Plug 'bling/vim-airline'
 
 call plug#end()
@@ -396,6 +397,10 @@ set showcmd                  " show (partial) commands below statusline
 " set showmatch                " show matching delimiters
 " set relativenumber           " show relative line numbers
 set number                   " show line number of cursor
+" au InsertEnter * :set number " absolute numbers in insert mode
+" au InsertLeave * :set rnu    " relative numbers when leaving insert mode
+" au FocusLost   * :set nu     " absolute numbers when focus lost
+" au FocusGained * :set rnu    " relative numbrers when focus gain
 set numberwidth=4            " always make room for 4-digit line numbers
 set display+=lastline        " display as much as possible of the last line
 set hlsearch                 " highlight search on "
@@ -406,18 +411,17 @@ set wrap                     " wrap long lines
 set linebreak                " don't break words at wrap; disabled by list
 "  set list                     " show whitespace
 set listchars=tab:>-,trail:.,extends:#,nbsp:. ",tab:>-,eol:¶ " customize whitespace look
-set visualbell               " flash screen instead of audio bell for alert
+set visualbell         " flash screen instead of audio bell for alert
 " set visualbell t_vb=         " turn off visualbell effect
 " set title                    " update terminal window title
-set shortmess+=A             " don't show warning for existing swapfiles
+set shortmess+=A       " don't show warning for existing swapfiles
 set background=dark
-let g:solarized_bold=0           " force Solarized to not bold things
+let g:solarized_bold=0 " force Solarized to not bold things
 colorscheme solarized
 " When using solarized without custom terminal colors use the following
 " let g:solarized_termcolors=256
 " When running without plugins use the desert colorscheme
 " colorscheme desert " a nice dark built-in colorscheme
-
 
 ""
 " Editing
