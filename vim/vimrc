@@ -466,9 +466,9 @@ set foldmethod=indent   " default folding method. syntax method is SLOW.
 ""
 " Indentation
 "
-set smarttab " <Tab> interpretation depends on cursor and siftwidth, tabstop, softtabstop
-set tabstop=2  " number of visual spaces per <Tab> character
+set smarttab   " <Tab> interpretation depends on cursor and siftwidth, tabstop, softtabstop
 set expandtab  " <Tab> converted to softtabstop # spaces
+set tabstop=2  " number of visual spaces per <Tab> character
 set softtabstop=2 " number of spaces <Tab> converted to
 set shiftwidth=2 " <Tab> converts to this # spaces at beginning of line
 " set smartindent " dumbindent?
