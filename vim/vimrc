@@ -12,6 +12,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'kien/ctrlp.vim'          " full path fuzzy file/buffer/MRU/tag finder
 " use '<Tab>' for smart omnicompletions
 Plug 'ervandew/supertab'
+Plug 'rking/ag.vim'
 Plug 'Shougo/neocomplete', {'on': 'NeocompleteOn'}
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
@@ -39,9 +40,13 @@ Plug 'chrisbra/csv.vim'
 
 " Other
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'Shougo/unite.vim'
 
 " Visual
-" Plug 'itchyny/lightline.vim' " like airline, but orthogonal to other plugins
+" lightline is similar to airline, but it
+" requires more setup in vimrc (e.g., for fugitive integration).
+" However, it is orthgonal to other plugins.
+" Plug 'itchyny/lightline.vim'  
 Plug 'bling/vim-airline'
 
 call plug#end()
