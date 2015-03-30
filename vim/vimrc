@@ -315,19 +315,20 @@ call togglebg#map("<F5>")
 " vim-go
 ""
 " By default syntax-highlighting for funcs, methods, structs is disable.
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_operators = 1
+let g:go_highlight_functions         = 1
+let g:go_highlight_methods           = 1
+let g:go_highlight_structs           = 1
+let g:go_highlight_operators         = 1
+let g:go_highlight_build_constraints = 1
 " play nice with neosnippet
 " let g:go_disable_autoinstall = 1
 " let g:go_loaded_gosnippets = 1
-let g:go_snippet_engine = "neosnippet"
+let g:go_snippet_engine              = "neosnippet"
 " let g:go_auto_type_info = 1
-" au FileType go nmap <Leader>i <Plug>(go-info)
-" au FileType go nmap <Leader>gd <Plug>(go-doc)
 
+""
 " syntastic
+""
 let g:syntastic_mode_map = { "mode":"passive",
             \"active_filetypes": ["haskell", "tex", "python",
             \ "ruby", "scala"],
