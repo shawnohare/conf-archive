@@ -10,7 +10,7 @@ Plug 'altercation/vim-colors-solarized'
 " Plug 'chriskempson/base16-vim'
 
 " Completion & Search
-Plug 'kien/ctrlp.vim'          " full path fuzzy file/buffer/MRU/tag finder
+Plug 'kien/ctrlp.vim'          "  full path fuzzy file/buffer/MRU/tag finder
 " use '<Tab>' for smart omnicompletions
 Plug 'ervandew/supertab'
 Plug 'rking/ag.vim'
@@ -49,12 +49,22 @@ Plug 'Shougo/unite.vim'
 " However, it is orthgonal to other plugins.
 " Plug 'itchyny/lightline.vim'  
 Plug 'bling/vim-airline'
+Plug 'bling/vim-bufferline'
 
 call plug#end()
 
 ""
 " PLUGIN CONFIG
 """
+
+"""
+" Airline
+"""
+
+" For nice looking powerline symbols.
+let g:airline_powerline_fonts = 1
+" Automatically display buffers when only one tab is open.
+let g:airline#extension#tabline#enabled = 1
 
 """
 " delimitMate

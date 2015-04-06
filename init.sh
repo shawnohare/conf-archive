@@ -34,6 +34,7 @@ curl -fLo ~/.vim/autoload/plug.vim \
 # # powerline
 # git clone https://github.com/Lokaltog/powerline-fonts.git
 # source powerline-fonts/install.sh
+# cd ~
 
 # make zsh the default shell
 chsh -s /bin/zsh
