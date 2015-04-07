@@ -19,33 +19,34 @@ install mysql
 install mongo
 install redis
 
-#----------------------------------------------------------------------#
+###
 # Dev Tools
-#----------------------------------------------------------------------#
-install the_silver_searcher 
+###
+install ag    # the silver searcher, ack replacement. 
 install ctags # used for some vim plugins to find func defs
-install emacs #
-install fish  #
+install emacs 
 install git                           
 install git-extras                    
-install hg    # mercurial (for some Go repos)
+install mercurial
+install the_
 install tmux                         
 install zsh                           
+install zsh-completions
 install zsh-history-substring-search  
 install zsh-syntax-highlighting       
 
 
-#----------------------------------------------------------------------#
+###
 # Languages
-#----------------------------------------------------------------------#
+###
 # install r    # best to install RStudio through CRAN it seems
 install pyenv  # python version manager
 install sbt    # for scala.  error with Yosemite?
 install node
 
-#----------------------------------------------------------------------#
+##
 # Update some OS X tools
-#----------------------------------------------------------------------#
+###
 install bash
 install bash-completion
 install vim --override-system-vi --with-lua --with-python
