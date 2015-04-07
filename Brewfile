@@ -22,17 +22,17 @@ install redis
 #----------------------------------------------------------------------#
 # Dev Tools
 #----------------------------------------------------------------------#
-install ctags  # used for some vim plugins to find func defs
-# install emacs
-# install fish
-install        # make sure latest Xcode is installed
-install git
-install git-extras
-install hg          # mercurial (for some Go repos)
-install tmux
-install zsh
-install zsh-history-substring-search
-install zsh-syntax-highlighting
+install the_silver_searcher 
+install ctags # used for some vim plugins to find func defs
+install emacs #
+install fish  #
+install git                           
+install git-extras                    
+install hg    # mercurial (for some Go repos)
+install tmux                         
+install zsh                           
+install zsh-history-substring-search  
+install zsh-syntax-highlighting       
 
 
 #----------------------------------------------------------------------#
