@@ -289,7 +289,6 @@ set wildignore+=*/target/*               " sbt target directory
 ""
 " Display
 ""
- blasfdh
 syntax on                    " enable syntax highlighting
 set cursorline               " highlight current line
 set showmode                 " show current mode at bottom of screen
