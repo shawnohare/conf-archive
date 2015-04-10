@@ -95,7 +95,7 @@ let g:netrw_altv = 1
 set autochdir
 
  " Toggle Lexplore with Ctrl-E
-map <silent> <C-E> :Lexplore <CR>
+" map <silent> <C-E> :Lexplore <CR>
 
 
 ""
@@ -289,7 +289,7 @@ set wildignore+=*/target/*               " sbt target directory
 ""
 " Display
 ""
-
+ blasfdh
 syntax on                    " enable syntax highlighting
 set cursorline               " highlight current line
 set showmode                 " show current mode at bottom of screen
@@ -306,7 +306,7 @@ set display+=lastline        " display as much as possible of the last line
 set hlsearch                 " highlight search on "
 set colorcolumn=79           " show where lines should end
 set lazyredraw               " don't redraw unnecessarily during macros etc.
-set tf                       " fast term connection.  
+" set tf                       " fast term connection.  Outdated?
 set wrap                     " wrap long lines
 set linebreak                " don't break words at wrap; disabled by list
 "  set list                     " show whitespace
