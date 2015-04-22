@@ -313,6 +313,7 @@ set listchars=tab:>-,trail:.,extends:#,nbsp:. ",tab:>-,eol:¶ " customize whites
 set visualbell         " flash screen instead of audio bell for alert
 " set visualbell t_vb=         " turn off visualbell effect
 " set title                    " update terminal window title
+set guifont=Source\ Code\ Pro\ for\ Powerline
 set shortmess+=A       " don't show warning for existing swapfiles
 set background=dark
 let g:solarized_bold=0 " force Solarized to not bold things
