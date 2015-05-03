@@ -1,5 +1,7 @@
 if [ $(id -u) != 0 ]; then
     echo "Please run this command with superuser privileges:";
-    echo "$ sudo install.sh";
-    exit 1
+    exit 1; else
+    echo "You have the privileges."
 fi
+
+
