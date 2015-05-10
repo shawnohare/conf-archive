@@ -1,67 +1,22 @@
-# Install native apps
-# Usage: `brew bundle Caskfile`
-
-# Install Homebrew cask
-install caskroom/cask/brew-cask
-tap caskroom/versions
-
-#####
-# DATABASE TOOLS
-#####
-# cask install induction  # is this the induction you want? unstable?
-
-#####
-# FILE SYNCHING
-#####
-cask install dropbox
-cask install google-drive
-
-#####
-# GUI CLIENTS
-#####
-cask install cakebrew       # gui for Homebrew
-cask install github
-cask install iterm2         # better terminal
-cask install sourcetree     # git client
-cask install little-snitch  # network monitor
-
-#####
-# INTERFACE
-#####
-# cask install karabiner    # key remapper (cannot remap ESC)
-# cask install seil         # remap ESC
-cask install spectacle    # window movement
-
-#####
-# LANGUAGES
-#####
-cask install java
-
-#####
-# TEXT EDITORS AND IDEs
-#####
-# cask install atom
-# cask install light-table  # try for clojure?
-# cask install macvim # using brew instead of cask
-cask install scala-ide
-cask install sublime-text3
-
-#####
-# VIRTUAL MACHINES
-#####
-cask install vagrant
-cask install virtualbox
-
-#####
-# OTHER
-#####
-cask install skim  # pdf viewer
-
-#####
-# ALFRED
-#####
-# pay for "magic" features or just use emcas
-# cask install alfred
-# cask alfred link
-
-cleanup
+alfred
+atom
+caffeine
+cakebrew
+dropbox
+emacs
+github
+google-chrome
+iterm2
+java
+leksah
+macdown
+mactex
+scala-ide
+sequel-pro
+skim
+skype
+slack
+sourcetree
+spectacle
+sublime-text3
+xquartz
