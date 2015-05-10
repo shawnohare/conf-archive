@@ -1,0 +1,3 @@
+[submodule "/Users/shawn/dotfiles/deps/powerline-fonts"]
+	path = /Users/shawn/dotfiles/deps/powerline-fonts
+	url = https://github.com/powerline/fonts.git
