@@ -1,7 +1,9 @@
+"======================================================================"
 " .vimrc
 " Settings for VIM
 " last modified: Tue, 10 Feb 2015 09:24:38 -0800 
 "======================================================================"
+"
 set nocompatible  " make VIM iMproved rather than legacy compatible
 call plug#begin('~/.vim/plugged')
 
@@ -315,12 +317,16 @@ set visualbell         " flash screen instead of audio bell for alert
 " set title                    " update terminal window title
 set guifont=Source\ Code\ Pro\ for\ Powerline
 set shortmess+=A       " don't show warning for existing swapfiles
-set background=dark
-let g:solarized_bold=0 " force Solarized to not bold things
+" colors
+" if !has("gui_running")
+"     let g:solarized_termtrans=1
+"     " let g:solarized_termcolors=256
+" endif
+" let g:solarized_bold=1 " force Solarized to not bold things
 colorscheme solarized
-" colorscheme base16-default
+" colorscheme base16-solarized
+set background=dark
 " When using solarized without custom terminal colors use the following
-" let g:solarized_termcolors=256
 " When running without plugins use the desert colorscheme
 " colorscheme desert " a nice dark built-in colorscheme
 
