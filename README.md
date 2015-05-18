@@ -1,13 +1,5 @@
 # Shawn O'Hare's Dotfile Archive
 ```
-███████╗ ██████╗ ██████╗  █████╗ 
-██╔════╝██╔═══██╗██╔══██╗██╔══██╗
-███████╗██║   ██║██║  ██║███████║
-╚════██║██║   ██║██║  ██║██╔══██║
-███████║╚██████╔╝██████╔╝██║  ██║
-╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝
-
-
  _______  _______  ______   _______ 
 (  ____ \(  ___  )(  __  \ (  ___  )
 | (    \/| (   ) || (  \  )| (   ) |
@@ -62,4 +54,8 @@ Assuming that `DOTDIR` is defined somewhere and points to this repository:
 
 Each module (zsh file) should be self-contained so that any subset
 may be sourced in arbitrary order. The zshrc file simply sources all the
-configuration files in this repository.
+configuration files in this repository. To update the submodules you
+can run
+```
+git submodules update --remote --merge
+```
