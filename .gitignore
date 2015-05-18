@@ -1,4 +1,5 @@
+zsh/.zsh/.zsh_history
+vim/.vim/autoload
+vim/.vim/plugged
 vim/.netrwhist
-vim/autoload
-vim/plugged
-.zsh_history
+vim/.vim/.netrwhist
