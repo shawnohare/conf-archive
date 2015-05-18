@@ -1,15 +1,9 @@
 # External modules/add-ons to zsh
+# Should be the final thing sourced by zshrc.
 
-##
-# Modules installed by homebrew
-##
-
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/local/opt/zsh-history-substring-search/zsh-history-substring-search.zsh
-
-##
-# Module setup for zsh-autosuggestions
-##
+#####################################################################
+# zsh-autosuggestions
+#####################################################################
 
 # FIXME had some issues playing nice with history-substring-search
 #zle-line-init() {
@@ -18,27 +12,27 @@ source /usr/local/opt/zsh-history-substring-search/zsh-history-substring-search.
 #zle -N zle-line-init
 #export AUTOSUGGESTION_HIGHLIGHT_COLOR=fg=246
 
+#####################################################################
+# zsh-completions
+#####################################################################
+# fpath=(/usr/local/share/zsh-completions $fpath)
+fpath=(${DOTDIR}/deps/zsh-completions $fpath)
 
-##
-# Module setup for zsh-completions
-##
-
-fpath=(/usr/local/share/zsh-completions $fpath)
-
-##
-# Module setup for zsh-history-substring-search
-##
-
+#####################################################################
+# zsh-history-substring-search
+#####################################################################
 # vim-like snippet keybindings for history-substring-search
+source ${DOTDIR}/deps/zsh-history-substring-search/zsh-history-substring-search.zsh
 bindkey '^[[A' history-substring-search-up
 bindkey '^K' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 
-##
+#####################################################################
 #  zsh-syntax-highlighting
-##
+#####################################################################
 
+source ${DOTDIR}/deps/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Tries to be Solarized-ish
 # 166 = orange
 # Enable highlighters
