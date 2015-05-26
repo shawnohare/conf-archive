@@ -245,7 +245,7 @@ nnoremap <F3> :SyntasticReset<CR>
 ""
 " tagbar
 ""
-nmap <F12> :TagbarToggle<CR>
+nmap <F8> :TagbarToggle<CR>
 
 ""
 " SETTINGS
