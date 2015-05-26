@@ -1,7 +1,7 @@
 # Where auto-sourced zsh config files reside.
 export ZDOTDIR=${HOME}/.zsh
 # Location of dotfiles repo.
-export DOTDIR=${HOME}/dotfiles
+export DOTFILES=${HOME}/dotfiles
 
 export EDITOR="vim"
 export VISUAL="vim"

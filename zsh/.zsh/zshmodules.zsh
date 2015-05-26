@@ -16,13 +16,13 @@
 # zsh-completions
 #####################################################################
 # fpath=(/usr/local/share/zsh-completions $fpath)
-fpath=(${DOTDIR}/deps/zsh-completions $fpath)
+fpath=(${DOTFILES}/deps/zsh-completions $fpath)
 
 #####################################################################
 # zsh-history-substring-search
 #####################################################################
 # vim-like snippet keybindings for history-substring-search
-source ${DOTDIR}/deps/zsh-history-substring-search/zsh-history-substring-search.zsh
+source ${DOTFILES}/deps/zsh-history-substring-search/zsh-history-substring-search.zsh
 bindkey '^[[A' history-substring-search-up
 bindkey '^K' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
@@ -32,7 +32,7 @@ bindkey '^[[B' history-substring-search-down
 #  zsh-syntax-highlighting
 #####################################################################
 
-source ${DOTDIR}/deps/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ${DOTFILES}/deps/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Tries to be Solarized-ish
 # 166 = orange
 # Enable highlighters

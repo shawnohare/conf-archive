@@ -1,6 +1,6 @@
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
-alias dots="cd ${DOTDIR}"
+alias dots="cd ${DOTFILES}"
 alias ls="ls -GF"
 alias la="ls -GFlash"
