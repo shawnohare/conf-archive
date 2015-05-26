@@ -16,3 +16,6 @@
 [submodule "deps/vim-plug"]
 	path = deps/vim-plug
 	url = https://github.com/junegunn/vim-plug.git
+[submodule "deps/solarized"]
+	path = deps/solarized
+	url = https://github.com/altercation/solarized.git
