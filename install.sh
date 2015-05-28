@@ -45,16 +45,31 @@ if [[ ${SHELL} != "/usr/local/bin/zsh" ]]; then
 fi
 
 # Stow config files that live in home directory.
-echo "Symlinking dotfiles."
+echo "Stowing dotfiles."
 for dir in "vim" "zsh" "tmux" "git" "bash" "bin"; do
   stow --target="${HOME}" -R "${dir}"
 done
 
 # Link vim-plug from submodule
-if [[ ! -e "${BASEDIR}/vim/.vim/autoload/plug.vim" ]]; then
+if [[ ! -L "${BASEDIR}/vim/.vim/autoload/plug.vim" ]]; then
   ln -s "${BASEDIR}/deps/vim-plug/plug.vim" "${BASEDIR}/vim/.vim/autoload/plug.vim" 
 fi
 
 # Stow config files that live in special locations.
+# None right now.  Tue, 26 May 2015 10:10:22 -0700 
+
+
+# TODO
+# - install powerline fonts
+# - install color schemes
+
+# Install Powerline patched fonts.
+if [[ -z $(ls ${HOME}/Library/Fonts | grep Powerline) ]]; then
+  echo "Installing Powerline patched fonts."
+  bash "${BASEDIR}/deps/powerline-fonts/install.sh"
+fi
+
+# Reminder
+echo "Reminder: Set iterm2 -> Preferences -> General to use ${DOTFILES}/iterm2"
 
 exit 0
