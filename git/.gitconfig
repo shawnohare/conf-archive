@@ -12,3 +12,5 @@
 	default = simple
 [include]
   path = ~/.gitconfig.local
+[credential]
+	helper = osxkeychain
