@@ -51,7 +51,7 @@ Plug 'Shougo/unite.vim'
 " However, it is orthgonal to other plugins.
 " Plug 'itchyny/lightline.vim'  
 Plug 'bling/vim-airline'
-Plug 'bling/vim-bufferline'
+" Plug 'bling/vim-bufferline'
 
 call plug#end()
 
@@ -67,6 +67,8 @@ call plug#end()
 let g:airline_powerline_fonts = 1
 " Automatically display buffers when only one tab is open.
 let g:airline#extension#tabline#enabled = 1
+ " Show just the file name
+let g:airline#extension#tabline#fnamed = ':t' 
 
 """
 " delimitMate
@@ -257,6 +259,8 @@ nmap <F8> :TagbarToggle<CR>
 
 " Abbreviation for date and time stamp in RFC822 format
 iabbrev <expr> dts strftime("%a, %d %b %Y %H:%M:%S %z")
+" Abbreviation for date in RFC822 format
+iabbrev <expr> dtsd strftime("%a, %d %b %Y")
 
 
 ""
@@ -304,7 +308,8 @@ set number                   " show line number of cursor
 " au FocusGained * :set rnu    " relative numbrers when focus gain
 set numberwidth=4            " always make room for 4-digit line numbers
 set display+=lastline        " display as much as possible of the last line
-set hlsearch                 " highlight search on "
+set incsearch                " incrementally execute search
+set hlsearch                 " highlight search
 set colorcolumn=79           " show where lines should end
 set lazyredraw               " don't redraw unnecessarily during macros etc.
 " set tf                       " fast term connection.  Outdated?
@@ -329,6 +334,17 @@ set background=dark
 " When using solarized without custom terminal colors use the following
 " When running without plugins use the desert colorscheme
 " colorscheme desert " a nice dark built-in colorscheme
+
+"" Use a blinking upright bar cursor in Insert mode, a blinking block in normal
+" if &term == 'xterm-256color' || &term == 'screen-256color'
+"     let &t_SI = "\<Esc>[5 q"
+"     let &t_EI = "\<Esc>[1 q"
+" endif
+
+" if exists('$TMUX')
+"     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+"     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+" endif
 
 ""
 " Editing
