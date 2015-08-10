@@ -33,6 +33,7 @@ Plug 'tpope/vim-repeat'        " make vim-surround and vim-commentary repeatable
 
 " Source Code Management Tool 
 Plug 'tpope/vim-fugitive'      " git integration for VIM
+Plug 'airblade/vim-gitgutter'  " display git diffs in the gutter
 Plug 'scrooloose/syntastic'    " syntax checking for many languages
 
 " Filetype Specific 
