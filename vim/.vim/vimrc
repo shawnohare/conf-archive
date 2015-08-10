@@ -314,7 +314,7 @@ set hlsearch                 " highlight search
 set colorcolumn=79           " show where lines should end
 set lazyredraw               " don't redraw unnecessarily during macros etc.
 " set tf                       " fast term connection.  Outdated?
-set wrap                     " wrap long lines
+set nowrap                     " do not visually wrap long lines
 set linebreak                " don't break words at wrap; disabled by list
 "  set list                     " show whitespace
 set listchars=tab:>-,trail:.,extends:#,nbsp:. ",tab:>-,eol:¶ " customize whitespace look
