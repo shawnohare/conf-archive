@@ -1,7 +1,7 @@
 # `.zshenv' is sourced on all invocations of the shell, unless the -f option 
 # is set. It should contain commands to set the command search path, plus 
-# other important environment variables. `.zshenv' should not 
-# contain commands that produce output or assume the shell is attached to a tty.
+# other important environment variables. `.zshenv' should not contain
+# commands that produce output or assume the shell is attached to a tty.
 #
 #
 # --------------------------------------------------------------------------
@@ -37,13 +37,6 @@ PATH=".stack_work:.cabal-sandbox/bin:${PATH}"
 # --------------------------------------------------------------------------
 export BASH="/usr/local/bin/bash"
 
-# --------------------------------------------------------------------------
-# pyenv
-# --------------------------------------------------------------------------
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-#eval "$(pyenv virtualenv-init -)"
-# Use homebrew's directories rather than ~/.pyenv
-export PYENV_ROOT="/usr/local/var/pyenv"
 
 # --------------------------------------------------------------------------
 # golang
@@ -52,5 +45,15 @@ export GOPATH="${HOME}/dev/go"
 PATH="${PATH}:${GOPATH}/bin"
 #export GOROOT=/usr/local/Cellar/go/1.4/libexec/
 #export PATH="$PATH:$GOROOT"
+
+
+# --------------------------------------------------------------------------
+# pyenv
+# --------------------------------------------------------------------------
+# Use homebrew's directories rather than ~/.pyenv
+export PYENV_ROOT="/usr/local/var/pyenv"
+# pyenv init will use PYENV_ROOT or default to ~/.pyenv
+if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+#eval "$(pyenv virtualenv-init -)"
 
 export PATH
