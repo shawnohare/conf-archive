@@ -1,10 +1,14 @@
-"======================================================================"
+"==========================================================================
 " .vimrc
 " Settings for VIM
 " last modified: Tue, 10 Feb 2015 09:24:38 -0800 
-"======================================================================"
+"==========================================================================
 "
+
 set nocompatible  " make VIM iMproved rather than legacy compatible
+" --------------------------------------------------------------------------
+" vim-plug
+" --------------------------------------------------------------------------
 call plug#begin('~/.vim/plugged')
 
 " Colorscheme
@@ -56,14 +60,13 @@ Plug 'bling/vim-airline'
 
 call plug#end()
 
-""
+" ==========================================================================
 " PLUGIN CONFIG
-"""
+" ==========================================================================
 
-"""
+" --------------------------------------------------------------------------
 " Airline
-"""
-
+" --------------------------------------------------------------------------
 " For nice looking powerline symbols.
 let g:airline_powerline_fonts = 1
 " Automatically display buffers when only one tab is open.
@@ -71,9 +74,9 @@ let g:airline#extension#tabline#enabled = 1
  " Show just the file name
 let g:airline#extension#tabline#fnamed = ':t' 
 
-"""
+" --------------------------------------------------------------------------
 " delimitMate
-"""
+" --------------------------------------------------------------------------
 " pressing return between delimiters results in an indent
 let g:delimitMate_expand_cr=2
 let g:delimitMate_expand_space=1
@@ -83,10 +86,9 @@ let g:delimitMate_jump_expansion=1
                      \ ? "\<C-Y>"
                      \ : "<Plug>delimitMateCR"
 
-""
+" --------------------------------------------------------------------------
 " netrw (built-in)
-""
-
+" --------------------------------------------------------------------------
 let g:netrw_banner    = 0      " Do not display info on top
 let g:netrw_liststyle = 3      " default to tree-style file listing
 let g:netrw_winsize   = 30     " use 30% of columns for list
@@ -102,10 +104,9 @@ set autochdir
  " Toggle Lexplore with Ctrl-E
 " map <silent> <C-E> :Lexplore <CR>
 
-
-""
+" --------------------------------------------------------------------------
 " ctrlp
-""
+" --------------------------------------------------------------------------
 if executable("ag")
     " Use Ag in CtrlP for listing files
     let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
@@ -116,9 +117,10 @@ endif
 
 
 ""
+" --------------------------------------------------------------------------
 " neosnippet
+" --------------------------------------------------------------------------
 ""
-
 " Plugin key-mappings.
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -139,13 +141,16 @@ xmap <C-k>     <Plug>(neosnippet_expand_target)
 " endif
 
 ""
+" --------------------------------------------------------------------------
 " supertab
+" --------------------------------------------------------------------------
 ""
-
 let g:SuperTabDefaultCompletionType = "context"
 
 ""
+" --------------------------------------------------------------------------
 " tagbar
+" --------------------------------------------------------------------------
 ""
 
 " gotags
@@ -177,14 +182,14 @@ let g:tagbar_type_go = {
     \ 'ctagsargs' : '-sort -silent'
 \ }
 
-""
+" --------------------------------------------------------------------------
 " undotree
-""
+" --------------------------------------------------------------------------
 nnoremap <Leader>u :UndotreeToggle<cr>
 
-""
+" --------------------------------------------------------------------------
 " utilsnips
-"
+" --------------------------------------------------------------------------
 " Trigger configuration.
 " Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 " let g:UltiSnipsExpandTrigger="<tab>"
@@ -194,25 +199,23 @@ nnoremap <Leader>u :UndotreeToggle<cr>
 " If you want :UltiSnipsEdit to split your window.
 " let g:UltiSnipsEditSplit="vertical"
 
-""
+" --------------------------------------------------------------------------
 " vim-easy-align
-""
-
+" --------------------------------------------------------------------------
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
 nmap <Leader>a <Plug>(EasyAlign)
 
-""
+" --------------------------------------------------------------------------
 " vim-colors-solarized
-""
-
+" --------------------------------------------------------------------------
 " Toggle solarized colorscheme background between dark and light
 call togglebg#map("<F5>")
 
-""
+" --------------------------------------------------------------------------
 " vim-go
-""
+" --------------------------------------------------------------------------
 " By default syntax-highlighting for funcs, methods, structs is disable.
 let g:go_highlight_functions         = 1
 let g:go_highlight_methods           = 1
@@ -250,34 +253,29 @@ nnoremap <F3> :SyntasticReset<CR>
 ""
 nmap <F8> :TagbarToggle<CR>
 
-""
+" =========================================================================
 " SETTINGS
-""
+" =========================================================================
 
-""
+" --------------------------------------------------------------------------
 " Abbreviations
-""
-
+" --------------------------------------------------------------------------
 " Abbreviation for date and time stamp in RFC822 format
 iabbrev <expr> dts strftime("%a, %d %b %Y %H:%M:%S %z")
 " Abbreviation for date in RFC822 format
 iabbrev <expr> dtsd strftime("%a, %d %b %Y")
 
-
-""
+" --------------------------------------------------------------------------
 " Buffers & Windows
-""
-
+" --------------------------------------------------------------------------
 set hidden      " don't close windowless buffers
 set confirm     " get confirmation to discard unwritten buffers
 set splitbelow  " open new buffers below
 set splitright  " and to the right of the current.  Default is opposite.
 
-
-""
+" --------------------------------------------------------------------------
 " Completion
-""
-
+" --------------------------------------------------------------------------
 set completeopt+=longest
 set wildmenu                             " command-line completion
 set wildmode=list:longest,full           " shell-style completion behavior
@@ -292,10 +290,9 @@ set wildignore+=*.luac                   " lua byte code
 set wildignore+=*.class                  " java/scala class files
 set wildignore+=*/target/*               " sbt target directory
 
-
-""
+" --------------------------------------------------------------------------
 " Display
-""
+" --------------------------------------------------------------------------
 syntax on                    " enable syntax highlighting
 set cursorline               " highlight current line
 set showmode                 " show current mode at bottom of screen
@@ -323,7 +320,8 @@ set visualbell         " flash screen instead of audio bell for alert
 " set title                    " update terminal window title
 set guifont=Source\ Code\ Pro\ for\ Powerline
 set shortmess+=A       " don't show warning for existing swapfiles
-" colors
+
+" Colors
 " if !has("gui_running")
 "     let g:solarized_termtrans=1
 "     " let g:solarized_termcolors=256
@@ -346,6 +344,10 @@ set background=dark
 "     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 "     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 " endif
+
+" Spelling
+hi clear SpellBad
+hi SpellBad cterm=underline,bold
 
 ""
 " Editing
@@ -410,23 +412,23 @@ filetype indent on
 ""
 " STATUSLINE
 "
-set laststatus=2
-set statusline=%t       "tail of the filename
-set statusline+=[%{strlen(&fenc)?&fenc:'none'} "file encoding
-set statusline+=%{&ff}]         "file format
-set statusline+=%h              " help file flag
-set statusline+=%m              " modified flag
-set statusline+=%r              " read only flag
-set statusline+=%y              " filetype
-set statusline+=%=              " left/right separator
-set statusline+=%P\ :\ %l:\ %c " % through file : line num: column num
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" FIXME is this all over-ridden by airline?
+" set laststatus=2
+" set statusline=%t       "tail of the filename
+" set statusline+=[%{strlen(&fenc)?&fenc:'none'} "file encoding
+" set statusline+=%{&ff}]         "file format
+" set statusline+=%h              " help file flag
+" set statusline+=%m              " modified flag
+" set statusline+=%r              " read only flag
+" set statusline+=%y              " filetype
+" set statusline+=%=              " left/right separator
+" set statusline+=%P\ :\ %l:\ %c " % through file : line num: column num
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 
 ""
 " Various
 ""
 
-" map esc to in insert mode, don't interpret the map
 " inoremap ;; <Esc>
