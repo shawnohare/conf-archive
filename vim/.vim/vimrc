@@ -14,7 +14,7 @@ set nocompatible  " make VIM iMproved rather than legacy compatible
 call plug#begin('~/.vim/plugged')
 
 " Colorscheme
-Plug 'altercation/vim-colors-solarized' 
+" Plug 'altercation/vim-colors-solarized' 
 Plug 'chriskempson/base16-vim'
 
 " Completion & Search
