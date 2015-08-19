@@ -36810,11 +36810,11 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>2855 -61 832 298 1440 -229 2560 1417 </string>
+	<string>294 509 595 219 0 0 1440 877 </string>
 	<key>NSWindow Frame Preferences</key>
 	<string>117 421 606 456 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>476 301 815 571 0 0 1440 877 </string>
+	<string>721 60 717 813 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>4962 6 955 1165 4000 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
