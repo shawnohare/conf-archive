@@ -1,7 +1,6 @@
 # install.sh bash script
 # Personal bootstrap script to set up a new OS X system.
 
-
 # To run this thing:
 # sudo bash -c "$(curl -fsSl https://raw.githubusercontent.com/shawnohare/dotfiles/master/bootstrap.sh)"
 
@@ -22,8 +21,7 @@ fi
 if [[ ! -d "${INSTALLDIR}" ]]; then
   echo "Cloning dotfiles repo to ${INSTALLDIR}."
   mkdir -p ${INSTALLDIR}
-  # FIXME uncomment
-  # git clone --recursive "https://github.com/shawnohare/dotfiles.git" "${INSTALLDIR}"
+  git clone --recursive "https://github.com/shawnohare/dotfiles.git" "${INSTALLDIR}"
 fi
 
 # In bash, hash <command> exits with with 0 iff the command exists.

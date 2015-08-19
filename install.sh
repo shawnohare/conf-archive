@@ -2,8 +2,6 @@
 # This script assumes that the dotfiles repo has previously been cloned.
 # However, it is agnostic to clone location.
 
-
-
 # Dir this script lives in.
 readonly BASEDIR="$(cd "$( dirname "$0" )" && pwd )"
 cd "${BASEDIR}"
