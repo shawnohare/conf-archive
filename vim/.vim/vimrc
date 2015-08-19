@@ -6,14 +6,16 @@
 "
 
 set nocompatible  " make VIM iMproved rather than legacy compatible
-" --------------------------------------------------------------------------
-" vim-plug
-" --------------------------------------------------------------------------
+
+"==========================================================================
+" Plugins
+" Using vim-plog
+"==========================================================================
 call plug#begin('~/.vim/plugged')
 
 " Colorscheme
 Plug 'altercation/vim-colors-solarized' 
-" Plug 'chriskempson/base16-vim'
+Plug 'chriskempson/base16-vim'
 
 " Completion & Search
 Plug 'kien/ctrlp.vim'          "  full path fuzzy file/buffer/MRU/tag finder
@@ -43,6 +45,7 @@ Plug 'scrooloose/syntastic'    " syntax checking for many languages
 " Filetype Specific 
 " use vim-latex instead?
 Plug 'lervag/vimtex' ", {'for': 'tex'}
+Plug 'derekwyatt/vim-scala'
 Plug 'fatih/vim-go'
 Plug 'chrisbra/csv.vim'
 
@@ -211,7 +214,7 @@ nmap <Leader>a <Plug>(EasyAlign)
 " vim-colors-solarized
 " --------------------------------------------------------------------------
 " Toggle solarized colorscheme background between dark and light
-call togglebg#map("<F5>")
+" call togglebg#map("<F5>")
 
 " --------------------------------------------------------------------------
 " vim-go
@@ -321,15 +324,23 @@ set visualbell         " flash screen instead of audio bell for alert
 set guifont=Source\ Code\ Pro\ for\ Powerline
 set shortmess+=A       " don't show warning for existing swapfiles
 
+" --------------------------------------------------------------------------
 " Colors
+" --------------------------------------------------------------------------
 " if !has("gui_running")
 "     let g:solarized_termtrans=1
 "     " let g:solarized_termcolors=256
 " endif
 " let g:solarized_bold=1 " force Solarized to not bold things
-colorscheme solarized
-" colorscheme base16-solarized
+" colorscheme solarized
+" colorscheme base16-default
+colorscheme base16-solarized
+" colorscheme base16-tomorrow
+" colorscheme base16-twilight
 set background=dark
+" Switch between light and dark backgrounds.
+map <F11> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
+
 " When using solarized without custom terminal colors use the following
 " When running without plugins use the desert colorscheme
 " colorscheme desert " a nice dark built-in colorscheme
