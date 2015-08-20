@@ -31,7 +31,7 @@ if ! hash zsh 2>/dev/null; then
 fi
 
 # Append Homebrewed zsh path to /etc/shells to authorize it as a login shell
-if [[ -z $(grep /usr/local/bin/zsh /etc/shells) ]]; then 
+if [[ -z $(grep "/usr/local/bin/zsh /etc/shells") ]]; then 
   echo "Adding Homebrewed zsh path to /etc/shells."
   sudo echo "/usr/local/bin/zsh" | tee -a /etc/shells
 fi
@@ -56,16 +56,14 @@ fi
 # Stow config files that live in special locations.
 # None right now.  Tue, 26 May 2015 10:10:22 -0700 
 
-
-# TODO
-# - install powerline fonts
-# - install color schemes
-
 # Install Powerline patched fonts.
 if [[ -z $(ls ${HOME}/Library/Fonts | grep Powerline) ]]; then
   echo "Installing Powerline patched fonts."
   bash "${BASEDIR}/deps/powerline-fonts/install.sh"
 fi
+
+# TODO
+# - Setup pyenv?
 
 # Reminder
 echo "Reminder: Set iterm2 -> Preferences -> General to use ${DOTFILES}/iterm2"
