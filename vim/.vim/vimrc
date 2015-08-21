@@ -5,6 +5,11 @@
 "==========================================================================
 "
 
+" TODO
+" Make a common vimrc file that can be used by either vim or neovim.
+" Split off neovim specific logic into a separate nvim file that
+" sources the vim file.
+
 set nocompatible  " make VIM iMproved rather than legacy compatible
 
 "==========================================================================
