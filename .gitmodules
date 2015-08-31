@@ -20,5 +20,5 @@
 	path = deps/solarized
 	url = https://github.com/altercation/solarized.git
 [submodule "deps/Office-Code-Pro"]
-	path = deps/Office-Code-Pro
+	path = deps/office-code-pro
 	url = https://github.com/nathco/Office-Code-Pro.git
