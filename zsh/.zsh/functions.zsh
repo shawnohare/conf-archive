@@ -1,8 +1,9 @@
-##
+#
 # ITERM 2 SETUP
 ##
 # based off of https://gist.github.com/capotej/4320967
 # for displaying more info in iterms title/tab bars
+# TODO use iterm shell integration instead?
 
 function set_title_tab {
     function settab   {
