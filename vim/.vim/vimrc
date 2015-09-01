@@ -49,10 +49,11 @@ Plug 'scrooloose/syntastic'    " syntax checking for many languages
 
 " Filetype Specific 
 " use vim-latex instead?
-Plug 'lervag/vimtex' ", {'for': 'tex'}
-Plug 'derekwyatt/vim-scala'
-Plug 'fatih/vim-go'
-Plug 'chrisbra/csv.vim'
+Plug 'lervag/vimtex' ,       { 'for': 'tex'}
+Plug 'derekwyatt/vim-scala', { 'for': 'scala'}
+Plug 'fatih/vim-go',         { 'for': 'go'}
+Plug 'chrisbra/csv.vim',     { 'for': 'csv'}
+Plug 'cespare/vim-toml',     { 'for': 'toml'}
 
 " Other
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -366,7 +367,7 @@ map <F11> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 " --------------------------------------------------------------------------
 hi clear SpellBad
 hi SpellBad cterm=underline,bold
-" Print comments in italic font. 
+" Print comments in italic font. Only appears to work for vim (not neovim).
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 hi Comment cterm=italic  
