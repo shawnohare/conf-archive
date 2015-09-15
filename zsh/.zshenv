@@ -16,7 +16,7 @@ export VISUAL="vim"
 
 # Generic binaries
 # Make sure ~/.local/bin, ~/bin, and usr/local/bin occurs before usr/bin.
-PATH="${HOME}/.local/bin:${HOME}/bin:/usr/local/bin:$PATH"
+PATH="${DOTFILES}/bin:${HOME}/.local/bin:${HOME}/bin:/usr/local/bin:$PATH"
 
 # --------------------------------------------------------------------------
 # Haskell
@@ -71,5 +71,11 @@ if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 # Path 
 # Finish path related changes.
 # --------------------------------------------------------------------------
+#
+
+# --------------------------------------------------------------------------
+# Scala
+# --------------------------------------------------------------------------
+export ECLIPSE_HOME="${HOME}/Applications/Eclipse.app/Contents/Eclipse"
 
 export PATH
