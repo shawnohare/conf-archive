@@ -1,5 +1,13 @@
 zsh/.zsh/.zsh_history
+
+nvim/.nvim/autoload
+nvim/.nvim/plugged
+nvim/.nvim/spell/
+nvim/.nvim/.netrwhist
+nvim/.nvim/eclim/
+nvim/.nvim/plugin
+
 vim/.vim/autoload
 vim/.vim/plugged
-vim/.netrwhist
 vim/.vim/.netrwhist
+vim/.netrwhist
