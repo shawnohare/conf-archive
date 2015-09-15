@@ -48,11 +48,6 @@ for dir in "vim" "zsh" "tmux" "git" "bash" "bin"; do
   stow --target="${HOME}" -R "${dir}"
 done
 
-# Link vim-plug from submodule
-if [[ ! -L "${BASEDIR}/vim/.vim/autoload/plug.vim" ]]; then
-  ln -s "${BASEDIR}/deps/vim-plug/plug.vim" "${BASEDIR}/vim/.vim/autoload/plug.vim" 
-fi
-
 # Stow config files that live in special locations.
 # None right now.  Tue, 26 May 2015 10:10:22 -0700 
 
