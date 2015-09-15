@@ -12,11 +12,11 @@
 
 set nocompatible  " make VIM iMproved rather than legacy compatible
 
-" if has('nvim')
-"   echo "Has neovim!"
-"   let vimdir = ".nvim"
-"   echo "~/.vim/" . vimdir . "/plugged"
-" endif
+if has('nvim')
+  let vimplug = "~/.nvim/autoload/plug.vim"
+else
+  let vimplug = "~/.vim/autoload/plug.vim"
+endif
 
 "==========================================================================
 " Plugins
@@ -24,9 +24,9 @@ set nocompatible  " make VIM iMproved rather than legacy compatible
 "==========================================================================
 
 " Auto install vim-plug if it doesn't already exist.
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+if empty(glob(vimplug))
+  execute '!curl -fLo ' . vimplug . ' --create-dirs '
+    \ . 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   autocmd VimEnter * PlugInstall
 endif
 
