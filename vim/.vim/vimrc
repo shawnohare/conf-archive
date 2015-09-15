@@ -12,16 +12,24 @@
 
 set nocompatible  " make VIM iMproved rather than legacy compatible
 
-if has('nvim')
-  echo "Has neovim!"
-  let vimdir = ".nvim"
-  echo "~/.vim/" . vimdir . "/plugged"
-endif
+" if has('nvim')
+"   echo "Has neovim!"
+"   let vimdir = ".nvim"
+"   echo "~/.vim/" . vimdir . "/plugged"
+" endif
 
 "==========================================================================
 " Plugins
 " Using vim-plug
 "==========================================================================
+
+" Auto install vim-plug if it doesn't already exist.
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall
+endif
+
 call plug#begin('~/.vim/plugged')
 
 " Colorscheme
