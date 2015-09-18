@@ -32,29 +32,34 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
+" Browsing 
+Plug 'tpope/vim-vinegar'       " enhanced netrw file browser
+Plug 'majutsushi/tagbar'  " display tags in a window
+
 " Colorscheme
-" Plug 'altercation/vim-colors-solarized' 
+" Plug 'altercation/vim-colors-solarized' # original solarized scheme
 Plug 'chriskempson/base16-vim'
 
-" Completion & Search
-Plug 'kien/ctrlp.vim'          "  full path fuzzy file/buffer/MRU/tag finder
+" Completion
 " use '<Tab>' for smart omnicompletions
-Plug 'ervandew/supertab'
-Plug 'rking/ag.vim'
 Plug 'Shougo/neocomplete', {'on': 'NeocompleteOn'}
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 " Plug 'SirVer/utilsnips'
-Plug 'tpope/vim-vinegar'       " enhanced netrw file browser
-Plug 'majutsushi/tagbar'  " display tags in a window
+
+" Search and replace
+Plug 'kien/ctrlp.vim'          "  full path fuzzy file/buffer/MRU/tag finder
+Plug 'ervandew/supertab'
+Plug 'dkprice/vim-easygrep'    " Fast and easy find/replace across files
 
 " Editing Enhancement 
-" Plug 'mbbill/undotree'         " visual navigation of VIM undotree
-Plug 'tpope/vim-surround'      " easy handling of surrounding brackets etc.
-Plug 'Raimondi/delimitMate'    " automatic closing of parentheses etc.
-Plug 'junegunn/vim-easy-align' " easy alignment of text blocks
-Plug 'tpope/vim-commentary'    " easy toggling of comment markers
-Plug 'tpope/vim-repeat'        " make vim-surround and vim-commentary repeatable
+" Plug 'mbbill/undotree'         " Visual navigation of VIM undotree
+Plug 'tpope/vim-surround'      " Easy handling of surrounding brackets etc.
+Plug 'Raimondi/delimitMate'    " Automatic closing of parentheses etc.
+Plug 'junegunn/vim-easy-align' " Easy alignment of text blocks
+Plug 'tpope/vim-commentary'    " Easy toggling of comment markers
+Plug 'tpope/vim-repeat'        " Make vim-surround and vim-commentary repeatable
+
 
 " Source Code Management Tool 
 Plug 'tpope/vim-fugitive'      " git integration for VIM
@@ -64,11 +69,12 @@ Plug 'scrooloose/syntastic'    " syntax checking for many languages
 " Filetype Specific 
 " use vim-latex instead?
 Plug 'lervag/vimtex' ,       { 'for': 'tex'}
-" Plug 'derekwyatt/vim-scala', { 'for': 'scala'}
+Plug 'derekwyatt/vim-scala', { 'for': 'scala'}
 Plug 'fatih/vim-go',         { 'for': 'go'}
 Plug 'chrisbra/csv.vim',     { 'for': 'csv'}
 Plug 'cespare/vim-toml',     { 'for': 'toml'}
 Plug 'mattn/emmet-vim'                          " 'html/css
+" Plug 'ensime/ensime-vim'
 
 " Other
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -97,6 +103,9 @@ let g:airline_powerline_fonts = 1
 let g:airline#extension#tabline#enabled = 1
  " Show just the file name
 let g:airline#extension#tabline#fnamed = ':t' 
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#eclim#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
 
 " --------------------------------------------------------------------------
 " delimitMate
@@ -252,20 +261,33 @@ let g:go_highlight_build_constraints = 1
 let g:go_snippet_engine              = "neosnippet"
 " let g:go_auto_type_info = 1
 
-""
+" --------------------------------------------------------------------------
 " syntastic
-""
-let g:syntastic_mode_map = { "mode":"passive",
-            \"active_filetypes": ["haskell", "tex", "python",
-            \ "ruby", "scala"],
-            \"passive_filetypes": [ ]}
+" --------------------------------------------------------------------------
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_signs=1
+" let g:syntastic_error_symbol = "✗"
+" let g:syntastic_warning_symbol = "⚠"
+
+" let g:syntastic_mode_map = { "mode":"passive",
+"             \"active_filetypes": ["haskell", "tex", "python",
+"             \ "ruby", "scala"],
+"             \"passive_filetypes": [ ]}
+let g:syntastic_mode_map = { "mode": "passive" }
 let g:syntastic_haskell_checkers = ['hdevtools', 'hlint']
 let g:syntastic_tex_checkers = ['chktex', 'lacheck']
 let g:syntastic_python_checkers = ['flake8', 'python']
 let g:syntastic_ruby_checkers = ['mri', 'ruby']
-let g:syntastic_scala_checkers = ['scalac', 'scalastyle']
+let g:syntastic_scala_checkers = ['scalac', 'scalastyle', 'fsc']
 let g:syntastic_markdown_checkers = ['mdl']
-let g:syntastic_enable_signs=1
+
 " Pull up syntastic errors easily
 nnoremap <Leader>e :Errors<CR>
 " Reset syntastic easily in both normal and insert mode
