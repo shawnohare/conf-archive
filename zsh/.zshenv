@@ -13,6 +13,7 @@ export ZDOTDIR="${HOME}/.zsh"
 export DOTFILES="${HOME}/dotfiles"
 export EDITOR="vim"
 export VISUAL="vim"
+export BROWSER="safari"
 
 # Generic binaries
 # Make sure ~/.local/bin, ~/bin, and usr/local/bin occurs before usr/bin.
