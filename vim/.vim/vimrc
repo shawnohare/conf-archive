@@ -51,6 +51,7 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'kien/ctrlp.vim'          "  full path fuzzy file/buffer/MRU/tag finder
 Plug 'ervandew/supertab'
 Plug 'dkprice/vim-easygrep'    " Fast and easy find/replace across files
+Plug 'rking/ag.vim'
 
 " Editing Enhancement 
 " Plug 'mbbill/undotree'         " Visual navigation of VIM undotree
