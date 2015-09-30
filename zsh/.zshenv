@@ -11,8 +11,8 @@
 export ZDOTDIR="${HOME}/.zsh"
 # Location of dotfiles repo.
 export DOTFILES="${HOME}/dotfiles"
-export EDITOR="vim"
-export VISUAL="vim"
+export EDITOR="nvim"
+export VISUAL="nvim"
 export BROWSER="safari"
 
 # Generic binaries
