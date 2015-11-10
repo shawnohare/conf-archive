@@ -1,11 +1,11 @@
 zsh/.zsh/.zsh_history
 
-nvim/.nvim/autoload
-nvim/.nvim/plugged
-nvim/.nvim/spell/
-nvim/.nvim/.netrwhist
-nvim/.nvim/eclim/
-nvim/.nvim/plugin
+config/.config/nvim/autoload
+config/.config/nvim/plugged
+config/.config/nvim/spell/
+config/.config/nvim/.netrwhist
+config/.config/nvim/eclim/
+config/.config/nvim/plugin
 
 vim/.vim/autoload
 vim/.vim/plugged
