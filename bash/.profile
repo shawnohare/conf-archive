@@ -8,7 +8,9 @@ export PATH="/usr/local/bin:$PATH"
 ##
 # pyenv
 #
-eval "$(pyenv init -)"
+# Use homebrew's directories rather than ~/.pyenv
+export PYENV_ROOT="/usr/local/var/pyenv"
+if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 #eval "$(pyenv virtualenv-init -)"
 
 ##
