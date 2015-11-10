@@ -9,3 +9,5 @@ for file in "${ZDOTDIR}"/*.zsh; do
   source "${file}"
 done
 
+# iterm2 shell integration
+# source "${DOTFILES}/iterm2/iterm2_shell_integration.zsh"
