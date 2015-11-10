@@ -13,8 +13,8 @@
 set nocompatible  " make VIM iMproved rather than legacy compatible
 
 if has('nvim')
-  let vimplug = "~/.nvim/autoload/plug.vim"
-  let plugged = "~/.nvim/plugged"
+  let vimplug = "~/.config/nvim/autoload/plug.vim"
+  let plugged = "~/.config/nvim/plugged"
 else
   let vimplug = "~/.vim/autoload/plug.vim"
   let plugged = "~/.vim/plugged"
