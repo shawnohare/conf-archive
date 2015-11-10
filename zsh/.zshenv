@@ -53,13 +53,6 @@ PATH="${PATH}:${GOPATH}/bin"
 # --------------------------------------------------------------------------
 # Python
 # --------------------------------------------------------------------------
-# Set PYTHONPATH so the import search first looks in a local .pip dir.
-# We use this to implement a lightweight approach to local package management
-# that avoids the use of virtual environments.  In particular, one needs
-# only create a $PROJECT/.pip dir and install to it via 
-# pip install -t .pip $PACKAGE.
-# NOTE This method does not install binaries.
-# export PYTHONPATH="./.pip:${PYTHONPATH}"
 
 # pyenv
 # Use homebrew's directories rather than ~/.pyenv
