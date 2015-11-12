@@ -5,12 +5,6 @@
 "==========================================================================
 "
 
-" TODO
-" Make a common vimrc file that can be used by either vim or neovim.
-" Split off neovim specific logic into a separate nvim file that
-" sources the vim file.
-
-set nocompatible  " make VIM iMproved rather than legacy compatible
 
 if has('nvim')
   let vimplug = "~/.config/nvim/autoload/plug.vim"
@@ -53,7 +47,7 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'kien/ctrlp.vim'          "  full path fuzzy file/buffer/MRU/tag finder
 Plug 'ervandew/supertab'
 Plug 'dkprice/vim-easygrep'    " Fast and easy find/replace across files
-Plug 'rking/ag.vim'
+Plug 'gabesoft/vim-ags'
 
 " Editing Enhancement 
 " Plug 'mbbill/undotree'         " Visual navigation of VIM undotree
@@ -314,6 +308,26 @@ nmap <F8> :TagbarToggle<CR>
 " =========================================================================
 
 " --------------------------------------------------------------------------
+" vim specific settings that nvim includes by default 
+" --------------------------------------------------------------------------
+if has('vim')
+  set autoindent
+  set autoread           " reread files that have been changed while open
+  set backspace=indent,eol,start " backspace over line breaks, insertion, start
+  set display+=lastline        " display as much as possible of the last line
+  set encoding=utf-8     " the encoding displayed
+  set history=10000               " increase history level
+  set hlsearch                 " highlight search
+  set incsearch                " incrementally execute search
+  set listchars=tab:>-,trail:.,extends:#,nbsp:. ",tab:>-,eol:¶ " customize whitespace look
+  set nocompatible  " make VIM iMproved rather than legacy compatible
+  set smarttab   " <Tab> interpretation depends on cursor and siftwidth, tabstop, softtabstop
+  set tabpagemax=50
+  " set tags=""./tags;,tags
+  set ttyfast
+endif
+
+" --------------------------------------------------------------------------
 " Abbreviations
 " --------------------------------------------------------------------------
 " Abbreviation for date and time stamp in RFC822 format
@@ -361,16 +375,12 @@ set number                   " show line number of cursor
 " au FocusLost   * :set nu     " absolute numbers when focus lost
 " au FocusGained * :set rnu    " relative numbrers when focus gain
 set numberwidth=4            " always make room for 4-digit line numbers
-set display+=lastline        " display as much as possible of the last line
-set incsearch                " incrementally execute search
-set hlsearch                 " highlight search
 set colorcolumn=79           " show where lines should end
 set lazyredraw               " don't redraw unnecessarily during macros etc.
 " set tf                       " fast term connection.  Outdated?
 " set nowrap                     " do not visually wrap long lines
 set linebreak                " don't break words at wrap; disabled by list
 "  set list                     " show whitespace
-set listchars=tab:>-,trail:.,extends:#,nbsp:. ",tab:>-,eol:¶ " customize whitespace look
 set visualbell         " flash screen instead of audio bell for alert
 " set visualbell t_vb=         " turn off visualbell effect
 " set title                    " update terminal window title
@@ -416,16 +426,14 @@ map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 hi clear SpellBad
 hi SpellBad cterm=underline,bold ctermfg=red
 " Print comments in italic font. Only appears to work for vim (not neovim).
-let &t_ZH="\e[3m"
-let &t_ZR="\e[23m"
+" let &t_ZH="\e[3m"
+" let &t_ZR="\e[23m"
 hi Comment cterm=italic  
 
 ""
 " Editing
 ""
 
-set backspace=indent,eol,start " backspace over line breaks, insertion, start
-set history=1000               " increase history level
 set undolevels=1000            " enable many levels of undo
 set undofile                   " save undo tree to file for persistent undos
 set clipboard+=unnamed         " make yanked text available in system clipboard
@@ -439,9 +447,7 @@ set mouse=a
 ""
 
 set nomodeline         " modelines are a security risk
-set autoread           " reread files that have been changed while open
 set autowrite          " write when moving to other buffers/windows
-set encoding=utf-8     " the encoding displayed
 
 
 ""
@@ -467,13 +473,11 @@ set foldmethod=indent   " default folding method. syntax method is SLOW.
 ""
 " Indentation
 "
-set smarttab   " <Tab> interpretation depends on cursor and siftwidth, tabstop, softtabstop
 set expandtab  " <Tab> converted to softtabstop # spaces
 set tabstop=2  " number of visual spaces per <Tab> character
 set softtabstop=2 " number of spaces <Tab> converted to
 set shiftwidth=2 " <Tab> converts to this # spaces at beginning of line
 " set smartindent " dumbindent?
-set autoindent
 " set cindent " also dumb?
 filetype indent on
 " indent when between delimeters by typing <C-Return>
@@ -483,7 +487,7 @@ filetype indent on
 ""
 " STATUSLINE
 "
-" FIXME is this all over-ridden by airline?
+" FIXME: is this all over-ridden by airline?
 " set laststatus=2
 " set statusline=%t       "tail of the filename
 " set statusline+=[%{strlen(&fenc)?&fenc:'none'} "file encoding
