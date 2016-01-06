@@ -41,11 +41,11 @@ Plug 'chriskempson/base16-vim'
 Plug 'Shougo/neocomplete', {'on': 'NeocompleteOn'}
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
+Plug 'ervandew/supertab'
 " Plug 'SirVer/utilsnips'
 
 " Search and replace
 Plug 'kien/ctrlp.vim'          "  full path fuzzy file/buffer/MRU/tag finder
-Plug 'ervandew/supertab'
 Plug 'dkprice/vim-easygrep'    " Fast and easy find/replace across files
 Plug 'gabesoft/vim-ags'
 
@@ -65,14 +65,18 @@ Plug 'scrooloose/syntastic'    " syntax checking for many languages
 
 " Filetype Specific 
 " use vim-latex instead?
-Plug 'lervag/vimtex' ,       { 'for': 'tex'}
-Plug 'derekwyatt/vim-scala', { 'for': 'scala'}
-Plug 'fatih/vim-go',         { 'for': 'go'}
-Plug 'chrisbra/csv.vim',     { 'for': 'csv'}
-Plug 'cespare/vim-toml',     { 'for': 'toml'}
-Plug 'mattn/emmet-vim'                          " 'html/css
+Plug 'lervag/vimtex' ,       { 'for': 'tex' }
+Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
+Plug 'fatih/vim-go',         { 'for': 'go' }
+Plug 'chrisbra/csv.vim',     { 'for': 'csv' }
+Plug 'cespare/vim-toml',     { 'for': 'toml' }
+Plug 'mattn/emmet-vim',      { 'for': 'html' } 
+Plug 'othree/html5.vim',     { 'for': 'html' }
+" lazy-loading the julia-vim plugin causes issues
+Plug 'JuliaLang/julia-vim'
 " Plug 'ensime/ensime-vim'
-" Vim-only filetype specific plugins
+
+" Vim only filetype specific plugins
 " Some plugins included below not might work in neovim.
 if !has('nvim')
   " python-mode seems buggy
@@ -259,7 +263,7 @@ let g:go_highlight_structs           = 1
 let g:go_highlight_operators         = 1
 let g:go_highlight_build_constraints = 1
 " play nice with syntastic.
-let g:go_fmt_fail_silently           = 1 
+" let g:go_fmt_fail_silently           = 1
 " play nice with neosnippet
 " let g:go_disable_autoinstall = 1
 " let g:go_loaded_gosnippets = 1
@@ -283,8 +287,8 @@ let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "⚠"
 let g:syntastic_python_python_exec = "/usr/local/var/pyenv/shims/python"
 let g:syntastic_mode_map = { "mode": "passive",
-            \"active_filetypes": ["haskell", "tex", "python", "ruby", "go" ],
-            \"passive_filetypes": ["scala"]}
+            \"active_filetypes": ["haskell", "tex", "python", "ruby"],
+            \"passive_filetypes": ["go, scala"]}
 let g:syntastic_haskell_checkers = ['hdevtools', 'hlint']
 let g:syntastic_tex_checkers = ['chktex', 'lacheck']
 let g:syntastic_python_checkers = ['pylint', 'flake8', 'python']
