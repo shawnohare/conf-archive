@@ -9,8 +9,6 @@
 if has('nvim')
   let vimplug = "~/.config/nvim/autoload/plug.vim"
   let plugged = "~/.config/nvim/plugged"
-  " enable true colors in vim.  This is also enabled in .zshenv.
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
 else
   let vimplug = "~/.vim/autoload/plug.vim"
   let plugged = "~/.vim/plugged"
@@ -35,8 +33,7 @@ Plug 'tpope/vim-vinegar'       " enhanced netrw file browser
 Plug 'majutsushi/tagbar'  " display tags in a window
 
 " Colorscheme
-" Plug 'altercation/vim-colors-solarized' # original solarized scheme
-" Plug 'chriskempson/base16-vim'
+Plug 'chriskempson/base16-vim'
 Plug 'joshdick/onedark.vim'
 Plug 'joshdick/airline-onedark.vim'
 Plug 'morhetz/gruvbox'
@@ -99,7 +96,8 @@ Plug 'Shougo/unite.vim'
 " requires more setup in vimrc (e.g., for fugitive integration).
 " However, it is orthgonal to other plugins.
 " Plug 'itchyny/lightline.vim'  
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " Plug 'bling/vim-bufferline'
 
 call plug#end()
@@ -164,11 +162,10 @@ if executable("ag")
 endif
 
 
-""
 " --------------------------------------------------------------------------
 " neosnippet
 " --------------------------------------------------------------------------
-""
+"
 " Plugin key-mappings.
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -188,18 +185,14 @@ xmap <C-k>     <Plug>(neosnippet_expand_target)
 "   set conceallevel=2 concealcursor=i
 " endif
 
-""
 " --------------------------------------------------------------------------
 " supertab
 " --------------------------------------------------------------------------
-""
 let g:SuperTabDefaultCompletionType = "context"
 
-""
 " --------------------------------------------------------------------------
 " tagbar
 " --------------------------------------------------------------------------
-""
 
 " gotags
 let g:tagbar_type_go = {
@@ -255,11 +248,6 @@ vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
 nmap <Leader>a <Plug>(EasyAlign)
 
-" --------------------------------------------------------------------------
-" vim-colors-solarized
-" --------------------------------------------------------------------------
-" Toggle solarized colorscheme background between dark and light
-" call togglebg#map("<F5>")
 
 " --------------------------------------------------------------------------
 " vim-go
@@ -404,12 +392,6 @@ set shortmess+=A       " don't show warning for existing swapfiles
 " --------------------------------------------------------------------------
 " Colorsschemes
 " --------------------------------------------------------------------------
-" if !has("gui_running")
-"     let g:solarized_termtrans=1
-"     " let g:solarized_termcolors=256
-" endif
-" let g:solarized_bold=1 " force Solarized to not bold things
-" colorscheme solarized
 " colorscheme base16-default
 " colorscheme base16-solarized
 " colorscheme base16-tomorrow
@@ -419,24 +401,28 @@ set shortmess+=A       " don't show warning for existing swapfiles
 " One Dark (Atom) theme (https://github.com/joshdick/onedark.vim)
 " let g:onedark_terminal_italics=1
 " colorscheme onedark
-" Ocean Next
-colorscheme OceanicNext
-set background=dark
-" Gruvbox theme.  italics must come first.
-" let g:gruvbox_italic=1
+
+" Oceanic Next
+" colorscheme OceanicNext
 " set background=dark
-" colorscheme gruvbox
+"
+" Gruvbox 
+set background=dark
+colorscheme gruvbox
+let g:gruvbox_contrast_dark="hard"
+let g:gruvbox_contrast_light="hard"
 
 " NOTE Fri, 29 Jan 2016 16:13:41 -0800
 " Setting background to dark conflicts with the Atom onedark theme.
-" set background=dark
 " Switch between light and dark backgrounds.
-" map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
+map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 
-" When using solarized without custom terminal colors use the following
 " When running without plugins use the desert colorscheme
 " colorscheme desert " a nice dark built-in colorscheme
 
+" --------------------------------------------------------------------------
+" Cursor 
+" --------------------------------------------------------------------------
 "" Use a blinking upright bar cursor in Insert mode, a blinking block in normal
 " if &term == 'xterm-256color' || &term == 'screen-256color'
 "     let &t_SI = "\<Esc>[5 q"
