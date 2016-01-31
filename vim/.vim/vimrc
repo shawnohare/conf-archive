@@ -9,6 +9,8 @@
 if has('nvim')
   let vimplug = "~/.config/nvim/autoload/plug.vim"
   let plugged = "~/.config/nvim/plugged"
+  " enable true colors in vim.  This is also enabled in .zshenv.
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
 else
   let vimplug = "~/.vim/autoload/plug.vim"
   let plugged = "~/.vim/plugged"
@@ -34,7 +36,11 @@ Plug 'majutsushi/tagbar'  " display tags in a window
 
 " Colorscheme
 " Plug 'altercation/vim-colors-solarized' # original solarized scheme
-Plug 'chriskempson/base16-vim'
+" Plug 'chriskempson/base16-vim'
+Plug 'joshdick/onedark.vim'
+Plug 'joshdick/airline-onedark.vim'
+Plug 'morhetz/gruvbox'
+Plug 'mhartington/oceanic-next'
 
 " Completion
 " use '<Tab>' for smart omnicompletions
@@ -45,9 +51,10 @@ Plug 'ervandew/supertab'
 " Plug 'SirVer/utilsnips'
 
 " Search and replace
+" Plug 'dkprice/vim-easygrep'   " Fast and easy find/replace across files
 Plug 'kien/ctrlp.vim'          "  full path fuzzy file/buffer/MRU/tag finder
-Plug 'dkprice/vim-easygrep'    " Fast and easy find/replace across files
-Plug 'gabesoft/vim-ags'
+Plug 'gabesoft/vim-ags'        " Fast find/replace across all files.
+Plug 'rking/ag.vim'            " Nicer interface than vim-ags.
 
 " Editing Enhancement 
 " Plug 'mbbill/undotree'         " Visual navigation of VIM undotree
@@ -113,6 +120,7 @@ let g:airline#extension#tabline#fnamed = ':t'
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#eclim#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
+let g:airline_theme='onedark'
 
 " --------------------------------------------------------------------------
 " delimitMate
@@ -261,6 +269,7 @@ let g:go_highlight_functions         = 1
 let g:go_highlight_methods           = 1
 let g:go_highlight_structs           = 1
 let g:go_highlight_operators         = 1
+let g:go_highlight_interfaces        = 1
 let g:go_highlight_build_constraints = 1
 " play nice with syntastic.
 " let g:go_fmt_fail_silently           = 1
@@ -268,7 +277,7 @@ let g:go_highlight_build_constraints = 1
 " let g:go_disable_autoinstall = 1
 " let g:go_loaded_gosnippets = 1
 let g:go_snippet_engine              = "neosnippet"
-" let g:go_auto_type_info = 1
+let g:go_auto_type_info = 1
 
 " --------------------------------------------------------------------------
 " syntastic
@@ -278,8 +287,9 @@ let g:go_snippet_engine              = "neosnippet"
 " set statusline+=%*
 
 " Populate location list  is off by default to prevent classes with airline.
-" let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1 
+" vim-go sometimes conflicts with syntastic location lists.
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0 
 let g:syntastic_check_on_open = 0 
 let g:syntastic_check_on_wq = 0
 let g:syntastic_enable_signs=1
@@ -392,7 +402,7 @@ set guifont=Source\ Code\ Pro\ for\ Powerline
 set shortmess+=A       " don't show warning for existing swapfiles
 
 " --------------------------------------------------------------------------
-" Colors
+" Colorsschemes
 " --------------------------------------------------------------------------
 " if !has("gui_running")
 "     let g:solarized_termtrans=1
@@ -401,13 +411,27 @@ set shortmess+=A       " don't show warning for existing swapfiles
 " let g:solarized_bold=1 " force Solarized to not bold things
 " colorscheme solarized
 " colorscheme base16-default
-colorscheme base16-solarized
+" colorscheme base16-solarized
 " colorscheme base16-tomorrow
 " colorscheme base16-twilight
 " colorscheme base16-railscast
+
+" One Dark (Atom) theme (https://github.com/joshdick/onedark.vim)
+" let g:onedark_terminal_italics=1
+" colorscheme onedark
+" Ocean Next
+colorscheme OceanicNext
 set background=dark
+" Gruvbox theme.  italics must come first.
+" let g:gruvbox_italic=1
+" set background=dark
+" colorscheme gruvbox
+
+" NOTE Fri, 29 Jan 2016 16:13:41 -0800
+" Setting background to dark conflicts with the Atom onedark theme.
+" set background=dark
 " Switch between light and dark backgrounds.
-map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
+" map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 
 " When using solarized without custom terminal colors use the following
 " When running without plugins use the desert colorscheme
