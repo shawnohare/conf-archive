@@ -33,6 +33,9 @@ bindkey '^[[B' history-substring-search-down
 #####################################################################
 
 source ${DOTFILES}/deps/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Fri, 29 Jan 2016 16:44:49 -0800 
+# It's not clear whether we actually need to set these values when using
+# iterm2, as the colors might be over-ridden by iterm2's color scheme.
 # Tries to be Solarized-ish
 # 166 = orange
 # Enable highlighters

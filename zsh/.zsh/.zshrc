@@ -11,3 +11,5 @@ done
 
 # iterm2 shell integration
 # source "${DOTFILES}/iterm2/iterm2_shell_integration.zsh"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

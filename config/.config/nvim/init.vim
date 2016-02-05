@@ -1,6 +1,3 @@
-source ~/.vim/vimrc
-
-
 " enable true colors in vim.  This is also enabled in .zshenv.
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
 
@@ -15,3 +12,15 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
 " let g:terminal_color_1 = '#bf616a'
 " let g:terminal_color_2 = '#a3be8c'
 
+source ~/.vim/vimrc
+
+" ==========================================================================
+" PLUGIN CONFIG
+" ==========================================================================
+"
+"--------------------------------------------------------------------------- 
+" Deoplete (dark powered completion for neovom)
+" Fri, 05 Feb 2016 10:52:51 -0800 
+" https://github.com/Shougo/deoplete.nvim
+"--------------------------------------------------------------------------- 
+let g:deoplete#enable_at_startup = 1

@@ -12,3 +12,8 @@ export VISUAL="nvim"
 export BROWSER="safari"
 export BASH="/usr/local/bin/bash"
 export ECLIPSE_HOME="${HOME}/Applications/Eclipse.app/Contents/Eclipse"
+export XDG_CONFIG_HOME="${HOME}/.config"
+
+# Neovim
+export NVIM_TUI_ENABLE_TRUE_COLOR=1
+# export NVIM_TUI_ENABLE_CURSOR_SHAPE=1

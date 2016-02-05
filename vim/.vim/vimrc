@@ -3,12 +3,16 @@
 " Settings for VIM
 " last modified: Tue, 10 Feb 2015 09:24:38 -0800 
 "==========================================================================
-"
 
+"==========================================================================
+" Initialization
+"==========================================================================
+let mapleader = "\<Space>"
 
+" Define plugin dir locations
 if has('nvim')
-  let vimplug = "~/.config/nvim/autoload/plug.vim"
-  let plugged = "~/.config/nvim/plugged"
+  let vimplug = "$XDG_CONFIG_HOME/nvim/autoload/plug.vim"
+  let plugged = "$XDG_CONFIG_HOME/nvim/plugged"
 else
   let vimplug = "~/.vim/autoload/plug.vim"
   let plugged = "~/.vim/plugged"
@@ -29,29 +33,37 @@ endif
 call plug#begin(plugged)
 
 " Browsing 
-Plug 'tpope/vim-vinegar'       " enhanced netrw file browser
+Plug 'tpope/vim-vinegar'  " enhanced netrw file browser
 Plug 'majutsushi/tagbar'  " display tags in a window
 
 " Colorscheme
-Plug 'chriskempson/base16-vim'
 Plug 'joshdick/onedark.vim'
 Plug 'joshdick/airline-onedark.vim'
-Plug 'morhetz/gruvbox'
-Plug 'mhartington/oceanic-next'
+" Plug 'chriskempson/base16-vim'
+" Plug 'geoffharcourt/one-dark.vim' " 24-bit color support, but alpha Sun, 31 Jan 2016 15:37:04 -0800 
+" Plug 'morhetz/gruvbox'
+" Plug 'mhartington/oceanic-next'
+" Plug 'sts10/vim-mustard'
+" Plug 'zenorocha/dracula-theme', {'rtp': 'vim'}
 
 " Completion
-" use '<Tab>' for smart omnicompletions
-Plug 'Shougo/neocomplete', {'on': 'NeocompleteOn'}
+" Plug 'Shougo/neocomplete', {'on': 'NeocompleteOn'}
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
-Plug 'ervandew/supertab'
+" use '<Tab>' for smart omnicompletions
+" Plug 'ervandew/supertab'
 " Plug 'SirVer/utilsnips'
 
 " Search and replace
+" FIXME: can likely delete easygrep and ctrlp and use vim-ags / fzf.
 " Plug 'dkprice/vim-easygrep'   " Fast and easy find/replace across files
-Plug 'kien/ctrlp.vim'          "  full path fuzzy file/buffer/MRU/tag finder
+" Plug 'kien/ctrlp.vim'          "  full path fuzzy file/buffer/MRU/tag finder
 Plug 'gabesoft/vim-ags'        " Fast find/replace across all files.
 Plug 'rking/ag.vim'            " Nicer interface than vim-ags.
+" fzf subsumes ctrlp
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
 
 " Editing Enhancement 
 " Plug 'mbbill/undotree'         " Visual navigation of VIM undotree
@@ -62,12 +74,19 @@ Plug 'tpope/vim-commentary'    " Easy toggling of comment markers
 Plug 'tpope/vim-repeat'        " Make vim-surround and vim-commentary repeatable
 
 
-" Source Code Management Tool 
+" Source Code Management Tools
 Plug 'tpope/vim-fugitive'      " git integration for VIM
 Plug 'airblade/vim-gitgutter'  " display git diffs in the gutter
 Plug 'scrooloose/syntastic'    " syntax checking for many languages
 
+" Syntax Highlighting
+
 " Filetype Specific 
+" One disadvantage of selective loading is that help files are unavailable
+" when working on a different file-type.  This is an minor annoyance when
+" configuring a plugin while the init file is open. Most filetype specific
+" plugins tend to not load very much initially, so it could be
+" advantageous to load all plugins.
 " use vim-latex instead?
 Plug 'lervag/vimtex' ,       { 'for': 'tex' }
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
@@ -78,7 +97,14 @@ Plug 'mattn/emmet-vim',      { 'for': 'html' }
 Plug 'othree/html5.vim',     { 'for': 'html' }
 " lazy-loading the julia-vim plugin causes issues
 Plug 'JuliaLang/julia-vim'
-" Plug 'ensime/ensime-vim'
+" Plug 'ensime/ensime-vim' " had issues getting ensime to work
+
+" Neovim specific plugins
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'zchee/deoplete-go'
+  Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+endif
 
 " Vim only filetype specific plugins
 " Some plugins included below not might work in neovim.
@@ -88,7 +114,7 @@ if !has('nvim')
 endif
 
 " Other
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+" Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Shougo/unite.vim'
 
 " Visual
@@ -137,7 +163,7 @@ let g:delimitMate_jump_expansion=1
 " --------------------------------------------------------------------------
 let g:netrw_banner    = 0      " Do not display info on top
 let g:netrw_liststyle = 3      " default to tree-style file listing
-let g:netrw_winsize   = 30     " use 30% of columns for list
+" let g:netrw_winsize   = 30     " use 30% of columns for list
 let g:netrw_preview   = 1      " default to vertical splitting for preview
 
 " Hit enter in the file browser to open the selected
@@ -226,7 +252,7 @@ let g:tagbar_type_go = {
 " --------------------------------------------------------------------------
 " undotree
 " --------------------------------------------------------------------------
-nnoremap <Leader>u :UndotreeToggle<cr>
+" nnoremap <Leader>u :UndotreeToggle<cr>
 
 " --------------------------------------------------------------------------
 " utilsnips
@@ -266,6 +292,7 @@ let g:go_highlight_build_constraints = 1
 " let g:go_loaded_gosnippets = 1
 let g:go_snippet_engine              = "neosnippet"
 let g:go_auto_type_info = 1
+" let g:go_term_enabled = 1 " tests open in a neovim terminal
 
 " --------------------------------------------------------------------------
 " syntastic
@@ -390,16 +417,31 @@ set guifont=Source\ Code\ Pro\ for\ Powerline
 set shortmess+=A       " don't show warning for existing swapfiles
 
 " --------------------------------------------------------------------------
-" Colorsschemes
+" Colorscheme
 " --------------------------------------------------------------------------
+
+" Pre colorscheme invocation.
+" Colorscheme invocation
+" Post colorscheme invocation.
+
 " colorscheme base16-default
 " colorscheme base16-solarized
 " colorscheme base16-tomorrow
 " colorscheme base16-twilight
 " colorscheme base16-railscast
 
+" Dracula
+" colorscheme dracula
+
+" Mustard
+" set background=dark
+" colorscheme mustard
+
 " One Dark (Atom) theme (https://github.com/joshdick/onedark.vim)
-" let g:onedark_terminal_italics=1
+colorscheme onedark
+
+" One Dark (Atom) theme (https://github.com/geoffharcout/one-dark.vim)
+" NOTE: A bit in alpha stage
 " colorscheme onedark
 
 " Oceanic Next
@@ -407,10 +449,10 @@ set shortmess+=A       " don't show warning for existing swapfiles
 " set background=dark
 "
 " Gruvbox 
-set background=dark
-colorscheme gruvbox
-let g:gruvbox_contrast_dark="hard"
-let g:gruvbox_contrast_light="hard"
+" let g:gruvbox_contrast_light="hard"
+" let g:gruvbox_italic=1
+" set background=dark
+" colorscheme gruvbox
 
 " NOTE Fri, 29 Jan 2016 16:13:41 -0800
 " Setting background to dark conflicts with the Atom onedark theme.
@@ -444,9 +486,9 @@ hi SpellBad cterm=underline,bold ctermfg=red
 " let &t_ZR="\e[23m"
 hi Comment cterm=italic  
 
-""
+" --------------------------------------------------------------------------
 " Editing
-""
+" --------------------------------------------------------------------------
 
 set undolevels=1000            " enable many levels of undo
 set undofile                   " save undo tree to file for persistent undos
@@ -456,26 +498,27 @@ set scrolljump=1               " scroll n lines when the cursor leaves screen
 set mouse=a
 
 
-""
+" --------------------------------------------------------------------------
 " File Handling
-""
+" --------------------------------------------------------------------------
 
 set nomodeline         " modelines are a security risk
 set autowrite          " write when moving to other buffers/windows
 
 
-""
+" --------------------------------------------------------------------------
 " Files (VIM)
-""
+" --------------------------------------------------------------------------
 
 set directory=/var/tmp//,/tmp//    "  swap file directory
 set backupdir=/var/tmp//,/tmp//    "  backup file directory
 set undodir=/var/tmp//,/tmp//      "  undo file directory
 
 
-""
+" --------------------------------------------------------------------------
+" Files (VIM)
 " Folding
-""
+" --------------------------------------------------------------------------
 
 set foldenable          " default to folding on, can be toggled with 'zi'
 set foldlevelstart=99   " open files completely unfolded
@@ -484,9 +527,9 @@ set foldmethod=indent   " default folding method. syntax method is SLOW.
 " set foldcolumn=1        " gutter fold marks
 
 
-""
+" --------------------------------------------------------------------------
 " Indentation
-"
+" --------------------------------------------------------------------------
 set expandtab  " <Tab> converted to softtabstop # spaces
 set tabstop=2  " number of visual spaces per <Tab> character
 set softtabstop=2 " number of spaces <Tab> converted to
@@ -498,9 +541,9 @@ filetype indent on
 " Now using delimitMate to handle this.
 " imap <C-Return> <CR><CR><C-o>k<C-t>
 
-""
+" --------------------------------------------------------------------------
 " STATUSLINE
-"
+" --------------------------------------------------------------------------
 " FIXME: is this all over-ridden by airline?
 " set laststatus=2
 " set statusline=%t       "tail of the filename
@@ -516,8 +559,12 @@ filetype indent on
 " set statusline+=%{SyntasticStatuslineFlag()}
 " set statusline+=%*
 
-""
+" --------------------------------------------------------------------------
+" Syntax Highlighting 
+" --------------------------------------------------------------------------
+
+" --------------------------------------------------------------------------
 " Various
-""
+" --------------------------------------------------------------------------
 
 " inoremap ;; <Esc>
