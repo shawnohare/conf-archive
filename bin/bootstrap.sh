@@ -1,12 +1,13 @@
 # install.sh bash script
 # Personal bootstrap script to set up a new OS X system.
 
-# To run this thing:
+# To run:
 # sudo bash -c "$(curl -fsSl https://raw.githubusercontent.com/shawnohare/dotfiles/master/bootstrap.sh)"
 
 
 # Define location where dotfiles are to be cloned.
 readonly INSTALLDIR="${HOME}/dotfiles"
+readonly REPO="https://github.com/shawnohare/dotfiles.git"
 
 # Install Xcode command line developer tools (required for git/Homebrew)
 # Check whether the exit code of is not 0 (success).
@@ -21,7 +22,7 @@ fi
 if [[ ! -d "${INSTALLDIR}" ]]; then
   echo "Cloning dotfiles repo to ${INSTALLDIR}."
   mkdir -p ${INSTALLDIR}
-  git clone --recursive "https://github.com/shawnohare/dotfiles.git" "${INSTALLDIR}"
+  git clone --recursive "${REPO}" "${INSTALLDIR}"
 fi
 
 # In bash, hash <command> exits with with 0 iff the command exists.
