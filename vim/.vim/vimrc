@@ -36,6 +36,7 @@ call plug#begin(plugged)
 Plug 'tpope/vim-vinegar'  " enhanced netrw file browser
 Plug 'majutsushi/tagbar'  " display tags in a window
 
+
 " Colorscheme
 Plug 'joshdick/onedark.vim'
 Plug 'joshdick/airline-onedark.vim'
@@ -100,10 +101,12 @@ Plug 'JuliaLang/julia-vim'
 " Plug 'ensime/ensime-vim' " had issues getting ensime to work
 
 " Neovim specific plugins
+" FIXME: find a better way to separate neovim/vim plugins.  Ideally we do not
+" maintain separate files, either.
 if has('nvim')
   Plug 'Shougo/deoplete.nvim'
   Plug 'zchee/deoplete-go'
-  Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+  Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '$XDG_CONFIG_HOME/nvim/plugged/gocode/nvim/symlink.sh' }
 endif
 
 " Vim only filetype specific plugins
@@ -154,21 +157,19 @@ let g:delimitMate_expand_cr=2
 let g:delimitMate_expand_space=1
 let g:delimitMate_jump_expansion=1
 " don't expand <cr> in pop-up menus
- imap <expr> <CR> pumvisible()
-                     \ ? "\<C-Y>"
-                     \ : "<Plug>delimitMateCR"
+ imap <expr> <CR> pumvisible() ? "\<C-Y>" : "<Plug>delimitMateCR"
 
 " --------------------------------------------------------------------------
 " netrw (built-in)
 " --------------------------------------------------------------------------
-let g:netrw_banner    = 0      " Do not display info on top
+" let g:netrw_banner    = 0      " Do not display info on top
 let g:netrw_liststyle = 3      " default to tree-style file listing
-" let g:netrw_winsize   = 30     " use 30% of columns for list
+let g:netrw_winsize   = 30     " use 30% of columns for list
 let g:netrw_preview   = 1      " default to vertical splitting for preview
 
 " Hit enter in the file browser to open the selected
 " file with :vsplit to the right of the browser.
-let g:netrw_browse_split = 4
+" let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 " Change directory to the current buffer when opening files.
 set autochdir
@@ -375,7 +376,7 @@ set splitright  " and to the right of the current.  Default is opposite.
 " --------------------------------------------------------------------------
 " Completion
 " --------------------------------------------------------------------------
-set completeopt+=longest
+set completeopt+=menuone,preview
 set wildmenu                             " command-line completion
 set wildmode=list:longest,full           " shell-style completion behavior
 " File types to ignore for command-line completion
@@ -540,6 +541,12 @@ filetype indent on
 " indent when between delimeters by typing <C-Return>
 " Now using delimitMate to handle this.
 " imap <C-Return> <CR><CR><C-o>k<C-t>
+"
+" --------------------------------------------------------------------------
+" Search 
+" --------------------------------------------------------------------------
+set ignorecase
+set smartcase
 
 " --------------------------------------------------------------------------
 " STATUSLINE
