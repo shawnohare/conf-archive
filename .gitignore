@@ -11,3 +11,5 @@ vim/.vim/autoload
 vim/.vim/plugged
 vim/.vim/.netrwhist
 vim/.netrwhist
+
+deps/
