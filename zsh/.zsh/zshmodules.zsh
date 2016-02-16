@@ -1,6 +1,7 @@
 # External modules/add-ons to zsh
 # Should be the final thing sourced by zshrc.
 
+
 # ===========================================================================
 # zsh-autosuggestions
 # ===========================================================================
@@ -16,13 +17,13 @@
 # zsh-completions
 # ===========================================================================
 # fpath=(/usr/local/share/zsh-completions $fpath)
-fpath=(${DOTFILES}/deps/zsh-completions $fpath)
+fpath=(${DEPS}/zsh-users/zsh-completions $fpath)
 
 # ===========================================================================
 # zsh-history-substring-search
 # ===========================================================================
 # vim-like snippet keybindings for history-substring-search
-source ${DOTFILES}/deps/zsh-history-substring-search/zsh-history-substring-search.zsh
+source ${DEPS}/zsh-users/zsh-history-substring-search/zsh-history-substring-search.zsh
 bindkey '^[[A' history-substring-search-up
 bindkey '^K' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
@@ -32,7 +33,7 @@ bindkey '^[[B' history-substring-search-down
 #  zsh-syntax-highlighting
 # ===========================================================================
 
-source ${DOTFILES}/deps/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ${DEPS}/zsh-users/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Fri, 29 Jan 2016 16:44:49 -0800 
 # It's not clear whether we actually need to set these values when using
 # iterm2, as the colors might be over-ridden by iterm2's color scheme.
