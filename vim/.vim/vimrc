@@ -104,8 +104,9 @@ Plug 'JuliaLang/julia-vim'
 " FIXME: find a better way to separate neovim/vim plugins.  Ideally we do not
 " maintain separate files, either.
 if has('nvim')
+  " Plug 'Shougo/echodoc.vim' " Displaying preview-like info
   Plug 'Shougo/deoplete.nvim'
-  Plug 'zchee/deoplete-go'
+  Plug 'zchee/deoplete-go', { 'do': 'make' }
   Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '$XDG_CONFIG_HOME/nvim/plugged/gocode/nvim/symlink.sh' }
 endif
 
@@ -376,7 +377,11 @@ set splitright  " and to the right of the current.  Default is opposite.
 " --------------------------------------------------------------------------
 " Completion
 " --------------------------------------------------------------------------
-set completeopt+=menuone,preview
+"  FIXME Fri, 12 Feb 2016 09:40:54 -0800 
+"  The preview option for completeopt worked weird with neovim and deoplete.
+" See https://github.com/zchee/deoplete-go/issues/40
+set completeopt+=longest,menuone
+set completeopt-=preview
 set wildmenu                             " command-line completion
 set wildmode=list:longest,full           " shell-style completion behavior
 " File types to ignore for command-line completion

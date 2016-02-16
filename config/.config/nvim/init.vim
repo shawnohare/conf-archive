@@ -28,7 +28,7 @@ let g:deoplete#enable_at_startup = 1
 
 " Manually trigger completion and auto insert
 let g:deoplete#disable_auto_complete = 1
-inoremap <silent><expr> <Tab>
+inoremap <silent><expr> <C-n>
 \ pumvisible() ? "\<C-n>" :
 \ deoplete#mappings#manual_complete()
 inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
