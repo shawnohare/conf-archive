@@ -28,7 +28,7 @@ let g:deoplete#enable_at_startup = 1
 
 " Manually trigger completion and auto insert
 let g:deoplete#disable_auto_complete = 1
-inoremap <silent><expr> <C-n>
+inoremap <silent><expr> <Tab>
 \ pumvisible() ? "\<C-n>" :
 \ deoplete#mappings#manual_complete()
 inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
@@ -36,6 +36,9 @@ inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
 
 " ==========================================================================
 " Python 
+" Initially we had some issues with getting neovim to work with the python
+" host, but this appeared to be more of a pyenv issue.  We need to ensure
+" that multiple versions of python 2 and 3 are globally available.
 " ==========================================================================
 " let g:python_host_pro="/usr/local/var/pyenv/shims/python"
 
