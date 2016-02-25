@@ -1,7 +1,6 @@
 "==========================================================================
 " .vimrc
 " Settings for VIM
-" last modified: Tue, 10 Feb 2015 09:24:38 -0800 
 "==========================================================================
 
 "==========================================================================
@@ -151,6 +150,7 @@ let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#eclim#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline_theme='onedark'
+" let g:airline_theme='gruvbox'
 
 " --------------------------------------------------------------------------
 " delimitMate
@@ -334,7 +334,7 @@ nnoremap <F3> :SyntasticReset<CR>
 ""
 " tagbar
 ""
-nmap <F8> :TagbarToggle<CR>
+nmap <Leader>tag :TagbarToggle<CR>
 
 " =========================================================================
 " SETTINGS
@@ -462,9 +462,13 @@ colorscheme onedark
 
 "
 " Gruvbox 
+" set background=dark
 " let g:gruvbox_contrast_light="hard"
 " let g:gruvbox_italic=1
-" set background=dark
+" let g:gruvbox_italicize_comments=1
+" " let g:gruvbox_improved_strings=1
+" let g:gruvbox_improved_warnings=1
+" let g:gruvbox_sign_column="bg0"
 " colorscheme gruvbox
 
 " NOTE Fri, 29 Jan 2016 16:13:41 -0800

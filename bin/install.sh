@@ -108,7 +108,7 @@ get_git_repo() {
   # Error if both arguments are not provided. 
   if [[ -z "${remote+x}" || -z "${loc+x}" ]]; then
     debug "No remote or no local dir specified."
-    exit 1
+    return 1
   fi
 
   if [[ ! -d "${loc}" ]]; then
@@ -117,12 +117,34 @@ get_git_repo() {
     git clone --recursive "${remote}" "${loc}"
   else
     debug "Dir ${loc} already exists."
+    cd "${loc}"
+
+    # Check whether there are changes.
+    if ! $(git diff --quiet); then
+      debug "There are local unstaged changes in ${loc}.  Aborting."
+      return 1
+    fi  
+    if ! $(git diff --cached --quiet); then
+      debug "There are staged, uncomitted changes in ${loc}.  Aborting."
+      return 1
+    fi
+    
     if [[ "${opt}" == "update" ]]; then
       debug "Updating git repo in ${loc}."
-      cd "${loc}"
       git pull
     fi
   fi
+}
+
+# Get or update a dependency hosted by Github.
+# Wrapper for get_git_repo, e.g: get_dep "shawnohare/dotfiles"
+uget_gh_repo() {
+  local repo="$1";
+  if [[ -z "${repo+x}" ]]; then
+    debug "Repository name required."
+    exit 1
+  fi
+  get_git_repo "https://github.com/${repo}.git" "${DEPS}/${repo}" "update"
 }
 
 # ---------------------------------------------------------------------------
@@ -333,14 +355,10 @@ get_deps() {
     return 0
   fi
 
-  local src="https://github.com"
-  local zsh_hist="zsh-users/zsh-history-substring-search"
-  local zsh_hi="zsh-users/zsh-syntax-highlighting"
-  local zsh_comp="zsh-users/zsh-completions"
 
-  get_git_repo "${src}/${zsh_hist}.git" "${DEPS}/${zsh_hist}" "update"
-  get_git_repo "${src}/${zsh_hi}.git" "${DEPS}/${zsh_hi}" "update"
-  get_git_repo "${src}/${zsh_comp}.git" "${DEPS}/${zsh_comp}" "update"
+  uget_gh_repo "zsh-users/zsh-history-substring-search"
+  uget_gh_repo "zsh-users/zsh-syntax-highlighting"
+  uget_gh_repo "zsh-users/zsh-completions"
 }
 
 
@@ -353,15 +371,21 @@ install_fonts() {
 
   # NOTE: Tue, 16 Feb 2016 08:50:28 -0800
   # Brew cask has a fonts project that can automate this process somewhat.
+  
+  # Font repos that come with an install script.
+  # NOTE: nerd-fonts is a huge repo.
+  local repos=(
+    "powerline/fonts" 
+    # "ryanoasis/nerd-fonts"
+  )
 
-  # Powerline font installation. These provide some decent programming
-  # fonts that have been patched for use with Powerline.
-  debug "Downloading powerline patched fonts."
-  local powerline_fonts_dir="${DEPS}/powerline/fonts"
-  local powerline_fonts_repo="https://github.com/powerline/fonts.git"
-  get_git_repo "${powerline_fonts_repo}" "${powerline_fonts_dir}" "update"
-  cd "${powerline_fonts_dir}" 
-  bash install.sh
+  for repo in "${repos[@]}"; do
+    debug "Updating ${repo}."
+    uget_gh_repo "${repo}"
+    cd "${DEPS}/${repo}"
+    debug "Installing ${repo}."
+    bash install.sh
+  done
 } 
 
 # OS independent package installation function.  Skip if in quick mode.
@@ -372,7 +396,7 @@ install_pkgs() {
   fi
 
   debug "Installing packages."
-  # "${ostype}_install_pkgs"
+  "${ostype}_install_pkgs"
   get_deps
   install_fonts
 }
