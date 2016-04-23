@@ -1,5 +1,5 @@
 " enable true colors in vim.  This is also enabled in .zshenv.
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
+" let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
 
 
 " ---------------------------------------------------------------------------
@@ -13,7 +13,8 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
 " let g:terminal_color_1 = '#bf616a'
 " let g:terminal_color_2 = '#a3be8c'
 
-source ~/.vim/vimrc
+syntax on
+colorscheme onedark
 
 " ==========================================================================
 " PLUGIN CONFIG
@@ -24,15 +25,8 @@ source ~/.vim/vimrc
 " Fri, 05 Feb 2016 10:52:51 -0800 
 " https://github.com/Shougo/deoplete.nvim
 "--------------------------------------------------------------------------- 
-let g:deoplete#enable_at_startup = 1
 
 " Manually trigger completion and auto insert
-let g:deoplete#disable_auto_complete = 1
-inoremap <silent><expr> <Tab>
-\ pumvisible() ? "\<C-n>" :
-\ deoplete#mappings#manual_complete()
-inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
 
 " ==========================================================================
 " Python 
@@ -40,7 +34,6 @@ inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
 " host, but this appeared to be more of a pyenv issue.  We need to ensure
 " that multiple versions of python 2 and 3 are globally available.
 " ==========================================================================
-" let g:python_host_prog = '/usr/local/var/pyenv/versions/python2.7.11/bin/python'
-" let g:python3_host_prog = '/usr/local/var/pyenv/versions/python3.5.1/bin/python3'
+" let g:python_host_pro="/usr/local/var/pyenv/shims/python"
 
 

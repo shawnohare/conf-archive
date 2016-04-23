@@ -107,8 +107,9 @@ Plug 'JuliaLang/julia-vim'
 if has('nvim')
   " Plug 'Shougo/echodoc.vim' " Displaying preview-like info
   Plug 'Shougo/deoplete.nvim'
-  Plug 'zchee/deoplete-go', { 'do': 'make' }
   Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '$XDG_CONFIG_HOME/nvim/plugged/gocode/nvim/symlink.sh' }
+  Plug 'zchee/deoplete-go', { 'do': 'make' }
+  Plug 'zchee/deoplete-jedi'
 endif
 
 " Vim only filetype specific plugins
@@ -316,8 +317,8 @@ let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "⚠"
 let g:syntastic_python_python_exec = "/usr/local/var/pyenv/shims/python"
 let g:syntastic_mode_map = { "mode": "passive",
-            \"active_filetypes": ["haskell", "tex", "python", "ruby"],
-            \"passive_filetypes": ["go, scala"]}
+            \"active_filetypes": ["haskell", "tex", "ruby"],
+            \"passive_filetypes": ["go, scala", "python"]}
 let g:syntastic_haskell_checkers = ['hdevtools', 'hlint']
 let g:syntastic_tex_checkers = ['chktex', 'lacheck']
 let g:syntastic_python_checkers = ['pylint', 'flake8', 'python']
@@ -401,7 +402,7 @@ set wildignore+=*/target/*               " sbt target directory
 " Display
 " --------------------------------------------------------------------------
 syntax on                    " enable syntax highlighting
-set cursorline               " highlight current line
+" set cursorline               " highlight current line, but slow
 set showmode                 " show current mode at bottom of screen
 set showcmd                  " show (partial) commands below statusline
 " set showmatch                " show matching delimiters

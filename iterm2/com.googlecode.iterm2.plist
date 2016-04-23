@@ -2063,15 +2063,15 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>1725 -211 922 254 1440 -248 2560 1417 </string>
+	<string>1619 -211 1077 457 1440 -248 2560 1417 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>308 419 606 456 0 0 1440 877 </string>
+	<string>34 421 606 456 0 0 1440 877 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>370 192 700 622 0 0 1440 877 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>99 293 592 584 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>1441 -239 1277 1408 1440 -248 2560 1417 </string>
+	<string>4000 -334 1200 864 4000 -343 1200 1897 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>4962 6 955 1165 4000 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -3819,12 +3819,16 @@
 			<true/>
 			<key>Background Color</key>
 			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.15686274509803899</real>
+				<real>0.00071572157321497798</real>
+				<key>Color Space</key>
+				<string>Calibrated</string>
 				<key>Green Component</key>
-				<real>0.15686274509803899</real>
+				<real>0.0</real>
 				<key>Red Component</key>
-				<real>0.15686274509803899</real>
+				<real>0.0</real>
 			</dict>
 			<key>Background Image Is Tiled</key>
 			<false/>
@@ -4451,6 +4455,10 @@
 			<string>/Users/shawn</string>
 		</dict>
 	</array>
+	<key>NoSyncDoNotWarnBeforeMultilinePaste</key>
+	<true/>
+	<key>NoSyncDoNotWarnBeforeMultilinePaste_selection</key>
+	<integer>0</integer>
 	<key>NoSyncLastTipTime</key>
 	<real>475609280.05042398</real>
 	<key>NoSyncPermissionToShowTip</key>
@@ -4460,7 +4468,7 @@
 	<key>NoSyncTimeOfLastPromo</key>
 	<real>453334019.82072097</real>
 	<key>NoSyncTimeOfLastPromoDownload</key>
-	<real>462384683.00577903</real>
+	<real>483037261.96045101</real>
 	<key>NoSyncTipsDisabled</key>
 	<false/>
 	<key>NoSyncTipsToNotShow</key>
@@ -4595,11 +4603,11 @@
 	<key>SUFeedAlternateAppNameKey</key>
 	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/nightly.xml</string>
+	<string>http://iterm2.com/appcasts/testing.xml</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-02-22T16:34:34Z</date>
+	<date>2016-04-21T21:45:51Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Secure Input</key>
@@ -4613,7 +4621,7 @@
 	<key>SmartPlacement</key>
 	<true/>
 	<key>SplitPaneDimmingAmount</key>
-	<real>0.14525990990492013</real>
+	<real>0.14525991678237915</real>
 	<key>SwitchTabModifier</key>
 	<integer>4</integer>
 	<key>SwitchWindowModifier</key>
@@ -4653,9 +4661,9 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>2.9.20160222-nightly</string>
+	<string>2.1.1</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
-	<integer>4</integer>
+	<integer>7</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
 	<false/>
 </dict>
