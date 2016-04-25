@@ -273,10 +273,10 @@ PROMPT+='%{$%} '                       # $ indicator
 #zstyle :compinstall filename '/Users/shawn/.zshrc'
 # End of lines added by compinstall
 
-# source all config files
-for file in "${ZDOTDIR}"/*.zsh; do
-  source "${file}"
-done
+# source all config files: FIXME: old, can probably delete 
+# for file in "${ZDOTDIR}"/*.zsh; do
+#   source "${file}"
+# done
 
 # iterm2 shell integration
 # source "${DOTFILES}/iterm2/iterm2_shell_integration.zsh"
