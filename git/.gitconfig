@@ -1,9 +1,3 @@
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /opt/homebrew-cask/Caskroom/sourcetree/1.9.8/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [filter "media"]
 	required = true
 	clean = git media clean %f
@@ -14,3 +8,5 @@
   path = ~/.gitconfig.local
 [credential]
 	helper = osxkeychain
+[core]
+	excludesfile = ~/.gitignore_global

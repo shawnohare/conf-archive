@@ -8,6 +8,7 @@
 
 # Generic binaries
 # Make sure ~/.local/bin, ~/bin, and usr/local/bin occurs before usr/bin.
+PATH="/usr/local/sbin:$PATH"
 PATH="${HOME}/.local/bin:$PATH"
 PATH="${HOME}/bin:$PATH"
 

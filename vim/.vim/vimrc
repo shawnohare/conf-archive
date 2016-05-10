@@ -365,9 +365,12 @@ endif
 " Abbreviations
 " --------------------------------------------------------------------------
 " Abbreviation for date and time stamp in RFC822 format
-iabbrev <expr> dts strftime("%a, %d %b %Y %H:%M:%S %z")
-" Abbreviation for date in RFC822 format
-iabbrev <expr> dtsd strftime("%a, %d %b %Y")
+" iabbrev <expr> dts strftime("%a, %d %b %Y %H:%M:%S %z")
+" Abbreviation for ISO 8061 format.
+" NOTE: The RFC 3339 format specifies that time-zones be of the form -09:37.
+" Some versions of strftime support the %:z format, but not on a
+" circa 2016-05-06 OS X machine. 
+iabbrev <expr> dts strftime("%FT%T%z")
 
 " --------------------------------------------------------------------------
 " Buffers & Windows
@@ -383,7 +386,7 @@ set splitright  " and to the right of the current.  Default is opposite.
 "  FIXME Fri, 12 Feb 2016 09:40:54 -0800 
 "  The preview option for completeopt worked weird with neovim and deoplete.
 " See https://github.com/zchee/deoplete-go/issues/40
-set completeopt+=longest,menuone
+set completeopt+=longest,menuone,noinsert
 set completeopt-=preview
 set wildmenu                             " command-line completion
 set wildmode=list:longest,full           " shell-style completion behavior
@@ -449,7 +452,6 @@ set shortmess+=A       " don't show warning for existing swapfiles
 
 " One Dark (Atom) theme (https://github.com/joshdick/onedark.vim)
 " NOTE: Thu, 18 Feb 2016 08:47:38 -0800 Current favorite, but might not
-" have HEX color support for the terminal?
 let g:onedark_terminal_italics=1
 colorscheme onedark
 
