@@ -47,8 +47,12 @@ export PYENV_ROOT="/usr/local/var/pyenv"
 # pyenv init will use PYENV_ROOT or default to ~/.pyenv
 if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 #eval "$(pyenv virtualenv-init -)"
+#
 
-
+# --------------------------------------------------------------------------
+# nix 
+# --------------------------------------------------------------------------
+PATH="${HOME}/.nix-profile/bin:${HOME}/nix-profile/sbin:${PATH}"
 export PATH
 
 

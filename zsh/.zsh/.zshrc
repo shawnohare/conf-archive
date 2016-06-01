@@ -123,7 +123,7 @@ compdef _gnu_generic gdb
 # history 
 #########################################################################
 
-HISTFILE=$ZDOTDIR/.zsh_history # where to store zsh config
+HISTFILE=${ZDOTDIR}/.zsh_history # where to store zsh config
 HISTSIZE=2048                    # lines to maintain in memory
 SAVEHIST=65536                   # lines to maintain in history file
 setopt extended_history          # include timestamps
@@ -143,29 +143,26 @@ setopt bang_hist                 # !keyword
 # Should be the final thing sourced by zshrc.
 #########################################################################
 
+mods_dir="${DEPS}/zsh-users"
 
 # ===========================================================================
 # zsh-autosuggestions
 # ===========================================================================
 
-# FIXME had some issues playing nice with history-substring-search
-#zle-line-init() {
-#    zle autosuggest-start
-#  }
-#zle -N zle-line-init
-#export AUTOSUGGESTION_HIGHLIGHT_COLOR=fg=246
+# source "${mods_dir}/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=246
 
 # ===========================================================================
 # zsh-completions
 # ===========================================================================
 # fpath=(/usr/local/share/zsh-completions $fpath)
-fpath=(${DEPS}/zsh-users/zsh-completions $fpath)
+fpath=(${mods_dir}/zsh-completions $fpath)
 
 # ===========================================================================
 # zsh-history-substring-search
 # ===========================================================================
 # vim-like snippet keybindings for history-substring-search
-source ${DEPS}/zsh-users/zsh-history-substring-search/zsh-history-substring-search.zsh
+source ${mods_dir}/zsh-history-substring-search/zsh-history-substring-search.zsh
 bindkey '^[[A' history-substring-search-up
 bindkey '^K' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
@@ -261,11 +258,11 @@ precmd() {
   vcs_info
 }
 
-PROMPT='%{%F{yellow}%}>%{%f%} '        # prompt indicator
-PROMPT+='%{%F{blue}%}%1~%{%f%} '        # current directory
-# PROMPT+='%(?..%{%F{yellow}%}%? '     # exit codes 
-PROMPT+='${vcs_info_msg_0_}'           # git info
-PROMPT+='%{$%} '                       # $ indicator
+prompt_indicator='%{%F{yellow}%}>%{%f%}' # prompt indicator
+curr_dir='%{%F{blue}%}%1~%{%f%}'         # current directory
+exit_codes='%(?..%{%F{yellow}%}%?'       # exit codes
+# PROMPT+='%{$%} '                       # $ indicator
+PROMPT='${curr_dir} ${vcs_info_msg_0_} ${prompt_indicator} '
 # RPROMPT='%*'                           # time and date
 
 
