@@ -8,3 +8,4 @@ fi
 
 source $HOME/.profile
 source $HOME/.aliases
+if [ -e /Users/shawn/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/shawn/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

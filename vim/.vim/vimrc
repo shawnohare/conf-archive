@@ -131,6 +131,7 @@ Plug 'Shougo/unite.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Plug 'bling/vim-bufferline'
+" Plug 'nathanaelkane/vim-indent-guides'
 
 call plug#end()
 
@@ -151,7 +152,7 @@ let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#eclim#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline_theme='onedark'
-" let g:airline_theme='gruvbox'
+let g:airline_theme='gruvbox'
 
 " --------------------------------------------------------------------------
 " delimitMate
@@ -287,8 +288,8 @@ nmap <Leader>a <Plug>(EasyAlign)
 let g:go_highlight_functions         = 1
 let g:go_highlight_methods           = 1
 let g:go_highlight_structs           = 1
-let g:go_highlight_operators         = 1
 let g:go_highlight_interfaces        = 1
+let g:go_highlight_operators         = 1
 let g:go_highlight_build_constraints = 1
 " play nice with syntastic.
 " let g:go_fmt_fail_silently           = 1
@@ -309,22 +310,22 @@ let g:go_auto_type_info = 1
 " Populate location list  is off by default to prevent classes with airline.
 " vim-go sometimes conflicts with syntastic location lists.
 let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 0 
-let g:syntastic_check_on_open = 0 
-let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_signs=1
-let g:syntastic_error_symbol = "✗"
-let g:syntastic_warning_symbol = "⚠"
-let g:syntastic_python_python_exec = "/usr/local/var/pyenv/shims/python"
-let g:syntastic_mode_map = { "mode": "passive",
+let g:syntastic_auto_loc_list            = 0
+let g:syntastic_check_on_open            = 0
+let g:syntastic_check_on_wq              = 0
+let g:syntastic_enable_signs             = 1
+let g:syntastic_error_symbol             = "✗"
+let g:syntastic_warning_symbol           = "⚠"
+let g:syntastic_python_python_exec       = "/usr/local/var/pyenv/shims/python"
+let g:syntastic_mode_map                 = { "mode": "passive",
             \"active_filetypes": ["haskell", "tex", "ruby"],
             \"passive_filetypes": ["go, scala", "python"]}
-let g:syntastic_haskell_checkers = ['hdevtools', 'hlint']
-let g:syntastic_tex_checkers = ['chktex', 'lacheck']
-let g:syntastic_python_checkers = ['pylint', 'flake8', 'python']
-let g:syntastic_ruby_checkers = ['mri', 'ruby']
-let g:syntastic_scala_checkers = ['scalac', 'scalastyle', 'fsc']
-let g:syntastic_markdown_checkers = ['mdl']
+let g:syntastic_haskell_checkers         = ['hdevtools', 'hlint']
+let g:syntastic_tex_checkers             = ['chktex', 'lacheck']
+let g:syntastic_python_checkers          = ['pylint', 'flake8', 'python']
+let g:syntastic_ruby_checkers            = ['mri', 'ruby']
+let g:syntastic_scala_checkers           = ['scalac', 'scalastyle', 'fsc']
+let g:syntastic_markdown_checkers        = ['mdl']
 
 " Pull up syntastic errors easily
 nnoremap <Leader>e :Errors<CR>
@@ -332,10 +333,16 @@ nnoremap <Leader>e :Errors<CR>
 imap <F3> <C-O><F3>
 nnoremap <F3> :SyntasticReset<CR>
 
-""
-" tagbar
-""
+" --------------------------------------------------------------------------
+" tagbar 
+" --------------------------------------------------------------------------
 nmap <Leader>tag :TagbarToggle<CR>
+
+" --------------------------------------------------------------------------
+" vim-indent-guides 
+" --------------------------------------------------------------------------
+ " let g:indent_guides_start_level = 2
+" let g:indent_guides_guide_size  = 1 
 
 " =========================================================================
 " SETTINGS
@@ -347,16 +354,16 @@ nmap <Leader>tag :TagbarToggle<CR>
 if has('vim')
   set autoindent
   set autoread           " reread files that have been changed while open
-  set backspace=indent,eol,start " backspace over line breaks, insertion, start
-  set display+=lastline        " display as much as possible of the last line
-  set encoding=utf-8     " the encoding displayed
-  set history=10000               " increase history level
+  set backspace   = indent,eol,start " backspace over line breaks, insertion, start
+  set display    += lastline        " display as much as possible of the last line
+  set encoding    = utf-8     " the encoding displayed
+  set history     = 10000               " increase history level
   set hlsearch                 " highlight search
   set incsearch                " incrementally execute search
-  set listchars=tab:>-,trail:.,extends:#,nbsp:. ",tab:>-,eol:¶ " customize whitespace look
+  set listchars   = tab:>-,trail:.,extends:#,nbsp:. ",tab:>-,eol:¶ " customize whitespace look
   set nocompatible  " make VIM iMproved rather than legacy compatible
   set smarttab   " <Tab> interpretation depends on cursor and siftwidth, tabstop, softtabstop
-  set tabpagemax=50
+  set tabpagemax  = 50
   " set tags=""./tags;,tags
   set ttyfast
 endif
@@ -432,6 +439,7 @@ set shortmess+=A       " don't show warning for existing swapfiles
 " Colorscheme
 " --------------------------------------------------------------------------
 
+set background=dark
 " Pre colorscheme invocation.
 " Colorscheme invocation
 " Post colorscheme invocation.
@@ -451,8 +459,7 @@ set shortmess+=A       " don't show warning for existing swapfiles
 " colorscheme mustard
 
 " One Dark (Atom) theme (https://github.com/joshdick/onedark.vim)
-" NOTE: Thu, 18 Feb 2016 08:47:38 -0800 Current favorite, but might not
-let g:onedark_terminal_italics=1
+let g:onedark_terminal_italics=0
 colorscheme onedark
 
 " One Dark (Atom) theme (https://github.com/geoffharcout/one-dark.vim)
@@ -468,10 +475,10 @@ colorscheme onedark
 " set background=dark
 " let g:gruvbox_contrast_light="hard"
 " let g:gruvbox_italic=1
-" let g:gruvbox_italicize_comments=1
-" " let g:gruvbox_improved_strings=1
-" let g:gruvbox_improved_warnings=1
-" let g:gruvbox_sign_column="bg0"
+let g:gruvbox_italicize_comments=1
+" let g:gruvbox_improved_strings=1
+let g:gruvbox_improved_warnings=1
+let g:gruvbox_sign_column="bg0"
 " colorscheme gruvbox
 
 " NOTE Fri, 29 Jan 2016 16:13:41 -0800
@@ -499,7 +506,7 @@ map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 " --------------------------------------------------------------------------
 " Highlighting 
 " --------------------------------------------------------------------------
-hi clear SpellBad
+" hi clear SpellBad " if set, onedark would not highlight spelling errors
 hi SpellBad cterm=underline,bold ctermfg=red
 " Print comments in italic font. Only appears to work for vim (not neovim).
 " let &t_ZH="\e[3m"

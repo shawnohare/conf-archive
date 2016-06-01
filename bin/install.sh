@@ -359,6 +359,7 @@ get_deps() {
   uget_gh_repo "zsh-users/zsh-history-substring-search"
   uget_gh_repo "zsh-users/zsh-syntax-highlighting"
   uget_gh_repo "zsh-users/zsh-completions"
+  uget_gh_repo "zsh-users/zsh-autosuggestions"
 }
 
 
