@@ -262,7 +262,7 @@ prompt_indicator='%{%F{yellow}%}>%{%f%}' # prompt indicator
 curr_dir='%{%F{blue}%}%1~%{%f%}'         # current directory
 exit_codes='%(?..%{%F{yellow}%}%?'       # exit codes
 # PROMPT+='%{$%} '                       # $ indicator
-PROMPT='${curr_dir} ${vcs_info_msg_0_} ${prompt_indicator} '
+PROMPT='${curr_dir} ${vcs_info_msg_0_}${prompt_indicator} '
 # RPROMPT='%*'                           # time and date
 
 
