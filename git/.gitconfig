@@ -9,4 +9,4 @@
 [credential]
 	helper = osxkeychain
 [core]
-	excludesfile = ~/.gitignore_global
+	excludesfile = ~/.config/git/ignore

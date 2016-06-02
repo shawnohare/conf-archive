@@ -16,3 +16,6 @@ vim/.vim/.netrwhist
 vim/.netrwhist
 
 deps/
+plugged
+ftplugin
+autoload
