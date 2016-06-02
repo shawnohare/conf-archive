@@ -247,7 +247,10 @@ link_configs() {
   local dirs=(
     bash
     config
+    emacs
+    fish
     git
+    nvim
     tmux
     vim
     zsh
