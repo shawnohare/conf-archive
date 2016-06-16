@@ -1,4 +1,5 @@
-#########################################################################
+#
+########################################################################
 # zshrc is loaded for interactive shells 
 # TOC
 # - aliases
@@ -239,7 +240,7 @@ setopt notify
 
 
 
-#########################################################################
+#
 # prompt 
 #########################################################################
 
@@ -259,7 +260,7 @@ precmd() {
 }
 
 prompt_indicator='%{%F{yellow}%}>%{%f%}' # prompt indicator
-curr_dir='%{%F{blue}%}%1~%{%f%}'         # current directory
+curr_dir='%{%F{blue}%}%4~%{%f%}'         # current directory
 exit_codes='%(?..%{%F{yellow}%}%?'       # exit codes
 # PROMPT+='%{$%} '                       # $ indicator
 PROMPT='${curr_dir} ${vcs_info_msg_0_}${prompt_indicator} '
