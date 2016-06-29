@@ -355,6 +355,8 @@ make_dirs() {
     .emacs.d
     .spacemacs.d
     .vim
+    .aws
+    .sbt
     bin
     var/log
   )
