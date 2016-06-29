@@ -5,7 +5,8 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (smex evil-mode evil-leader zenburn-theme monokai-theme helm gruvbox-theme evil-commentary atom-one-dark-theme))))
+    (which-key general helm-fuzzier helm-config pt swiper ivy ido-ubiquitous ido-ubiquituous ido-grid-mode flx-ido fzf helm-flx smex evil-mode evil-leader zenburn-theme monokai-theme helm gruvbox-theme evil-commentary atom-one-dark-theme)))
+ '(ring-bell-function (quote ignore)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

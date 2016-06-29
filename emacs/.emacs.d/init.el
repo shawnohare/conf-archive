@@ -9,7 +9,12 @@
 (load custom-file)
 
 ;; Prefer spaces to tabs.
-(setq-default indent-tabs-mode nil)
+;; (setq-default indent-tabs-mode nil)
+
+;; Increase garbage collection threshold
+(setq gc-cons-threshold 20000000)
+(show-paren-mode)
+
 
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
@@ -17,82 +22,32 @@
   (package-install 'use-package))
 
 (setq use-package-always-ensure t)
+
 (defun my-move-key (keymap-from keymap-to key)
   "Moves key binding from one keymap to another, deleting from the old location. "
+  ;; f(f, t, k), (define-key t k (lookup-key f k)), (define-key f k nil)
   (define-key keymap-to key (lookup-key keymap-from key))
   (define-key keymap-from key nil))
 
+(use-package fzf)
+(use-package pt)
+(use-package which-key)
 
-(use-package helm)
-
-(use-package ido
-  :init (progn (ido-mode 1)
-	       (ido-everywhere))
+;; Builtin package to show line numbers.
+(use-package linum
   :config
-  (progn
-    (setq ido-enable-flex-matching t)))
+  (global-linum-mode))
 
-(use-package evil
-  :init
-  (progn
-    ;; if we don't have this evil overwrites the cursor color
-    (setq evil-default-cursor t)
-
-    (use-package evil-commentary
-      :config
-      (evil-commentary-mode))
-
-    ;; leader shortcuts
-    ;; This has to be before we invoke evil-mode due to:
-    ;; https://github.com/cofi/evil-leader/issues/10
-    (use-package evil-leader
-      :init (global-evil-leader-mode)
-      :config
-      (progn
-        (setq evil-leader/in-all-states t)
-        (evil-leader/set-leader "<SPC>")
-        (evil-leader/set-key
-          "b" 'ido-switch-buffer
-          "f" 'ido-find-file
-          "i" 'idomenu
-          "k" 'kill-buffer
-          "K" 'kill-this-buffer
-          "o" 'occur
-          "T" 'eshell
-          "wd" 'delete-window
-          "wo" 'delete-other-windows
-          "ws" 'split-window-below
-          "wh" 'split-window-horizontally
-          "wv" 'split-window-vertically
-          "ww" 'other-window
-          "x" 'smex)))
-
-    ;; boot evil by default
-    (evil-mode 1))
+(use-package recentf
   :config
-  (progn
-    ;; Enter ex-mode using smex
-    (define-key evil-ex-map "e " 'ido-find-file)
-    (define-key evil-ex-map "b " 'ido-switch-buffer)
-    (define-key evil-ex-map "x" 'smex)
+  (recentf-mode 1))
+;; (load "~/.emacs.d/init-with-ido.el")
+;; (load "~/.emacs.d/init-with-ivy.el")
+(load "~/.emacs.d/init-with-helm.el")
+;; (load "~/.emacs.d/init-with-builtin-completion.el")
 
-    ;; recover emacs key bindings in motion state
-    (my-move-key evil-motion-state-map evil-normal-state-map (kbd "RET"))
-    (my-move-key evil-motion-state-map evil-normal-state-map " ")
-
-    ;; esc should always quit: http://stackoverflow.com/a/10166400/61435
-    (define-key evil-normal-state-map [escape] 'keyboard-quit)
-    (define-key evil-visual-state-map [escape] 'keyboard-quit)
-    (define-key minibuffer-local-map [escape] 'abort-recursive-edit)
-    (define-key minibuffer-local-ns-map [escape] 'abort-recursive-edit)
-    (define-key minibuffer-local-completion-map [escape] 'abort-recursive-edit)
-    (define-key minibuffer-local-must-match-map [escape] 'abort-recursive-edit)
-    (define-key minibuffer-local-isearch-map [escape] 'abort-recursive-edit)))
-
-(use-package smex
-  :defer t
-  :bind (("M-x" . smex)
-         ("M-X" . smex-major-mode-commands))
-  :config
-  (progn
-    (smex-initialize)))
+;; TODO
+;; - Consider using general instead of evil-leader
+;; - Consider using hydra for things like helm?
+;; - Try to pick helm, ivy, or ido.
+;; - which-key
