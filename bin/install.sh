@@ -209,6 +209,7 @@ osx_main() {
 # Generic (OS independent) package-related functions.
 # ---------------------------------------------------------------------------
 
+
 # Attempt to install the input package. This function assumes that the
 # appropriate package manager has been previously installed.  It is
 # essentially a small wrapper for the OS specific install_pkg command.
@@ -241,6 +242,7 @@ install_git() {
 # Main functions 
 # ---------------------------------------------------------------------------
 
+# Use GNU stow to populat
 # Use GNU Stow to link config files stored in the dotfiles dir.
 link_configs() {
   debug "Linking config files."
@@ -344,11 +346,40 @@ init() {
 
 }
 
+# We prefer to link config files into an already existing dir so that
+# rather than linking an entire config dir.  One benefit is that
+# program generated files are automatically not in the repo.  A downside
+# is that it's yet another (hopefully static) thing to manage.
 make_dirs() {
-  # Make any necessary directories.
-  mkdir -p "${HOME}/bin"
-  mkdir -p "${HOME}/var/log"
+  local home_dirs=(
+    .emacs.d
+    .spacemacs.d
+    .vim
+    bin
+    var/log
+  )
+
+  local xdg_config_dirs=(
+    fish
+    git
+    micro
+    nvim
+    omf
+    tmux
+    zsh
+  )
+  
   mkdir -p "${DEPS}"
+
+  # Make dirs that live directly in the home dir.
+  for dir in "${home_dirs[@]}"; do
+    mkdir -p "${HOME}/${dir}"
+  done
+
+  # Make dirs that live in $XDG_CONFIG_HOME
+  for dir in "${xdg_config_dirs[@]}"; do
+    mkdir -p "${XDG_CONFIG_HOME}/${dir}"
+  done
 }
 
 # Get external dependencies that are not otherwise managed.
