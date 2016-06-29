@@ -1,5 +1,0 @@
-[user]
-	name = Shawn O'Hare
-	email = ohare.shawn@gmail.com 
-[core]
-	excludesfile = ~/.gitignore_global

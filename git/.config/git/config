@@ -5,8 +5,6 @@
 [push]
 	default = simple
 [include]
-  path = ~/.gitconfig.local
+  path = ~/.config/git/config.local
 [credential]
 	helper = osxkeychain
-[core]
-	excludesfile = ~/.config/git/ignore
