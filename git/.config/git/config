@@ -6,5 +6,3 @@
 	default = simple
 [include]
   path = ~/.config/git/config.local
-[credential]
-	helper = osxkeychain
