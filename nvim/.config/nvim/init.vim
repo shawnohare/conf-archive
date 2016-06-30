@@ -1,6 +1,36 @@
 " enable true colors in vim.  This is also enabled in .zshenv.
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
+set termguicolors " enable 24-bit colors in terminal
 
+" ==========================================================================
+" Python 
+" Initially we had some issues with getting neovim to work with the python
+" host, but this appeared to be more of a pyenv issue.  We need to ensure
+" that multiple versions of python 2 and 3 are globally available.
+" A good resource is: https://github.com/zchee/deoplete-jedi/wiki/Setting-up-Python-for-Neovim
+" pyenv install 2.7.11
+" pyenv install 3.4.4
+
+" pyenv virtualenv 2.7.11 neovim2
+" pyenv virtualenv 3.4.4 neovim3
+
+" pyenv activate neovim2
+" pip install neovim
+" pyenv which python  # Note the path
+
+" pyenv activate neovim3
+" pip install neovim
+" pyenv which python  # Note the path
+
+" # The following is optional, and the neovim3 env is still active
+" # This allows flake8 to be available to linter plugins regardless
+" # of what env is currently active.  Repeat this pattern for other
+" # packages that provide cli programs that are used in Neovim.
+" pip install flake8
+" ln -s `pyenv which flake8` ~/bin/flake8  # Assumes that $HOME/bin is in $PATH 
+" ==========================================================================
+" NOTE: The paths apparently must be hardcoded?
+let g:python_host_prog = '/usr/local/var/pyenv/versions/neovim2/bin/python'
+let g:python3_host_prog = '/usr/local/var/pyenv/versions/neovim3/bin/python'
 
 " ---------------------------------------------------------------------------
 " Colorschemes in neovim's terminal emulation mode (:terminal)
@@ -34,34 +64,5 @@ inoremap <silent><expr> <Tab>
 inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
 
-" ==========================================================================
-" Python 
-" Initially we had some issues with getting neovim to work with the python
-" host, but this appeared to be more of a pyenv issue.  We need to ensure
-" that multiple versions of python 2 and 3 are globally available.
-" A good resource is: https://github.com/zchee/deoplete-jedi/wiki/Setting-up-Python-for-Neovim
-" pyenv install 2.7.11
-" pyenv install 3.4.4
-
-" pyenv virtualenv 2.7.11 neovim2
-" pyenv virtualenv 3.4.4 neovim3
-
-" pyenv activate neovim2
-" pip install neovim
-" pyenv which python  # Note the path
-
-" pyenv activate neovim3
-" pip install neovim
-" pyenv which python  # Note the path
-
-" # The following is optional, and the neovim3 env is still active
-" # This allows flake8 to be available to linter plugins regardless
-" # of what env is currently active.  Repeat this pattern for other
-" # packages that provide cli programs that are used in Neovim.
-" pip install flake8
-" ln -s `pyenv which flake8` ~/bin/flake8  # Assumes that $HOME/bin is in $PATH 
-" ==========================================================================
-let g:ptyon_host_prog = '/usr/local/var/pyenv/versions/neovim2/bin/python'
-let g:python3_host_prog = '/usr/local/var/pyenv/versions/neovim3/bin/python'
 
 
