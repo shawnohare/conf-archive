@@ -124,7 +124,6 @@ compdef _gnu_generic gdb
 # history 
 #########################################################################
 
-HISTFILE=${ZDOTDIR}/.zsh_history # where to store zsh config
 HISTSIZE=2048                    # lines to maintain in memory
 SAVEHIST=65536                   # lines to maintain in history file
 setopt extended_history          # include timestamps
