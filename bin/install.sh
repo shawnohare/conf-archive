@@ -7,6 +7,9 @@
 # the corresponding environment variable if that variable is set and
 # not null, or to the default substitution listed after the :-
 # ---------------------------------------------------------------------------
+readonly XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
+readonly XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
+readonly XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
 readonly DOTFILES_NAME="${DOTFILES_NAME:-dotfiles}"
 readonly DOTFILES_LOG="${DOTFILES_LOG:-${HOME}/var/log/${DOTFILES_NAME}}"
 readonly DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
@@ -371,6 +374,9 @@ make_dirs() {
     zsh
   )
   
+  mkdir -p "${XDG_CONFIG_HOME}"
+  mkdir -p "${XDG_DATA_HOME}"
+  mkdir -p "${XDG_CACHE_HOME}"
   mkdir -p "${DEPS}"
 
   # Make dirs that live directly in the home dir.
