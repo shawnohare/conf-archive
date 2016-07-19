@@ -23,8 +23,16 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     flasdkjf 
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-enable-help-tooltip t
+                      ;; auto-completion-enable-snippets-in-popup t
+                      ;; auto-completion-return-key-behavior 'complete           ;; default complete
+                      ;; auto-completion-tab-key-behavior 'cycle                 ;; default cycle
+                      ;; auto-completion-complete-with-key-sequence nil          ;; default nil
+                      ;; auto-completion-complete-with-key-sequence-delay 0.1    ;; default 0.1
+                      ;; auto-completion-private-snippets-directory nil          ;; default nil
+                      )         
+     
      better-defaults
      emacs-lisp
      git
@@ -40,13 +48,16 @@ values."
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      ;; spell-checking
+     (python :variables
+             python-test-runner '(nose pytest)
+             python-enable-yapf-format-on-save t
+             )
      syntax-checking
      ;; FIXME some syntax issues here.  not exactly sure how to set the mod config
      ;; (theming :variables
      ;;          theming-modifications '(
      ;;                                 (spacemacs-dark
-     ;;                                  . (font-lock-comment-face
-     ;;                                   . '((foreground . "#224f6d"))))))
+     ;;                                  font-lock-comment-face '('(foreground . "#224f6d")))))
      (version-control :variables
                       version-control-global-margin t)
      )
@@ -57,7 +68,8 @@ values."
    dotspacemacs-additional-packages '()
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(
-                                    rainbow-delimiters)
+                                    rainbow-delimiters
+                                    vi-tilde-fringe)
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'. (default t)
@@ -67,7 +79,7 @@ values."
   "Initialization function.
 This function is called at the very startup of Spacemacs initialization
 before layers configuration.
-You should not put any user code in there besides modifying the variable
+Yo should not put any user code in there besides modifying the variable
 values."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
@@ -124,8 +136,8 @@ values."
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
-                               :weight normal
+                               :size 12
+                               :weight normal 
                                :width normal
                                :powerline-scale 1.1)
    ;; The leader key
@@ -322,7 +334,7 @@ you should place your code here."
  '(package-hidden-regexps (quote ("\\`0blayoutP" "\\`0blayoutP")))
  '(package-selected-packages
    (quote
-    (atom-one-dark-theme flycheck-gometalinter mwim uuidgen powerline spinner org-download s link-hint hydra parent-mode projectile pkg-info epl flx eyebrowse evil-visual-mark-mode smartparens iedit evil-ediff anzu evil goto-chg undo-tree highlight diminish column-enforce-mode bind-map bind-key packed dash helm avy helm-core async popup package-build subatomic-theme zenburn-theme monokai-theme solarized-theme toc-org smeargle orgit org-repo-todo org-present org-pomodoro alert log4e gntp org-plus-contrib org-bullets mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore request helm-flyspell helm-company helm-c-yasnippet go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md flycheck-pos-tip flycheck evil-magit magit magit-popup git-commit with-editor company-statistics company-quickhelp pos-tip company-go go-mode company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe use-package spacemacs-theme spaceline smooth-scrolling restart-emacs rainbow-delimiters quelpa popwin persp-mode pcre2el paradox page-break-lines open-junk-file neotree move-text macrostep lorem-ipsum linum-relative leuven-theme info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-args evil-anzu eval-sexp-fu elisp-slime-nav define-word clean-aindent-mode buffer-move bracketed-paste auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+    (pyvenv pytest pyenv-mode py-yapf pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic f atom-one-dark-theme flycheck-gometalinter mwim uuidgen powerline spinner org-download s link-hint hydra parent-mode projectile pkg-info epl flx eyebrowse evil-visual-mark-mode smartparens iedit evil-ediff anzu evil goto-chg undo-tree highlight diminish column-enforce-mode bind-map bind-key packed dash helm avy helm-core async popup package-build subatomic-theme zenburn-theme monokai-theme solarized-theme toc-org smeargle orgit org-repo-todo org-present org-pomodoro alert log4e gntp org-plus-contrib org-bullets mmm-mode markdown-toc markdown-mode magit-gitflow htmlize helm-gitignore request helm-flyspell helm-company helm-c-yasnippet go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger gh-md flycheck-pos-tip flycheck evil-magit magit magit-popup git-commit with-editor company-statistics company-quickhelp pos-tip company-go go-mode company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe use-package spacemacs-theme spaceline smooth-scrolling restart-emacs rainbow-delimiters quelpa popwin persp-mode pcre2el paradox page-break-lines open-junk-file neotree move-text macrostep lorem-ipsum linum-relative leuven-theme info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-args evil-anzu eval-sexp-fu elisp-slime-nav define-word clean-aindent-mode buffer-move bracketed-paste auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
  '(paradox-github-token t)
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")

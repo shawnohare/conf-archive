@@ -42,8 +42,7 @@ PATH="${GOPATH}/bin:${PATH}"
 # --------------------------------------------------------------------------
 
 # pyenv
-# Use homebrew's directories rather than ~/.pyenv
-export PYENV_ROOT="${XDG_DATA_HOME}/pyenv"
+export PYENV_ROOT="/usr/local/var/pyenv"
 # pyenv init will use PYENV_ROOT or default to ~/.pyenv
 if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 #eval "$(pyenv virtualenv-init -)"

@@ -2063,15 +2063,15 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>1619 -211 1077 457 1440 -248 2560 1417 </string>
+	<string>30 221 1077 323 0 0 1440 877 </string>
 	<key>NSWindow Frame Preferences</key>
 	<string>34 421 606 456 0 0 1440 877 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>370 192 700 622 0 0 1440 877 </string>
+	<string>2370 348 700 622 1440 -248 2560 1417 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>99 293 592 584 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>4001 -338 598 1888 4000 -343 1200 1897 </string>
+	<string>162 91 570 448 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>4962 6 955 1165 4000 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -4412,7 +4412,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>SauceCodeProNerdFont 12</string>
+			<string>SauceCodePowerline-Regular 12</string>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
@@ -4759,7 +4759,9 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-06-08T00:42:46Z</date>
+	<date>2016-06-29T21:31:43Z</date>
+	<key>SUSkippedVersion</key>
+	<string>3.0.20160620-nightly</string>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Secure Input</key>
