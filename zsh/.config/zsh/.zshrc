@@ -143,7 +143,7 @@ setopt bang_hist                 # !keyword
 # Should be the final thing sourced by zshrc.
 #########################################################################
 
-mods_dir="${DEPS}/zsh-users"
+mods_dir="${XDG_DATA_HOME}/zsh-users"
 
 # ===========================================================================
 # zsh-autosuggestions
@@ -172,7 +172,7 @@ bindkey '^[[B' history-substring-search-down
 #  zsh-syntax-highlighting
 # ===========================================================================
 
-source ${DEPS}/zsh-users/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ${mods_dir}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Fri, 29 Jan 2016 16:44:49 -0800 
 # It's not clear whether we actually need to set these values when using
 # iterm2, as the colors might be over-ridden by iterm2's color scheme.
