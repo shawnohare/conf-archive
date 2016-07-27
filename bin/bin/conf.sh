@@ -543,6 +543,7 @@ init() {
   mkdir -p "${HOME}/bin"
   mkdir -p "${HOME}/var/log"
   mkdir -p "${HOME}/tmp/"
+  mkdir -p "${HOME}/opt/"
   set_ostype
   update_path
   install_git
