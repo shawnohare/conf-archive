@@ -6,9 +6,7 @@
 # PATH 
 # ==========================================================================
 
-if [[ -f "${XDG_CONFIG_HOME}/shell/path.sh" ]]; then
-  source "${XDG_CONFIG_HOME}/shell/path.sh"
+if [ -f "${XDG_CONFIG_HOME}/profile/path" ]; then
+  source "${XDG_CONFIG_HOME}/profile/path" 
 fi
-
-
 

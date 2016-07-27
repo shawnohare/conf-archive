@@ -19,11 +19,8 @@
 #
 
 
-if [[ -f "${HOME}/.config/shell/profile.sh" ]]; then
-  source "${HOME}/.config/shell/profile.sh"
-fi
+[ -f ~/.profile ] && source ~/.profile
 
-# zsh
+HISTFILE="${XDG_STATE_HOME}/zsh_history"
 export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
-export HISTFILE="${HOME}/var/zsh/history"
 

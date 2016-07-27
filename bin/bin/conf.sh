@@ -12,10 +12,13 @@
 # the corresponding environment variable if that variable is set and
 # not null, or to the default substitution listed after the :-
 # We follow the convention that add-ons go in ~/opt and logs in ~/var
+# For the XDG specification, one good resource is:
+# https://wiki.debian.org/XDGBaseDirectorySpecification
 # ---------------------------------------------------------------------------
 readonly XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
 readonly XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
 readonly XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
+readonly XDG_STATE_HOME="${XDG_STATE_HOME:-${HOME}/.state}"
 
 readonly DOTFILES_NAME="${DOTFILES_NAME:-dotfiles}"
 readonly DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
@@ -516,10 +519,29 @@ cmd_zsh() {
   exit 0
 }
 
+# makes dirs, sets the shell, etc.
+cmd_init() {
+  echo "Initializing."
+  cd ${HOME}
+  mkdir -p "${XDG_CONFIG_HOME}"
+  mkdir -p "${XDG_DATA_HOME}"
+  mkdir -p "${XDG_CACHE_HOME}"
+  mkdir -p "${XDG_STATE_HOME}"
+  mkdir -p "${HOME}/bin"
+  mkdir -p "${HOME}/var/log"
+  mkdir -p "${HOME}/tmp/"
+  mkdir -p "${HOME}/opt/"
+  install_git
+  install "stow" # symlink farm
+  get_git_repo "${DOTFILES_REPO}" "${DOTFILES}" # fetch the dotfiles repo
+  setup_zsh
+
+}
+
 parse_cmd() {
   local cmd="${1}"
   case "${cmd}" in
-    deps | install | link | zsh )
+    deps | init | install | link | zsh )
       # Execute the named command and pass it the args that follow.
       # For example, "cmd_${@}" could expand to cmd_foo arg1 arg2 arg3.
       "cmd_${@}"
@@ -532,29 +554,14 @@ parse_cmd() {
   esac
 }
 
-init() {
-  echo "Initializing."
-  parse_opts "${@}"
-
-  cd ${HOME}
-  mkdir -p "${XDG_CONFIG_HOME}"
-  mkdir -p "${XDG_DATA_HOME}"
-  mkdir -p "${XDG_CACHE_HOME}"
-  mkdir -p "${HOME}/bin"
-  mkdir -p "${HOME}/var/log"
-  mkdir -p "${HOME}/tmp/"
-  mkdir -p "${HOME}/opt/"
-  set_ostype
-  update_path
-  install_git
-  install "stow" # symlink farm
-  get_git_repo "${DOTFILES_REPO}" "${DOTFILES}" # fetch the dotfiles repo
-  "${ostype}_init"
-}
 
 
 main() {
-  init "${@}"
+  # init
+  parse_opts "${@}"
+  "${ostype}_init"
+  set_ostype
+  update_path
   shift $((OPTIND - 1)) # shift past options to sub-commands 
   echo --debug "Input commands: ${@}"
 

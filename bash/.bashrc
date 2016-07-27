@@ -1,9 +1,7 @@
+[ -f ~/.profile ] && source ~/.profile
 
-source "${HOME}/.config/shell/profile.sh"
-source "${HOME}/.config/shell/path.sh"
-
-if [ -e /Users/shawn/.nix-profile/etc/profile.d/nix.sh ]; then 
-  . /Users/shawn/.nix-profile/etc/profile.d/nix.sh; 
-fi # added by Nix installer
-
+if [ -f "${XDG_CONFIG_HOME}/profile/path" ]; then
+  source "${XDG_CONFIG_HOME}/profile/path" 
+fi
+HISTFILE="${XDG_STATE_HOME}/bash_history"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

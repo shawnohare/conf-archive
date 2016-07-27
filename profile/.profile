@@ -1,13 +1,18 @@
 # common bash-like shell profile
+# .profile was the login script filename originally used by /bin/sh
+# bash will read it if it exists.  
 
 # ====================================================================== 
 # Exports
 # ====================================================================== 
 
 # XDG
-export XDG_DATA_HOME="${HOME}/.local/share"
+# For the XDG specification, one good resource is:
+# https://wiki.debian.org/XDGBaseDirectorySpecification
 export XDG_CONFIG_HOME="${HOME}/.config"
-export XDG_CACHE_HOME="${HOME}/.cache"
+export XDG_CACHE_HOME="${HOME}/.cache" # can be wiped after reboot, non-essential
+export XDG_DATA_HOME="${HOME}/.local/share" # 
+export XDG_STATE_HOME="${HOME}/.local/state" # can persist after reboot: logs
 
 # User
 export DOTFILES="${HOME}/dotfiles"
