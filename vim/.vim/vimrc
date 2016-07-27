@@ -146,7 +146,7 @@ call plug#end()
 " Airline
 " --------------------------------------------------------------------------
 " For nice looking powerline symbols.
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 " Automatically display buffers when only one tab is open.
 let g:airline#extension#tabline#enabled = 1
  " Show just the file name
@@ -155,7 +155,7 @@ let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#eclim#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline_theme='onedark'
-let g:airline_theme='gruvbox'
+" let g:airline_theme='gruvbox'
 
 " --------------------------------------------------------------------------
 " delimitMate
