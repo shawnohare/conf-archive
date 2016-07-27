@@ -1,6 +1,6 @@
-# common bash-like shell profile
-# .profile was the login script filename originally used by /bin/sh
-# bash will read it if it exists.  
+## ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash, if ~/.bash_profile or ~/.bash_login exists.
+# See /usr/share/doc/bash/examples/startup-files for examples.
 
 # ====================================================================== 
 # Exports

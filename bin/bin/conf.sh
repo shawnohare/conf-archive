@@ -559,10 +559,10 @@ parse_cmd() {
 main() {
   # init
   parse_opts "${@}"
+  shift $((OPTIND - 1)) # shift past options to sub-commands 
   "${ostype}_init"
   set_ostype
   update_path
-  shift $((OPTIND - 1)) # shift past options to sub-commands 
   echo --debug "Input commands: ${@}"
 
   # Set up echoging, if necessary.  This is controlled by the -l option. 
