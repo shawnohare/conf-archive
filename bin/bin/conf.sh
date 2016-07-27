@@ -2,22 +2,28 @@
 
 # TODO
 # 1. Better initialization
+# 2. Consider using /opt/dotfiles/ or ~/opt/dotfiles for dotfiles dependencies rather than
+#    the XDG_DATA_HOME location?
+# 2. Consider putting the hist file in ~/var/zsh/history or something
 
 # ---------------------------------------------------------------------------
 # Global Constants 
 # These will be set to the value of
 # the corresponding environment variable if that variable is set and
 # not null, or to the default substitution listed after the :-
+# We follow the convention that add-ons go in ~/opt and logs in ~/var
 # ---------------------------------------------------------------------------
 readonly XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
 readonly XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
 readonly XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
+
 readonly DOTFILES_NAME="${DOTFILES_NAME:-dotfiles}"
-readonly LOGGING_DIR="${LOGGING_DIR:-${HOME}/var/log/}"
-readonly DOTFILES_LOG="${DOTFILES_LOG:-${HOME}/var/log/${DOTFILES_NAME}}"
 readonly DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
+readonly DOTFILES_DEPS="${DOTFILES_DEPS:-${HOME}/opt}"
+readonly LOGFILE="${LOGFILE:-${HOME}/var/log/dotfiles/conf.log}"
 readonly DOTFILES="${DOTFILES:-${HOME}/${DOTFILES_NAME}}"
-readonly BREWFILE="${BREWFILE:-${DOTFILES}/homebrew/Brewfile}"
+readonly BREWFILE="${BREWFILE:-${DOTFILES}/homebrew/.config/homebrew/Brewfile}"
+
 
 # ---------------------------------------------------------------------------
 # Global variables 
@@ -123,13 +129,27 @@ set_ostype() {
   echo --debug "ostype value: ${ostype}"
 }
 
-# Clone <remote repo> <local destination> <opt>.
-# The final option can be:
+# Clone <remote repo> <local destination>
+# Usage: get_git_repo [...] remote local
 # update (to update the git repository if exists already)
 get_git_repo() {
-  local remote="$1"; shift
-  local loc="$1"; shift
-  local opt="$1"; shift
+  local update=false
+
+  while true; do
+    case $1 in
+      "--update" | "-u")
+        update=true
+        shift
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  local remote="$1"
+  local loc="$2"
+
 
   # Error if both arguments are not provided. 
   if [[ -z "${remote+x}" || -z "${loc+x}" ]]; then
@@ -137,12 +157,18 @@ get_git_repo() {
     return 1
   fi
 
+  echo --debug "Checking for git repo in ${loc}"
   if [[ ! -d "${loc}" ]]; then
-    echo --debug "Cloning git repo ${remote} to ${loc}"
+    echo --debug "Cloning ${remote} to ${loc}"
     mkdir -p "${loc}"
     git clone --recursive "${remote}" "${loc}"
+    return 0
   else
     echo --debug "Dir ${loc} already exists."
+  fi
+
+  if $update; then
+    echo --debug "Updating ${remote} in ${loc}  "
     cd "${loc}"
 
     # Check whether there are changes.
@@ -150,19 +176,16 @@ get_git_repo() {
       echo --debug "There are local unstaged changes in ${loc}.  Not updating repo."
       return 1
     fi  
+
     if ! $(git diff --cached --quiet); then
       echo --debug "There are staged, uncomitted changes in ${loc}.  Not updating repo."
       return 1
     fi
-    
-    if [[ "${opt}" == "update" ]]; then
-      echo --debug "Updating git repo in ${loc}."
-      git pull
-    fi
+    echo --debug "Updated git repo in ${loc}"
   fi
 }
 
-# Get or update a dependency hosted by Github.
+# Get or update a config dependency hosted by Github.
 # Wrapper for get_git_repo
 get_github_dep() {
   local repo="$1";
@@ -170,7 +193,7 @@ get_github_dep() {
     echo --debug "Repository name required."
     exit 1
   fi
-  get_git_repo "https://github.com/${repo}.git" "${XDG_DATA_HOME}/${repo}" "update"
+  get_git_repo -u "https://github.com/${repo}.git" "${DOTFILES_DEPS}/${repo}"
 }
 
 # ---------------------------------------------------------------------------
@@ -291,31 +314,30 @@ install_git() {
 # ---------------------------------------------------------------------------
 
 setup_zsh() {
+  echo "Setting up zsh."
   install "zsh"
   local zsh_path="$(which zsh)"
+  echo --debug "zsh path: ${zsh_path}"
 
-  # Append Homebrewed zsh path to /etc/shells to authorize it as a echoin shell
-  if [[ -z $(grep "${zsh_path} /etc/shells") ]]; then 
-    echo "Adding zsh path to /etc/shells."
-    sudo echo "${zsh_path}" | tee -a /etc/shells
+  # Append Homebrewed zsh path to /etc/shells to authorize it as a login shell
+  if [[ -z $(grep "${zsh_path}" /etc/shells) ]]; then 
+    echo "Adding ${zsh_path} to /etc/shells."
+    printf "${zsh_path}" | sudo tee -a /etc/shells
   fi
 
   # Change this user's default shell to Homebrewed zsh
   if [[ ${SHELL} != "${zsh_path}" ]]; then
     echo "Changing this user's default shell to zsh."
-    sudo chsh -s "${zsh_path}" "${USER}"
+    chsh -s "${zsh_path}" "${USER}"
   fi
+  return 0
 }
-
-
-
-
 
 
 # Get external dependencies that are not otherwise managed.
 get_deps() {
   if $dry; then
-    echo "In quick mode.  Not getting external deps."
+    echo "Dry run.  Not getting external repos."
     return 0
   fi
 
@@ -324,6 +346,9 @@ get_deps() {
   get_github_dep "zsh-users/zsh-syntax-highlighting"
   get_github_dep "zsh-users/zsh-completions"
   get_github_dep "zsh-users/zsh-autosuggestions"
+  get_github_dep "powerline/fonts"
+  # Install powerline fonts.
+  bash "${XDG_DATA_HOME}/powerline/fonts/install.sh"
 }
 
 
@@ -348,7 +373,7 @@ Arguments:
 
 -a arg : do something with a_arg
 -h : print this help message.
--l : echo to the echofile specified in the DOTFILES_LOG env variable.
+-l : echo to the echofile specified in the LOGFILE env variable.
 -v : run in verbose mode to print debugging statements.
 -q : run in quick mode.  No packages are installed. Deprecated.  Use commands.
 
@@ -437,7 +462,7 @@ link_dir() {
 cmd_link() {
   cd "${DOTFILES}"
 
-  local ignores="ignore"
+  local ignores="emacs|ignore"
   while true; do
     case $1 in
       "--dir" | "-d")
@@ -478,15 +503,23 @@ cmd_deps() {
 cmd_install() {
   echo "Installing dotfiles."
   cmd_deps
-  install_pkgs
+  setup_zsh
+  # TODO manually install these big packages perhaps
+  # install_pkgs
   cmd_link
   echo "Finished."
+}
+
+# FIXME for testing purposes
+cmd_zsh() {
+  setup_zsh
+  exit 0
 }
 
 parse_cmd() {
   local cmd="${1}"
   case "${cmd}" in
-    deps | install | link )
+    deps | install | link | zsh )
       # Execute the named command and pass it the args that follow.
       # For example, "cmd_${@}" could expand to cmd_foo arg1 arg2 arg3.
       "cmd_${@}"
@@ -509,6 +542,7 @@ init() {
   mkdir -p "${XDG_CACHE_HOME}"
   mkdir -p "${HOME}/bin"
   mkdir -p "${HOME}/var/log"
+  mkdir -p "${HOME}/tmp/"
   set_ostype
   update_path
   install_git
@@ -528,9 +562,9 @@ main() {
     # Append to both console and log. In particular, external programs will
     # still push things to the console and echo.
     # http://stackoverflow.com/questions/18460186/writing-outputs-to-echo-file-and-console
-    exec > >(tee -a "${DOTFILES_LOG}" )
-    exec 2> >(tee  -a "${DOTFILES_LOG}" >&2) 
-    echo "Logging to ${DOTFILES_LOG}"
+    exec > >(tee -a "${LOGFILE}" )
+    exec 2> >(tee  -a "${LOGFILE}" >&2) 
+    echo "Logging to ${LOGFILE}"
   fi
 
 

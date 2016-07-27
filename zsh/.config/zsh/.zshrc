@@ -1,5 +1,4 @@
-#
-########################################################################
+# ====================================================================== 
 # zshrc is loaded for interactive shells 
 # TOC
 # - aliases
@@ -11,61 +10,20 @@
 # - modules
 # - options
 # - prompt
-#########################################################################
-
-#########################################################################
-# aliases
-#########################################################################
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias act="activator" # for Typesafe activator
-alias dots="cd ${DOTFILES}"
-alias la="ls -GFlash"
-alias ll="ls -GFlsh"
-alias ls="ls -GF"
+# ====================================================================== 
 
 
-#########################################################################
+
+# ====================================================================== 
 # bindkeys 
-#########################################################################
+# ====================================================================== 
 # vim normal mode keybindings
 bindkey -v 
 
 
-#########################################################################
-# colors 
-# All of these settings enable consistent coloring of the most frequently
-# used parts of the CLI. For historical reasons 'ls', 'less', 'grep', and
-# the completion menu all require separate color settings.
-#########################################################################
-
-# Enable command line color
-export CLICOLOR=1
-# Define colors for the 'ls' command on BSD/Darwin
-# export LSCOLORS='exfxcxdxbxGxDxabagacad'
-# Define colors for the zsh completion system
-export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
-
-# The pager 'less' (the default pager for man-pages) depends on
-# the (obsolete) TERMCAP library for color capabilities. Exporting
-# the following parameters provides for colored man-page display.
-export LESS_TERMCAP_mb=$'\E[01;31m'    # begins blinking = LIGHT_RED
-export LESS_TERMCAP_md=$'\E[0;34m'     # begins bold = BLUE
-export LESS_TERMCAP_me=$'\E[0m'        # ends mode = NO_COLOR
-export LESS_TERMCAP_se=$'\E[0m'        # ends standout-mode = NO_COLOR
-export LESS_TERMCAP_so=$'\E[00;47;30m' # begins standout-mode = REVERSE_WHITE
-export LESS_TERMCAP_ue=$'\E[0m'        # ends underline = NO_COLOR
-export LESS_TERMCAP_us=$'\E[01;32m'    # begins underline = LIGHT_GREEN
-
-# The following provide color highlighing by default for GREP
-# export GREP_COLOR='37;45'
-export GREP_OPTIONS='--color=auto'
-
-
-#########################################################################
+# ====================================================================== 
 # Completion (derived from http://dustri.org/b/my-zsh-configuration.html)
-#########################################################################
+# ====================================================================== 
 
 autoload -U compinit
 compinit
@@ -136,14 +94,13 @@ setopt inc_append_history        # add commands as they are typed, don't wait un
 setopt share_history             # share hist between sessions
 setopt bang_hist                 # !keyword
 
-
-#########################################################################
+# ===========================================================================
 # modules 
 # External modules/add-ons to zsh
 # Should be the final thing sourced by zshrc.
-#########################################################################
+# ===========================================================================
 
-mods_dir="${XDG_DATA_HOME}/zsh-users"
+mods_dir="${DOTFILES_DEPS}/zsh-users"
 
 # ===========================================================================
 # zsh-autosuggestions
@@ -218,9 +175,9 @@ ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=cyan'
 ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=cyan'
 
 
-#########################################################################
+# ====================================================================== 
 # options 
-#########################################################################
+# ====================================================================== 
 # zsh optionso
 # - Options are primarily referred to by name. 
 # These names are case insensitive and underscores are ignored.
@@ -239,9 +196,9 @@ setopt notify
 
 
 
-#
+# ====================================================================== 
 # prompt 
-#########################################################################
+# ====================================================================== 
 
 setopt PROMPT_SUBST      # allow for more extensive expansion in prompts
 setopt TRANSIENT_RPROMPT # right prompt does not persist
@@ -258,11 +215,11 @@ precmd() {
   vcs_info
 }
 
-prompt_indicator='%{%F{yellow}%}>%{%f%}' # prompt indicator
+user_host='%n@%M'
 curr_dir='%{%F{blue}%}%4~%{%f%}'         # current directory
 exit_codes='%(?..%{%F{yellow}%}%?'       # exit codes
-# PROMPT+='%{$%} '                       # $ indicator
-PROMPT='${curr_dir} ${vcs_info_msg_0_}${prompt_indicator} '
+prompt_indicator='%{%F{yellow}%}>%{%f%}' # prompt indicator
+PROMPT='${user_host} ${curr_dir} ${vcs_info_msg_0_}${prompt_indicator} '
 # RPROMPT='%*'                           # time and date
 
 

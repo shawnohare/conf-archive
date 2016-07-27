@@ -17,6 +17,12 @@ To clone this repository along with its submodule dependencies, use
 git clone --recursive https://github.com/shawnohare/dotfiles.git
 ```
 
+## profile
+
+The `profile` dir contains common shell exports, aliases, and etc. that make
+up our shell profile. It is sourced by `~.bash_profile`, `~.bashrc`, and
+`~/.zshenv`
+
 ## Git 
 
 These files live in `${XDG_CONFIG_HOME}/git` and represent the global

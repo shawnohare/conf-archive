@@ -6,3 +6,6 @@
 	default = simple
 [include]
   path = ~/.config/git/config.local
+[user]
+	name = Shawn O'Hare
+	email = ohare.shawn@gmail.com

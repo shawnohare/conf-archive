@@ -16,26 +16,14 @@
 #     source ~/.zpath
 # fi
 #
-# XDG
-export XDG_DATA_HOME="${HOME}/.local/share"
-export XDG_CONFIG_HOME="${HOME}/.config"
-export XDG_CACHE_HOME="${HOME}/.cache"
+#
+
+
+if [[ -f "${HOME}/.config/shell/profile.sh" ]]; then
+  source "${HOME}/.config/shell/profile.sh"
+fi
 
 # zsh
 export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
-export HISTFILE="${XDG_DATA_HOME}/zsh/history"
+export HISTFILE="${HOME}/var/zsh/history"
 
-# User
-export DOTFILES="${HOME}/dotfiles"
-export DEPS="${DOTFILES}/deps"
-
-export EDITOR="nvim"
-export ECLIPSE_HOME="${HOME}/Applications/Eclipse.app/Contents/Eclipse"
-export VISUAL="nvim"
-export BROWSER="safari"
-export BASH="/usr/local/bin/bash"
-
-
-# Neovim
-export NVIM_TUI_ENABLE_TRUE_COLOR=1
-export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
