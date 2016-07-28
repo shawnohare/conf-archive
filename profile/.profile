@@ -67,3 +67,58 @@ alias dots="cd ${DOTFILES}"
 alias la="ls -GFlash"
 alias ll="ls -GFlsh"
 alias ls="ls -GF"
+
+
+# ----------------------------------------------------------------------
+# path 
+# Set in a function so we have greater control over when exactly the path
+# is built
+# ----------------------------------------------------------------------
+# Generic binaries
+# Make sure ~/bin, and usr/local/bin occurs before usr/bin.
+profile_set_path() {
+  PATH="/usr/local/sbin:$PATH"
+  PATH="${HOME}/bin:$PATH"
+
+  # --------------------------------------------------------------------------
+  # Haskell
+  # --------------------------------------------------------------------------
+
+  # GHC For MAC OS X
+  # Add GHC 7.10.1 to the PATH, via https://ghcformacosx.github.io/
+  export GHC_DOT_APP="${HOME}/Applications/ghc-7.10.1.app"
+  if [[ -d "$GHC_DOT_APP" ]]; then
+    PATH="${GHC_DOT_APP}/Contents/bin:${PATH}"
+    PATH="${HOME}/.cabal/bin:${PATH}"
+  fi
+
+  # Look for haskell tools installed by stack
+  # FIXME: remove?
+  # PATH="${HOME}/.stack/programs/:${PATH}"
+  # Use haskell tools in the current sandbox/stack maintained dir. FIXME remove?
+  # PATH=".cabal-sandbox/bin:${PATH}"
+  PATH=".stack_work:${PATH}"
+
+  # --------------------------------------------------------------------------
+  # golang
+  # --------------------------------------------------------------------------
+  export GOPATH="${HOME}/dev/go"
+  PATH="${GOPATH}/bin:${PATH}"
+
+  # --------------------------------------------------------------------------
+  # Python
+  # --------------------------------------------------------------------------
+
+  # pyenv
+  export PYENV_ROOT="/usr/local/var/pyenv"
+  # pyenv init will use PYENV_ROOT or default to ~/.pyenv
+  if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+  #eval "$(pyenv virtualenv-init -)"
+  #
+
+  # --------------------------------------------------------------------------
+  # nix 
+  # --------------------------------------------------------------------------
+  PATH="${HOME}/.nix-profile/bin:${HOME}/nix-profile/sbin:${PATH}"
+  export PATH
+}

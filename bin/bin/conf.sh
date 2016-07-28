@@ -498,6 +498,7 @@ cmd_link() {
 
 }
 
+# get external dependencies such as zsh modules
 cmd_deps() {
   get_deps
   "${ostype}_teardown"
@@ -535,7 +536,6 @@ cmd_init() {
   install "stow" # symlink farm
   get_git_repo "${DOTFILES_REPO}" "${DOTFILES}" # fetch the dotfiles repo
   setup_zsh
-
 }
 
 parse_cmd() {
@@ -560,9 +560,9 @@ main() {
   # init
   parse_opts "${@}"
   shift $((OPTIND - 1)) # shift past options to sub-commands 
-  "${ostype}_init"
   set_ostype
   update_path
+  "${ostype}_init"
   echo --debug "Input commands: ${@}"
 
   # Set up echoging, if necessary.  This is controlled by the -l option. 

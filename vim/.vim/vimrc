@@ -311,7 +311,7 @@ let g:go_fmt_command                 = "goimports"
 " --------------------------------------------------------------------------
 " set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
+" set statuseine+=%*
 
 " Populate location list  is off by default to prevent classes with airline.
 " vim-go sometimes conflicts with syntastic location lists.
@@ -422,7 +422,7 @@ syntax on                    " enable syntax highlighting
 set showmode                 " show current mode at bottom of screen
 set showcmd                  " show (partial) commands below statusline
 " set showmatch                " show matching delimiters
-" set relativenumber           " show relative line numbers
+set relativenumber           " show relative line numbers
 set number                   " show line number of cursor
 " au InsertEnter * :set number " absolute numbers in insert mode
 " au InsertLeave * :set rnu    " relative numbers when leaving insert mode
