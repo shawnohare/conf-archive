@@ -111,6 +111,7 @@ profile_set_path() {
 
   # pyenv
   export PYENV_ROOT="/usr/local/var/pyenv"
+  PATH="${PYENV_ROOT}:${PATH}"
   # pyenv init will use PYENV_ROOT or default to ~/.pyenv
   if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
   #eval "$(pyenv virtualenv-init -)"
