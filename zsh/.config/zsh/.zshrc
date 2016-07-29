@@ -13,6 +13,7 @@
 # ====================================================================== 
 
 # Evoke the .profile (sourced by .zshenv) path setter func.
+[ -f ~/.profile ] && source ~/.profile
 profile_set_path
 
 # ====================================================================== 
@@ -83,6 +84,7 @@ compdef _gnu_generic gdb
 # history 
 #########################################################################
 
+HISTFILE="${XDG_STATE_HOME}/zsh_history"
 HISTSIZE=2048                    # lines to maintain in memory
 SAVEHIST=65536                   # lines to maintain in history file
 setopt extended_history          # include timestamps

@@ -19,8 +19,6 @@
 #
 
 
-[ -f ~/.profile ] && source ~/.profile
-
-HISTFILE="${XDG_STATE_HOME}/zsh_history"
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
 export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 

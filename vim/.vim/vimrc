@@ -37,6 +37,8 @@ Plug 'majutsushi/tagbar'  " display tags in a window
 
 
 " Colorscheme
+" FIXME: Consider using a colorscheme that looks good without truecolor enabled.
+" In particular, nvim in screen looks bad when true color is enabled.
 Plug 'joshdick/onedark.vim'
 Plug 'joshdick/airline-onedark.vim'
 " Plug 'chriskempson/base16-vim'

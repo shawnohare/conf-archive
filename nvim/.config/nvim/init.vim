@@ -1,5 +1,3 @@
-" enable true colors in vim.  This is also enabled in .zshenv.
-set termguicolors " enable 24-bit colors in terminal
 
 " ==========================================================================
 " Python 
@@ -44,6 +42,13 @@ let g:python3_host_prog = '/usr/local/var/pyenv/versions/neovim3/bin/python'
 " let g:terminal_color_2 = '#a3be8c'
 
 source ~/.vim/vimrc
+
+" enable true colors in vim.  This is also enabled in .zshenv.
+" FIXME: if termguicolors is set, an nvim session invoked in screen has
+" imporper colors.  It appears newer versions of screen (4.1.2+) 
+" support truecolor.
+set termguicolors " enable 24-bit colors in terminal
+
 
 " ==========================================================================
 " PLUGIN CONFIG

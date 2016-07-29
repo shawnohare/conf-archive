@@ -18,14 +18,15 @@ export XDG_STATE_HOME="${HOME}/.local/state" # can persist after reboot: logs
 export DOTFILES="${HOME}/dotfiles"
 export DOTFILES_DEPS="${HOME}/opt"
 
-export EDITOR="nvim"
-export ECLIPSE_HOME="${HOME}/Applications/Eclipse.app/Contents/Eclipse"
-export VISUAL="nvim"
-export BROWSER="safari"
+# General
 export BASH="/usr/local/bin/bash"
+export BROWSER="safari"
+export ECLIPSE_HOME="${HOME}/Applications/Eclipse.app/Contents/Eclipse"
+export EDITOR="nvim"
+export SCREENRC="${XDG_CONFIG_HOME}/screen/screenrc"
+export VISUAL="nvim"
 
 # Neovim
-export NVIM_TUI_ENABLE_TRUE_COLOR=1
 export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 # colors 
@@ -76,6 +77,7 @@ alias ls="ls -GF"
 # ----------------------------------------------------------------------
 # Generic binaries
 # Make sure ~/bin, and usr/local/bin occurs before usr/bin.
+export ISPATHSET=false
 profile_set_path() {
   PATH="/usr/local/sbin:$PATH"
   PATH="${HOME}/bin:$PATH"
@@ -122,4 +124,5 @@ profile_set_path() {
   # --------------------------------------------------------------------------
   PATH="${HOME}/.nix-profile/bin:${HOME}/nix-profile/sbin:${PATH}"
   export PATH
+  ISPATHSET=true
 }
