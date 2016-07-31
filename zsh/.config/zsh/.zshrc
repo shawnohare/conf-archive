@@ -13,8 +13,7 @@
 # ====================================================================== 
 
 # Evoke the .profile (sourced by .zshenv) path setter func.
-[ -f ~/.profile ] && source ~/.profile
-profile_set_path
+[ -e ~/.profile ] && source ~/.profile
 
 # ====================================================================== 
 # bindkeys 

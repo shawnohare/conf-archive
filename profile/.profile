@@ -37,7 +37,7 @@ export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 # Enable command line color
 export CLICOLOR=1
 # Define colors for the 'ls' command on BSD/Darwin
-# export LSCOLORS='exfxcxdxbxGxDxabagacad'
+export LSCOLORS='exfxcxdxbxGxDxabagacad'
 # Define colors for the zsh completion system
 export LSCOLORS='exfxcxdxbxGxDxabagacad'
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
@@ -57,72 +57,76 @@ export LESS_TERMCAP_us=$'\E[01;32m'    # begins underline = LIGHT_GREEN
 # export GREP_COLOR='37;45'
 export GREP_OPTIONS='--color=auto'
 
-# ----------------------------------------------------------------------
+# =========================================================================
 # aliases
-# ----------------------------------------------------------------------
+# =========================================================================
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias act="activator" # for Typesafe activator
 alias dots="cd ${DOTFILES}"
+alias ls="ls -GF"
 alias la="ls -GFlash"
 alias ll="ls -GFlsh"
-alias ls="ls -GF"
 
 
-# ----------------------------------------------------------------------
+# =========================================================================
 # path 
 # Set in a function so we have greater control over when exactly the path
 # is built
-# ----------------------------------------------------------------------
+# =========================================================================
+
 # Generic binaries
 # Make sure ~/bin, and usr/local/bin occurs before usr/bin.
-export ISPATHSET=false
-profile_set_path() {
-  PATH="/usr/local/sbin:$PATH"
-  PATH="${HOME}/bin:$PATH"
+PATH="/usr/local/sbin:$PATH"
+PATH="${HOME}/bin:$PATH"
 
-  # --------------------------------------------------------------------------
-  # Haskell
-  # --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+# Haskell
+# FIXME: 2016-07-31T11:38:47-0700 
+# This needs to be updated to reflect best haskell practices.
+# --------------------------------------------------------------------------
 
-  # GHC For MAC OS X
-  # Add GHC 7.10.1 to the PATH, via https://ghcformacosx.github.io/
-  export GHC_DOT_APP="${HOME}/Applications/ghc-7.10.1.app"
-  if [[ -d "$GHC_DOT_APP" ]]; then
-    PATH="${GHC_DOT_APP}/Contents/bin:${PATH}"
-    PATH="${HOME}/.cabal/bin:${PATH}"
-  fi
+# GHC For MAC OS X
+# Add GHC 7.10.1 to the PATH, via https://ghcformacosx.github.io/
+export GHC_DOT_APP="${HOME}/Applications/ghc-7.10.1.app"
+if [[ -d "$GHC_DOT_APP" ]]; then
+  PATH="${GHC_DOT_APP}/Contents/bin:${PATH}"
+  PATH="${HOME}/.cabal/bin:${PATH}"
+fi
 
-  # Look for haskell tools installed by stack
-  # FIXME: remove?
-  # PATH="${HOME}/.stack/programs/:${PATH}"
-  # Use haskell tools in the current sandbox/stack maintained dir. FIXME remove?
-  # PATH=".cabal-sandbox/bin:${PATH}"
-  PATH=".stack_work:${PATH}"
+# Look for haskell tools installed by stack
+# FIXME: remove?
+# PATH="${HOME}/.stack/programs/:${PATH}"
+# Use haskell tools in the current sandbox/stack maintained dir. FIXME remove?
+# PATH=".cabal-sandbox/bin:${PATH}"
+PATH=".stack_work:${PATH}"
 
-  # --------------------------------------------------------------------------
-  # golang
-  # --------------------------------------------------------------------------
-  export GOPATH="${HOME}/dev/go"
-  PATH="${GOPATH}/bin:${PATH}"
+# --------------------------------------------------------------------------
+# golang
+# --------------------------------------------------------------------------
+export GOPATH="${HOME}/dev/go"
+PATH="${GOPATH}/bin:${PATH}"
 
-  # --------------------------------------------------------------------------
-  # Python
-  # --------------------------------------------------------------------------
+# --------------------------------------------------------------------------
+# Python
+# --------------------------------------------------------------------------
 
-  # pyenv
-  export PYENV_ROOT="/usr/local/var/pyenv"
-  PATH="${PYENV_ROOT}:${PATH}"
-  # pyenv init will use PYENV_ROOT or default to ~/.pyenv
-  if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-  #eval "$(pyenv virtualenv-init -)"
-  #
+# pyenv
+export PYENV_ROOT="/usr/local/var/pyenv"
+PATH="${PYENV_ROOT}:${PATH}"
+# pyenv init will use PYENV_ROOT or default to ~/.pyenv
+if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+#eval "$(pyenv virtualenv-init -)"
+#
 
-  # --------------------------------------------------------------------------
-  # nix 
-  # --------------------------------------------------------------------------
-  PATH="${HOME}/.nix-profile/bin:${HOME}/nix-profile/sbin:${PATH}"
-  export PATH
-  ISPATHSET=true
-}
+# --------------------------------------------------------------------------
+# nix 
+# --------------------------------------------------------------------------
+local nix_profile_script="${HOME}/.nix-profile/etc/profile.d/nix.sh"
+if [ -e ${nix_profile_script} ]; then 
+  # the nix.sh script will make the necessary path additions.
+  # It also exports path.
+  source ${nix_profile_script}
+fi
+export PATH

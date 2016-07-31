@@ -23,6 +23,7 @@ sorendition "= yk" # make messages stand out more
 # defbce "on"
 # set TERM to be 256 color but still identified as screen
 term screen-256color
+trucolor on
 
 
 # ======================================================================

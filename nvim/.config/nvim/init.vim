@@ -29,7 +29,7 @@
 " NOTE: The paths apparently must be hardcoded?
 let g:python_host_prog = '/usr/local/var/pyenv/versions/neovim2/bin/python'
 let g:python3_host_prog = '/usr/local/var/pyenv/versions/neovim3/bin/python'
-
+-
 " ---------------------------------------------------------------------------
 " Colorschemes in neovim's terminal emulation mode (:terminal)
 " NOTE: (Sun, 31 Jan 2016 10:30:10 -0800)
@@ -43,10 +43,10 @@ let g:python3_host_prog = '/usr/local/var/pyenv/versions/neovim3/bin/python'
 
 source ~/.vim/vimrc
 
-" enable true colors in vim.  This is also enabled in .zshenv.
+" enable true colors in vim. 
 " FIXME: if termguicolors is set, an nvim session invoked in screen has
 " imporper colors.  It appears newer versions of screen (4.1.2+) 
-" support truecolor.
+" support truecolor
 set termguicolors " enable 24-bit colors in terminal
 
 
