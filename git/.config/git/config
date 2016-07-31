@@ -9,5 +9,5 @@
 [user]
 	name = Shawn O'Hare
 	email = ohare.shawn@gmail.com
-[credentials]
+[credential]
   helper = 'cache --timeout=6048000'
