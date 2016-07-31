@@ -23,6 +23,8 @@ sorendition "= yk" # make messages stand out more
 # defbce "on"
 # set TERM to be 256 color but still identified as screen
 term screen-256color
+# truecolor support was added in a commit on 2015-07-02 in the master
+# branch.  However, this has not been merged in as of screen v4.4.0
 trucolor on
 
 
