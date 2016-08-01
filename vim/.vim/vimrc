@@ -1,4 +1,5 @@
-"==========================================================================
+"
+"=========================================================================
 " .vimrc
 " Settings for VIM
 "==========================================================================
@@ -41,7 +42,7 @@ Plug 'majutsushi/tagbar'  " display tags in a window
 " In particular, nvim in screen looks bad when true color is enabled.
 Plug 'joshdick/onedark.vim'
 Plug 'joshdick/airline-onedark.vim'
-" Plug 'chriskempson/base16-vim'
+Plug 'chriskempson/base16-vim'
 " Plug 'mhartington/oceanic-next' " background too black
 " Plug 'zenorocha/dracula-theme', {'rtp': 'vim'}
 
@@ -156,7 +157,7 @@ let g:airline#extension#tabline#fnamed = ':t'
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#eclim#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
-let g:airline_theme='onedark'
+" let g:airline_theme='onedark'
 " let g:airline_theme='gruvbox'
 
 " --------------------------------------------------------------------------
@@ -448,15 +449,19 @@ set shortmess+=A       " don't show warning for existing swapfiles
 " --------------------------------------------------------------------------
 
 set background=dark
+colorscheme slate " nice default
 " Pre colorscheme invocation.
 " Colorscheme invocation
 " Post colorscheme invocation.
 
+" let base16colorspace=256
 " colorscheme base16-default
-" colorscheme base16-solarized
 " colorscheme base16-tomorrow
 " colorscheme base16-twilight
 " colorscheme base16-railscast
+" colorscheme base16-solarized-dark
+" colorscheme base16-spacemacs
+
 
 " Dracula
 " colorscheme dracula
@@ -467,8 +472,8 @@ set background=dark
 " colorscheme mustard
 
 " One Dark (Atom) theme (https://github.com/joshdick/onedark.vim)
-let g:onedark_terminal_italics=0
-colorscheme onedark
+" let g:onedark_terminal_italics=0
+" colorscheme onedark
 
 " One Dark (Atom) theme (https://github.com/geoffharcout/one-dark.vim)
 " NOTE: Cannot load this and joshdick's onedark theme simultaneously.

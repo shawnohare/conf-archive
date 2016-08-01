@@ -45,9 +45,11 @@ source ~/.vim/vimrc
 
 " enable true colors in vim. 
 " FIXME: if termguicolors is set, an nvim session invoked in screen has
-" imporper colors.  It appears newer versions of screen (4.1.2+) 
+" imporper colors. Truecolor support for screen currently
+" 2016-08-01T10:17:45-0700 exists in a master branch, but as of v4.4 has
+" not been included in a release.
 " support truecolor
-set termguicolors " enable 24-bit colors in terminal
+" set termguicolors " enable 24-bit colors in terminal
 
 
 " ==========================================================================
