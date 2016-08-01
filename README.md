@@ -9,6 +9,12 @@ the correct location.
 
 Dotfiles are generally organized topically.
 
+# Installation
+
+```bash
+curl https://raw.githubusercontent.com/shawnohare/dotfiles/master/bin/bin/conf.sh | bash -s install
+```
+
 ## conf helper script
 
 The conf script int he `bin` dir provides a number of commands to ease the

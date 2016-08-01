@@ -173,26 +173,10 @@ ensure() {
   return 0
 }
 
-# backup a config file / dir if it exists and is not a link
-backup() {
-  if [ -e "$1" ] && [ ! -L "$1" ]; then
-    echo --debug "${1} exists and is not a link.  Backing up."
-    mv "$1" "${1}.backup"
-  fi
-}
 # ---------------------------------------------------------------------------
 # Inititialization 
 # These functions are rather fine-grained so that they are easier to debug.
 # ---------------------------------------------------------------------------
-
-# Update the path if necessary. Useful when testing whether a bin exists.
-# FIXME: deprecated
-update_path() {
-  if [[ ! "${PATH}" =~ "usr.local" ]]; then
-    echo --debug "Appending /usr/local to PATH."
-    PATH="/usr/local:${PATH}"
-  fi
-}
 
 # Attempt to determine the OS type and set the ostype var for use in
 # dynamic function dispatch.
@@ -314,90 +298,18 @@ macos_install_homebrew() {
   fi
 }
 
-# Convenience function to install git
-macos_install_git() {
-  macos_install_xcode
-}
 
-macos_install() {
-  while true; do
-    case $1 in
-      "xcode" | "git")
-        macos_install_xcode
-        shift
-        break
-        ;;
-      "brew" | "homebrew")
-        macos_install_homebrew
-        shift
-        break
-        ;;
-      *)
-        brew install "${@}"
-        break
-        ;;
-    esac
-  done
-
-  return 0
-}
-
-
-# Use brew bundler to install useful external programs listed in the Brewfile.
-macos_install_all() {
-  brew tap Homebrew/bundle
-  echo "Installing packages with Homebrew.  Please be patient!"
-  if $verbose; then
-    brew bundle -v --file="${BREWFILE}"
-  else 
-    brew bundle --file="${BREWFILE}"
-  fi
-}
 
 
 macos_init() {
   macos_install_xcode
-  macos_install_homebrew
+  # macos_install_homebrew
   return 0
 }
 
 macos_teardown() {
   return 0
 }
-
-# ---------------------------------------------------------------------------
-# Generic (OS independent) package-related functions.
-# ---------------------------------------------------------------------------
-
-
-# Attempt to install the input package. This function assumes that the
-# appropriate package manager has been previously installed.  It is
-# essentially a small wrapper for the OS specific install command.
-install() {
-  # Do nothing if the command already exists.
-  local pkg=$1
-  if cmd_exists "${pkg}"; then 
-    # do nothing
-    echo --debug "${1} is already installed."
-    return 0
-  fi
-
-  echo "Installing ${pkg}"
-  "${ostype}_install" "${pkg}" 
-  return 0
-}
-
-# Call the OS specific install git function.
-install_git() {
-  if cmd_exists "git"; then 
-    echo --debug "Git is already installed."
-    return 0
-  else
-    echo --debug "Installing Git."
-    "${ostype}_install_git"
-  fi
-}
-
 
 
 # ---------------------------------------------------------------------------
@@ -434,19 +346,6 @@ get_config_deps() {
   get_github_dep "powerline/fonts"
   # Install powerline fonts.
   $dry || bash "${DOTFILES_DEPS}/powerline/fonts/install.sh"
-}
-
-
-# OS independent package installation function.  Skip if in quick mode.
-# FIXME deprecated
-install_all() {
-  if $dry; then
-    echo --debug "In drymode.  Skipping package installation."
-    return 0
-  fi
-
-  echo --debug "Installing packages."
-  "${ostype}_install_all"
 }
 
 
@@ -711,6 +610,7 @@ cmd_init() {
   cd ${HOME}
 
   # make dirs
+  echo --debug "Making necessary dirs."
   if ! $dry; then
     if [ ! -d "/nix" ]; then
       # wrapped in the conditional so we don't always prompt for password
@@ -729,13 +629,9 @@ cmd_init() {
   # get a minimal set of tools required for the config script
   get_nix
   get_pkg "git"
-  get_pkg "stow"
   get_pkg "zsh"
 
-  ensure "git"
   get_config_deps
-
-  ensure "zsh"
   setup_zsh
 }
 
