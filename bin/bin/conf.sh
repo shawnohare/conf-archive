@@ -406,6 +406,7 @@ setup_zsh() {
 
 # Get external dependencies that are not otherwise managed.
 get_config_deps() {
+  get_git_repo "${DOTFILES_REPO}" "${DOTFILES}"
   get_github_dep "zsh-users/zsh-history-substring-search"
   get_github_dep "zsh-users/zsh-syntax-highlighting"
   get_github_dep "zsh-users/zsh-completions"
@@ -528,7 +529,11 @@ link_dir() {
   $dry || find . -type d -exec mkdir -p -- ${HOME}/{} \;
   cd "${DOTFILES}"
   # call stow with the link_dir options
-  $dry || stow --verbose "${@}" --target="${HOME}" "${dir}" 
+
+  local opts 
+  $verbose && opts="--verbose"
+  opts="${opts} ${@}"
+  $dry || stow ${opts} --target="${HOME}" "${dir}" 
 }
 
 
