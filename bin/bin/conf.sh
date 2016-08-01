@@ -495,6 +495,12 @@ cmd_stow() {
     tar="${1}"
   fi
 
+  # check to make sure the source dir exists.
+  if [ ! -d "${src}" ]; then
+    echo --error "Source dir ${src} does not exist.  Exiting."
+    exit 1
+  fi
+
   echo "Linking ${src}"
 
   # cd "${DOTFILES}/${src}"
