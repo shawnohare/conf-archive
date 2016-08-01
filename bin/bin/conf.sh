@@ -53,6 +53,7 @@ declare logging=false
 # be printed only when the global verbose flag is also set.
 echo() {
   local err=false
+  local prompt=false
   while true; do
     case $1 in
       "--debug" | "--verbose" | "-d" | "-v")
@@ -63,13 +64,24 @@ echo() {
         err=true
         shift
         ;;
+      "--prompt" | "-p")
+        prompt=true
+        shift
+        ;;
       *)
         break
         ;;
     esac
   done
 
-  local msg="[${0}] $(date "+%Y-%m-%d %H:%M:%S")  ${@}\n" 
+  local msg="[${0}] $(date "+%Y-%m-%d %H:%M:%S")  ${@}" 
+
+  if $prompt; then 
+    msg="${msg}: "
+  else
+    msg="${msg}\n"
+  fi
+
   if $err; then
     printf "${msg}" >&2
   else
@@ -154,11 +166,19 @@ ensure() {
 
   # cmd exists, but it's not installed by nix.
   if ! is_pkg_installed ${cmd}; then
-    printf "[${0}] $(date "+%Y-%m-%d %H:%M:%S")  A version of ${cmd} exists outside of nix.  Install with nix? (y/n): " 
+    echo --prompt "A non-nix ${cmd} exists.  Install with nix? (y/n)" 
     read a
     [ $a = "y" ] && get_pkg "${cmd}"
   fi
   return 0
+}
+
+# backup a config file / dir if it exists and is not a link
+backup() {
+  if [ -e "$1" ] && [ ! -L "$1" ]; then
+    echo --debug "${1} exists and is not a link.  Backing up."
+    mv "$1" "${1}.backup"
+  fi
 }
 # ---------------------------------------------------------------------------
 # Inititialization 
@@ -466,9 +486,11 @@ link [--all|-a] [...]
   for the stow command are passed through.  For example
     link --restow : calls stow dir --restow
 
-link --dir|-d dir [...]
+link --dir|-d [--restow|-r] dir [target]
 
-  Link a single directory, using the same logic as with the link command.
+  Link a single directory.  This will copy the dir's structure and symlink
+  any files. If the --restow flag is set, existing symlinks
+  are removed and re-linked.
 
 EOF
 }
@@ -536,6 +558,95 @@ link_dir() {
   $dry || stow ${opts} --target="${HOME}" "${dir}" 
 }
 
+# A crude version of the GNU stow command.  Behavior is similar, except
+# that the default target is the home directory.
+cmd_stow() {
+  local tar="${HOME}"
+  local restow=false
+
+  # see if a target was passed
+  while true; do
+    case $1 in
+      "--restow" | "-R")
+        restow=true
+        shift
+        ;;
+      "--target" | "-t")
+        tar="${2}"
+        shift 2
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  # Parse the source dir
+  if [ -z "${1}" ]; then
+    echo --error "No source dir passed.  Exiting."
+    exit 1
+  fi
+  local src="${1}"
+  shift
+
+  # Parse optional positional target dir.
+  if [ ! -z "${1}" ]; then
+    tar="${1}"
+  fi
+
+  echo "Linking ${src}"
+
+  # cd "${DOTFILES}/${src}"
+  cd ${src}
+
+  # Copy the dir structure to the target and symlink any config files.
+  # in bash > v4 you can recurse using for x in **, but os x ships with bash v3
+  for path in $(find .); do
+    local dest="${tar}/${path}"
+
+    # case that the path is a dir
+    # Make the dir
+    if [ -d "${path}" ]; then
+      echo --debug "Making dir: ${dest}"
+      $dry || mkdir -p "${dest}" 
+      continue
+    fi
+
+    # Check if the destination file already exists.
+    # If it does not exist, link from the dotfiles config.
+    # If it's a link, do nothing.
+    # If it exists and is not a link, ask to back it up and then link.
+    if [ -f "${path}" ]; then
+      # initial existence check
+      if [ -e "${dest}" ]; then
+        if [ -L "${dest}" ]; then
+          if $restow; then
+            echo --debug "Removing link ${dest}" 
+            $dry || rm "${dest}"
+          fi
+        else # backup existing file
+          echo --prompt "Non-linked ${dest} already exists.  Backup and replace with link to dotfiles version? (y/n)"
+          read a
+          if [ "$a" = "y" ]; then
+            local bk="${dest}.backup"
+            echo --debug "Backing up ${dest} to ${bk}"
+           $dry || mv "${dest}" "${bk}"
+          fi
+        fi
+      fi
+
+      if [ ! -e "${dest}" ]; then
+        echo --debug "Linking ${path} to ${dest}"
+        $dry || ln -s "$(pwd)/${path}" "${dest}"
+      fi
+
+      continue
+    fi
+  done
+
+  cd ..
+  return 0
+}
 
 #------------------------------------------------------------------------- 
 # commands
@@ -545,14 +656,14 @@ link_dir() {
 #------------------------------------------------------------------------- 
 # link each folder in the dotfiles root to the home dir.
 cmd_link() {
-  cd "${DOTFILES}"
 
+  cd "${DOTFILES}"
   local ignores="emacs|ignore"
   while true; do
     case $1 in
       "--dir" | "-d")
         shift
-        link_dir "${@}"
+        cmd_stow "${@}"
         break
         ;;
       "--ignore" | "-i")
@@ -566,12 +677,12 @@ cmd_link() {
       *)
         echo --debug "Ignoring ${ignores}"
         for path in *; do
-          [[ -d ${path} ]] || continue # skip non-dirs
+          [[ -d "${path}" ]] || continue # skip non-dirs
           if [[ ${path} =~ ${ignores} ]]; then
             echo "Not linking ignored dir ${path}"
             continue
           fi
-          link_dir "$(basename "${path}")" "${@}"
+          cmd_stow ${@} "$(basename "${path}")" 
         done
         break
         ;;
