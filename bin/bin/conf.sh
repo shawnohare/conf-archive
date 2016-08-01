@@ -541,6 +541,7 @@ parse_opts() {
 # accidentally end up in the dotfiles directories, which can happen
 # when entire directories are linked.
 # TODO: it might be nice to remove the dependency on stow here.
+# FIXME: deprecated
 link_dir() {
   local dir="${1}"
   echo "Linking ${dir}"
@@ -557,6 +558,7 @@ link_dir() {
   opts="${opts} ${@}"
   $dry || stow ${opts} --target="${HOME}" "${dir}" 
 }
+
 
 # A crude version of the GNU stow command.  Behavior is similar, except
 # that the default target is the home directory.
@@ -614,7 +616,7 @@ cmd_stow() {
 
     # Check if the destination file already exists.
     # If it does not exist, link from the dotfiles config.
-    # If it's a link, do nothing.
+    # If it's a link, remove if we are restowing, otherwise do nothing.
     # If it exists and is not a link, ask to back it up and then link.
     if [ -f "${path}" ]; then
       # initial existence check
@@ -624,7 +626,8 @@ cmd_stow() {
             echo --debug "Removing link ${dest}" 
             $dry || rm "${dest}"
           fi
-        else # backup existing file
+        else # file exists and is not a link
+          # Backup file.
           echo --prompt "Non-linked ${dest} already exists.  Backup and replace with link to dotfiles version? (y/n)"
           read a
           if [ "$a" = "y" ]; then
@@ -635,6 +638,7 @@ cmd_stow() {
         fi
       fi
 
+      # Create a symlink from the dotfiles config to the destination.
       if [ ! -e "${dest}" ]; then
         echo --debug "Linking ${path} to ${dest}"
         $dry || ln -s "$(pwd)/${path}" "${dest}"
