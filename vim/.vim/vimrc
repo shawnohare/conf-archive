@@ -49,6 +49,7 @@ Plug 'chriskempson/base16-vim'
 " 24-bit / True / Hex Colorschemes
 " Plug 'geoffharcourt/one-dark.vim' 
 Plug 'morhetz/gruvbox'
+Plug 'jacoborus/tender'
 " Plug 'sts10/vim-mustard'
 
 " Completion
@@ -452,26 +453,18 @@ set shortmess+=A       " don't show warning for existing swapfiles
 " imporper colors. Truecolor support for screen currently
 " 2016-08-01T10:17:45-0700 exists in a master branch, but as of v4.4 has
 " not been included in a release.
-if has('termguicolors')
-  set termguicolors " enable 24-bit colors in terminal
-endif
+set termguicolors " enable 24-bit colors in terminal
 "
 " --------------------------------------------------------------------------
 " Colorscheme
 " --------------------------------------------------------------------------
 
 set background=dark
-colorscheme base16-solar-flare " nice default
-" colorscheme slate " nice default
-" Pre colorscheme invocation.
-" Colorscheme invocation
-" Post colorscheme invocation.
 
-" let base16colorspace=256
-" colorscheme base16-default
-" colorscheme base16-tomorrow
-" colorscheme base16-twilight
-" colorscheme base16-railscast
+" base16 
+" colorscheme base16-solar-flare " brighter solarized, highlight looks bad
+" colorscheme base16-materia " background a bit bright
+" colorscheme slate " nice default
 " colorscheme base16-solarized-dark
 " colorscheme base16-spacemacs
 
@@ -486,7 +479,7 @@ colorscheme base16-solar-flare " nice default
 
 " One Dark (Atom) theme (https://github.com/joshdick/onedark.vim)
 " let g:onedark_terminal_italics=0
-" colorscheme onedark
+colorscheme onedark
 
 " One Dark (Atom) theme (https://github.com/geoffharcout/one-dark.vim)
 " NOTE: Cannot load this and joshdick's onedark theme simultaneously.
