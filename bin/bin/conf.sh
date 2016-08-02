@@ -468,9 +468,9 @@ cmd_stow() {
         restow=true
         shift
         ;;
-      "--target" | "-t")
-        tar="${2}"
-        shift 2
+      --target=* | -t=*)
+        tar="${1#*=}"
+        shift 1 
         ;;
       *)
         break
