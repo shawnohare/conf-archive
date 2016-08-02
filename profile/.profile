@@ -26,9 +26,6 @@ export EDITOR="nvim"
 export SCREENRC="${XDG_CONFIG_HOME}/screen/screenrc"
 export VISUAL="nvim"
 
-# Neovim
-export NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-
 # colors 
 # All of these settings enable consistent coloring of the most frequently
 # used parts of the CLI. For historical reasons 'ls', 'less', 'grep', and
@@ -39,8 +36,13 @@ export CLICOLOR=1
 # Define colors for the 'ls' command on BSD/Darwin
 export LSCOLORS='exfxcxdxbxGxDxabagacad'
 # Define colors for the zsh completion system
-export LSCOLORS='exfxcxdxbxGxDxabagacad'
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
+
+# neovim
+# NOTE: 2016-08-02T13:19:45-0700 
+# truecolor support for neovim can be toggled in init.vim config file now,
+# but we still export this variable to support older versions
+export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 # The pager 'less' (the default pager for man-pages) depends on
 # the (obsolete) TERMCAP library for color capabilities. Exporting
@@ -56,6 +58,8 @@ export LESS_TERMCAP_us=$'\E[01;32m'    # begins underline = LIGHT_GREEN
 # The following provide color highlighing by default for GREP
 # export GREP_COLOR='37;45'
 export GREP_OPTIONS='--color=auto'
+
+
 
 # =========================================================================
 # aliases
