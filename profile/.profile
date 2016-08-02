@@ -78,8 +78,7 @@ alias ll="ls -GFlsh"
 
 # Generic binaries
 # Make sure ~/bin, and usr/local/bin occurs before usr/bin.
-PATH="/usr/local/sbin:$PATH"
-PATH="${HOME}/bin:$PATH"
+PATH="${HOME}/bin:/usr/local/bin:/usr/local/sbin:$PATH"
 
 # --------------------------------------------------------------------------
 # Haskell
@@ -114,7 +113,7 @@ PATH="${GOPATH}/bin:${PATH}"
 
 # pyenv
 export PYENV_ROOT="/usr/local/var/pyenv"
-PATH="${PYENV_ROOT}/bin:${PATH}"
+PATH="${PYENV_ROOT}:${PATH}"
 # pyenv init will use PYENV_ROOT or default to ~/.pyenv
 if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 #eval "$(pyenv virtualenv-init -)"
