@@ -536,7 +536,7 @@ cmd_stow() {
           echo --prompt "Non-linked ${dest} already exists.  Backup and replace with link to dotfiles version? (y/n)"
           read a
           if [ "$a" = "y" ]; then
-            local bk="${dest}.backup"
+            local bk="${dest}.$(date "+%Y-%m-%dT%H:%M:%S").backup"
             echo --debug "Backing up ${dest} to ${bk}"
            $dry || mv "${dest}" "${bk}"
           fi
