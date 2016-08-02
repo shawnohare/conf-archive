@@ -30,6 +30,13 @@
 let g:python_host_prog = '/usr/local/var/pyenv/versions/neovim2/bin/python'
 let g:python3_host_prog = '/usr/local/var/pyenv/versions/neovim3/bin/python'
 -
+
+source ~/.vim/vimrc
+
+" ==========================================================================
+" Colors 
+" ==========================================================================
+"
 " ---------------------------------------------------------------------------
 " Colorschemes in neovim's terminal emulation mode (:terminal)
 " NOTE: (Sun, 31 Jan 2016 10:30:10 -0800)
@@ -40,16 +47,6 @@ let g:python3_host_prog = '/usr/local/var/pyenv/versions/neovim3/bin/python'
 " let g:terminal_color_0 = '#2b303b'
 " let g:terminal_color_1 = '#bf616a'
 " let g:terminal_color_2 = '#a3be8c'
-
-source ~/.vim/vimrc
-
-" enable true colors in vim. 
-" FIXME: if termguicolors is set, an nvim session invoked in screen has
-" imporper colors. Truecolor support for screen currently
-" 2016-08-01T10:17:45-0700 exists in a master branch, but as of v4.4 has
-" not been included in a release.
-" support truecolor
-" set termguicolors " enable 24-bit colors in terminal
 
 
 " ==========================================================================

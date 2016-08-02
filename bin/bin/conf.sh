@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 
 # TODO
-# 1. Better initialization
-# 2. Consider using /opt/dotfiles/ or ~/opt/dotfiles for dotfiles dependencies rather than
-#    the XDG_DATA_HOME location?
 # 2. Consider putting the hist file in ~/var/zsh/history or something
 
-# FIXME 2016-07-31T13:52:48-0700 
-# - Remove update path logic to keep it simple.
+
 
 # ---------------------------------------------------------------------------
 # Global Constants 
@@ -490,11 +486,6 @@ cmd_stow() {
   local src="${1}"
   shift
 
-  # Parse optional positional target dir.
-  if [ ! -z "${1}" ]; then
-    tar="${1}"
-  fi
-
   # check to make sure the source dir exists.
   if [ ! -d "${src}" ]; then
     echo --error "Source dir ${src} does not exist.  Exiting."
@@ -514,9 +505,11 @@ cmd_stow() {
     # case that the path is a dir
     # Make the dir
     if [ -d "${path}" ]; then
-      echo --debug "Making dir: ${dest}"
-      $dry || mkdir -p "${dest}" 
-      continue
+      if [ ! -d "${dest}" ]; then
+        echo --debug "Making dir: ${dest}"
+        $dry || mkdir -p "${dest}" 
+        continue
+      fi
     fi
 
     # Check if the destination file already exists.
@@ -545,8 +538,9 @@ cmd_stow() {
 
       # Create a symlink from the dotfiles config to the destination.
       if [ ! -e "${dest}" ]; then
-        echo --debug "Linking ${path} to ${dest}"
-        $dry || ln -s "$(pwd)/${path}" "${dest}"
+        local fullpath="${DOTFILES}/${src}/${path}"
+        echo --debug "Linking ${fullpath} to ${dest}"
+        $dry || ln -s "${fullpath}" "${dest}"
       fi
 
       continue

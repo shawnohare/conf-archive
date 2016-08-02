@@ -15,30 +15,28 @@ Dotfiles are generally organized topically.
 curl https://raw.githubusercontent.com/shawnohare/dotfiles/master/bin/bin/conf.sh | bash -s install
 ```
 
-## conf helper script
+## conf.sh helper script
 
-The conf script int he `bin` dir provides a number of commands to ease the
-bootstrap and configuration maintenance processes.
+The conf script in the `bin` dir provides a number of commands to ease
+bootstrap and configuration maintenance.
 
 # Manual steps
 
-Many of the steps below are automated for macos by the `conf` script.
-Nonetheless, it's often more simple to just execute the commands manually.
-
-1. Make requisite dirs.
+1. On macOS, install the xcode command line tools: `xcode-select --install`
+1. Get pyenv: `curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash`
 1. Get `git` (`xcode-select --install` for macos or `sudo apt-get git` on ec2 linux)
 1. Get `stow` (`brew install stow` or potentially build from source on macos)
 1. Get dotfiles repo.
 1. `Run ~/dotfiles/bin/bin/conf init (or install)`
 
-## Cloning
+## Clonig
 
 To clone this repository along with its submodule dependencies, use
 ```bash
 git clone --recursive https://github.com/shawnohare/dotfiles.git
 ```
 
-# Configurations
+# Configuration
 
 ## profile
 
