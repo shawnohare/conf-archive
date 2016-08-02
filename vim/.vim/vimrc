@@ -452,7 +452,9 @@ set shortmess+=A       " don't show warning for existing swapfiles
 " imporper colors. Truecolor support for screen currently
 " 2016-08-01T10:17:45-0700 exists in a master branch, but as of v4.4 has
 " not been included in a release.
-set termguicolors " enable 24-bit colors in terminal
+if has('termguicolors')
+  set termguicolors " enable 24-bit colors in terminal
+endif
 "
 " --------------------------------------------------------------------------
 " Colorscheme
