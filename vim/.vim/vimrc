@@ -465,7 +465,7 @@ set background=dark
 " colorscheme base16-solar-flare " brighter solarized, highlight looks bad
 " colorscheme base16-materia " background a bit bright
 " colorscheme slate " nice default
-" colorscheme base16-solarized-dark
+colorscheme base16-solarized-dark
 " colorscheme base16-spacemacs
 
 
@@ -479,7 +479,7 @@ set background=dark
 
 " One Dark (Atom) theme (https://github.com/joshdick/onedark.vim)
 " let g:onedark_terminal_italics=0
-colorscheme onedark
+" colorscheme onedark
 
 " One Dark (Atom) theme (https://github.com/geoffharcout/one-dark.vim)
 " NOTE: Cannot load this and joshdick's onedark theme simultaneously.
