@@ -22,12 +22,17 @@
 bindkey -v 
 
 
+# -------------------------------------------------------------------------
+# changing dirs 
+# -------------------------------------------------------------------------
+autoload -U chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
+
 # ====================================================================== 
 # Completion (derived from http://dustri.org/b/my-zsh-configuration.html)
 # ====================================================================== 
 
-autoload -U compinit
-compinit
+autoload -U compinit && compinit
 zmodload -i zsh/complist
 setopt hash_list_all            # hash everything before completion
 setopt completealiases          # complete alisases
@@ -64,6 +69,7 @@ compdef _gnu_generic gcc
 compdef _gnu_generic gdb
 
 
+
 #########################################################################
 # exports
 #########################################################################
@@ -78,6 +84,16 @@ compdef _gnu_generic gdb
 # functions 
 #########################################################################
 
+
+# -------------------------------------------------------------------------
+# help 
+# -------------------------------------------------------------------------
+autoload -Uz run-help
+autoload -Uz run-help-git
+autoload -Uz run-help-svn
+autoload -Uz run-help-svk
+unalias run-help
+# alias help=run-help
 
 #########################################################################
 # history 
@@ -114,7 +130,6 @@ mods_dir="${DOTFILES_DEPS}/zsh-users"
 # ===========================================================================
 # zsh-completions
 # ===========================================================================
-# fpath=(/usr/local/share/zsh-completions $fpath)
 fpath=(${mods_dir}/zsh-completions $fpath)
 
 # ===========================================================================
@@ -202,15 +217,17 @@ setopt notify
 # prompt 
 # ====================================================================== 
 
+# autoload -U promptinit # allows some builtin prompts to be used
+# promptinit
 setopt PROMPT_SUBST      # allow for more extensive expansion in prompts
-setopt TRANSIENT_RPROMPT # right prompt does not persist
+# setopt TRANSIENT_RPROMPT # right prompt does not persist
 # hostname: cwd [exit status] %
 
 autoload -Uz vcs_info
 
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:git:*' formats '%u%c%{%F{green}%}[%b]%{%f%} '
+zstyle ':vcs_info:git:*' formats 'git:%u%c%{%F{green}%}%b%{%f%} '
 zstyle ':vcs_info:git:*' stagedstr '%{%F{yellow}%}+%{%f%}'
 zstyle ':vcs_info:git:*' unstagedstr '%{%F{red}%}*%{%f%}'
 precmd() {
@@ -218,11 +235,14 @@ precmd() {
 }
 
 user_host='%n@%M'
-curr_dir='%{%F{blue}%}%4~%{%f%}'         # current directory
+curr_dir='%{%F{blue}%}%~%{%f%}'         # current directory
 exit_codes='%(?..%{%F{yellow}%}%?'       # exit codes
 prompt_indicator='%{%F{yellow}%}>%{%f%}' # prompt indicator
-PROMPT='${user_host} ${curr_dir} ${vcs_info_msg_0_}${prompt_indicator} '
-# RPROMPT='%*'                           # time and date
+prompt_time='%D %*'
+PROMPT='${user_host} ${prompt_time}
+${curr_dir} ${vcs_info_msg_0_} ${prompt_indicator} '
+# RPROMPT='%* %D'                           # time and date
+
 
 
 # The following lines were added by compinstall

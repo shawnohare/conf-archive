@@ -42,7 +42,9 @@ Plug 'majutsushi/tagbar'  " display tags in a window
 " In particular, nvim in screen looks bad when true color is enabled.
 Plug 'joshdick/onedark.vim'
 Plug 'joshdick/airline-onedark.vim'
-Plug 'chriskempson/base16-vim'
+" Base16 colorschemes seemed to messs up a few others after they were
+" activated when running inside tmux.
+" Plug 'chriskempson/base16-vim'
 " Plug 'mhartington/oceanic-next' " background too black
 " Plug 'zenorocha/dracula-theme', {'rtp': 'vim'}
 
@@ -502,9 +504,9 @@ colorscheme solarized8_dark
 let g:gruvbox_italicize_comments=1
 " let g:gruvbox_improved_strings=1
 let g:gruvbox_improved_warnings=1
-let g:gruvbox_sign_column="bg0"
+" let g:gruvbox_sign_column="bg0"
 " colorscheme gruvbox
-
+"
 " NOTE Fri, 29 Jan 2016 16:13:41 -0800
 " Setting background to dark conflicts with the Atom onedark theme.
 " Switch between light and dark backgrounds.
