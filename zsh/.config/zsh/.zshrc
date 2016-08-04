@@ -235,7 +235,7 @@ precmd() {
 }
 
 user_host='%n@%M'
-curr_dir='%{%F{blue}%}%~%{%f%}'         # current directory
+curr_dir='%{%F{blue}%}%4~%{%f%}'         # current directory
 exit_codes='%(?..%{%F{yellow}%}%?'       # exit codes
 prompt_indicator='%{%F{yellow}%}>%{%f%}' # prompt indicator
 prompt_time='%* %D'
