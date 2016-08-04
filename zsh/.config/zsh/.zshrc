@@ -234,14 +234,13 @@ precmd() {
   vcs_info
 }
 
-user_host='%n@%M'
+user_host='%n@%m'
 curr_dir='%{%F{blue}%}%4~%{%f%}'         # current directory
 exit_codes='%(?..%{%F{yellow}%}%?'       # exit codes
 prompt_indicator='%{%F{yellow}%}>%{%f%}' # prompt indicator
 prompt_time='%* %D'
-PROMPT='${user_host} ${prompt_time}
-${curr_dir} ${vcs_info_msg_0_} ${prompt_indicator} '
-# RPROMPT='%* %D'                           # time and date
+PROMPT='${user_host} ${curr_dir} ${vcs_info_msg_0_} ${prompt_indicator} '
+RPROMPT='${prompt_time}'                           # time and date
 
 
 
