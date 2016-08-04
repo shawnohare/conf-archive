@@ -238,7 +238,7 @@ user_host='%n@%M'
 curr_dir='%{%F{blue}%}%~%{%f%}'         # current directory
 exit_codes='%(?..%{%F{yellow}%}%?'       # exit codes
 prompt_indicator='%{%F{yellow}%}>%{%f%}' # prompt indicator
-prompt_time='%D %*'
+prompt_time='%* %D'
 PROMPT='${user_host} ${prompt_time}
 ${curr_dir} ${vcs_info_msg_0_} ${prompt_indicator} '
 # RPROMPT='%* %D'                           # time and date
