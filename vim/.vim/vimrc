@@ -51,6 +51,8 @@ Plug 'chriskempson/base16-vim'
 Plug 'morhetz/gruvbox'
 Plug 'jacoborus/tender'
 " Plug 'sts10/vim-mustard'
+Plug 'romainl/flattened' 
+Plug 'lifepillar/vim-solarized8'
 
 " Completion
 " Plug 'Shougo/neocomplete', {'on': 'NeocompleteOn'}
@@ -465,9 +467,12 @@ set background=dark
 " colorscheme base16-solar-flare " brighter solarized, highlight looks bad
 " colorscheme base16-materia " background a bit bright
 " colorscheme slate " nice default
-colorscheme base16-solarized-dark
+" colorscheme base16-solarized-dark
 " colorscheme base16-spacemacs
 
+
+" solarized-like
+colorscheme solarized8_dark
 
 " Dracula
 " colorscheme dracula
