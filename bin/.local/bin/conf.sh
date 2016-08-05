@@ -18,16 +18,16 @@ readonly XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
 readonly XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
 readonly XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
 readonly XDG_STATE_HOME="${XDG_STATE_HOME:-${HOME}/.state}"
-readonly XDG_BIN_HOME="${XDG_STATE_HOME:-${HOME}/.local/bin}"
-readonly XDG_LIB_HOME="${XDG_STATE_HOME:-${HOME}/.local/lib}"
-readonly XDG_VAR_HOME="${XDG_STATE_HOME:-${HOME}/.local/var}"
-readonly XDG_TMP_HOME="${XDG_STATE_HOME:-${HOME}/.local/tmp}"
+readonly XDG_BIN_HOME="${XDG_BIN_HOME:-${HOME}/.local/bin}"
+readonly XDG_LIB_HOME="${XDG_LIB_HOME:-${HOME}/.local/lib}"
+readonly XDG_OPT_HOME="${XDG_OPT_HOME:-${HOME}/.local/opt}"
+readonly XDG_TMP_HOME="${XDG_TMP_HOME:-${HOME}/.local/tmp}"
+readonly XDG_VAR_HOME="${XDG_VAR_HOME:-${HOME}/.local/var}"
 
 # FIXME brewfile is deprecated
 readonly BREWFILE="${BREWFILE:-${DOTFILES}/homebrew/.config/homebrew/Brewfile}"
 readonly DOTFILES_NAME="${DOTFILES_NAME:-dotfiles}"
 readonly DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
-readonly DOTFILES_DEPS="${DOTFILES_DEPS:-${XDG_DATA_HOME}}"
 readonly DOTFILES="${DOTFILES:-${HOME}/${DOTFILES_NAME}}"
 readonly LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
 readonly PYENV_ROOT="${PYENV_ROOT:-${XDG_BIN_HOME}/stow/pyenv}"
@@ -45,6 +45,7 @@ declare verbose=false
 declare dry=false
 declare logging=false
 declare prompt_user=false
+declare experimental=false
 
 # # ---------------------------------------------------------------------------
 # # General helper funcs. 
@@ -293,7 +294,7 @@ get_github_dep() {
     echo --debug "Repository name required."
     exit 1
   fi
-  get_git_repo -u "https://github.com/${repo}.git" "${DOTFILES_DEPS}/${repo}"
+  get_git_repo -u "https://github.com/${repo}.git" "${XDG_OPT_HOME}/${repo}"
 }
 
 # ---------------------------------------------------------------------------
@@ -370,7 +371,7 @@ get_config_deps() {
   get_github_dep "zsh-users/zsh-autosuggestions"
   get_github_dep "powerline/fonts"
   # Install powerline fonts.
-  $dry || bash "${DOTFILES_DEPS}/powerline/fonts/install.sh"
+  $dry || bash "${XDG_OPT_HOME}/powerline/fonts/install.sh"
 }
 
 
@@ -422,7 +423,7 @@ EOF
 # extract any options with getopts
 parse_opts() {
   OPTIND=1
-  while getopts ":a:dhlpv" opt "${@}"; do
+  while getopts ":a:dehlpv" opt "${@}"; do
     case "${opt}" in
       a)
         # option -a is set with argument $OPTARG
@@ -431,6 +432,10 @@ parse_opts() {
       d)
         dry=true
         echo "Dry run. State will not change." 
+        ;;
+      e)
+        experimental=true
+        echo "Experimental commands activated." 
         ;;
       h)
         # print help message
@@ -660,6 +665,7 @@ cmd_init() {
     mkdir -p "${XDG_BIN_HOME}"
     mkdir -p "${XDG_LIB_HOME}"
     mkdir -p "${XDG_TMP_HOME}"
+    mkdir -p "${XDG_OPT_HOME}"
 
     # mkdir -p "${HOME}/bin"
     # mkdir -p "${HOME}/var/log"
@@ -726,20 +732,19 @@ cmd_install() {
 
 parse_cmd() {
   local cmd="${1}"
-  local exp=false
   case "${cmd}" in
     init | install | link | neovim)
       # Execute the named command and pass it the args that follow.
       # For example, "cmd_${@}" could expand to cmd_foo arg1 arg2 arg3.
       "cmd_${@}"
       ;;
-    --experimental | -e)
-      test=true
-      shift
-      ;;
     deps | zsh)
-      # only run if preceeded by --experimental
-      $exp && "cmd_${@}"
+      # only run if preceeded by xperimental
+      if ! $experimental; then
+        echo "Must be run in experimental mode -e."
+      else
+        "cmd_${@}"
+      fi
       ;;
     *)
       echo "Command ${cmd} not recognized".
