@@ -474,7 +474,7 @@ set background=dark
 
 
 " solarized-like
-colorscheme solarized8_dark
+" colorscheme solarized8_dark
 
 " Dracula
 " colorscheme dracula
@@ -500,12 +500,12 @@ colorscheme solarized8_dark
 " Gruvbox 
 " set background=dark
 " let g:gruvbox_contrast_light="hard"
-" let g:gruvbox_italic=1
+let g:gruvbox_italic=1
 let g:gruvbox_italicize_comments=1
 " let g:gruvbox_improved_strings=1
 let g:gruvbox_improved_warnings=1
-" let g:gruvbox_sign_column="bg0"
-" colorscheme gruvbox
+" let g:gruvbox_sign_column="bg0" 
+colorscheme gruvbox
 "
 " NOTE Fri, 29 Jan 2016 16:13:41 -0800
 " Setting background to dark conflicts with the Atom onedark theme.

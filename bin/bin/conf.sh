@@ -19,13 +19,14 @@ readonly XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
 readonly XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
 readonly XDG_STATE_HOME="${XDG_STATE_HOME:-${HOME}/.state}"
 
+# FIXME brewfile is deprecated
+readonly BREWFILE="${BREWFILE:-${DOTFILES}/homebrew/.config/homebrew/Brewfile}"
 readonly DOTFILES_NAME="${DOTFILES_NAME:-dotfiles}"
 readonly DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
 readonly DOTFILES_DEPS="${DOTFILES_DEPS:-${HOME}/opt}"
-readonly LOGFILE="${LOGFILE:-${HOME}/var/log/dotfiles/conf.log}"
 readonly DOTFILES="${DOTFILES:-${HOME}/${DOTFILES_NAME}}"
-# FIXME brewfile is deprecated
-readonly BREWFILE="${BREWFILE:-${DOTFILES}/homebrew/.config/homebrew/Brewfile}"
+readonly LOGFILE="${LOGFILE:-${HOME}/var/log/dotfiles/conf.log}"
+readonly PYENV_ROOT="${PYENV_ROOT:-/usr/local/var/pyenv}"
 
 # ensure the path includes local binaries in case we are in an odd state
 PATH="${HOME}/.nix-profile/bin:${HOME}/bin:/usr/local/bin:${PATH}"
@@ -39,6 +40,7 @@ declare ostype
 declare verbose=false 
 declare dry=false
 declare logging=false
+declare prompt_user=false
 
 # # ---------------------------------------------------------------------------
 # # General helper funcs. 
@@ -137,6 +139,20 @@ get_nix() {
   fi
 }
 
+# install pyenv
+get_pyenv() {
+  if [ ! posix_exists "pyenv" ]; then
+    echo "Installing pyenv."
+    $dry && curl -L "https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer" | bash
+  fi
+}
+
+# neovim requires somewhat special treatment because the binary is nvim
+# TODO: Consider building from source here.
+get_neovim() {
+  ensure "neovim"
+}
+
 
 # get a pkg using nix if it does not already exist
 get_pkg() {
@@ -162,9 +178,14 @@ ensure() {
 
   # cmd exists, but it's not installed by nix.
   if ! is_pkg_installed ${cmd}; then
-    echo --prompt "A non-nix ${cmd} exists.  Install with nix? (y/n)" 
-    read a
-    [ $a = "y" ] && get_pkg "${cmd}"
+    local get_nix_version=true
+    if $prompt_user; then
+      echo --prompt "A non-nix ${cmd} exists.  Install with nix? (y/n)" 
+      read a
+      [ "${a}" = "n" ] && get_nix_version=false
+    fi
+
+    $get_nix_version && get_pkg "${cmd}"
   fi
   return 0
 }
@@ -393,7 +414,7 @@ EOF
 # extract any options with getopts
 parse_opts() {
   OPTIND=1
-  while getopts ":a:dlvh" opt "${@}"; do
+  while getopts ":a:dhlpv" opt "${@}"; do
     case "${opt}" in
       a)
         # option -a is set with argument $OPTARG
@@ -410,6 +431,10 @@ parse_opts() {
         ;;
       l)
         logging=true
+        ;;
+      p)
+        prompt_user=true
+        echo "User prompts enabled." 
         ;;
       v)
         verbose=true 
@@ -526,12 +551,16 @@ cmd_stow() {
           fi
         else # file exists and is not a link
           # Backup file.
-          echo --prompt "Non-linked ${dest} already exists.  Backup and replace with link to dotfiles version? (y/n)"
-          read a
-          if [ "$a" = "y" ]; then
+          local should_backup=true
+          if $prompt_user; then
+            echo --prompt "Non-linked ${dest} already exists.  Backup and replace with link to dotfiles version? (y/n)"
+            read a
+            [ "${a}" = n ] && should_backup=false
+          fi
+          if $should_backup; then
             local bk="${dest}.$(date "+%Y-%m-%dT%H:%M:%S").backup"
             echo --debug "Backing up ${dest} to ${bk}"
-           $dry || mv "${dest}" "${bk}"
+            $dry || mv "${dest}" "${bk}"
           fi
         fi
       fi
@@ -635,11 +664,37 @@ cmd_init() {
   setup_zsh
 }
 
-cmd_install() {
-  echo "Installing dotfiles."
-  cmd_init
-  cmd_link
-  echo "Finished installing."
+cmd_neovim() {
+  require "curl"
+
+  # install neovim: maybe this should be done via source?
+  get_neovim
+  get_penv
+
+  # create virtual envs for neovim
+  # NOTE: the versions here should be updated occasionally
+  if ! $dry; then
+    pyenv install 2.7.12
+    pyenv install 3.5.2
+    pyenv virtualenv 2.7.12 "neovim2"
+    pyenv virtualenv 3.5.2 "neovim3"
+  fi
+  local venvs=( "neovim2" "neovim3" )
+  for venv in ${venvs[@]}; do
+    echo --debug "Creating neovim venv ${venv}"
+    if ! $dry; then
+      pyenv activate "${venv}"
+      pip install --upgrade pip
+      pip install "neovim"
+      pip install "flake8"
+      pip install "jedi"
+      deactivate
+    fi
+  done
+
+  # link some python binaries to ~/bin so they are available everywhere
+  $dry || ln -s "${PYENV_ROOT}/versions/neovim3/bin/flake8" "${HOME}/bin/flake8"
+  return 0
 }
 
 # FIXME for testing purposes
@@ -649,12 +704,19 @@ cmd_zsh() {
   exit 0
 }
 
+cmd_install() {
+  echo "Installing dotfiles."
+  cmd_init
+  cmd_neovim
+  cmd_link
+  echo "Finished installing."
+}
 
 parse_cmd() {
   local cmd="${1}"
   local exp=false
   case "${cmd}" in
-    init | install | link)
+    init | install | link | neovim)
       # Execute the named command and pass it the args that follow.
       # For example, "cmd_${@}" could expand to cmd_foo arg1 arg2 arg3.
       "cmd_${@}"
