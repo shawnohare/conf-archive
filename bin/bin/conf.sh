@@ -669,7 +669,7 @@ cmd_neovim() {
 
   # install neovim: maybe this should be done via source?
   get_neovim
-  get_penv
+  get_pyenv
 
   # create virtual envs for neovim
   # NOTE: the versions here should be updated occasionally
