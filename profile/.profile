@@ -92,7 +92,7 @@ fi
 
 # Generic binaries
 # Make sure ~/bin, and usr/local/bin occurs before usr/bin.
-PATH="${XDG_BIN_HOME}:/usr/local/bin:/usr/local/sbin:$PATH"
+PATH="${HOME}/bin:${XDG_BIN_HOME}:/usr/local/bin:/usr/local/sbin:$PATH"
 
 # --------------------------------------------------------------------------
 # Haskell
