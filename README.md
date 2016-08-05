@@ -12,7 +12,7 @@ Dotfiles are generally organized topically.
 # Installation
 
 ```bash
-curl https://raw.githubusercontent.com/shawnohare/dotfiles/master/bin/bin/conf.sh | bash -s install
+curl https://raw.githubusercontent.com/shawnohare/dotfiles/master/install | bash
 ```
 
 ## conf.sh helper script
