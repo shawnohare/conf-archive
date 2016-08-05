@@ -118,7 +118,7 @@ setopt bang_hist                 # !keyword
 # Should be the final thing sourced by zshrc.
 # ===========================================================================
 
-mods_dir="${DOTFILES_DEPS}/zsh-users"
+mods_dir="${XDG_DATA_HOME}/zsh-users"
 
 # ===========================================================================
 # zsh-autosuggestions

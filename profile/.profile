@@ -11,12 +11,15 @@
 # https://wiki.debian.org/XDGBaseDirectorySpecification
 export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_CACHE_HOME="${HOME}/.cache" # can be wiped after reboot, non-essential
-export XDG_DATA_HOME="${HOME}/.local/share" # 
+export XDG_DATA_HOME="${HOME}/.local/share" # plugins can go here
 export XDG_STATE_HOME="${HOME}/.local/state" # can persist after reboot: logs
+# personal XDG-like vars
+export XDG_BIN_HOME="${HOME}/.local/bin"
+export XDG_LIB_HOME="${HOME}/.local/lib"  # no real use yet
+export XDG_VAR_HOME="${HOME}/.local/var" 
 
 # User
 export DOTFILES="${HOME}/dotfiles"
-export DOTFILES_DEPS="${HOME}/opt"
 
 # General
 export BASH="/usr/local/bin/bash"
@@ -88,7 +91,7 @@ fi
 
 # Generic binaries
 # Make sure ~/bin, and usr/local/bin occurs before usr/bin.
-PATH="${HOME}/bin:/usr/local/bin:/usr/local/sbin:$PATH"
+PATH="${XDG_BIN_HOME}:/usr/local/bin:/usr/local/sbin:$PATH"
 
 # --------------------------------------------------------------------------
 # Haskell
@@ -122,10 +125,9 @@ PATH="${GOPATH}/bin:${PATH}"
 # --------------------------------------------------------------------------
 
 # pyenv
-export PYENV_ROOT="/usr/local/var/pyenv"
+export PYENV_ROOT="${XDG_BIN_HOME}/stow/pyenv"
 # pyenv init will use PYENV_ROOT or default to ~/.pyenv
 if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-#eval "$(pyenv virtualenv-init -)"
 #
 
 # --------------------------------------------------------------------------

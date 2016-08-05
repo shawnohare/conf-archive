@@ -18,18 +18,22 @@ readonly XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
 readonly XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
 readonly XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
 readonly XDG_STATE_HOME="${XDG_STATE_HOME:-${HOME}/.state}"
+readonly XDG_BIN_HOME="${XDG_STATE_HOME:-${HOME}/.local/bin}"
+readonly XDG_LIB_HOME="${XDG_STATE_HOME:-${HOME}/.local/lib}"
+readonly XDG_VAR_HOME="${XDG_STATE_HOME:-${HOME}/.local/var}"
+readonly XDG_TMP_HOME="${XDG_STATE_HOME:-${HOME}/.local/tmp}"
 
 # FIXME brewfile is deprecated
 readonly BREWFILE="${BREWFILE:-${DOTFILES}/homebrew/.config/homebrew/Brewfile}"
 readonly DOTFILES_NAME="${DOTFILES_NAME:-dotfiles}"
 readonly DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
-readonly DOTFILES_DEPS="${DOTFILES_DEPS:-${HOME}/opt}"
+readonly DOTFILES_DEPS="${DOTFILES_DEPS:-${XDG_DATA_HOME}}"
 readonly DOTFILES="${DOTFILES:-${HOME}/${DOTFILES_NAME}}"
-readonly LOGFILE="${LOGFILE:-${HOME}/var/log/dotfiles/conf.log}"
-readonly PYENV_ROOT="${PYENV_ROOT:-/usr/local/var/pyenv}"
+readonly LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
+readonly PYENV_ROOT="${PYENV_ROOT:-${XDG_BIN_HOME}/stow/pyenv}"
 
 # ensure the path includes local binaries in case we are in an odd state
-PATH="${HOME}/.nix-profile/bin:${HOME}/bin:/usr/local/bin:${PATH}"
+PATH="${HOME}/.nix-profile/bin:${XDG_BIN_HOME}:/usr/local/bin:${PATH}"
 
 
 # ---------------------------------------------------------------------------
@@ -143,8 +147,12 @@ get_nix() {
 get_pyenv() {
   if ! posix_exists "pyenv"; then
     echo "Installing pyenv."
-    $dry && curl -L "https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer" | bash
+    $dry || curl -L "https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer" | bash
   fi
+  # NOTE: pyenv init seems to move everything to shims
+  # link the pyenv binary
+  $dry || ln -s "${PYENV_ROOT}/bin/pyenv" "${XDG_BIN_HOME}/pyenv" 
+  eval "$(${PYENV_ROOT}/bin/pyenv init -)" 
 }
 
 # neovim requires somewhat special treatment because the binary is nvim
@@ -649,10 +657,14 @@ cmd_init() {
     mkdir -p "${XDG_DATA_HOME}"
     mkdir -p "${XDG_CACHE_HOME}"
     mkdir -p "${XDG_STATE_HOME}"
-    mkdir -p "${HOME}/bin"
-    mkdir -p "${HOME}/var/log"
-    mkdir -p "${HOME}/tmp/"
-    mkdir -p "${HOME}/opt/"
+    mkdir -p "${XDG_BIN_HOME}"
+    mkdir -p "${XDG_LIB_HOME}"
+    mkdir -p "${XDG_TMP_HOME}"
+
+    # mkdir -p "${HOME}/bin"
+    # mkdir -p "${HOME}/var/log"
+    # mkdir -p "${HOME}/tmp/"
+    # mkdir -p "${HOME}/opt/"
   fi
 
   # get a minimal set of tools required for the config script
@@ -668,7 +680,7 @@ cmd_neovim() {
   require "curl"
 
   # install neovim: maybe this should be done via source?
-  get_neovim
+  get_neovim # FIXME uncomment
   get_pyenv
 
   # create virtual envs for neovim
