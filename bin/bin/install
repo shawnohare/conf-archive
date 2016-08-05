@@ -1,0 +1,3 @@
+cd "${HOME}"
+git clone https://github.com/shawnohare/dotfiles.git
+. ~/dotfiles/bin/bin/conf.sh install
