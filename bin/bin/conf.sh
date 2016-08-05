@@ -141,7 +141,7 @@ get_nix() {
 
 # install pyenv
 get_pyenv() {
-  if [ ! posix_exists "pyenv" ]; then
+  if ! posix_exists "pyenv"; then
     echo "Installing pyenv."
     $dry && curl -L "https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer" | bash
   fi
