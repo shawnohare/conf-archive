@@ -153,13 +153,7 @@ get_pyenv() {
   # NOTE: pyenv init seems to move everything to shims
   # link the pyenv binary
   $dry || ln -s "${PYENV_ROOT}/bin/pyenv" "${XDG_BIN_HOME}/pyenv" 
-  eval "$(${PYENV_ROOT}/bin/pyenv init -)" 
-}
-
-# neovim requires somewhat special treatment because the binary is nvim
-# TODO: Consider building from source here.
-get_neovim() {
-  ensure "neovim"
+  eval "$(pyenv init -)" 
 }
 
 
@@ -174,14 +168,16 @@ get_pkg() {
   fi
 }
 
-# ensure a command exists.  If it doesn't, install with nix.  If it does
+# ensure a command $1 exists.  If it doesn't, install $2 with nix.  If it does
 # exist but is not managed by nix, prompt the user if they want to install
 # with nix.
 ensure() {
   local cmd=$1
+  local pkg=$2
+  if [ -z "${pkg}" ]; then pkg="${cmd}"; fi
 
   if ! posix_exists ${cmd}; then
-    get_pkg "${cmd}"
+    get_pkg "${pkg}"
     return 0
   fi
 
@@ -682,20 +678,23 @@ cmd_init() {
   setup_zsh
 }
 
-cmd_neovim() {
+cmd_python() {
   require "curl"
 
-  # install neovim: maybe this should be done via source?
-  get_neovim # FIXME uncomment
+  # Define the stable versions of python
+  local vmain="3.5.2"
+  local v3="${vtools}"
+  local v2="2.7.12"
+
   get_pyenv
 
   # create virtual envs for neovim
   # NOTE: the versions here should be updated occasionally
   if ! $dry; then
-    pyenv install 2.7.12
-    pyenv install 3.5.2
-    pyenv virtualenv 2.7.12 "neovim2"
-    pyenv virtualenv 3.5.2 "neovim3"
+    pyenv install "${v2}" 
+    pyenv install "${v3}" 
+    pyenv virtualenv "${v2}" "neovim2"
+    pyenv virtualenv "${v3}" "neovim3"
   fi
   local venvs=( "neovim2" "neovim3" )
   for venv in ${venvs[@]}; do
@@ -704,15 +703,30 @@ cmd_neovim() {
       pyenv activate "${venv}"
       pip install --upgrade pip
       pip install "neovim"
-      pip install "flake8"
       pip install "jedi"
-      deactivate
+      pyenv deactivate
     fi
   done
 
-  # link some python binaries to ~/bin so they are available everywhere
-  $dry || ln -s "${PYENV_ROOT}/versions/neovim3/bin/flake8" "${HOME}/bin/flake8"
+  # link some python binaries to ~/bin so they are available to external
+  # programs, regardless of the current python environment.
+  echo "Installing and linking python binaries."
+  if ! $dry; then
+    pyenv global "${vmain}" "${v3}" "${v2}" 
+    local mods=( flake8 autoflake pylint ipython )
+    for mod in "${mods[@]}"; do
+      pip install "${mod}"
+      pyenv rehash
+      ln -s "${PYENV_ROOT}/versions/${vmain}/bin/${mod}" "${XDG_BIN_HOME}/${mod}"
   return 0
+}
+
+cmd_neovim() {
+  require "curl"
+
+  # install neovim: maybe this should be done via source?
+  ensure "nvim" "neovim"
+  cmd_python
 }
 
 # FIXME for testing purposes
@@ -733,7 +747,7 @@ cmd_install() {
 parse_cmd() {
   local cmd="${1}"
   case "${cmd}" in
-    init | install | link | neovim)
+    init | install | link | neovim | python)
       # Execute the named command and pass it the args that follow.
       # For example, "cmd_${@}" could expand to cmd_foo arg1 arg2 arg3.
       "cmd_${@}"

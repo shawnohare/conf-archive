@@ -51,7 +51,7 @@ Plug 'joshdick/airline-onedark.vim'
 " 24-bit / True / Hex Colorschemes
 " Plug 'geoffharcourt/one-dark.vim' 
 Plug 'morhetz/gruvbox'
-Plug 'jacoborus/tender'
+" Plug 'jacoborus/tender'
 " Plug 'sts10/vim-mustard'
 Plug 'romainl/flattened' 
 Plug 'lifepillar/vim-solarized8'
@@ -88,6 +88,7 @@ Plug 'tpope/vim-repeat'        " Make vim-surround and vim-commentary repeatable
 Plug 'tpope/vim-fugitive'      " git integration for VIM
 Plug 'airblade/vim-gitgutter'  " display git diffs in the gutter
 Plug 'scrooloose/syntastic'    " syntax checking for many languages
+Plug 'neomake/neomake'         " syntax checking + building
 
 " Syntax Highlighting
 
@@ -313,7 +314,21 @@ let g:go_fmt_command                 = "goimports"
 " let g:go_disable_autoinstall = 1
 " let g:go_loaded_gosnippets = 1
 " let g:go_term_enabled = 1 " tests open in a neovim terminal
-
+"
+"
+" --------------------------------------------------------------------------
+" neomake 
+" --------------------------------------------------------------------------
+let g:neomake_open_list=2
+" FIXME we might not need to include the exe itself
+" let g:neomake_python_flake8_maker = {
+"      \ 'exe': "${XDG_BIN_ROOT}/flake8",
+"     \ 'errorformat': '%A%f: line %l\, col %v\, %m \ (%t%*\d\)',
+"     \ }
+" let g:neomake_python_flake8_maker = {
+"     \ 'errorformat': 'flake8 %A%f: line %l\, col %v\, %m \ (%t%*\d\)',
+"     \ }
+let g:neomake_python_enable_makers = ['flake8', 'pylint']
 " --------------------------------------------------------------------------
 " syntastic
 " --------------------------------------------------------------------------

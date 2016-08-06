@@ -9,9 +9,9 @@ debian_init() {
   sudo chmod 777 /usr/local/var # kidna dangerous
 
   # install a few essential packages
-  sudo apt-get install git
-  sudo apt-get install curl
-  sudo apt-get install screen
+  sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev 
+  sudo-apt-get install -y libreadline-dev libsqlite3-dev wget curl llvm 
+  sudo-apt-get install -y libncurses5-dev libncursesw5-dev xz-utilsinstall
 
   # initial attempt to get neovim working
   # update APT config
