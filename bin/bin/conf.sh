@@ -718,6 +718,7 @@ cmd_python() {
       pip install "${mod}"
       pyenv rehash
       ln -s "${PYENV_ROOT}/versions/${vmain}/bin/${mod}" "${XDG_BIN_HOME}/${mod}"
+    done
   return 0
 }
 
