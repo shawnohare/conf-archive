@@ -155,6 +155,7 @@ get_pyenv() {
   # link the pyenv binary
   $dry || ln -s "${PYENV_ROOT}/bin/pyenv" "${XDG_BIN_HOME}/pyenv" 
   eval "$(pyenv init -)" 
+  eval "$(${PYENV_ROOT}/bin/pyenv init -)"
 }
 
 
