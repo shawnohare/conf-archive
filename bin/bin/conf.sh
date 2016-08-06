@@ -688,24 +688,25 @@ cmd_python() {
   local v2="2.7.12"
 
   get_pyenv
+  pyenv="${PYENV_ROOT}/bin/pyenv"
 
   # create virtual envs for neovim
   # NOTE: the versions here should be updated occasionally
   if ! $dry; then
-    pyenv install "${v2}" 
-    pyenv install "${v3}" 
-    pyenv virtualenv "${v2}" "neovim2"
-    pyenv virtualenv "${v3}" "neovim3"
+     ${pyenv} install "${v2}" 
+     ${pyenv}install "${v3}" 
+     ${pyenv} virtualenv "${v2}" "neovim2"
+     ${pyenv} virtualenv "${v3}" "neovim3"
   fi
   local venvs=( "neovim2" "neovim3" )
   for venv in ${venvs[@]}; do
     echo --debug "Creating neovim venv ${venv}"
     if ! $dry; then
-      pyenv activate "${venv}"
+      ${pyenv} activate "${venv}"
       pip install --upgrade pip
       pip install "neovim"
       pip install "jedi"
-      pyenv deactivate
+      ${pyenv} deactivate
     fi
   done
 
@@ -713,11 +714,11 @@ cmd_python() {
   # programs, regardless of the current python environment.
   echo "Installing and linking python binaries."
   if ! $dry; then
-    pyenv global "${vmain}" "${v3}" "${v2}" 
+    ${pyenv} global "${vmain}" "${v3}" "${v2}" 
     local mods=( flake8 autoflake pylint ipython )
     for mod in "${mods[@]}"; do
       pip install "${mod}"
-      pyenv rehash
+      ${pyenv} rehash
       ln -s "${PYENV_ROOT}/versions/${vmain}/bin/${mod}" "${XDG_BIN_HOME}/${mod}"
     done
   fi
