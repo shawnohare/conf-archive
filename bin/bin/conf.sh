@@ -719,6 +719,7 @@ cmd_python() {
       pyenv rehash
       ln -s "${PYENV_ROOT}/versions/${vmain}/bin/${mod}" "${XDG_BIN_HOME}/${mod}"
     done
+  fi
   return 0
 }
 
