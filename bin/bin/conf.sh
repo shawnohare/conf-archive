@@ -140,6 +140,7 @@ require() {
 get_nix() {
   if ! posix_exists "nix-env"; then
     echo "Installing the nix package manager."
+    sudo mkdir /nix
     $dry || curl "https://nixos.org/nix/install" | sh
   fi
 }
