@@ -380,7 +380,8 @@ linux_init() {
         libreadline-dev libsqlite3-dev llvm libncurses5-dev 
         libncursesw5-dev xz-utils
       )
-      for pkg in "$pkgs[@]"; do
+      for pkg in "${pkgs[@]}"; do
+        echo --verbose "Running: sudo ${install} ${opts} ${pkg}"
         $dry || sudo "${install}" "${opts}" "${pkg}"
       done
       ;;
