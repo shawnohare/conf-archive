@@ -343,28 +343,36 @@ macos_teardown() {
 # ---------------------------------------------------------------------------
 
 # install some basic tools for the distro ($1) using the optional
-# install command ($2). If the package manager is not provided, a
+# package manager ($2) with specified args ($3). 
+# If the package manager is not provided, a
 # a standard default specific to the distribution is used, such as
 # apt-get for debian / ubuntu.
-# args: (distro, [install command])
 linux_init() {
   local distro="${1}"
-  local install="{$2}"
-  case "${distro}" in
-    arch)
-      install="pacman"
-      ;;
-    debian|ubuntu)
-      install="apt-get install -y"
-      ;;
-    nixos)
-      pkg_manager="nix-env -i"
-      ;;
-    *)
+  if [ -z "${distro}" ]; then
       echo --error "Distro ${distro} is not supported."
       exit 1
-      ;;
-  esac
+  fi
+  local install="{$2}"
+  local opts 
+
+  if [ -z "${install}" ]; then
+    case "${distro}" in
+      arch)
+        install="pacman"
+        ;;
+      debian|ubuntu)
+        install="apt-get"
+        opts="install -y"
+        ;;
+      nixos)
+        pkg_manager="nix-env"
+        opts="-i"
+        ;;
+      *)
+        ;;
+    esac
+  fi
 
   echo "Initializing Linux distro ${distro}".
   case "${distro}" in
@@ -376,7 +384,7 @@ linux_init() {
         libncursesw5-dev xz-utils
       )
       for pkg in "$pkgs[@]"; do
-        $dry || "${install}" "${pkg}"
+        $dry || "${install}" "${opts}" "${pkg}"
       done
       ;;
   esac
