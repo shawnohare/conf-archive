@@ -350,7 +350,7 @@ linux_init() {
       echo --error "Distro ${distro} is not supported."
       exit 1
   fi
-  local install="{$2}"
+  local install="${2}"
   local opts 
 
   if [ -z "${install}" ]; then
@@ -358,7 +358,7 @@ linux_init() {
       arch)
         install="pacman"
         ;;
-      debian|ubuntu)
+      debian | ubuntu)
         install="apt-get"
         opts="install -y"
         ;;
