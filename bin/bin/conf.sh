@@ -155,7 +155,7 @@ get_pyenv() {
   fi
   # link the pyenv binary
   $dry || ln -s "${PYENV_ROOT}/bin/pyenv" "${XDG_BIN_HOME}/pyenv" 
-  eval "$(${PYENV_ROOT}/bin/pyenv init -)"
+  $dry || eval "$(${PYENV_ROOT}/bin/pyenv init -)"
 }
 
 
@@ -373,9 +373,10 @@ linux_init() {
     arch|debian|ubuntu|nixos)
       # currently these are installed for pyenv
       local pkgs=( 
-        make build-essential curl wget git libssl-dev zlib1g-dev libbz2-dev 
-        libreadline-dev libsqlite3-dev llvm libncurses5-dev 
-        libncursesw5-dev xz-utils
+        make build-essential libssl-dev zlib1g-dev libbz2-dev 
+        libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev 
+        libncursesw5-dev xz-utils-utils
+        git
       )
       for pkg in "${pkgs[@]}"; do
         echo --verbose "Running: ${install} ${opts} ${pkg}"
