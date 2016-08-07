@@ -46,7 +46,6 @@ declare verbose=false
 declare dry=false
 declare logging=false
 declare prompt_user=false
-declare experimental=false
 
 # # ---------------------------------------------------------------------------
 # # General helper funcs. 
@@ -444,11 +443,16 @@ Arguments:
 
 Commands:
 
-init
+init ostype [distro]
 
   Put the system in a state where the rest of the configuration
   commands will work.  This will create the necessary directories
   and install external tools needed to get packages and link configs.
+
+  Example usages: 
+
+    init linux debian
+    init macos
 
 
 install 
@@ -477,7 +481,7 @@ EOF
 # extract any options with getopts
 parse_opts() {
   OPTIND=1
-  while getopts ":a:dehlpv" opt "${@}"; do
+  while getopts ":a:dhlpv" opt "${@}"; do
     case "${opt}" in
       a)
         # option -a is set with argument $OPTARG
@@ -486,10 +490,6 @@ parse_opts() {
       d)
         dry=true
         echo "Dry run. State will not change." 
-        ;;
-      e)
-        experimental=true
-        echo "Experimental commands activated." 
         ;;
       h)
         # print help message
@@ -549,7 +549,8 @@ link_dir() {
 
 # A crude version of the GNU stow command.  Behavior is similar, except
 # that the default target is the home directory.
-cmd_stow() {
+# TODO make this a wrapper for gnu stow tht makes dirs
+dotfiles_stow() {
   local tar="${HOME}"
   local restow=false
 
@@ -658,17 +659,19 @@ cmd_link() {
 
   cd "${DOTFILES}"
   local ignores="emacs|ignore"
+  local ignores=(emacs ignore )
   while true; do
     case $1 in
-      "--dir" | "-d")
+      --dir=* | -d=*)
+        local dir="${1#*=}"
         shift
-        cmd_stow "${@}"
+        dotfiles_stow "${dir}" "${@}"
         break
         ;;
-      "--ignore" | "-i")
+      --ignore=* | -i=*)
+        local ig="${1#*=}"
         shift
-        ignores="${1}|${ignores}"
-        shift
+        ignores+=("${ig}") # append 
         ;;
       "--all")
         shift
@@ -676,17 +679,20 @@ cmd_link() {
       *)
         echo --debug "Ignoring ${ignores}"
         for path in *; do
-          case "${path}" in
-            ${ignores})
+
+          # Determine if the path is ignored
+          local is_ignored=false
+          for ignore in "${ignores[@]}"; do
+            if [ "${path}" == "${ignore}" ]; then
               echo "Not linking ignored dir ${path}"
-              continue
-              ;;
-            *)
-              ;;
-          esac
+              is_ignored=true
+              break
+            fi
+          done
+          $is_ignored && continue
 
           [[ -d "${path}" ]] || continue # skip non-dirs
-          cmd_stow ${@} "$(basename "${path}")" 
+          dotfiles_stow ${@} "$(basename "${path}")" 
         done
         break
         ;;
@@ -735,10 +741,11 @@ cmd_init() {
     mkdir -p "${XDG_LIB_HOME}"
     mkdir -p "${XDG_TMP_HOME}"
     mkdir -p "${XDG_OPT_HOME}"
+    mkdir -p "${XDG_VAR_HOME}"
 
-    # mkdir -p "${HOME}/bin"
+    mkdir -p "${HOME}/bin"
     # mkdir -p "${HOME}/var/log"
-    # mkdir -p "${HOME}/tmp/"
+    mkdir -p "${HOME}/tmp/"
     # mkdir -p "${HOME}/opt/"
   fi
 
@@ -822,19 +829,17 @@ cmd_install() {
 
 parse_cmd() {
   local cmd="${1}"
+  # Execute the named command and pass it the args that follow.
+  # For example, "cmd_${@}" could expand to cmd_foo arg1 arg2 arg3.
   case "${cmd}" in
-    init | install | link | neovim | python)
-      # Execute the named command and pass it the args that follow.
-      # For example, "cmd_${@}" could expand to cmd_foo arg1 arg2 arg3.
+    init | install | link)
       "cmd_${@}"
       ;;
-    deps | zsh)
-      # only run if preceeded by xperimental
-      if ! $experimental; then
-        echo "Must be run in experimental mode -e."
-      else
-        "cmd_${@}"
-      fi
+    neovim | python | zsh)
+      "cmd_${@}"
+      ;;
+    deps)
+      "cmd_${@}"
       ;;
     *)
       echo "Command ${cmd} not recognized".
