@@ -33,14 +33,15 @@ export LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
 export PYENV_ROOT="${PYENV_ROOT:-${XDG_BIN_HOME}/stow/pyenv}"
 
 # ensure the path includes local binaries in case we are in an odd state
-export PATH="${HOME}/.nix-profile/bin:${HOME]}/bin:${XDG_BIN_HOME}:/usr/local/bin:${PATH}"
+export PATH="${HOME}/.nix-profile/bin:${HOME}/bin:${XDG_BIN_HOME}:/usr/local/bin:${PATH}"
 
 
 # ---------------------------------------------------------------------------
 # Global variables 
 # true/false are functions that return 0/1, resp.
 # ---------------------------------------------------------------------------
-declare ostype
+declare ostype # macos, linux, etc.
+declare distro # empty, debian, nixos, etc.
 declare verbose=false 
 declare dry=false
 declare logging=false
@@ -77,7 +78,9 @@ echo() {
     esac
   done
 
-  local msg="[${0}] $(date "+%Y-%m-%d %H:%M:%S")  ${@}" 
+  local prefix="[${0}] $(date "+%Y-%m-%d %H:%M:%S")" 
+  $dry && prefix="${prefix} (dry run)"
+  local msg="${prefix} ${@}"
 
   if $prompt; then 
     msg="${msg}: "
@@ -312,7 +315,6 @@ macos_install_xcode() {
 }
 
 # In bash, hash <command> exits with with 0 iff the command exists.
-# For POSIX compliance, can use: command -v foo >/dev/null 2>&1
 macos_install_homebrew() {
   if ! cmd_exists "brew"; then
     echo "Installing homebrew."
@@ -332,6 +334,51 @@ macos_init() {
 }
 
 macos_teardown() {
+  return 0
+}
+
+
+# ---------------------------------------------------------------------------
+# linux specific functions 
+# ---------------------------------------------------------------------------
+
+# install some basic tools for the distro ($1) using the optional
+# install command ($2). If the package manager is not provided, a
+# a standard default specific to the distribution is used, such as
+# apt-get for debian / ubuntu.
+# args: (distro, [install command])
+linux_init() {
+  local distro="${1}"
+  local install="{$2}"
+  case "${distro}" in
+    arch)
+      install="pacman"
+      ;;
+    debian|ubuntu)
+      install="apt-get install -y"
+      ;;
+    nixos)
+      pkg_manager="nix-env -i"
+      ;;
+    *)
+      echo --error "Distro ${distro} is not supported."
+      exit 1
+      ;;
+  esac
+
+  case "${distro}" in
+    arch|debian|ubuntu|nixos)
+      # currently these are installed for pyenv
+      local pkgs=( 
+        make build-essential curl wget git libssl-dev zlib1g-dev libbz2-dev 
+        libreadline-dev libsqlite3-dev llvm libncurses5-dev 
+        libncursesw5-dev xz-utils
+      )
+      for pkg in "$pkgs[@]"; do
+        $dry || "${install}" "${pkg}"
+      done
+      ;;
+  esac
   return 0
 }
 
@@ -642,10 +689,19 @@ cmd_deps() {
   "${ostype}_teardown"
 }
 
-# init puts things in a state where the other commands work 
+# inititialize the os ($1) & distro ($2) with the optional install command ($3).
+# This should put things into a state where all the other commands work.
 cmd_init() {
+  local ostype="${1}"
+  local distro="${2}"
+  local install_cmd="${3}"
+  if [ -z "${ostype}" ] || [ -z "${distro}" ]; then
+    echo --error "OS type and Distro not specified."
+  fi
   echo "Initializing."
-  require "curl"
+
+  # perform the ostype, distro specific initialization
+  "${ostype}_init" "${distro}" "${install_cmd}"
 
   cd ${HOME}
 
