@@ -153,10 +153,8 @@ get_pyenv() {
     echo "Installing pyenv."
     $dry || curl -L "https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer" | bash
   fi
-  # NOTE: pyenv init seems to move everything to shims
   # link the pyenv binary
   $dry || ln -s "${PYENV_ROOT}/bin/pyenv" "${XDG_BIN_HOME}/pyenv" 
-  eval "$(pyenv init -)" 
   eval "$(${PYENV_ROOT}/bin/pyenv init -)"
 }
 
@@ -383,7 +381,7 @@ linux_init() {
         libncursesw5-dev xz-utils
       )
       for pkg in "$pkgs[@]"; do
-        $dry || "${install}" "${opts}" "${pkg}"
+        $dry || sudo "${install}" "${opts}" "${pkg}"
       done
       ;;
   esac
@@ -750,12 +748,6 @@ cmd_init() {
   fi
 
   # get a minimal set of tools required for the config script
-  get_nix
-  get_pkg "git"
-  get_pkg "zsh"
-
-  get_config_deps
-  setup_zsh
 }
 
 cmd_python() {
@@ -773,7 +765,7 @@ cmd_python() {
   # NOTE: the versions here should be updated occasionally
   if ! $dry; then
      ${pyenv} install "${v2}" 
-     ${pyenv}install "${v3}" 
+     ${pyenv} install "${v3}" 
      ${pyenv} virtualenv "${v2}" "neovim2"
      ${pyenv} virtualenv "${v3}" "neovim3"
   fi
@@ -821,7 +813,17 @@ cmd_zsh() {
 
 cmd_install() {
   echo "Installing dotfiles."
+
+  # Get some basic packages, create dirs, etc.
   cmd_init
+
+  # get 
+  get_nix
+  get_pkg "git"
+  get_pkg "zsh"
+
+  get_config_deps
+  setup_zsh
   cmd_neovim
   cmd_link
   echo "Finished installing."
