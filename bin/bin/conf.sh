@@ -340,8 +340,8 @@ macos_teardown() {
 # ---------------------------------------------------------------------------
 
 # install some basic tools for the distro ($1) using the optional
-# package manager ($2) with specified args ($3). 
-# If the package manager is not provided, a
+# install command ($2).
+# If the install command is not provided, a
 # a standard default specific to the distribution is used, such as
 # apt-get for debian / ubuntu.
 linux_init() {
@@ -351,20 +351,17 @@ linux_init() {
       exit 1
   fi
   local install="${2}"
-  local opts 
 
   if [ -z "${install}" ]; then
     case "${distro}" in
       arch)
-        install="pacman"
+        install="pacman install"
         ;;
       debian | ubuntu)
-        install="apt-get"
-        opts="install -y"
+        install="apt-get install -y"
         ;;
       nixos)
-        pkg_manager="nix-env"
-        opts="-i"
+        install="nix-env -i"
         ;;
       *)
         ;;
@@ -382,7 +379,7 @@ linux_init() {
       )
       for pkg in "${pkgs[@]}"; do
         echo --verbose "Running: sudo ${install} ${opts} ${pkg}"
-        $dry || sudo "${install}" "${opts}" "${pkg}"
+        $dry || sudo ${install} "${pkg}"
       done
       ;;
   esac
@@ -442,7 +439,7 @@ Arguments:
 
 Commands:
 
-init ostype [distro]
+init ostype [distro] [pkg install cmd]
 
   Put the system in a state where the rest of the configuration
   commands will work.  This will create the necessary directories
@@ -450,8 +447,9 @@ init ostype [distro]
 
   Example usages: 
 
-    init linux debian
     init macos
+    init linux debian
+    init linux debian "nix-env -i"
 
 
 install 
