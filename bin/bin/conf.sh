@@ -411,6 +411,10 @@ setup_zsh() {
   return 0
 }
 
+# get the dotfiles repo itself.  This is only
+get_self() {
+
+}
 
 # Get external dependencies that are not otherwise managed.
 get_config_deps() {
@@ -759,20 +763,25 @@ cmd_python() {
   local v2="2.7.12"
 
   get_pyenv
-  pyenv="${PYENV_ROOT}/bin/pyenv"
 
   # create virtual envs for neovim
   # NOTE: the versions here should be updated occasionally
   if ! $dry; then
-     ${pyenv} install "${v2}" 
-     ${pyenv} install "${v3}" 
-     ${pyenv} virtualenv "${v2}" "neovim2"
-     ${pyenv} virtualenv "${v3}" "neovim3"
+    echo --verbose "Pyenv is installing ${v2}"
+    ${pyenv} install "${v2}" 
+    echo --verbose "Pyenv is installing ${v3}"
+    ${pyenv} install "${v3}" 
+    echo --debug "Pyenv creating venv neovim2"
+    ${pyenv} virtualenv "${v2}" "neovim2"
+    echo --debug "Pyenv creating venv neovim3"
+    ${pyenv} virtualenv "${v3}" "neovim3"
+    eval "$(${pyenv} init -)"
   fi
   local venvs=( "neovim2" "neovim3" )
   for venv in ${venvs[@]}; do
     echo --debug "Creating neovim venv ${venv}"
     if ! $dry; then
+      echo --verbose "Activating Python virtual env ${venv}"
       ${pyenv} activate "${venv}"
       pip install --upgrade pip
       pip install "neovim"
