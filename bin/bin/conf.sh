@@ -355,10 +355,10 @@ linux_init() {
   if [ -z "${install}" ]; then
     case "${distro}" in
       arch)
-        install="pacman install"
+        install="sudo pacman install"
         ;;
       debian | ubuntu)
-        install="apt-get install -y"
+        install="sudo apt-get install -y"
         ;;
       nixos)
         install="nix-env -i"
@@ -378,8 +378,8 @@ linux_init() {
         libncursesw5-dev xz-utils
       )
       for pkg in "${pkgs[@]}"; do
-        echo --verbose "Running: sudo ${install} ${opts} ${pkg}"
-        $dry || sudo ${install} "${pkg}"
+        echo --verbose "Running: ${install} ${opts} ${pkg}"
+        $dry || ${install} ${pkg}
       done
       ;;
   esac
