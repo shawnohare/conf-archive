@@ -14,26 +14,26 @@
 # For the XDG specification, one good resource is:
 # https://wiki.debian.org/XDGBaseDirectorySpecification
 # ---------------------------------------------------------------------------
-readonly XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
-readonly XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
-readonly XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
-readonly XDG_STATE_HOME="${XDG_STATE_HOME:-${HOME}/.state}"
-readonly XDG_BIN_HOME="${XDG_BIN_HOME:-${HOME}/.local/bin}"
-readonly XDG_LIB_HOME="${XDG_LIB_HOME:-${HOME}/.local/lib}"
-readonly XDG_OPT_HOME="${XDG_OPT_HOME:-${HOME}/.local/opt}"
-readonly XDG_TMP_HOME="${XDG_TMP_HOME:-${HOME}/.local/tmp}"
-readonly XDG_VAR_HOME="${XDG_VAR_HOME:-${HOME}/.local/var}"
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
+export XDG_STATE_HOME="${XDG_STATE_HOME:-${HOME}/.state}"
+export XDG_BIN_HOME="${XDG_BIN_HOME:-${HOME}/.local/bin}"
+export XDG_LIB_HOME="${XDG_LIB_HOME:-${HOME}/.local/lib}"
+export XDG_OPT_HOME="${XDG_OPT_HOME:-${HOME}/.local/opt}"
+export XDG_TMP_HOME="${XDG_TMP_HOME:-${HOME}/.local/tmp}"
+export XDG_VAR_HOME="${XDG_VAR_HOME:-${HOME}/.local/var}"
 
 # FIXME brewfile is deprecated
-readonly BREWFILE="${BREWFILE:-${DOTFILES}/homebrew/.config/homebrew/Brewfile}"
-readonly DOTFILES_NAME="${DOTFILES_NAME:-dotfiles}"
-readonly DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
-readonly DOTFILES="${DOTFILES:-${HOME}/${DOTFILES_NAME}}"
-readonly LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
-readonly PYENV_ROOT="${PYENV_ROOT:-${XDG_BIN_HOME}/stow/pyenv}"
+export BREWFILE="${BREWFILE:-${DOTFILES}/homebrew/.config/homebrew/Brewfile}"
+export DOTFILES_NAME="${DOTFILES_NAME:-dotfiles}"
+export DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
+export DOTFILES="${DOTFILES:-${HOME}/${DOTFILES_NAME}}"
+export LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
+export PYENV_ROOT="${PYENV_ROOT:-${XDG_BIN_HOME}/stow/pyenv}"
 
 # ensure the path includes local binaries in case we are in an odd state
-PATH="${HOME}/.nix-profile/bin:${XDG_BIN_HOME}:/usr/local/bin:${PATH}"
+export PATH="${HOME}/.nix-profile/bin:${HOME]}/bin:${XDG_BIN_HOME}:/usr/local/bin:${PATH}"
 
 
 # ---------------------------------------------------------------------------
