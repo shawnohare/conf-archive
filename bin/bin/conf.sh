@@ -366,6 +366,7 @@ linux_init() {
       ;;
   esac
 
+  echo "Initializing Linux distro ${distro}".
   case "${distro}" in
     arch|debian|ubuntu|nixos)
       # currently these are installed for pyenv
@@ -667,11 +668,16 @@ cmd_link() {
       *)
         echo --debug "Ignoring ${ignores}"
         for path in *; do
+          case "${path}" in
+            ${ignores})
+              echo "Not linking ignored dir ${path}"
+              continue
+              ;;
+            *)
+              ;;
+          esac
+
           [[ -d "${path}" ]] || continue # skip non-dirs
-          if [[ ${path} =~ ${ignores} ]]; then
-            echo "Not linking ignored dir ${path}"
-            continue
-          fi
           cmd_stow ${@} "$(basename "${path}")" 
         done
         break
@@ -695,10 +701,11 @@ cmd_init() {
   local ostype="${1}"
   local distro="${2}"
   local install_cmd="${3}"
-  if [ -z "${ostype}" ] || [ -z "${distro}" ]; then
-    echo --error "OS type and Distro not specified."
+  # Check that the os type is valid.
+  if [[ ! "${ostype}" =~ macos|linux ]]; then
+      echo --error "Cannot initialize: OS Type ${ostype} not supported."
+      exit 1
   fi
-  echo "Initializing."
 
   # perform the ostype, distro specific initialization
   "${ostype}_init" "${distro}" "${install_cmd}"
@@ -834,7 +841,6 @@ main() {
   parse_opts "${@}"
   shift $((OPTIND - 1)) # shift past options to sub-commands 
   set_ostype # FIXME: do we care?
-  "${ostype}_init"
   echo --debug "Input commands: ${@}"
 
   # Set up echoging, if necessary.  This is controlled by the -l option. 
