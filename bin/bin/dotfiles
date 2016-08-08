@@ -575,7 +575,7 @@ cmd_link() {
     done
 
     if $should_link && [ -d "${path}" ]; then 
-      "${DOTFILES}/bin/bin/lndir" --force "${path}" "${HOME}"
+      "${DOTFILES}/bin/bin/lndir" --force --verbose "${path}" "${HOME}"
     fi
   done
 

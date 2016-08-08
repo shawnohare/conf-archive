@@ -18,7 +18,6 @@ dotfiles directory.
 
 Options:
 
---dry|-d     : Do not actually link any files.
 --force|-f   : Backup existing files and remove any existing symlinks before linking files.
 --help|-h    : Display this help message 
 --remove|-r  : Remove symlinks in the target that match files in the source.
@@ -34,8 +33,25 @@ Examples:
 EOF
 }
 
+# Backup the input file $1
+backup_file() {
+  if [ -f "${1}" ] && [ ! -L "${1}" ]; then
+    mv "${1}" "${1}.$(date "+%Y-%m-%dT%H:%M:%S").backup"
+  fi
+}
+
+# Remove a passed in symbolic link.
+remove_link() {
+  [ -L "$1" ] && rm "$1"
+}
+
+backup_or_remove() {
+  backup_file "${1}"
+  remove_link "${1}"
+}
+
+
 main() {
-  local dry=false
   local force=false
   local remove=false
   local verbose=false
@@ -43,12 +59,9 @@ main() {
   # parse opts
   while true; do
     case $1 in
-      --dry | -d)
-        dry=true
-        shift
-        ;;
       --force | -f)
         force=true
+        shift
         ;;
       --remove| -r)
         remove=true
@@ -91,48 +104,42 @@ main() {
   while read -r path; do
     local dest="${tar}/${path}"
 
-    # case that the path is a dir
+    # CASE that the path is a dir
     # Make the dir
     if [ -d "${path}" ]; then
       if [ ! -d "${dest}" ]; then
         $verbose && echo "Making dir: ${dest}"
-        $dry || mkdir -p "${dest}" 
+        mkdir -p "${dest}" 
         continue
       fi
     fi
 
-    # case that the path points to a file
+    # CASE that the path points to a file
     # Check if the destination file already exists.
     # If it does not exist, link from the dotfiles config.
     # If it's a link, remove if we are restowing, otherwise do nothing.
     # If it exists and is not a link, ask to back it up and then link.
     if [ -f "${path}" ]; then
-      # initial existence check
-      if [ -e "${dest}" ]; then
 
-        # If the destination is a link, either skip or remove.
-        if [ -L "${dest}" ]; then
-          if $remove || $force; then
-            $verbose && echo "Removing link ${dest}" 
-            $dry || rm "${dest}"
-          fi
-        else 
-        # file exists and is not a link.  Backup or skip.
-          if $force; then
-            local bk
-            bk="${dest}.$(date "+%Y-%m-%dT%H:%M:%S").backup"
-            $verbose && echo "Backing up ${dest} to ${bk}"
-            $dry || mv "${dest}" "${bk}"
-          fi
-        fi
+      if $remove; then
+        $verbose && echo "Removing ${dest} if necessary."
+        remove_link "${dest}"
+        continue
       fi
 
-      # Create a symlink from the dotfiles config to the destination.
+      if $force; then
+        $verbose && echo "Removing file or link ${dest} if necessary."
+        backup_or_remove "${dest}"
+      fi
+
       if [ ! -e "${dest}" ]; then
         local fullpath="${src}/${path}"
         $verbose && echo "Linking ${fullpath} to ${dest}"
-        $dry || ln -s "${fullpath}" "${dest}"
+        ln -s "${fullpath}" "${dest}"
+      else
+        $verbose || echo "${dest} already exists. Not linking."
       fi
+      continue
     fi
   done < <(find .)
 }
