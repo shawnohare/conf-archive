@@ -639,7 +639,7 @@ cmd_python() {
   # NOTE: the versions here should be updated occasionally
   local vers=( "${v2}" "${v3}" "${vmain}" )
   for ver in "${vers[@]}"; do
-    if ! $dry || [ ! -e "${PYENV_ROOT}/versions/${ver}" ]; then
+    if ! $dry && [ ! -e "${PYENV_ROOT}/versions/${ver}" ]; then
       echo --verbose "Pyenv is installing ${ver}".
       ${pyenv} install "${ver}" 
     fi
