@@ -142,9 +142,13 @@ get_pyenv() {
     echo "Installing pyenv."
     $dry || curl -L "https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer" | bash
   fi
-  # link the pyenv binary
-  $dry || ln -s "${PYENV_ROOT}/bin/pyenv" "${XDG_BIN_HOME}/pyenv" 
-  $dry || eval "$("${PYENV_ROOT}"/bin/pyenv init -)"
+  local dest="${XDG_BIN_HOME}/pyenv"
+  echo --verbose "Linking pyenv to ${dest}"
+  if ! $dry; then
+    [ -e "${dest}" ] && rm "${dest}"
+    ln -s "${PYENV_ROOT}/bin/pyenv" "${dest}" 
+    eval "$("${PYENV_ROOT}"/bin/pyenv init -)"
+  fi
 }
 
 
@@ -660,8 +664,8 @@ cmd_python() {
     local pip="${PYENV_ROOT}versions/${venv}/bin/pip"
     if ! $dry; then
       "${pip}" install --upgrade pip
-      "${pip}" install "neovim"
-      "${pip}" install "jedi"
+      "${pip}" install --upgrade "neovim"
+      "${pip}" install --upgrade "jedi"
     fi
   done
 
@@ -674,7 +678,7 @@ cmd_python() {
     local mods=( flake8 autoflake pylint ipython )
     pip="${PYENV_ROOT}/versions/${vmain}/bin/pip"
     for mod in "${mods[@]}"; do
-      "${pip}" install "${mod}"
+      "${pip}" install --upgrade "${mod}"
       ${pyenv} rehash
       local dest="${XDG_BIN_HOME}/${mod}" 
       [ -L "${dest}" ] && rm "${dest}"
