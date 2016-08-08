@@ -546,18 +546,24 @@ cmd_link() {
 
   cd "${DOTFILES}" || echo --error "${DOTFILES} does not exist." 
   while true; do
-    case $1 in
+    case "$1" in
       --ignore=* | -i=*)
         local ig="${1#*=}"
         shift
         ignores+=("${ig}") # append 
         ;;
       "--all")
-        for path in *; do paths+=("${path}"); done 
+        for path in *; do 
+          echo --verbose "Adding ${path} to link candidates."
+          paths+=("${path}")
+        done 
         break
         ;;
       *)
-        for path in "${@}"; do paths+=("${path}"); done
+        for path in "${@}"; do 
+          echo --verbose "Adding ${path} to link candidates."
+          paths+=("${path}") 
+        done
         break
         ;;
     esac
@@ -739,7 +745,6 @@ parse_cmd() {
       exit 0
       ;;
     link | ln)
-      shift
       cmd_link "${@}"
       exit 0
       ;;
