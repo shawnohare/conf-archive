@@ -329,6 +329,7 @@ let g:neomake_open_list=2
 "     \ 'errorformat': 'flake8 %A%f: line %l\, col %v\, %m \ (%t%*\d\)',
 "     \ }
 let g:neomake_python_enable_makers = ['flake8', 'pylint']
+let g:neomake_shell_enable_makers = ['shellcheck']
 " --------------------------------------------------------------------------
 " syntastic
 " --------------------------------------------------------------------------
