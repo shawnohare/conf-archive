@@ -648,21 +648,22 @@ cmd_python() {
     ${pyenv} virtualenv "${v3}" "neovim3"
     eval "$(${pyenv} init -)"
   fi
+
   local venvs=( "neovim2" "neovim3" )
   for venv in "${venvs[@]}"; do
     echo --debug "Creating neovim venv ${venv}"
+    local pip="${PYENV_ROOT}versions/${venv}/bin/pip"
     if ! $dry; then
       echo --verbose "Activating Python virtual env ${venv}"
-      ${pyenv} activate "${venv}"
-      pip install --upgrade pip
-      pip install "neovim"
-      pip install "jedi"
-      ${pyenv} deactivate
+      "${pip}" install --upgrade pip
+      "${pip}" install "neovim"
+      "${pip}" install "jedi"
     fi
   done
 
-  # link some python binaries to ~/bin so they are available to external
+  # link some python binaries so they are available to external
   # programs, regardless of the current python environment.
+  # This is mostly to expose linters and autoformatters.
   echo "Installing and linking python binaries."
   if ! $dry; then
     ${pyenv} global "${vmain}" "${v3}" "${v2}" 
