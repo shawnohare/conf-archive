@@ -14,26 +14,22 @@
 # For the XDG specification, one good resource is:
 # https://wiki.debian.org/XDGBaseDirectorySpecification
 # ---------------------------------------------------------------------------
-export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
-export XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
-export XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
-export XDG_STATE_HOME="${XDG_STATE_HOME:-${HOME}/.state}"
-export XDG_BIN_HOME="${XDG_BIN_HOME:-${HOME}/.local/bin}"
-export XDG_LIB_HOME="${XDG_LIB_HOME:-${HOME}/.local/lib}"
-export XDG_OPT_HOME="${XDG_OPT_HOME:-${HOME}/.local/opt}"
-export XDG_TMP_HOME="${XDG_TMP_HOME:-${HOME}/.local/tmp}"
-export XDG_VAR_HOME="${XDG_VAR_HOME:-${HOME}/.local/var}"
-
-# FIXME brewfile is deprecated
-export BREWFILE="${BREWFILE:-${DOTFILES}/homebrew/.config/homebrew/Brewfile}"
-export DOTFILES_NAME="${DOTFILES_NAME:-dotfiles}"
-export DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
-export DOTFILES="${DOTFILES:-${HOME}/${DOTFILES_NAME}}"
-export LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
-export PYENV_ROOT="${PYENV_ROOT:-${XDG_BIN_HOME}/stow/pyenv}"
+readonly XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
+readonly XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
+readonly XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
+readonly XDG_STATE_HOME="${XDG_STATE_HOME:-${HOME}/.state}"
+readonly XDG_BIN_HOME="${XDG_BIN_HOME:-${HOME}/.local/bin}"
+readonly XDG_LIB_HOME="${XDG_LIB_HOME:-${HOME}/.local/lib}"
+readonly XDG_OPT_HOME="${XDG_OPT_HOME:-${HOME}/.local/opt}"
+readonly XDG_TMP_HOME="${XDG_TMP_HOME:-${HOME}/.local/tmp}"
+readonly XDG_VAR_HOME="${XDG_VAR_HOME:-${HOME}/.local/var}"
+readonly DOTFILES="${DOTFILES:-${HOME}/dotfiles}"
+readonly DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
+readonly LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
+readonly PYENV_ROOT="${PYENV_ROOT:-${XDG_BIN_HOME}/stow/pyenv}"
 
 # ensure the path includes local binaries in case we are in an odd state
-export PATH="${HOME}/.nix-profile/bin:${HOME}/bin:${XDG_BIN_HOME}:/usr/local/bin:${PATH}"
+# export PATH="${HOME}/.nix-profile/bin:${HOME}/bin:${XDG_BIN_HOME}:/usr/local/bin:${PATH}"
 
 
 # ---------------------------------------------------------------------------
@@ -46,6 +42,7 @@ declare verbose=false
 declare dry=false
 declare logging=false
 declare prompt_user=false
+declare bootstrap=false
 
 # # ---------------------------------------------------------------------------
 # # General helper funcs. 
@@ -55,8 +52,11 @@ declare prompt_user=false
 # When the --debug or --verbose flags are passed, the statement will
 # be printed only when the global verbose flag is also set.
 echo() {
-  local err=false
-  local prompt=false
+  local prefix
+  local msg
+  prefix="[${0}] $(date "+%Y-%m-%d %H:%M:%S")" 
+  $dry && prefix="${prefix} (dry run)"
+
   while true; do
     case $1 in
       "--debug" | "--verbose" | "-d" | "-v")
@@ -64,35 +64,24 @@ echo() {
         shift
         ;;
       "--error" | "-e")
-        err=true
         shift
+        msg="${prefix} Error: ${*}"
+        >&2 printf "%s\n" "${msg}"
+        return 0
         ;;
       "--prompt" | "-p")
-        prompt=true
         shift
+        msg="${prefix} Prompt: ${*}"
+        printf "%s" "${msg}: "
+        return 0
         ;;
       *)
-        break
+        msg="${prefix} ${*}"
+        printf "%s\n" "${msg}"
+        return 0
         ;;
     esac
   done
-
-  local prefix="[${0}] $(date "+%Y-%m-%d %H:%M:%S")" 
-  $dry && prefix="${prefix} (dry run)"
-  local msg="${prefix} ${@}"
-
-  if $prompt; then 
-    msg="${msg}: "
-  else
-    msg="${msg}\n"
-  fi
-
-  if $err; then
-    printf "${msg}" >&2
-  else
-    printf "${msg}"
-  fi
-  return 0
 }
 
 
@@ -155,14 +144,14 @@ get_pyenv() {
   fi
   # link the pyenv binary
   $dry || ln -s "${PYENV_ROOT}/bin/pyenv" "${XDG_BIN_HOME}/pyenv" 
-  $dry || eval "$(${PYENV_ROOT}/bin/pyenv init -)"
+  $dry || eval "$("${PYENV_ROOT}"/bin/pyenv init -)"
 }
 
 
 # get a pkg using nix if it does not already exist
 get_pkg() {
   local pkg=$1
-  if ! is_pkg_installed ${pkg}; then
+  if ! is_pkg_installed "${pkg}"; then
     echo "Installing ${pkg}."
     $dry || nix-env --install "${pkg}"
   else
@@ -178,17 +167,17 @@ ensure() {
   local pkg=$2
   if [ -z "${pkg}" ]; then pkg="${cmd}"; fi
 
-  if ! posix_exists ${cmd}; then
+  if ! posix_exists "${cmd}"; then
     get_pkg "${pkg}"
     return 0
   fi
 
   # cmd exists, but it's not installed by nix.
-  if ! is_pkg_installed ${cmd}; then
+  if ! is_pkg_installed "${cmd}"; then
     local get_nix_version=true
     if $prompt_user; then
       echo --prompt "A non-nix ${cmd} exists.  Install with nix? (y/n)" 
-      read a
+      read -r a
       [ "${a}" = "n" ] && get_nix_version=false
     fi
 
@@ -266,15 +255,15 @@ get_git_repo() {
 
   if $update; then
     echo --debug "Updating git repo in ${loc}  "
-    cd "${loc}"
+    cd "${loc}" || exit 1
 
     # Check whether there are changes.
-    if ! $(git diff --quiet); then
+    if ! git diff --quiet; then
       echo --debug "There are local unstaged changes in ${loc}.  Not updating repo."
       return 1
     fi  
 
-    if ! $(git diff --cached --quiet); then
+    if ! git diff --cached --quiet; then
       echo --debug "There are staged, uncomitted changes in ${loc}.  Not updating repo."
       return 1
     fi
@@ -321,16 +310,9 @@ macos_install_homebrew() {
   fi
 }
 
-
-
-
 macos_init() {
   macos_install_xcode
   # macos_install_homebrew
-  return 0
-}
-
-macos_teardown() {
   return 0
 }
 
@@ -379,8 +361,8 @@ linux_init() {
         git
       )
       for pkg in "${pkgs[@]}"; do
-        echo --verbose "Running: ${install} ${opts} ${pkg}"
-        $dry || ${install} ${pkg}
+        echo --verbose "Running: ${install} ${pkg}"
+        $dry || ${install} "${pkg}"
       done
       ;;
   esac
@@ -394,13 +376,14 @@ linux_init() {
 
 setup_zsh() {
   echo "Setting up zsh."
-  local zsh_path="$(which zsh)"
+  local zsh_path
+  zsh_path="$(which zsh)"
   echo --debug "zsh path: ${zsh_path}"
 
   # Append Homebrewed zsh path to /etc/shells to authorize it as a login shell
-  if [[ -z $(grep "${zsh_path}" /etc/shells) ]]; then 
+  if grep -q "${zsh_path}" /etc/shells; then 
     echo "Adding ${zsh_path} to /etc/shells."
-    $dry || printf "${zsh_path}" | sudo tee -a /etc/shells
+    $dry || printf "%s" "${zsh_path}" | sudo tee -a /etc/shells
   fi
 
   # Change this user's default shell to Homebrewed zsh
@@ -411,14 +394,8 @@ setup_zsh() {
   return 0
 }
 
-# get the dotfiles repo itself.  This is only
-get_self() {
-
-}
-
 # Get external dependencies that are not otherwise managed.
 get_config_deps() {
-  get_git_repo "${DOTFILES_REPO}" "${DOTFILES}"
   get_github_dep "zsh-users/zsh-history-substring-search"
   get_github_dep "zsh-users/zsh-syntax-highlighting"
   get_github_dep "zsh-users/zsh-completions"
@@ -432,7 +409,7 @@ get_config_deps() {
 display_help() {
   cat << 'EOF'
 
-Usage: dotfiles.sh [-hvq] [-a a_arg] [cmd] 
+Usage: dotfiles.sh [-dhlv] [cmd] 
 
 Arguments:
 
@@ -450,32 +427,30 @@ init ostype [distro] [pkg install cmd]
   commands will work.  This will create the necessary directories
   and install external tools needed to get packages and link configs.
 
+  Supported values for ostype are {macos, linux}.
+  Supported values for distro are {null, debian, ubuntu, arch, nixos}.
+
   Example usages: 
 
     init macos
     init linux debian
-    init linux debian "nix-env -i"
+    init linux debian "apt-get install -y"
 
 
-install 
+install ostype [distro] [pkg install cmd]
 
-  Fully install the dotfiles.  This is equivalent to calling the subcommands
-  init followed by link.
+  Fully install the dotfiles. This is mainly a slight extension of the
+  init command that installs a few useful tools such as the nix
+  package manager, zsh, and pyenv.
 
 
-link [--all|-a] [...]
+link [-a] [dir1 dir2 ...] 
 
-  Link all dotfiles.  This will copy the directory substructure of each
+  Link dotfile dirs.  This will copy the directory substructure of each
   dotfiles dir and then use GNU stow to symlink the contents.  The --all flag
   is not necessary, and provided for semantic purposes.  Additional arguments
   for the stow command are passed through.  For example
     link --restow : calls stow dir --restow
-
-link --dir|-d [--restow|-r] dir [target]
-
-  Link a single directory.  This will copy the dir's structure and symlink
-  any files. If the --restow flag is set, existing symlinks
-  are removed and re-linked.
 
 EOF
 }
@@ -524,131 +499,32 @@ parse_opts() {
 }
 
 
+# FIXME: deprecated
 # link a dotfiles dir to the home dir.  
 # First copy the directory's structure, and then use GNU stow to 
 # link the files.  This setup ensures that program data does not
 # accidentally end up in the dotfiles directories, which can happen
 # when entire directories are linked.
 # TODO: it might be nice to remove the dependency on stow here.
-# FIXME: deprecated
-link_dir() {
-  local dir="${1}"
-  echo "Linking ${dir}"
-  shift
-  cd "${DOTFILES}/${dir}"
+# link_dir() {
+#   local dir="${1}"
+#   echo "Linking ${dir}"
+#   shift
+#   cd "${DOTFILES}/${dir}" || exit 1
 
-  # copy dir struct
-  $dry || find . -type d -exec mkdir -p -- ${HOME}/{} \;
-  cd "${DOTFILES}"
-  # call stow with the link_dir options
+#   # copy dir struct
+#   $dry || find . -type d -exec mkdir -p -- "${HOME}"/{} \;
+#   cd "${DOTFILES}" || exit 1
+#   # call stow with the link_dir options
 
-  local opts 
-  $verbose && opts="--verbose"
-  opts="${opts} ${@}"
-  $dry || stow ${opts} --target="${HOME}" "${dir}" 
-}
+#   local opts 
+#   $verbose && opts="--verbose"
+#   opts="${opts} ${@}"
+#   $dry || stow ${opts} --target="${HOME}" "${dir}" 
+# }
 
 
-# A crude version of the GNU stow command.  Behavior is similar, except
-# that the default target is the home directory.
-# TODO make this a wrapper for gnu stow tht makes dirs
-dotfiles_stow() {
-  local tar="${HOME}"
-  local restow=false
 
-  # see if a target was passed
-  while true; do
-    case $1 in
-      "--restow" | "-R")
-        restow=true
-        shift
-        ;;
-      --target=* | -t=*)
-        tar="${1#*=}"
-        shift 1 
-        ;;
-      *)
-        break
-        ;;
-    esac
-  done
-
-  # Parse the source dir
-  if [ -z "${1}" ]; then
-    echo --error "No source dir passed.  Exiting."
-    exit 1
-  fi
-  local src="${1}"
-  shift
-
-  # check to make sure the source dir exists.
-  if [ ! -d "${src}" ]; then
-    echo --error "Source dir ${src} does not exist.  Exiting."
-    exit 1
-  fi
-
-  echo "Linking ${src}"
-
-  # cd "${DOTFILES}/${src}"
-  cd ${src}
-
-  # Copy the dir structure to the target and symlink any config files.
-  # in bash > v4 you can recurse using for x in **, but os x ships with bash v3
-  for path in $(find .); do
-    local dest="${tar}/${path}"
-
-    # case that the path is a dir
-    # Make the dir
-    if [ -d "${path}" ]; then
-      if [ ! -d "${dest}" ]; then
-        echo --debug "Making dir: ${dest}"
-        $dry || mkdir -p "${dest}" 
-        continue
-      fi
-    fi
-
-    # Check if the destination file already exists.
-    # If it does not exist, link from the dotfiles config.
-    # If it's a link, remove if we are restowing, otherwise do nothing.
-    # If it exists and is not a link, ask to back it up and then link.
-    if [ -f "${path}" ]; then
-      # initial existence check
-      if [ -e "${dest}" ]; then
-        if [ -L "${dest}" ]; then
-          if $restow; then
-            echo --debug "Removing link ${dest}" 
-            $dry || rm "${dest}"
-          fi
-        else # file exists and is not a link
-          # Backup file.
-          local should_backup=true
-          if $prompt_user; then
-            echo --prompt "Non-linked ${dest} already exists.  Backup and replace with link to dotfiles version? (y/n)"
-            read a
-            [ "${a}" = n ] && should_backup=false
-          fi
-          if $should_backup; then
-            local bk="${dest}.$(date "+%Y-%m-%dT%H:%M:%S").backup"
-            echo --debug "Backing up ${dest} to ${bk}"
-            $dry || mv "${dest}" "${bk}"
-          fi
-        fi
-      fi
-
-      # Create a symlink from the dotfiles config to the destination.
-      if [ ! -e "${dest}" ]; then
-        local fullpath="${DOTFILES}/${src}/${path}"
-        echo --debug "Linking ${fullpath} to ${dest}"
-        $dry || ln -s "${fullpath}" "${dest}"
-      fi
-
-      continue
-    fi
-  done
-
-  cd ..
-  return 0
-}
 
 #------------------------------------------------------------------------- 
 # commands
@@ -656,49 +532,47 @@ dotfiles_stow() {
 # This leads to some minor duplication, but means that the checking
 # occurs in a common location.
 #------------------------------------------------------------------------- 
-# link each folder in the dotfiles root to the home dir.
-cmd_link() {
 
-  cd "${DOTFILES}"
-  local ignores="emacs|ignore"
-  local ignores=(emacs ignore )
+
+# link each folder in the dotfiles root to the home dir.
+# Usage: link [--restow] [--ignore=dir] [--all] dir1 dir2 ...
+cmd_link() {
+  local ignores=( emacs ignore )
+  local paths=()
+
+  cd "${DOTFILES}" || exit 1
   while true; do
     case $1 in
-      --dir=* | -d=*)
-        local dir="${1#*=}"
-        shift
-        dotfiles_stow "${dir}" "${@}"
-        break
-        ;;
       --ignore=* | -i=*)
         local ig="${1#*=}"
         shift
         ignores+=("${ig}") # append 
         ;;
       "--all")
-        shift
+        for path in *; do paths+=("${path}"); done 
+        break
         ;;
       *)
-        echo --debug "Ignoring ${ignores}"
-        for path in *; do
-
-          # Determine if the path is ignored
-          local is_ignored=false
-          for ignore in "${ignores[@]}"; do
-            if [ "${path}" == "${ignore}" ]; then
-              echo "Not linking ignored dir ${path}"
-              is_ignored=true
-              break
-            fi
-          done
-          $is_ignored && continue
-
-          [[ -d "${path}" ]] || continue # skip non-dirs
-          dotfiles_stow ${@} "$(basename "${path}")" 
-        done
+        for path in "${@}"; do paths+=("${path}"); done
         break
         ;;
     esac
+  done
+
+  for path in "${paths[@]}"; do
+    # Determine if the path is ignored
+    local should_link=true
+    for ignore in "${ignores[@]}"; do
+      if [ "${path}" == "${ignore}" ]; then
+        echo "Not linking ignored dir ${path}"
+        should_link=false
+        break
+      fi
+    done
+
+    if $should_link && [ -d "${path}" ]; then 
+      "${DOTFILES}/bin/bin/lndir" --force "${path}" "${HOME}"
+    fi
   done
 
 }
@@ -726,10 +600,8 @@ cmd_init() {
   # perform the ostype, distro specific initialization
   "${ostype}_init" "${distro}" "${install_cmd}"
 
-  cd ${HOME}
-
   # make dirs
-  echo --debug "Making necessary dirs."
+  echo --verbose "Making necessary dirs."
   if ! $dry; then
     if [ ! -d "/nix" ]; then
       # wrapped in the conditional so we don't always prompt for password
@@ -744,14 +616,11 @@ cmd_init() {
     mkdir -p "${XDG_TMP_HOME}"
     mkdir -p "${XDG_OPT_HOME}"
     mkdir -p "${XDG_VAR_HOME}"
-
     mkdir -p "${HOME}/bin"
-    # mkdir -p "${HOME}/var/log"
-    mkdir -p "${HOME}/tmp/"
-    # mkdir -p "${HOME}/opt/"
+    mkdir -p "${HOME}/tmp"
   fi
 
-  # get a minimal set of tools required for the config script
+  return 0
 }
 
 cmd_python() {
@@ -759,8 +628,10 @@ cmd_python() {
 
   # Define the stable versions of python
   local vmain="3.5.2"
-  local v3="${vtools}"
+  local v3="${vmain}"
   local v2="2.7.12"
+  local pyenv
+  pyenv="${PYENV_ROOT}/bin/pyenv"
 
   get_pyenv
 
@@ -778,7 +649,7 @@ cmd_python() {
     eval "$(${pyenv} init -)"
   fi
   local venvs=( "neovim2" "neovim3" )
-  for venv in ${venvs[@]}; do
+  for venv in "${venvs[@]}"; do
     echo --debug "Creating neovim venv ${venv}"
     if ! $dry; then
       echo --verbose "Activating Python virtual env ${venv}"
@@ -823,19 +694,20 @@ cmd_zsh() {
 cmd_install() {
   echo "Installing dotfiles."
 
-  # Get some basic packages, create dirs, etc.
-  cmd_init
+  # If we are bootstrapping, we have already called cmd_init.
+  $bootstrap || cmd_init "${@}"
 
-  # get 
+  # update a few core packages 
   get_nix
   get_pkg "git"
   get_pkg "zsh"
 
   get_config_deps
-  setup_zsh
+  cmd_zsh
   cmd_neovim
   cmd_link
   echo "Finished installing."
+  exit 0
 }
 
 parse_cmd() {
@@ -843,14 +715,18 @@ parse_cmd() {
   # Execute the named command and pass it the args that follow.
   # For example, "cmd_${@}" could expand to cmd_foo arg1 arg2 arg3.
   case "${cmd}" in
-    init | install | link)
-      "cmd_${@}"
+    deps | init | install | neovim | python | zsh)
+      "cmd_${1]}" "${@[:2]}"
+      exit 0
       ;;
-    neovim | python | zsh)
-      "cmd_${@}"
+    link | ln)
+      shift
+      cmd_link "${@}"
+      exit 0
       ;;
-    deps)
-      "cmd_${@}"
+    help)
+      display_help
+      exit 0 
       ;;
     *)
       echo "Command ${cmd} not recognized".
@@ -860,12 +736,40 @@ parse_cmd() {
   esac
 }
 
-main() {
-  # init
+
+# potentially bootstrap necessary environment variables and creates dirs  by sourcing the
+# .profile file included in the dotfiles repo.  If this file does not
+# exist, then we try to bootstrap by installing git and fetching the
+# dotfiles repo.
+bootstrap_check() {
+  # Source dotfiles profile to get external vars, else try to bootstrap.
+  echo --verbose "Checking for need to bootstrap."
+  if [ ! -e "${DOTFILES}/README.md" ]; then
+    bootstrap=true
+    echo --verbose "Attempting to bootstrap."
+    # user should be calling install ostype distro install-comand
+    if [ "${1}" != "install" ]; then
+      echo --error "Can only bootstrap when install command is passed."
+      exit 1
+    fi
+    cmd_init "${@[:2]}"
+    get_git_repo "${DOTFILES_REPO}" "${DOTFILES}"
+  fi
+
+  if [ ! -e "${DOTFILES}/README.md" ]; then
+    echo --error "Bootstrap was unable to clone ${DOTFILES_REPO}"
+    exit 1
+  else
+    echo --verbose "No need to bootstrap."
+  fi
+
+}
+
+# init is the first thing run.
+# It parses the script options.
+init() {
   parse_opts "${@}"
-  shift $((OPTIND - 1)) # shift past options to sub-commands 
   set_ostype # FIXME: do we care?
-  echo --debug "Input commands: ${@}"
 
   # Set up echoging, if necessary.  This is controlled by the -l option. 
   if $logging; then
@@ -877,9 +781,19 @@ main() {
     echo "Logging to ${LOGFILE}"
   fi
 
+}
 
-  if [[ -z "${1}" ]]; then
+main() {
+
+  init "${@}"
+  shift $((OPTIND - 1)) # shift past options to sub-commands 
+  echo --debug "Input command after opt parsing: ${*}"
+  bootstrap_check "${@}"
+
+  # Dispatch the appropriate command.
+  if [ -z "${1}" ]; then
     display_help
+    return 0
   else
     parse_cmd "${@}"
   fi

@@ -1,0 +1,140 @@
+#!/usr/bin/env bash
+
+display_help() {
+  cat << 'EOF'
+
+
+Usage: lndir [-fr] src tar
+
+Description:
+
+Copy the dir structure of the input and symlink its files to the
+specified the target directory. 
+
+In principle this command is a less robust version of the GNU stow command that only
+links files, and not entire directories.  This is useful when linking
+configuration files, as it avoids runtime files from populating the
+dotfiles directory.
+
+Options:
+
+--dry|-d     : Do not actually link any files.
+--force|-f   : Backup existing files and remove any existing symlinks before linking files.
+--help|-h    : Display this help message 
+--remove|-r  : Remove symlinks in the target that match files in the source.
+--verbose|-v : Verbose messaging.
+
+Examples: 
+
+1.  Suppose ~/dotfiles/bin contains a number of personal binaries that
+    should be linked into ~/bin. This can be accomplished via:
+
+      lndir ~/dotfiles/bin ~/dotfiles
+
+EOF
+}
+
+main() {
+  local dry=false
+  local force=false
+  local remove=false
+  local verbose=false
+
+  # parse opts
+  while true; do
+    case $1 in
+      --dry | -d)
+        dry=true
+        shift
+        ;;
+      --force | -f)
+        force=true
+        ;;
+      --remove| -r)
+        remove=true
+        shift
+        ;;
+      --verbose | -v)
+        verbose=true
+        shift
+        ;;
+      --help | -h)
+        display_help
+        exit 0
+        ;;
+      *)
+        break
+        ;;
+    esac
+  done
+
+  if [ -z "${1}" ] || [ -z "${2}" ]; then
+    >&2 echo "Error: No source or target dir passed."
+    return 1
+  fi
+
+  local src="${1}"
+  local tar="${2}"
+
+  # check to make sure the source dir exists.
+  if [ ! -d "${src}" ]; then
+    >&2 echo "Error: Source dir ${src} does not exist.  Exiting."
+    exit 1
+  fi
+
+  $verbose && echo "Linking ${src} to ${tar}"
+
+  cd "${src}" || exit
+
+  # Copy the dir structure to the target and symlink any config files.
+  # in bash > v4 you can recurse using for x in **, but os x ships with bash v3
+  while read -r path; do
+    local dest="${tar}/${path}"
+
+    # case that the path is a dir
+    # Make the dir
+    if [ -d "${path}" ]; then
+      if [ ! -d "${dest}" ]; then
+        $verbose && echo "Making dir: ${dest}"
+        $dry || mkdir -p "${dest}" 
+        continue
+      fi
+    fi
+
+    # case that the path points to a file
+    # Check if the destination file already exists.
+    # If it does not exist, link from the dotfiles config.
+    # If it's a link, remove if we are restowing, otherwise do nothing.
+    # If it exists and is not a link, ask to back it up and then link.
+    if [ -f "${path}" ]; then
+      # initial existence check
+      if [ -e "${dest}" ]; then
+
+        # If the destination is a link, either skip or remove.
+        if [ -L "${dest}" ]; then
+          if $remove || $force; then
+            $verbose && echo "Removing link ${dest}" 
+            $dry || rm "${dest}"
+          fi
+        else 
+        # file exists and is not a link.  Backup or skip.
+          if $force; then
+            local bk
+            bk="${dest}.$(date "+%Y-%m-%dT%H:%M:%S").backup"
+            $verbose && echo "Backing up ${dest} to ${bk}"
+            $dry || mv "${dest}" "${bk}"
+          fi
+        fi
+      fi
+
+      # Create a symlink from the dotfiles config to the destination.
+      if [ ! -e "${dest}" ]; then
+        local fullpath="${src}/${path}"
+        $verbose && echo "Linking ${fullpath} to ${dest}"
+        $dry || ln -s "${fullpath}" "${dest}"
+      fi
+    fi
+  done < <(find .)
+}
+
+main "${@}"
