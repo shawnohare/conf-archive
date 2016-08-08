@@ -637,24 +637,28 @@ cmd_python() {
 
   # create virtual envs for neovim
   # NOTE: the versions here should be updated occasionally
+  local vers=( "${v2}" "${v3}" "${vmain}" )
+  for ver in "${vers[@]}"; do
+    if ! $dry || [ ! -e "${PYENV_ROOT}/versions/${ver}" ]; then
+      echo --verbose "Pyenv is installing ${ver}".
+      ${pyenv} install "${ver}" 
+    fi
+  done
+
+    
+  echo --verbose "Creating neovim virtual envs."
   if ! $dry; then
-    echo --verbose "Pyenv is installing ${v2}"
-    ${pyenv} install "${v2}" 
-    echo --verbose "Pyenv is installing ${v3}"
-    ${pyenv} install "${v3}" 
-    echo --debug "Pyenv creating venv neovim2"
     ${pyenv} virtualenv "${v2}" "neovim2"
-    echo --debug "Pyenv creating venv neovim3"
     ${pyenv} virtualenv "${v3}" "neovim3"
     eval "$(${pyenv} init -)"
   fi
 
+
+  echo --verbose "Installing modules in neovim virtual envs."
   local venvs=( "neovim2" "neovim3" )
   for venv in "${venvs[@]}"; do
-    echo --debug "Creating neovim venv ${venv}"
     local pip="${PYENV_ROOT}versions/${venv}/bin/pip"
     if ! $dry; then
-      echo --verbose "Activating Python virtual env ${venv}"
       "${pip}" install --upgrade pip
       "${pip}" install "neovim"
       "${pip}" install "jedi"
@@ -664,16 +668,20 @@ cmd_python() {
   # link some python binaries so they are available to external
   # programs, regardless of the current python environment.
   # This is mostly to expose linters and autoformatters.
-  echo "Installing and linking python binaries."
+  echo --verbose "Installing and linking python binaries."
   if ! $dry; then
     ${pyenv} global "${vmain}" "${v3}" "${v2}" 
     local mods=( flake8 autoflake pylint ipython )
+    pip="${PYENV_ROOT}/versions/${vmain}/bin/pip"
     for mod in "${mods[@]}"; do
-      pip install "${mod}"
+      "${pip}" install "${mod}"
       ${pyenv} rehash
-      ln -s "${PYENV_ROOT}/versions/${vmain}/bin/${mod}" "${XDG_BIN_HOME}/${mod}"
+      local dest="${XDG_BIN_HOME}/${mod}" 
+      [ -L "${dest}" ] && rm "${dest}"
+      ln -s "${PYENV_ROOT}/versions/${vmain}/bin/${mod}" "${dest}"
     done
   fi
+
   return 0
 }
 
