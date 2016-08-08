@@ -32,7 +32,7 @@ endif
 
 call plug#begin(plugged)
 
-" Browsing 
+" Browsing
 Plug 'tpope/vim-vinegar'  " enhanced netrw file browser
 Plug 'majutsushi/tagbar'  " display tags in a window
 
@@ -49,11 +49,11 @@ Plug 'joshdick/airline-onedark.vim'
 " Plug 'zenorocha/dracula-theme', {'rtp': 'vim'}
 
 " 24-bit / True / Hex Colorschemes
-" Plug 'geoffharcourt/one-dark.vim' 
+" Plug 'geoffharcourt/one-dark.vim'
 Plug 'morhetz/gruvbox'
 " Plug 'jacoborus/tender'
 " Plug 'sts10/vim-mustard'
-Plug 'romainl/flattened' 
+Plug 'romainl/flattened'
 Plug 'lifepillar/vim-solarized8'
 
 " Completion
@@ -75,7 +75,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 
-" Editing Enhancement 
+" Editing Enhancement
 " Plug 'mbbill/undotree'         " Visual navigation of VIM undotree
 Plug 'tpope/vim-surround'      " Easy handling of surrounding brackets etc.
 Plug 'Raimondi/delimitMate'    " Automatic closing of parentheses etc.
@@ -92,7 +92,9 @@ Plug 'neomake/neomake'         " syntax checking + building
 
 " Syntax Highlighting
 
-" Filetype Specific 
+" whitespace
+Plug 'ntpeters/vim-better-whitespace'
+" Filetype Specific
 " One disadvantage of selective loading is that help files are unavailable
 " when working on a different file-type.  This is an minor annoyance when
 " configuring a plugin while the init file is open. Most filetype specific
@@ -104,7 +106,7 @@ Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 Plug 'fatih/vim-go',         { 'for': 'go' }
 Plug 'chrisbra/csv.vim',     { 'for': 'csv' }
 Plug 'cespare/vim-toml',     { 'for': 'toml' }
-Plug 'mattn/emmet-vim',      { 'for': 'html' } 
+Plug 'mattn/emmet-vim',      { 'for': 'html' }
 Plug 'othree/html5.vim',     { 'for': 'html' }
 " lazy-loading the julia-vim plugin causes issues
 Plug 'JuliaLang/julia-vim'
@@ -139,7 +141,7 @@ endif
 " lightline is similar to airline, but it
 " requires more setup in vimrc (e.g., for fugitive integration).
 " However, it is orthgonal to other plugins.
-" Plug 'itchyny/lightline.vim'  
+" Plug 'itchyny/lightline.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Plug 'bling/vim-bufferline'
@@ -159,7 +161,7 @@ let g:airline_powerline_fonts = 0
 " Automatically display buffers when only one tab is open.
 let g:airline#extension#tabline#enabled = 1
  " Show just the file name
-let g:airline#extension#tabline#fnamed = ':t' 
+let g:airline#extension#tabline#fnamed = ':t'
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#eclim#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
@@ -317,7 +319,7 @@ let g:go_fmt_command                 = "goimports"
 "
 "
 " --------------------------------------------------------------------------
-" neomake 
+" neomake
 " --------------------------------------------------------------------------
 let g:neomake_open_list=2
 " FIXME we might not need to include the exe itself
@@ -364,22 +366,22 @@ imap <F3> <C-O><F3>
 nnoremap <F3> :SyntasticReset<CR>
 
 " --------------------------------------------------------------------------
-" tagbar 
+" tagbar
 " --------------------------------------------------------------------------
 nmap <Leader>tag :TagbarToggle<CR>
 
 " --------------------------------------------------------------------------
-" vim-indent-guides 
+" vim-indent-guides
 " --------------------------------------------------------------------------
  " let g:indent_guides_start_level = 2
-" let g:indent_guides_guide_size  = 1 
+" let g:indent_guides_guide_size  = 1
 
 " =========================================================================
 " SETTINGS
 " =========================================================================
 
 " --------------------------------------------------------------------------
-" vim specific settings that nvim includes by default 
+" vim specific settings that nvim includes by default
 " --------------------------------------------------------------------------
 if has('vim')
   set autoindent
@@ -406,7 +408,7 @@ endif
 " Abbreviation for ISO 8061 format.
 " NOTE: The RFC 3339 format specifies that time-zones be of the form -09:37.
 " Some versions of strftime support the %:z format, but not on a
-" circa 2016-05-06 OS X machine. 
+" circa 2016-05-06 OS X machine.
 iabbrev <expr> dts strftime("%FT%T%z")
 
 " --------------------------------------------------------------------------
@@ -420,7 +422,7 @@ set splitright  " and to the right of the current.  Default is opposite.
 " --------------------------------------------------------------------------
 " Completion
 " --------------------------------------------------------------------------
-"  FIXME Fri, 12 Feb 2016 09:40:54 -0800 
+"  FIXME Fri, 12 Feb 2016 09:40:54 -0800
 "  The preview option for completeopt worked weird with neovim and deoplete.
 " See https://github.com/zchee/deoplete-go/issues/40
 set completeopt+=longest,menuone,noinsert
@@ -458,7 +460,7 @@ set lazyredraw               " don't redraw unnecessarily during macros etc.
 " set tf                       " fast term connection.  Outdated?
 " set nowrap                     " do not visually wrap long lines
 set linebreak                " don't break words at wrap; disabled by list
-"  set list                     " show whitespace
+" set list                     " show whitespace
 set visualbell         " flash screen instead of audio bell for alert
 " set visualbell t_vb=         " turn off visualbell effect
 " set title                    " update terminal window title
@@ -466,7 +468,7 @@ set guifont=Source\ Code\ Pro\ for\ Powerline
 set shortmess+=A       " don't show warning for existing swapfiles
 
 " --------------------------------------------------------------------------
-" Colors 
+" Colors
 " --------------------------------------------------------------------------
 
 " FIXME: if termguicolors is set, an nvim session invoked in screen has
@@ -481,7 +483,7 @@ set termguicolors " enable 24-bit colors in terminal
 
 set background=dark
 
-" base16 
+" base16
 " colorscheme base16-solar-flare " brighter solarized, highlight looks bad
 " colorscheme base16-materia " background a bit bright
 " colorscheme slate " nice default
@@ -513,14 +515,14 @@ set background=dark
 " set background=dark
 
 "
-" Gruvbox 
+" Gruvbox
 " set background=dark
 " let g:gruvbox_contrast_light="hard"
 let g:gruvbox_italic=1
 let g:gruvbox_italicize_comments=1
 " let g:gruvbox_improved_strings=1
 let g:gruvbox_improved_warnings=1
-" let g:gruvbox_sign_column="bg0" 
+" let g:gruvbox_sign_column="bg0"
 colorscheme gruvbox
 "
 " NOTE Fri, 29 Jan 2016 16:13:41 -0800
@@ -532,7 +534,7 @@ map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 " colorscheme desert " a nice dark built-in colorscheme
 
 " --------------------------------------------------------------------------
-" Cursor 
+" Cursor
 " --------------------------------------------------------------------------
 "" Use a blinking upright bar cursor in Insert mode, a blinking block in normal
 " if &term == 'xterm-256color' || &term == 'screen-256color'
@@ -546,14 +548,14 @@ map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 " endif
 
 " --------------------------------------------------------------------------
-" Highlighting 
+" Highlighting
 " --------------------------------------------------------------------------
 " hi clear SpellBad " if set, onedark would not highlight spelling errors
 hi SpellBad cterm=underline,bold ctermfg=red
 " Print comments in italic font. Only appears to work for vim (not neovim).
 " let &t_ZH="\e[3m"
 " let &t_ZR="\e[23m"
-hi Comment cterm=italic  
+hi Comment cterm=italic
 
 " --------------------------------------------------------------------------
 " Editing
@@ -611,7 +613,7 @@ filetype indent on
 " imap <C-Return> <CR><CR><C-o>k<C-t>
 "
 " --------------------------------------------------------------------------
-" Search 
+" Search
 " --------------------------------------------------------------------------
 set ignorecase
 set smartcase
@@ -635,7 +637,7 @@ set smartcase
 " set statusline+=%*
 
 " --------------------------------------------------------------------------
-" Syntax Highlighting 
+" Syntax Highlighting
 " --------------------------------------------------------------------------
 
 " --------------------------------------------------------------------------
