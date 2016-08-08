@@ -587,7 +587,9 @@ cmd_link() {
     done
 
     if $should_link; then 
-      "${DOTFILES}/bin/bin/lndir" --force --verbose "${path}" "${HOME}"
+      local args=( '--force' )
+      $verbose && args+=('--verbose')
+      "${DOTFILES}/bin/bin/lndir" "${args[@]}" "${DOTFILES}/${path}" "${HOME}"
     fi
   done
 
