@@ -67,7 +67,7 @@ echo() {
         shift
         msg="${prefix} Error: ${*}"
         >&2 printf "%s\n" "${msg}"
-        return 0
+        exit 1
         ;;
       "--prompt" | "-p")
         shift
@@ -544,7 +544,7 @@ cmd_link() {
   local ignores=( emacs ignore )
   local paths=()
 
-  cd "${DOTFILES}" || exit 1
+  cd "${DOTFILES}" || echo --error "${DOTFILES} does not exist." 
   while true; do
     case $1 in
       --ignore=* | -i=*)
