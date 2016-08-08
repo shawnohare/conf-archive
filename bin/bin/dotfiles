@@ -572,7 +572,7 @@ cmd_link() {
   echo --verbose "Beginning to link dirs."
   for path in "${paths[@]}"; do
     if [ ! -d "${path}" ]; then
-      echo --verbose "${path} is not a dir"
+      echo --verbose "Not linking non-dir ${path}"
       continue
     fi
 
