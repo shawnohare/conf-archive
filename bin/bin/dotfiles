@@ -563,7 +563,13 @@ cmd_link() {
     esac
   done
 
+  echo --verbose "Beginning to link dirs."
   for path in "${paths[@]}"; do
+    if [ ! -d "${path}" ]; then
+      echo --verbose "${path} is not a dir"
+      continue
+    fi
+
     # Determine if the path is ignored
     local should_link=true
     for ignore in "${ignores[@]}"; do
@@ -574,14 +580,13 @@ cmd_link() {
       fi
     done
 
-    if $should_link && [ -d "${path}" ]; then 
+    if $should_link; then 
       "${DOTFILES}/bin/bin/lndir" --force --verbose "${path}" "${HOME}"
     fi
   done
 
 }
 
-# get external dependencies such as zsh modules
 # FIXME for testing purposes really
 cmd_deps() {
   ensure "git"
