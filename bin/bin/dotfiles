@@ -6,7 +6,7 @@
 
 
 # ---------------------------------------------------------------------------
-# Global Constants 
+# Global Constants
 # These will be set to the value of
 # the corresponding environment variable if that variable is set and
 # not null, or to the default substitution listed after the :-
@@ -33,19 +33,19 @@ readonly PYENV_ROOT="${PYENV_ROOT:-${XDG_BIN_HOME}/stow/pyenv}"
 
 
 # ---------------------------------------------------------------------------
-# Global variables 
+# Global variables
 # true/false are functions that return 0/1, resp.
 # ---------------------------------------------------------------------------
 declare ostype # macos, linux, etc.
 declare distro # empty, debian, nixos, etc.
-declare verbose=false 
+declare verbose=false
 declare dry=false
 declare logging=false
 declare prompt_user=false
 declare bootstrap=false
 
 # # ---------------------------------------------------------------------------
-# # General helper funcs. 
+# # General helper funcs.
 # # ---------------------------------------------------------------------------
 
 # Print a time-stamped message.
@@ -54,7 +54,7 @@ declare bootstrap=false
 echo() {
   local prefix
   local msg
-  prefix="[${0}] $(date "+%Y-%m-%d %H:%M:%S")" 
+  prefix="[${0}] $(date "+%Y-%m-%d %H:%M:%S")"
   $dry && prefix="${prefix} (dry run)"
 
   while true; do
@@ -86,7 +86,7 @@ echo() {
 
 
 # ---------------------------------------------------------------------------
-# Existence 
+# Existence
 # These existence tests were implemented from:
 # http://stackoverflow.com/questions/592620/check-if-a-program-exists-from-a-bash-script
 # ---------------------------------------------------------------------------
@@ -94,7 +94,7 @@ echo() {
 # Determine whether a command or builtin exists. Use with bash.  The -P
 # flag only searches the path.
 cmd_exists() {
-  type -P "$1" >/dev/null 2>&1 
+  type -P "$1" >/dev/null 2>&1
 }
 
 # Hash a command's location to determine whether it exists.
@@ -112,13 +112,13 @@ posix_exists() {
 # tests whether a package has been installed by nix
 is_pkg_installed() {
   nix-env -q "$1" >/dev/null 2>&1;
-} 
+}
 
 
 # require a command to exist.  Exit with an error if it does not.
 require() {
   local cmd=$1
-  if ! posix_exists "${cmd}"; then 
+  if ! posix_exists "${cmd}"; then
     echo --error "${cmd} required to install configuration. Exiting"
     exit 1
   fi
@@ -146,7 +146,7 @@ get_pyenv() {
   echo --verbose "Linking pyenv to ${dest}"
   if ! $dry; then
     [ -e "${dest}" ] && rm "${dest}"
-    ln -s "${PYENV_ROOT}/bin/pyenv" "${dest}" 
+    ln -s "${PYENV_ROOT}/bin/pyenv" "${dest}"
     eval "$("${PYENV_ROOT}"/bin/pyenv init -)"
   fi
 }
@@ -180,7 +180,7 @@ ensure() {
   if ! is_pkg_installed "${cmd}"; then
     local get_nix_version=true
     if $prompt_user; then
-      echo --prompt "A non-nix ${cmd} exists.  Install with nix? (y/n)" 
+      echo --prompt "A non-nix ${cmd} exists.  Install with nix? (y/n)"
       read -r a
       [ "${a}" = "n" ] && get_nix_version=false
     fi
@@ -191,7 +191,7 @@ ensure() {
 }
 
 # ---------------------------------------------------------------------------
-# Inititialization 
+# Inititialization
 # These functions are rather fine-grained so that they are easier to debug.
 # ---------------------------------------------------------------------------
 
@@ -203,7 +203,7 @@ ensure() {
 # In particular, note that bash sets the OSTYPE env variable.
 set_ostype() {
   echo --debug "Setting ostype var."
-  case "${OSTYPE}" in 
+  case "${OSTYPE}" in
     darwin*)
       ostype="macos"
       ;;
@@ -239,7 +239,7 @@ get_git_repo() {
   local loc="$2"
 
 
-  # Error if both arguments are not provided. 
+  # Error if both arguments are not provided.
   if [[ -z "${remote+x}" || -z "${loc+x}" ]]; then
     echo --debug "No remote or no local dir specified."
     return 1
@@ -265,7 +265,7 @@ get_git_repo() {
     if ! git diff --quiet; then
       echo --debug "There are local unstaged changes in ${loc}.  Not updating repo."
       return 1
-    fi  
+    fi
 
     if ! git diff --cached --quiet; then
       echo --debug "There are staged, uncomitted changes in ${loc}.  Not updating repo."
@@ -289,7 +289,7 @@ get_github_dep() {
 }
 
 # ---------------------------------------------------------------------------
-# OS X Specific functions 
+# OS X Specific functions
 # ---------------------------------------------------------------------------
 
 # Install Xcode command line developer tools (required for git/Homebrew)
@@ -322,7 +322,7 @@ macos_init() {
 
 
 # ---------------------------------------------------------------------------
-# linux specific functions 
+# linux specific functions
 # ---------------------------------------------------------------------------
 
 # install some basic tools for the distro ($1) using the optional
@@ -358,9 +358,9 @@ linux_init() {
   case "${distro}" in
     arch|debian|ubuntu|nixos)
       # currently these are installed for pyenv
-      local pkgs=( 
-        make build-essential libssl-dev zlib1g-dev libbz2-dev 
-        libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev 
+      local pkgs=(
+        make build-essential libssl-dev zlib1g-dev libbz2-dev
+        libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev
         libncursesw5-dev xz-utils-utils
         git
       )
@@ -375,7 +375,7 @@ linux_init() {
 
 
 # ---------------------------------------------------------------------------
-# Main functions 
+# Main functions
 # ---------------------------------------------------------------------------
 
 setup_zsh() {
@@ -385,7 +385,7 @@ setup_zsh() {
   echo --debug "zsh path: ${zsh_path}"
 
   # Append Homebrewed zsh path to /etc/shells to authorize it as a login shell
-  if grep -q "${zsh_path}" /etc/shells; then 
+  if grep -q "${zsh_path}" /etc/shells; then
     echo "Adding ${zsh_path} to /etc/shells."
     $dry || printf "%s" "${zsh_path}" | sudo tee -a /etc/shells
   fi
@@ -413,7 +413,7 @@ get_config_deps() {
 display_help() {
   cat << 'EOF'
 
-Usage: dotfiles.sh [-dhlv] [cmd] 
+Usage: dotfiles.sh [-dhlv] [cmd]
 
 Arguments:
 
@@ -434,7 +434,7 @@ init ostype [distro] [pkg install cmd]
   Supported values for ostype are {macos, linux}.
   Supported values for distro are {null, debian, ubuntu, arch, nixos}.
 
-  Example usages: 
+  Example usages:
 
     init macos
     init linux debian
@@ -448,7 +448,7 @@ install ostype [distro] [pkg install cmd]
   package manager, zsh, and pyenv.
 
 
-link [-a] [dir1 dir2 ...] 
+link [-a] [dir1 dir2 ...]
 
   Link dotfile dirs.  This will copy the directory substructure of each
   dotfiles dir and then use GNU stow to symlink the contents.  The --all flag
@@ -470,7 +470,7 @@ parse_opts() {
         ;;
       d)
         dry=true
-        echo "Dry run. State will not change." 
+        echo "Dry run. State will not change."
         ;;
       h)
         # print help message
@@ -482,10 +482,10 @@ parse_opts() {
         ;;
       p)
         prompt_user=true
-        echo "User prompts enabled." 
+        echo "User prompts enabled."
         ;;
       v)
-        verbose=true 
+        verbose=true
         echo "In verbose mode."
         ;;
       \?)
@@ -504,8 +504,8 @@ parse_opts() {
 
 
 # FIXME: deprecated
-# link a dotfiles dir to the home dir.  
-# First copy the directory's structure, and then use GNU stow to 
+# link a dotfiles dir to the home dir.
+# First copy the directory's structure, and then use GNU stow to
 # link the files.  This setup ensures that program data does not
 # accidentally end up in the dotfiles directories, which can happen
 # when entire directories are linked.
@@ -521,21 +521,21 @@ parse_opts() {
 #   cd "${DOTFILES}" || exit 1
 #   # call stow with the link_dir options
 
-#   local opts 
+#   local opts
 #   $verbose && opts="--verbose"
 #   opts="${opts} ${@}"
-#   $dry || stow ${opts} --target="${HOME}" "${dir}" 
+#   $dry || stow ${opts} --target="${HOME}" "${dir}"
 # }
 
 
 
 
-#------------------------------------------------------------------------- 
+#-------------------------------------------------------------------------
 # commands
 # Commands are responsible that required packages are installed.
 # This leads to some minor duplication, but means that the checking
 # occurs in a common location.
-#------------------------------------------------------------------------- 
+#-------------------------------------------------------------------------
 
 
 # link each folder in the dotfiles root to the home dir.
@@ -544,25 +544,25 @@ cmd_link() {
   local ignores=( emacs ignore )
   local paths=()
 
-  cd "${DOTFILES}" || echo --error "${DOTFILES} does not exist." 
+  cd "${DOTFILES}" || echo --error "${DOTFILES} does not exist."
   while true; do
     case "$1" in
       --ignore=* | -i=*)
         local ig="${1#*=}"
         shift
-        ignores+=("${ig}") # append 
+        ignores+=("${ig}") # append
         ;;
       "--all")
-        for path in *; do 
+        for path in *; do
           echo --verbose "Adding ${path} to link candidates."
           paths+=("${path}")
-        done 
+        done
         break
         ;;
       *)
-        for path in "${@}"; do 
+        for path in "${@}"; do
           echo --verbose "Adding ${path} to link candidates."
-          paths+=("${path}") 
+          paths+=("${path}")
         done
         break
         ;;
@@ -586,7 +586,7 @@ cmd_link() {
       fi
     done
 
-    if $should_link; then 
+    if $should_link; then
       local args=( '--force' )
       $verbose && args+=('--verbose')
       "${DOTFILES}/bin/bin/lndir" "${args[@]}" "${DOTFILES}/${path}" "${HOME}"
@@ -622,7 +622,7 @@ cmd_init() {
   if ! $dry; then
     if [ ! -d "/nix" ]; then
       # wrapped in the conditional so we don't always prompt for password
-      sudo mkdir /nix 
+      sudo mkdir /nix
     fi
     mkdir -p "${XDG_CONFIG_HOME}"
     mkdir -p "${XDG_DATA_HOME}"
@@ -658,11 +658,11 @@ cmd_python() {
   for ver in "${vers[@]}"; do
     if ! $dry && [ ! -e "${PYENV_ROOT}/versions/${ver}" ]; then
       echo --verbose "Pyenv is installing ${ver}".
-      ${pyenv} install "${ver}" 
+      ${pyenv} install "${ver}"
     fi
   done
 
-    
+
   echo --verbose "Creating neovim virtual envs."
   if ! $dry; then
     ${pyenv} virtualenv "${v2}" "neovim2"
@@ -687,13 +687,13 @@ cmd_python() {
   # This is mostly to expose linters and autoformatters.
   echo --verbose "Installing and linking python binaries."
   if ! $dry; then
-    ${pyenv} global "${vmain}" "${v3}" "${v2}" 
+    ${pyenv} global "${vmain}" "${v3}" "${v2}"
     local mods=( flake8 autoflake pylint ipython )
     pip="${PYENV_ROOT}/versions/${vmain}/bin/pip"
     for mod in "${mods[@]}"; do
       "${pip}" install --upgrade "${mod}"
       ${pyenv} rehash
-      local dest="${XDG_BIN_HOME}/${mod}" 
+      local dest="${XDG_BIN_HOME}/${mod}"
       [ -L "${dest}" ] && rm "${dest}"
       ln -s "${PYENV_ROOT}/versions/${vmain}/bin/${mod}" "${dest}"
     done
@@ -723,7 +723,7 @@ cmd_install() {
   # If we are bootstrapping, we have already called cmd_init.
   $bootstrap || cmd_init "${@}"
 
-  # update a few core packages 
+  # update a few core packages
   get_nix
   get_pkg "git"
   get_pkg "zsh"
@@ -752,7 +752,7 @@ parse_cmd() {
       ;;
     help)
       display_help
-      exit 0 
+      exit 0
       ;;
     *)
       echo "Command ${cmd} not recognized".
@@ -797,13 +797,13 @@ init() {
   parse_opts "${@}"
   set_ostype # FIXME: do we care?
 
-  # Set up echoging, if necessary.  This is controlled by the -l option. 
+  # Set up echoging, if necessary.  This is controlled by the -l option.
   if $logging; then
     # Append to both console and log. In particular, external programs will
     # still push things to the console and echo.
     # http://stackoverflow.com/questions/18460186/writing-outputs-to-echo-file-and-console
     exec > >(tee -a "${LOGFILE}" )
-    exec 2> >(tee  -a "${LOGFILE}" >&2) 
+    exec 2> >(tee  -a "${LOGFILE}" >&2)
     echo "Logging to ${LOGFILE}"
   fi
 
@@ -812,7 +812,7 @@ init() {
 main() {
 
   init "${@}"
-  shift $((OPTIND - 1)) # shift past options to sub-commands 
+  shift $((OPTIND - 1)) # shift past options to sub-commands
   echo --debug "Input command after opt parsing: ${*}"
   bootstrap_check "${@}"
 
