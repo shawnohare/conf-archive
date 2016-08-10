@@ -1,3 +1,7 @@
+[alias]
+	log = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	la = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	sv = status --verbose
 [filter "media"]
 	required = true
 	clean = git media clean %f
