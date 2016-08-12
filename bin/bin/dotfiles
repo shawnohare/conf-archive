@@ -25,6 +25,7 @@ readonly XDG_TMP_HOME="${XDG_TMP_HOME:-${HOME}/.local/tmp}"
 readonly XDG_VAR_HOME="${XDG_VAR_HOME:-${HOME}/.local/var}"
 readonly DOTFILES="${DOTFILES:-${HOME}/dotfiles}"
 readonly DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
+# FIXME: screw the logfile?
 readonly LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
 readonly PYENV_ROOT="${PYENV_ROOT:-${XDG_BIN_HOME}/stow/pyenv}"
 
@@ -37,6 +38,8 @@ readonly PYENV_ROOT="${PYENV_ROOT:-${XDG_BIN_HOME}/stow/pyenv}"
 # true/false are functions that return 0/1, resp.
 # ---------------------------------------------------------------------------
 declare ostype # macos, linux, etc.
+declare package_manager
+declare install_command
 declare distro # empty, debian, nixos, etc.
 declare verbose=false
 declare dry=false
@@ -199,6 +202,10 @@ ensure() {
 # These functions are rather fine-grained so that they are easier to debug.
 # ---------------------------------------------------------------------------
 
+# FIXME maybe move completely away from this model and just assume some
+# basic initialization has been performed.  Then install nix, and get
+# all necessary packages using nix.
+
 # Attempt to determine the OS type and set the ostype var for use in
 # dynamic function dispatch.
 # For more information on detecting the OS type see:
@@ -220,6 +227,21 @@ set_ostype() {
   esac
   echo --debug "ostype value: ${ostype}"
 }
+
+# set_base_pkg_manager() {
+#   local managers=('apt-get' 'pacmac' 'nix-env')
+#   for man in "${managers[@]}"; do
+#     if posix_exists "${man}";
+#       package_manager="${man}"
+#     fi
+#   done
+
+#   case "${package_manager}" in
+#     'apt-get')
+
+# }
+
+
 
 # Clone <remote repo> <local destination>
 # Usage: get_git_repo [...] remote local
@@ -296,6 +318,7 @@ get_github_dep() {
 # OS X Specific functions
 # ---------------------------------------------------------------------------
 
+# FIXME: maybe just make the initial init phase manual.
 # Install Xcode command line developer tools (required for git/Homebrew)
 # Check whether the exit code of is not 0 (success).
 # (command) runs the command in a subshell.
@@ -329,6 +352,8 @@ macos_init() {
 # linux specific functions
 # ---------------------------------------------------------------------------
 
+# FIXME we can probably get rid of this in favor of just installing nix
+# a new linux system.
 # install some basic tools for the distro ($1) using the optional
 # install command ($2).
 # If the install command is not provided, a

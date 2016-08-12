@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-# FIXME
-echo "Untested and should not be used yet."
-exit 1
 
 readonly DOTFILES=${DOTFILES:-"${HOME}/dotfiles"}
 readonly DOTFILES_REPO=${DOTFILES:-"${HOME}/dotfiles"}
@@ -11,8 +8,12 @@ if [ ! -d "${DOTFILES}" ]; then
   git "${DOTFILES_REPO}" "${DOTFILES}"
 fi
 
+
+# TODO: do not make the hard lin to linux debian.  Instead,
+# try to install as much as possible via nix-env.
 if [ -d "${DOTFILES}" ]; then
-  "${DOTFILES}/bin/bin/dotfiles" -v install $1 $2
+  "${DOTFILES}/bin/bin/dotfiles" -v install linux debian
 else
   echo "Could not clone dotfiles repository"
+  exit 1
 fi
