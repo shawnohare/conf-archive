@@ -66,18 +66,18 @@ echo() {
       "--error" | "-e")
         shift
         msg="${prefix} Error: ${*}"
-        >&2 printf "%s\n" "${msg}"
+        >&2 printf "${msg}\n"
         exit 1
         ;;
       "--prompt" | "-p")
         shift
         msg="${prefix} Prompt: ${*}"
-        printf "%s" "${msg}: "
+        printf "${msg}: "
         return 0
         ;;
       *)
         msg="${prefix} ${*}"
-        printf "%s\n" "${msg}"
+        printf "${msg}\n"
         return 0
         ;;
     esac
@@ -131,8 +131,8 @@ require() {
 get_nix() {
   if ! posix_exists "nix-env"; then
     echo "Installing the nix package manager."
-    sudo mkdir /nix
     $dry || curl "https://nixos.org/nix/install" | sh
+    source "${HOME}/etc/profile.d/nix.sh"
   fi
 }
 
