@@ -67,7 +67,7 @@ echo() {
         shift
         msg="${prefix} Error: ${*}"
         >&2 printf "${msg}\n"
-        exit 1
+        return 0
         ;;
       "--prompt" | "-p")
         shift
@@ -133,6 +133,10 @@ get_nix() {
     echo "Installing the nix package manager."
     $dry || curl "https://nixos.org/nix/install" | sh
     source "${HOME}/etc/profile.d/nix.sh"
+    if ! posix_exists "nix-env"; then {
+      echo --error "Could not install nix"
+      exit 1
+    }
   fi
 }
 
@@ -620,10 +624,6 @@ cmd_init() {
   # make dirs
   echo --verbose "Making necessary dirs."
   if ! $dry; then
-    if [ ! -d "/nix" ]; then
-      # wrapped in the conditional so we don't always prompt for password
-      sudo mkdir /nix
-    fi
     mkdir -p "${XDG_CONFIG_HOME}"
     mkdir -p "${XDG_DATA_HOME}"
     mkdir -p "${XDG_CACHE_HOME}"
