@@ -66,18 +66,18 @@ echo() {
       "--error" | "-e")
         shift
         msg="${prefix} Error: ${*}"
-        >&2 printf "${msg}\n"
+        >&2 printf "%s\n" "${msg}\n"
         return 0
         ;;
       "--prompt" | "-p")
         shift
         msg="${prefix} Prompt: ${*}"
-        printf "${msg}: "
+        printf "%s: " "${msg}"
         return 0
         ;;
       *)
         msg="${prefix} ${*}"
-        printf "${msg}\n"
+        printf "%s\n" "${msg}"
         return 0
         ;;
     esac
@@ -133,10 +133,10 @@ get_nix() {
     echo "Installing the nix package manager."
     $dry || curl "https://nixos.org/nix/install" | sh
     source "${HOME}/etc/profile.d/nix.sh"
-    if ! posix_exists "nix-env"; then {
+    if ! posix_exists "nix-env"; then
       echo --error "Could not install nix"
       exit 1
-    }
+    fi
   fi
 }
 
@@ -408,9 +408,9 @@ get_config_deps() {
   get_github_dep "zsh-users/zsh-syntax-highlighting"
   get_github_dep "zsh-users/zsh-completions"
   get_github_dep "zsh-users/zsh-autosuggestions"
-  get_github_dep "powerline/fonts"
+  # get_github_dep "powerline/fonts"
   # Install powerline fonts.
-  $dry || bash "${XDG_OPT_HOME}/powerline/fonts/install.sh"
+  # $dry || bash "${XDG_OPT_HOME}/powerline/fonts/install.sh"
 }
 
 
