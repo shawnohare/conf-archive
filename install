@@ -5,7 +5,7 @@ readonly DOTFILES_REPO=${DOTFILES:-"${HOME}/dotfiles"}
 
 cd "${HOME}"
 if [ ! -d "${DOTFILES}" ]; then
-  git "${DOTFILES_REPO}" "${DOTFILES}"
+  git clone --recursive "${DOTFILES_REPO}" "${DOTFILES}"
 fi
 
 
