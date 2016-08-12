@@ -2,7 +2,7 @@
 
 readonly DOTFILES=${DOTFILES:-"${HOME}/dotfiles"}
 # readonly DOTFILES_REPO=${DOTFILES_REPO:-"${HOME}/dotfiles"}
-readonly repo="https://github.com/shawnohare/dotfiles"
+readonly repo="https://github.com/shawnohare/dotfiles.git"
 
 cd "${HOME}"
 if [ ! -d "${DOTFILES}" ]; then
@@ -16,6 +16,6 @@ fi
 if [ -d "${DOTFILES}" ]; then
   "${DOTFILES}/bin/bin/dotfiles" -v install linux debian
 else
-  echo "Could not clone dotfiles repository"
+  echo "Error: Could not clone dotfiles ${repo} into ${DOTFILES}."
   exit 1
 fi
