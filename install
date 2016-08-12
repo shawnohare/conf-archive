@@ -1,3 +1,18 @@
+#!/usr/bin/env bash
+# FIXME
+echo "Untested and should not be used yet."
+exit 1
+
+readonly DOTFILES=${DOTFILES:-"${HOME}/dotfiles"}
+readonly DOTFILES_REPO=${DOTFILES:-"${HOME}/dotfiles"}
+
 cd "${HOME}"
-git clone https://github.com/shawnohare/dotfiles.git
-. ~/dotfiles/bin/bin/conf.sh install
+if [ ! -d "${DOTFILES}" ]; then
+  git "${DOTFILES_REPO}" "${DOTFILES}"
+fi
+
+if [ -d "${DOTFILES}" ]; then
+  "${DOTFILES}/bin/bin/dotfiles" -v install $1 $2
+else
+  echo "Could not clone dotfiles repository"
+fi
