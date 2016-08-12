@@ -108,6 +108,7 @@ Plug 'chrisbra/csv.vim',     { 'for': 'csv' }
 Plug 'cespare/vim-toml',     { 'for': 'toml' }
 Plug 'mattn/emmet-vim',      { 'for': 'html' }
 Plug 'othree/html5.vim',     { 'for': 'html' }
+Plug 'mindriot101/vim-yapf' " python autoformatter
 " lazy-loading the julia-vim plugin causes issues
 Plug 'JuliaLang/julia-vim'
 " Plug 'ensime/ensime-vim' " had issues getting ensime to work
@@ -124,6 +125,7 @@ if has('nvim')
   Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '$XDG_CONFIG_HOME/nvim/plugged/gocode/nvim/symlink.sh' }
   Plug 'zchee/deoplete-go', { 'do': 'make' }
   Plug 'zchee/deoplete-jedi'
+  Plug 'drinksober/nvim-yapf-formater' " 2016-08-10T13:08:28-0700 immature
 endif
 
 " Vim only filetype specific plugins

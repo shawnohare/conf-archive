@@ -688,7 +688,7 @@ cmd_python() {
   echo --verbose "Installing and linking python binaries."
   if ! $dry; then
     ${pyenv} global "${vmain}" "${v3}" "${v2}"
-    local mods=( flake8 autoflake pylint ipython )
+    local mods=( 'autoflake' 'flake8'  'pylint' 'ipython' )
     pip="${PYENV_ROOT}/versions/${vmain}/bin/pip"
     for mod in "${mods[@]}"; do
       "${pip}" install --upgrade "${mod}"
