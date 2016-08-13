@@ -154,7 +154,7 @@ parse_opts() {
             echo "Verbosity level 1: normal."
             ;;
           *)
-            echo "Verbosity level ${OPTARG} unknown. Defaulting to levle 1."
+            echo "Verbosity level ${OPTARG} unknown. Defaulting to level 1."
             ;;
         esac
         ;;

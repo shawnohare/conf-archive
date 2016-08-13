@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 readonly DOTFILES=${DOTFILES:-"${HOME}/dotfiles"}
-# readonly DOTFILES_REPO=${DOTFILES_REPO:-"${HOME}/dotfiles"}
 readonly repo="https://github.com/shawnohare/dotfiles.git"
 
 cd "${HOME}"
@@ -11,11 +10,11 @@ if [ ! -d "${DOTFILES}" ]; then
 fi
 
 
-# TODO: do not make the hard lin to linux debian.  Instead,
-# try to install as much as possible via nix-env.
 if [ -d "${DOTFILES}" ]; then
-  "${DOTFILES}/bin/bin/dotfiles" -v install linux debian
+  "${DOTFILES}/bin/bin/dotfiles" -v 2 install 
 else
   echo "Error: Could not clone dotfiles ${repo} into ${DOTFILES}."
   exit 1
 fi
+
+exit 0
