@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-source "../../posix/exists.sh"
+
+DOTFILES=${DOTFILES:-${HOME}/dotfiles}
+source "${DOTFILES}/bin/bin/lib/posix/exists.sh"
 
 # idempotently install the nix package manager.
 get_nix() {
