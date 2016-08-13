@@ -33,6 +33,10 @@ get_pkg() {
     nix-env --install --attr "nixpkgs.${pkg}"
   fi
 
+  # NOTE
+  # This can be a bit weird.  For instance, you can install ag via
+  # nix-env -iA nixpkgs.ag but a query will say this does not exist,
+  # since silver-searcher is actually installed.
   if ! is_pkg_installed "${pkg}"; then
     echo "pkg: Error installing package ${pkg}"
     exit 1

@@ -57,13 +57,23 @@ get_opts() {
 get_pkgs() {
   # TODO: write a nix script to do this.
   # Also, we might need to compile neovim from source still.
-  local pkgs=(ag curl git go neovim stow tmux wget zsh)
+  local pkgs=(
+     silver-searcher
+     curl
+     git
+     go
+     neovim
+     nix-zsh-completions
+     stow
+     tmux
+     wget
+     zsh
+   )
   for pkg in "${pkgs[@]}"; do
     $verbose && echo "Checking for package: ${pkg}"
     $dry || get_pkg "${pkg}"
   done
 }
-
 
 
 display_help() {
