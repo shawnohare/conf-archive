@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
-source "lib/bash/xdg/xdg.sh"
-source "lib/bash/pkg/pkg.sh"
-source "lib/posix/echo.sh"
-
 readonly DOTFILES="${DOTFILES:-${HOME}/dotfiles}"
 readonly DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
+readonly lib="${DOTFILES}/bin/bin/lib"
+
+source "${lib}/bash/xdg/xdg.sh"
+source "${lib}/bash/pkg/pkg.sh"
+source "${lib}/posix/echo.sh"
+
 readonly LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
 readonly PYENV_ROOT="${PYENV_ROOT:-${XDG_BIN_HOME}/stow/pyenv}"
 
