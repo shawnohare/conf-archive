@@ -12,46 +12,22 @@ Dotfiles are generally organized topically.
 
 # Installation
 
-# Manual steps
+1. Install `curl` and `git`.  This can be done with
+```bash
+xcode-select --install # macos
+sudo apt-get install -y curl git # debian / ubuntu
+```
 
-1. On macOS, install the xcode command line tools: `xcode-select --install`
-1. Get pyenv: `curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash`
-1. Get `git` (`xcode-select --install` for macos or `sudo apt-get -y git` on ec2 linux)
-1. Get `stow` (`brew install stow` or potentially build from source on macos)
-1. Get dotfiles repo.
-1. `Run ~/dotfiles/bin/bin/conf init (or install)`
-
-## Initialization
-
-Some manual commands should be run first.
-
-### macOS
-
-- `xcode-select --install` : to install developer command line tools.
-
-### Linux
-
-- Install `curl`.  For example, `sudo apt-get -y install curl` on
-  Debian and Ubuntu.
-
-## Script
-
+1. `curl` the basic install script.
 ```bash
 curl https://raw.githubusercontent.com/shawnohare/dotfiles/master/install | bash
 ```
 
-## dotfiles helper script
+# dotfiles helper script
 
 The `dotfiles` script in the `bin` dir provides a number of commands to ease
-bootstrap and configuration maintenance.
+configuration maintenance.
 
-
-## Clonig
-
-To clone this repository along with its submodule dependencies, use
-```bash
-git clone --recursive https://github.com/shawnohare/dotfiles.git
-```
 
 # Configuration
 
@@ -61,7 +37,7 @@ The `profile` dir contains common shell exports, aliases, and etc. that make
 up our shell profile. It is sourced by `~.bash_profile`, `~.bashrc`, and
 `~/.zshenv`
 
-## Git 
+## Git
 
 These files live in `${XDG_CONFIG_HOME}/git` and represent the global
 user configuration settings.  Local or private settings go in the
