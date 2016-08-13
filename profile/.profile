@@ -136,8 +136,6 @@ if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 # --------------------------------------------------------------------------
 nix_profile_script="${HOME}/.nix-profile/etc/profile.d/nix.sh"
 if [ -e ${nix_profile_script} ]; then 
-  # the nix.sh script will make the necessary path additions.
-  # It also exports path.
   . ${nix_profile_script}
 fi
 export PATH

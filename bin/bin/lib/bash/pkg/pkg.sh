@@ -10,11 +10,12 @@ get_nix() {
     echo "Installing the nix package manager."
     curl "https://nixos.org/nix/install" | sh
     # shellcheck source=/dev/null
-    source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
-    if ! exists "cmd" "nix-env"; then
-      echo --error "Could not install nix"
-      exit 1
-    fi
+  fi
+
+  source "${HOME}/.nix-profile/etc/profile.d/nix.sh"
+  if ! exists "cmd" "nix-env"; then
+    echo --error "Could not install nix"
+    exit 1
   fi
 }
 
