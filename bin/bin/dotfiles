@@ -10,6 +10,7 @@ source "${lib}/posix/echo.sh"
 
 export LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
 export PYENV_ROOT="${PYENV_ROOT:-${XDG_BIN_HOME}/stow/pyenv}"
+export PATH="${HOME}/.nix-profile/bin:${PATH}"
 
 # ---------------------------------------------------------------------------
 # Global variables
