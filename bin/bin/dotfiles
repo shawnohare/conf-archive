@@ -27,14 +27,13 @@ declare logging=false
 # ---------------------------------------------------------------------------
 
 # Get or update a config dependency hosted by Github.
-# Wrapper for get_git_repo
 get_github_opt() {
   local repo="$1";
   if [[ -z "${repo+x}" ]]; then
     $debug && echo "Repository name required."
     exit 1
   fi
-  get_git_repo -u "https://github.com/${repo}.git" "${XDG_OPT_HOME}/${repo}"
+  git_get -u "https://github.com/${repo}.git" "${XDG_OPT_HOME}/${repo}"
 }
 
 # Get external dependencies that are not otherwise managed.
@@ -56,6 +55,7 @@ get_opts() {
 }
 
 get_pkgs() {
+  # link nix config to expose the self-made core package
   "${DOTFILES}/bin/binlndir" "${DOTFILES}/nix" ${HOME}
   nix-env --install --attr nixpkgs.core # our core files
 }

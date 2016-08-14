@@ -1,6 +1,6 @@
 
-# Usage: get_git_repo [--update] remote local
-get_git_repo() {
+# Usage: git_get [--update] remote local
+git_get() {
   local update=false
 
   while true; do
