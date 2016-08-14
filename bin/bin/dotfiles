@@ -10,7 +10,7 @@ source "${lib}/posix/echo.sh"
 
 export LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
 export PYENV_ROOT="${PYENV_ROOT:-${XDG_BIN_HOME}/stow/pyenv}"
-export PATH="${HOME}/.nix-profile/bin:${PATH}"
+export PATH="${HOME}/.nix-profile/bin:${HOME}/bin:${PATH}"
 
 # ---------------------------------------------------------------------------
 # Global variables
@@ -55,24 +55,8 @@ get_opts() {
 }
 
 get_pkgs() {
-  # TODO: write a nix script to do this.
-  # Also, we might need to compile neovim from source still.
-  local pkgs=(
-     silver-searcher
-     curl
-     git
-     go
-     neovim
-     nix-zsh-completions
-     stow
-     tmux
-     wget
-     zsh
-   )
-  for pkg in "${pkgs[@]}"; do
-    $verbose && echo "Checking for package: ${pkg}"
-    $dry || get_pkg "${pkg}"
-  done
+  "${DOTFILES}/bin/binlndir" "${DOTFILES}/nix" ${HOME}
+  nix-env --install --attr nixpkgs.core # our core files
 }
 
 
@@ -218,10 +202,7 @@ parse_opts() {
 # occurs in a common location.
 #-------------------------------------------------------------------------
 
-
-# link each folder in the dotfiles root to the home dir.
-# Usage: link [--restow] [--ignore=dir] [--all] dir1 dir2 ...
-cmd_link() {
+link() {
   local ignores=( emacs ignore )
   local paths=()
 
@@ -273,11 +254,15 @@ cmd_link() {
       "${DOTFILES}/bin/bin/lndir" "${args[@]}" "${DOTFILES}/${path}" "${HOME}"
     fi
   done
-
 }
 
-# inititialize the os ($1) & distro ($2) with the optional install command ($3).
-# This should put things into a state where all the other commands work.
+# link each folder in the dotfiles root to the home dir.
+# Usage: link [--restow] [--ignore=dir] [--all] dir1 dir2 ...
+cmd_link() {
+  link "${@}"
+}
+
+# get the nix package manager, make necessary dirs, and link all configs.
 cmd_init() {
   $dry || get_nix
 
@@ -296,6 +281,8 @@ cmd_init() {
     mkdir -p "${HOME}/bin"
     mkdir -p "${HOME}/tmp"
   fi
+
+  $dry || link --all
 
   return 0
 }
@@ -393,7 +380,6 @@ cmd_install() {
   get_opts
   cmd_zsh
   cmd_python
-  cmd_link
   echo "Finished installing."
   exit 0
 }
@@ -428,7 +414,6 @@ parse_cmd() {
 # It parses the script options.
 init() {
   parse_opts "${@}"
-
 
   # FIXME consider removing and not having such fancy logging.
   # Set up echoging, if necessary.  This is controlled by the -l option.
