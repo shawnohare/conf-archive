@@ -3,6 +3,8 @@
     core = with pkgs; buildEnv {  # pkgs is your overriden set of packages itself
       name = "core";
       paths = [
+        cacert
+        curl
         git
         go
         nix-zsh-completions
