@@ -6,6 +6,7 @@ readonly lib="${DOTFILES}/bin/bin/lib"
 
 source "${lib}/bash/xdg/xdg.sh"
 source "${lib}/bash/pkg/pkg.sh"
+source "${lib}/bash/git/get.sh"
 source "${lib}/posix/echo.sh"
 
 export LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
@@ -350,8 +351,7 @@ cmd_python() {
 
 cmd_zsh() {
   echo "Setting up zsh."
-  get_pkg "zsh"
-
+  get_pkgs # ensure the core packages are installed
 
   local zsh_path
   zsh_path="$(which zsh)"
