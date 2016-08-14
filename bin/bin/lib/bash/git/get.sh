@@ -33,7 +33,7 @@ git_get() {
 
 
   # Error if both arguments are not provided.
-  if [ -z "${remote+x}" || -z "${loc+x}" ]; then
+  if [ -z "${remote+x}" ] || [ -z "${loc+x}" ]; then
     display_help
     exit 1
   fi
