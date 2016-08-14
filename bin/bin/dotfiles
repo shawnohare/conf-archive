@@ -58,7 +58,7 @@ get_opts() {
 
 get_pkgs() {
   # link nix config to expose the self-made core package
-  "${DOTFILES}/bin/binlndir" "${DOTFILES}/nix" ${HOME}
+  "${DOTFILES}/bin/bin/lndir" "${DOTFILES}/nix" ${HOME}
   nix-env --install --attr nixpkgs.core # our core files
 }
 
