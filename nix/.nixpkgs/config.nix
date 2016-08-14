@@ -1,14 +1,21 @@
 {
   packageOverrides = pkgs_: with pkgs_; {  # pkgs_ is the original set of packages
-    core = with pkgs; buildEnv {  # pkgs is your overriden set of packages itself
-      name = "core";
+    mydev = with pkgs; buildEnv {  # pkgs is your overriden set of packages itself
+      name = "mydev";
       paths = [
         cacert
         curl
         git
         go
+        neovim
         nix-zsh-completions
         nox
+        python27Full
+        python27Packages.pip
+        python27Packages.virtualenv
+        python35
+        python35Packages.ipython
+        python35Packages.pew
         silver-searcher
         stow
         tmux
