@@ -267,7 +267,7 @@ cmd_init() {
     mkdir -p "${XDG_DATA_HOME}"
     mkdir -p "${XDG_CACHE_HOME}"
     mkdir -p "${XDG_STATE_HOME}"
-    mkdir -p "${XDG_BIN_HOME}"
+    mkdir -p "${XDG_BIN_HOME}/stow"
     mkdir -p "${XDG_LIB_HOME}"
     mkdir -p "${XDG_TMP_HOME}"
     mkdir -p "${XDG_OPT_HOME}"
@@ -287,11 +287,10 @@ cmd_python() {
   local vmain="3.5.2"
   local v3="${vmain}"
   local v2="2.7.12"
-  local pyenv
-  pyenv="${PYENV_ROOT}/bin/pyenv"
 
   $dry || get_pyenv
 
+  local pyenv="${PYENV_ROOT}/bin/pyenv"
   # create virtual envs for neovim
   # NOTE: the versions here should be updated occasionally
   local vers=( "${v2}" "${v3}" "${vmain}" )
