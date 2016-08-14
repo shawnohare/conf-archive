@@ -72,7 +72,7 @@ get_pyenv() {
   fi
 
   local dest="${XDG_BIN_HOME}/pyenv"
-  "Linking pyenv to ${dest}"
+  "Linking ${PYENV_ROOT}/bin/pyenv to ${dest}"
   [ -e "${dest}" ] && rm "${dest}"
   ln -s "${PYENV_ROOT}/bin/pyenv" "${dest}"
   eval "$("${PYENV_ROOT}"/bin/pyenv init -)"
