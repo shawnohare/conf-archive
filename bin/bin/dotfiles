@@ -313,7 +313,7 @@ cmd_python() {
   $verbose && echo "Installing modules in neovim virtual envs."
   local venvs=( "neovim2" "neovim3" )
   for venv in "${venvs[@]}"; do
-    local pip="${PYENV_ROOT}versions/${venv}/bin/pip"
+    local pip="${PYENV_ROOT}/versions/${venv}/bin/pip"
     if ! $dry; then
       "${pip}" install --upgrade pip
       "${pip}" install --upgrade "neovim"
