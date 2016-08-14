@@ -1,6 +1,19 @@
+#!/usr/bin/env bash
+#
+display_help() {
+  cat << 'EOF'
+  
+  A small wrapper for git clone / git pull.  Fetch a repo if it does not
+  exist, and optionally try to pull the latest version if it does exist
+  and is in a clean state.
 
-# Usage: git_get [--update] remote local
-git_get() {
+  Usage: get [--update] remote local
+
+EOF
+}
+
+# Usage: get [--update] remote local
+get() {
   local update=false
 
   while true; do
@@ -21,7 +34,7 @@ git_get() {
 
   # Error if both arguments are not provided.
   if [ -z "${remote+x}" || -z "${loc+x}" ]; then
-    echo "No remote or no local dir specified."
+    display_help
     exit 1
   fi
 
@@ -47,3 +60,5 @@ git_get() {
     git pull
   fi
 }
+
+get "${@}"

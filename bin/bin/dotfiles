@@ -2,11 +2,12 @@
 
 export DOTFILES="${DOTFILES:-${HOME}/dotfiles}"
 export DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
+
 readonly lib="${DOTFILES}/bin/bin/lib"
+readonly libexec="${DOTFILES}/bin/bin/libexec"
 
 source "${lib}/bash/xdg/xdg.sh"
 source "${lib}/bash/pkg/pkg.sh"
-source "${lib}/bash/git/get.sh"
 source "${lib}/posix/echo.sh"
 
 export LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
@@ -33,7 +34,7 @@ get_github_opt() {
     $debug && echo "Repository name required."
     exit 1
   fi
-  git_get -u "https://github.com/${repo}.git" "${XDG_OPT_HOME}/${repo}"
+  "${libexec}/git/get" -u "https://github.com/${repo}.git" "${XDG_OPT_HOME}/${repo}"
 }
 
 # Get external dependencies that are not otherwise managed.
@@ -76,25 +77,16 @@ Arguments:
 
 Commands:
 
-init ostype [distro] [pkg install cmd]
+init 
 
   Put the system in a state where the rest of the configuration
   commands will work.  This will create the necessary directories
   and install external tools needed to get packages and link configs.
 
-  Supported values for ostype are {macos, linux}.
-  Supported values for distro are {null, debian, ubuntu, arch, nixos}.
 
-  Example usages:
+install 
 
-    init macos
-    init linux debian
-    init linux debian "apt-get install -y"
-
-
-install ostype [distro] [pkg install cmd]
-
-  Fully install the dotfiles. This is mainly a slight extension of the
+  Fully install the configuration. This is mainly a slight extension of the
   init command that installs a few useful tools such as the nix
   package manager, zsh, and pyenv.
 
@@ -351,7 +343,7 @@ cmd_python() {
 
 cmd_zsh() {
   echo "Setting up zsh."
-  get_pkgs # ensure the core packages are installed
+  $dry || get_pkgs # ensure the core packages are installed
 
   local zsh_path
   zsh_path="$(which zsh)"
