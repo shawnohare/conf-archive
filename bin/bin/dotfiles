@@ -8,6 +8,7 @@ readonly libexec="${DOTFILES}/bin/bin/libexec"
 
 source "${lib}/bash/xdg/xdg.sh"
 source "${lib}/bash/pkg/pkg.sh"
+source "${lib}/bash/git/get.sh"
 source "${lib}/posix/echo.sh"
 
 export LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
@@ -34,7 +35,7 @@ get_github_opt() {
     $debug && echo "Repository name required."
     exit 1
   fi
-  "${libexec}/git/get" -u "https://github.com/${repo}.git" "${XDG_OPT_HOME}/${repo}"
+  git_get -u "https://github.com/${repo}.git" "${XDG_OPT_HOME}/${repo}"
 }
 
 # Get external dependencies that are not otherwise managed.

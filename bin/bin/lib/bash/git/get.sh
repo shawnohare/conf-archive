@@ -13,7 +13,7 @@ EOF
 }
 
 # Usage: get [--update] remote local
-get() {
+git_get() {
   local update=false
 
   while true; do
@@ -42,7 +42,6 @@ get() {
     mkdir -p "${loc}"
     git clone --recursive "${remote}" "${loc}"
     return 0
-  else
   fi
 
   if $update; then
