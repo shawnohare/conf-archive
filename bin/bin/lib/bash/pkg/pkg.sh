@@ -55,19 +55,4 @@ ensure_cmd() {
   fi
 }
 
-# install pyenv
-get_pyenv() {
-  get_pkg "readline"
-  get_pkg "sqlite"
-  if ! exists "cmd" "pyenv"; then
-    echo "Installing pyenv."
-    curl -L "https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer" | bash
-  fi
-
-  local dest="${XDG_BIN_HOME}/pyenv"
-  "Linking pyenv to ${dest}"
-  [ -e "${dest}" ] && rm "${dest}"
-  ln -s "${PYENV_ROOT}/bin/pyenv" "${dest}"
-  eval "$("${PYENV_ROOT}"/bin/pyenv init -)"
-}
 
