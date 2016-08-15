@@ -311,7 +311,6 @@ cmd_python() {
 
   $dry || get_pyenv
 
-  local pyenv="${PYENV_ROOT}/bin/pyenv"
   # create virtual envs for neovim
   # NOTE: the versions here should be updated occasionally
   local vers=( "${v2}" "${v3}" "${vmain}" )
