@@ -321,6 +321,7 @@ cmd_python() {
       if [ ! -e "${PYENV_ROOT}/versions/${ver}/bin/python" ]; then
         echo --error "Could not install Python ${ver}".
         exit 1
+      fi
     fi
   done
 
