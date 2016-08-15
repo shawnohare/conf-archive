@@ -318,6 +318,9 @@ cmd_python() {
     if ! $dry && [ ! -e "${PYENV_ROOT}/versions/${ver}" ]; then
       $verbose && echo "Pyenv is installing ${ver}".
       ${pyenv} install "${ver}"
+      if [ ! -e "${PYENV_ROOT}/versions/${ver}/bin/python" ]; then
+        echo --error "Could not install Python ${ver}".
+        exit 1
     fi
   done
 
