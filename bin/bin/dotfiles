@@ -377,7 +377,8 @@ cmd_zsh() {
   # Change this user's default shell to Homebrewed zsh
   if [ "${SHELL}" != "${zsh_path}" ]; then
     echo "Changing this user's default shell to zsh."
-    $dry || chsh -s "${zsh_path}" "${USER}"
+    local user="${USER}"
+    $dry || sudo chsh -s "${zsh_path}" "${user}"
   fi
   return 0
   exit 0
