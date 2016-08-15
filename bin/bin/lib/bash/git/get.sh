@@ -60,4 +60,4 @@ git_get() {
   fi
 }
 
-get "${@}"
+git_get "${@}"

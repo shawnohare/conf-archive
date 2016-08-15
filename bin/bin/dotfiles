@@ -24,6 +24,8 @@ declare debug=false
 declare dry=false
 declare logging=false
 
+readonly pyenv="${PYENV_ROOT}/bin/pyenv"
+
 # ---------------------------------------------------------------------------
 # Packages
 # ---------------------------------------------------------------------------
@@ -57,8 +59,7 @@ get_opts() {
 }
 
 get_pkgs() {
-  # link nix config to expose the self-made core package
-  "${DOTFILES}/bin/bin/lndir" "${DOTFILES}/nix" ${HOME}
+  # this assumes the nix dir has previously been linked
   nix-env --install --attr nixpkgs.core # our core files
 }
 
@@ -66,16 +67,16 @@ get_pkgs() {
 get_pyenv() {
   get_pkg "readline"
   get_pkg "sqlite"
-  if ! exists "cmd" "pyenv"; then
+  if [ ! -e "${pyenv}" ]; then
     echo "Installing pyenv."
     curl -L "https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer" | bash
   fi
 
   local dest="${XDG_BIN_HOME}/pyenv"
-  "Linking ${PYENV_ROOT}/bin/pyenv to ${dest}"
+  "Linking ${pyenv} to ${dest}"
   [ -e "${dest}" ] && rm "${dest}"
-  ln -s "${PYENV_ROOT}/bin/pyenv" "${dest}"
-  eval "$("${PYENV_ROOT}"/bin/pyenv init -)"
+  ln -s "${pyenv}" "${dest}"
+  eval "$(${pyenv} init -)"
 }
 
 
@@ -215,6 +216,8 @@ parse_opts() {
 link() {
   local ignores=( emacs ignore )
   local paths=()
+  local opts=()
+  $verbose && opts+=('--verbose')
 
   cd "${DOTFILES}" || echo --error "${DOTFILES} does not exist."
   while true; do
@@ -223,6 +226,10 @@ link() {
         local ig="${1#*=}"
         shift
         ignores+=("${ig}") # append
+        ;;
+      "--force" | "-f")
+        shift
+        opts+=('--force')
         ;;
       "--all")
         for path in *; do
@@ -259,9 +266,7 @@ link() {
     done
 
     if $should_link; then
-      local args=( '--force' )
-      $verbose && args+=('--verbose')
-      "${DOTFILES}/bin/bin/lndir" "${args[@]}" "${DOTFILES}/${path}" "${HOME}"
+      "${DOTFILES}/bin/bin/lndir" "${opts[@]}" "${DOTFILES}/${path}" "${HOME}"
     fi
   done
 }
@@ -292,7 +297,7 @@ cmd_init() {
     mkdir -p "${HOME}/tmp"
   fi
 
-  $dry || link --all
+  $dry || link --force --all
 
   return 0
 }
@@ -372,7 +377,7 @@ cmd_zsh() {
   fi
 
   # Change this user's default shell to Homebrewed zsh
-  if [[ ${SHELL} != "${zsh_path}" ]]; then
+  if [ "${SHELL}" != "${zsh_path}" ]; then
     echo "Changing this user's default shell to zsh."
     $dry || chsh -s "${zsh_path}" "${USER}"
   fi
@@ -447,4 +452,3 @@ main() {
 }
 
 main "${@}"
-
