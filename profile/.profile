@@ -19,8 +19,10 @@ export XDG_LIB_HOME="${HOME}/.local/lib"
 export XDG_OPT_HOME="${HOME}/.local/opt"
 export XDG_VAR_HOME="${HOME}/.local/var"
 
-# User
+# User created variables.
 export DOTFILES="${HOME}/dotfiles"
+export DOTFILES_BIN_HOME="${HOME}/dotfiles/bin/bin"
+export PYTHON_VENV_HOME="${XDG_DATA_HOME}/python/venvs"
 
 # General
 export BASH="/usr/local/bin/bash"
@@ -134,6 +136,11 @@ PATH="${GOPATH}/bin:${PATH}"
 # --------------------------------------------------------------------------
 # Python
 # --------------------------------------------------------------------------
+
+# pyve
+if [ -e "${DOTFILES_BIN}/pyve/pyve.sh" ]; then
+  source "${DOTFILES_BIN}/pyve/pyve.sh"
+fi
 
 # pyenv
 export PYENV_ROOT="${XDG_BIN_HOME}/stow/pyenv"

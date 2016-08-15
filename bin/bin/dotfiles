@@ -11,8 +11,9 @@ source "${lib}/bash/pkg/pkg.sh"
 source "${lib}/bash/git/get.sh"
 source "${lib}/posix/echo.sh"
 
-export LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
+# export LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
 export PYENV_ROOT="${PYENV_ROOT:-${XDG_BIN_HOME}/stow/pyenv}"
+export PYTHON_VENV_HOME="${PYTHON_VENV_HOME:-${XDG_DATA_HOME}/python/venvs}"
 export PATH="${HOME}/.nix-profile/bin:${HOME}/bin:${PATH}"
 
 # ---------------------------------------------------------------------------
