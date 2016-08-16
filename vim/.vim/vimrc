@@ -101,6 +101,7 @@ Plug 'ntpeters/vim-better-whitespace'
 " plugins tend to not load very much initially, so it could be
 " advantageous to load all plugins.
 " use vim-latex instead?
+Plug 'LnL7/vim-nix' ,        { 'for': 'nix' }
 Plug 'lervag/vimtex' ,       { 'for': 'tex' }
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 Plug 'fatih/vim-go',         { 'for': 'go' }

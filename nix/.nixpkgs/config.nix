@@ -15,7 +15,7 @@
         python27Packages.virtualenv
         python35
         python35Packages.ipython
-        python35Packages.pew
+        # python35Packages.pew # virtualenv tool, but venv path below nix's
         silver-searcher
         stow
         tmux

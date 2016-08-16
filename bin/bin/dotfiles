@@ -95,14 +95,14 @@ Arguments:
 
 Commands:
 
-init 
+init
 
   Put the system in a state where the rest of the configuration
   commands will work.  This will create the necessary directories
   and install external tools needed to get packages and link configs.
 
 
-install 
+install
 
   Fully install the configuration. This is mainly a slight extension of the
   init command that installs a few useful tools such as the nix
@@ -216,7 +216,7 @@ parse_opts() {
 link() {
   local ignores=( emacs ignore )
   local paths=()
-  local opts=()
+  local opts=('--force')
   $verbose && opts+=('--verbose')
 
   cd "${DOTFILES}" || echo --error "${DOTFILES} does not exist."
@@ -226,10 +226,6 @@ link() {
         local ig="${1#*=}"
         shift
         ignores+=("${ig}") # append
-        ;;
-      "--force" | "-f")
-        shift
-        opts+=('--force')
         ;;
       "--all")
         for path in *; do
@@ -297,7 +293,7 @@ cmd_init() {
     mkdir -p "${HOME}/tmp"
   fi
 
-  $dry || link --force --all
+  $dry || link --all
 
   return 0
 }

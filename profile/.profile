@@ -2,9 +2,9 @@
 # This file is not read by bash, if ~/.bash_profile or ~/.bash_login exists.
 # See /usr/share/doc/bash/examples/startup-files for examples.
 
-# ====================================================================== 
+# ======================================================================
 # Exports
-# ====================================================================== 
+# ======================================================================
 
 # XDG
 # For the XDG specification, one good resource is:
@@ -15,9 +15,9 @@ export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_STATE_HOME="${HOME}/.local/state" # can persist after reboot: logs
 # personal XDG-like vars
 export XDG_BIN_HOME="${HOME}/.local/bin"
-export XDG_LIB_HOME="${HOME}/.local/lib"  
-export XDG_OPT_HOME="${HOME}/.local/opt"  
-export XDG_VAR_HOME="${HOME}/.local/var" 
+export XDG_LIB_HOME="${HOME}/.local/lib"
+export XDG_OPT_HOME="${HOME}/.local/opt"
+export XDG_VAR_HOME="${HOME}/.local/var"
 
 # User
 export DOTFILES="${HOME}/dotfiles"
@@ -30,7 +30,7 @@ export EDITOR="nvim"
 export SCREENRC="${XDG_CONFIG_HOME}/screen/screenrc"
 export VISUAL="nvim"
 
-# colors 
+# colors
 # All of these settings enable consistent coloring of the most frequently
 # used parts of the CLI. For historical reasons 'ls', 'less', 'grep', and
 # the completion menu all require separate color settings.
@@ -43,7 +43,7 @@ export LSCOLORS='exfxcxdxbxGxDxabagacad'
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
 
 # neovim
-# NOTE: 2016-08-02T13:19:45-0700 
+# NOTE: 2016-08-02T13:19:45-0700
 # truecolor support for neovim can be toggled in init.vim config file now,
 # but we still export this variable to support older versions
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -85,7 +85,7 @@ fi
 
 
 # =========================================================================
-# path 
+# path
 # Set in a function so we have greater control over when exactly the path
 # is built
 # =========================================================================
@@ -96,7 +96,7 @@ PATH="${HOME}/bin:${XDG_BIN_HOME}:/usr/local/bin:/usr/local/sbin:$PATH"
 
 # --------------------------------------------------------------------------
 # Haskell
-# FIXME: 2016-07-31T11:38:47-0700 
+# FIXME: 2016-07-31T11:38:47-0700
 # This needs to be updated to reflect best haskell practices.
 # --------------------------------------------------------------------------
 
@@ -116,7 +116,7 @@ fi
 PATH=".stack_work:${PATH}"
 
 # --------------------------------------------------------------------------
-# iterm 
+# iterm
 # --------------------------------------------------------------------------
 # if [ -e "${XDG_CONFIG_HOME}/iterm/iterm2_shell_integration.`basename $SHELL`" ]; then
 #   source "${XDG_CONFIG_HOME}/iterm/iterm2_shell_integration.`basename $SHELL`"
@@ -142,10 +142,10 @@ if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 #
 
 # --------------------------------------------------------------------------
-# nix 
+# nix
 # --------------------------------------------------------------------------
 nix_profile_script="${HOME}/.nix-profile/etc/profile.d/nix.sh"
-if [ -e ${nix_profile_script} ]; then 
+if [ -e ${nix_profile_script} ]; then
   . ${nix_profile_script}
 fi
 export PATH
