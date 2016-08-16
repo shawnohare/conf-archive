@@ -142,10 +142,10 @@ if [ -e "${DOTFILES_BIN_HOME}/pyve/pyve.sh" ]; then
   source "${DOTFILES_BIN_HOME}/pyve/pyve.sh"
 fi
 
-# pyenv
-export PYENV_ROOT="${XDG_BIN_HOME}/stow/pyenv"
+# pyenv 2016-08-16T15:08:16+0000 TODO transition away from pyenv 
+# export PYENV_ROOT="${XDG_BIN_HOME}/stow/pyenv"
 # pyenv init will use PYENV_ROOT or default to ~/.pyenv
-if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+# if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 #
 
 # --------------------------------------------------------------------------

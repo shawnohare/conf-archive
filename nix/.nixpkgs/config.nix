@@ -1,7 +1,7 @@
 {
   packageOverrides = pkgs_: with pkgs_; {  # pkgs_ is the original set of packages
-    mydev = with pkgs; buildEnv {  # pkgs is your overriden set of packages itself
-      name = "mydev";
+    myworkspace = with pkgs; buildEnv {  # pkgs is your overriden set of packages itself
+      name = "myworkspace";
       paths = [
         cacert
         curl
@@ -14,7 +14,9 @@
         python27Packages.pip
         python27Packages.virtualenv
         python35
+        python35Packages.flake8
         python35Packages.ipython
+        python35Packages.pylint
         # python35Packages.pew # virtualenv tool, but venv path below nix's
         silver-searcher
         stow

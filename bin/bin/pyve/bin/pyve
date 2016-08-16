@@ -49,10 +49,13 @@ cmd_activate() {
 
 
 # Delete a virtual env.
-cmd_del() {
-  if [ ! -z "${1}" ] && [ -e "${PYTHON_VENV_HOME}/${1}" ]; then
-    rm -rf "${PYTHON_VENV_HOME}/${1}"
-  fi
+cmd_remove() {
+  while [ ! -z "${1}" ]; do
+    if [ ! -z "${1}" ] && [ -e "${PYTHON_VENV_HOME}/${1}" ]; then
+      rm -rf "${PYTHON_VENV_HOME}/${1}"
+    fi
+    shift
+  done 
 }
 
 
@@ -106,7 +109,7 @@ cmd_new() {
     return 0
   fi
 
-  ver=$(python -V 2>&1 | grep -Po '(?<=Python )(.+)')
+  ver=$(${python} -V 2>&1 | grep -Po '(?<=Python )(.+)')
 
   case "${ver}" in
     3*)
@@ -142,7 +145,7 @@ main() {
         break
         ;;
       del | delete | rm | remove)
-        "cmd_del" "${@}"
+        "cmd_remove" "${@}"
         break
         ;;
       ls | list)

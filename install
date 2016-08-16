@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
 
 readonly DOTFILES=${DOTFILES:-"${HOME}/dotfiles"}
+readonly BRANCH=${BRANCH:-"master"}
 readonly repo="https://github.com/shawnohare/dotfiles.git"
 
 cd "${HOME}"
 if [ ! -d "${DOTFILES}" ]; then
-  echo "Cloning ${repo}" 
-  git clone --recursive "${repo}" "${DOTFILES}"
+  echo "Cloning ${repo}"
+  git clone -b "${BRANCH} "--recursive "${repo}" "${DOTFILES}"
 fi
 
 
 if [ -d "${DOTFILES}" ]; then
-  "${DOTFILES}/bin/bin/dotfiles" -v 2 install 
+  "${DOTFILES}/bin/bin/dotfiles" -v install
 else
   echo "Error: Could not clone dotfiles ${repo} into ${DOTFILES}."
   exit 1

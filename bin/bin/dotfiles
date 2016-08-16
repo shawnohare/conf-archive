@@ -12,7 +12,6 @@ source "${lib}/bash/xdg/xdg.sh"
 source "${lib}/posix/echo.sh"
 
 # export LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
-export PYENV_ROOT="${PYENV_ROOT:-${XDG_BIN_HOME}/stow/pyenv}"
 export PYTHON_VENV_HOME="${PYTHON_VENV_HOME:-${XDG_DATA_HOME}/python/venvs}"
 export PATH="${HOME}/.nix-profile/bin:${HOME}/bin:${PATH}"
 
@@ -25,8 +24,45 @@ declare debug=false
 declare dry=false
 declare logging=false
 
-readonly pyenv="${PYENV_ROOT}/bin/pyenv"
+display_help() {
+  cat << 'EOF'
 
+Usage: dotfiles.sh [-dhlv] [cmd]
+
+Arguments:
+
+-a arg : do something with a_arg
+-d : Execute a dry-run.  The system state is not changed.
+-h : print this help message.
+-l : echo to the logfile specified in the LOGFILE env variable.
+-v : run in verbose mode to print debugging statements.
+
+Commands:
+
+init
+
+  Put the system in a state where the rest of the configuration
+  commands will work.  This will create the necessary directories
+  and install external tools needed to get packages and link configs.
+
+
+install
+
+  Fully install the configuration. This is mainly a slight extension of the
+  init command that installs a few useful tools such as the nix
+  package manager, zsh, and pyenv.
+
+
+link [-a] [dir1 dir2 ...]
+
+  Link dotfile dirs.  This will copy the directory substructure of each
+  dotfiles dir and then use GNU stow to symlink the contents.  The --all flag
+  is not necessary, and provided for semantic purposes.  Additional arguments
+  for the stow command are passed through.  For example
+    link --restow : calls stow dir --restow
+
+EOF
+}
 # ---------------------------------------------------------------------------
 # Packages
 # ---------------------------------------------------------------------------
@@ -79,65 +115,9 @@ get_opts() {
 
 get_pkgs() {
   # this assumes the nix dir has previously been linked
-  nix-env --install --attr nixpkgs.core # our core files
+  nix-env --install --attr nixpkgs.myworkspace
 }
 
-# install pyenv
-get_pyenv() {
-  get_pkg "readline"
-  get_pkg "sqlite"
-  if [ ! -e "${pyenv}" ]; then
-    echo "Installing pyenv."
-    curl -L "https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer" | bash
-  fi
-
-  local dest="${XDG_BIN_HOME}/pyenv"
-  "Linking ${pyenv} to ${dest}"
-  [ -e "${dest}" ] && rm "${dest}"
-  ln -s "${pyenv}" "${dest}"
-  eval "$(${pyenv} init -)"
-}
-
-
-display_help() {
-  cat << 'EOF'
-
-Usage: dotfiles.sh [-dhlv] [cmd]
-
-Arguments:
-
--a arg : do something with a_arg
--d : Execute a dry-run.  The system state is not changed.
--h : print this help message.
--l : echo to the logfile specified in the LOGFILE env variable.
--v : run in verbose mode to print debugging statements.
-
-Commands:
-
-init
-
-  Put the system in a state where the rest of the configuration
-  commands will work.  This will create the necessary directories
-  and install external tools needed to get packages and link configs.
-
-
-install
-
-  Fully install the configuration. This is mainly a slight extension of the
-  init command that installs a few useful tools such as the nix
-  package manager, zsh, and pyenv.
-
-
-link [-a] [dir1 dir2 ...]
-
-  Link dotfile dirs.  This will copy the directory substructure of each
-  dotfiles dir and then use GNU stow to symlink the contents.  The --all flag
-  is not necessary, and provided for semantic purposes.  Additional arguments
-  for the stow command are passed through.  For example
-    link --restow : calls stow dir --restow
-
-EOF
-}
 
 # extract any options with getopts
 parse_opts() {
@@ -305,65 +285,31 @@ cmd_init() {
   return 0
 }
 
+
+# FIXME using nix to install python has some downsides in that you cannot
+# simply pip install on the nix copies due to permission constraints.
+# One workaround is to create venvs and link them something like ~/bin,
+# but really we shouldn't be installing too much into the global pythons
 cmd_python() {
 
-  # Define the stable versions of python
-  local vmain="3.5.2"
-  local v3="${vmain}"
-  local v2="2.7.12"
+  local pyve="${DOTFILES_BIN_HOME}/pyve/bin/pyve"
 
-  $dry || get_pyenv
-
-  # create virtual envs for neovim
-  # NOTE: the versions here should be updated occasionally
-  local vers=( "${v2}" "${v3}" "${vmain}" )
-  for ver in "${vers[@]}"; do
-    if ! $dry && [ ! -e "${PYENV_ROOT}/versions/${ver}" ]; then
-      $verbose && echo "Pyenv is installing ${ver}".
-      ${pyenv} install "${ver}"
-      if [ ! -e "${PYENV_ROOT}/versions/${ver}/bin/python" ]; then
-        echo --error "Could not install Python ${ver}".
-        exit 1
-      fi
-    fi
-  done
-
-
-  $verbose && echo "Creating neovim virtual envs."
+  $verbose && echo "Ensuring neovim virtual envs."
   if ! $dry; then
-    ${pyenv} virtualenv "${v2}" "neovim2"
-    ${pyenv} virtualenv "${v3}" "neovim3"
-    eval "$(${pyenv} init -)"
+    "${pyve}" new "--python=python2" "neovim2"
+    "${pyve}" new "--python=python3" "neovim3"
   fi
-
 
   $verbose && echo "Installing modules in neovim virtual envs."
   local venvs=( "neovim2" "neovim3" )
   for venv in "${venvs[@]}"; do
-    local pip="${PYENV_ROOT}/versions/${venv}/bin/pip"
+    local pip="${PYTHON_VENV_HOME}/${venv}/bin/pip"
     if ! $dry; then
       "${pip}" install --upgrade pip
       "${pip}" install --upgrade "neovim"
       "${pip}" install --upgrade "jedi"
     fi
   done
-
-  # link some python binaries so they are available to external
-  # programs, regardless of the current python environment.
-  # This is mostly to expose linters and autoformatters.
-  $verbose && echo "Installing and linking python binaries."
-  if ! $dry; then
-    ${pyenv} global "${vmain}" "${v3}" "${v2}"
-    local mods=( 'autoflake' 'flake8'  'pylint' 'ipython' )
-    pip="${PYENV_ROOT}/versions/${vmain}/bin/pip"
-    for mod in "${mods[@]}"; do
-      "${pip}" install --upgrade "${mod}"
-      ${pyenv} rehash
-      local dest="${XDG_BIN_HOME}/${mod}"
-      [ -L "${dest}" ] && rm "${dest}"
-      ln -s "${PYENV_ROOT}/versions/${vmain}/bin/${mod}" "${dest}"
-    done
-  fi
 
   return 0
 }
