@@ -1,0 +1,137 @@
+#!/usr/bin/env bash
+
+PYTHON_VENV_HOME="${PYENV_VENV_HOME:-${XDG_DATA_HOME}/python/venvs}"
+
+display_help() {
+  cat << 'EOF'
+
+  Create and activate Python virtual environments.
+
+  Works best assuming multiple versions of python > 3.5 and a single
+  version of Python 2, perhaps installed by Nix.
+
+  Usage: pyv [global options] cmd [...]
+
+  Commands
+
+  new [--python|-p] venv : Create a new virtual env named $venv in
+  $XDG_DATA_HOME/python/venvs.  If the optional --python flag is
+  given a path to a python binary, that version is used to create
+  the virtual env. The default value is python3.
+
+  Example:
+
+  pyv --python=python2 myvenv
+  pyv --python=~/.nix-profile/bin/python3.5 myvenv
+
+  use venv : Activate the named virtual environment, if it exists.
+
+  Example:
+
+  pyv myvenv
+
+EOF
+}
+
+# commands: new, activate, delete
+# accept python version?
+# if python ver is 3, use python3 -m venv ... with new
+# otheruse use
+
+# activate an existing venv $1 in $PYENV_VENV_HOME.
+use () {
+  local f="${PYENV_VENV_HOME}/${1}/bin/activate"
+  if [ -e "${f}" ]; then
+    echo "Activating ${PYENV_VENV_HOME}/${1}."
+    echo "Use deactivate to exit the virtual env."
+    source "${f}"
+  else
+    echo "Virtual env ${1} does not exist."
+    exit 1
+  fi
+}
+
+remove() {
+  if [ ! -z "${1}" ] && [ -e "${PYENV_VENV_HOME}/${1}" ]; then
+    rm -rf "${PYENV_VENV_HOME}/${1}"
+  fi
+}
+
+
+# Use the tool $1 to create a venv $2.
+new_from_tool() {
+  if [ -z "${1}" ] || [ -z "${2}" ]; then
+    echo "No virtual env tool or venv name passed."
+    exit 1
+  fi
+
+  local tool="${1}"
+  local venv="${2}"
+
+  echo "Using ${tool} to create ${PYENV_VENV_HOME}/${venv}".
+
+  if command -v "${tool}" >/dev/null 2>&1; then
+    "${tool}" "${venv}"
+  else
+    echo "Could not find virtual env tool ${tool}."
+    exit 1
+  fi
+}
+
+# Create a new virtual env $1 in $PYENV_VENV_HOME using the python binary specified in
+# the --python option.
+new() {
+  local python="python3" # default python to use
+
+  # parse opts
+  while true; do
+    case "${1}" in
+      "--python=" | "-p=")
+        python="${1#*=}"
+        shift
+        ;;
+      *)
+        break
+    esac
+  done
+
+  local ver="$(${python} --version)"
+  local name="${1}"
+
+  case "${ver}" in
+    "Python 3.5"*)
+      "${python}" -m venv "${name}"
+      ;;
+    "Python 3"*)
+      new_from_tool "pyvenv" "${name}"
+      ;;
+    "Python 2"*)
+      new_from_tool "virtualenv" "${name}"
+      ;;
+  esac
+
+}
+
+
+main() {
+  mkdir -p ${PYENV_VENV_HOME}
+  cd "${PYENV_VENV_HOME}"
+
+  while true; do
+    case "${1}" in
+      use | new | del)
+        shift
+        "${1}" "${@}"
+        break
+        ;;
+      *)
+        echo "Command ${1} not recognized."
+        display_help
+        exit1
+        ;;
+      esac
+  done
+  exit 0
+}
+
+main "${@}"
