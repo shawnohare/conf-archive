@@ -138,8 +138,8 @@ PATH="${GOPATH}/bin:${PATH}"
 # --------------------------------------------------------------------------
 
 # pyve
-if [ -e "${DOTFILES_BIN}/pyve/pyve.sh" ]; then
-  source "${DOTFILES_BIN}/pyve/pyve.sh"
+if [ -e "${DOTFILES_BIN_HOME}/pyve/pyve.sh" ]; then
+  source "${DOTFILES_BIN_HOME}/pyve/pyve.sh"
 fi
 
 # pyenv

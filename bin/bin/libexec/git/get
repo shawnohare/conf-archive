@@ -2,7 +2,7 @@
 #
 display_help() {
   cat << 'EOF'
-  
+
   A small wrapper for git clone / git pull.  Fetch a repo if it does not
   exist, and optionally try to pull the latest version if it does exist
   and is in a clean state.
@@ -13,7 +13,7 @@ EOF
 }
 
 # Usage: get [--update] remote local
-git_get() {
+get() {
   local update=false
 
   while true; do
@@ -60,4 +60,4 @@ git_get() {
   fi
 }
 
-git_get "${@}"
+get "${@}"

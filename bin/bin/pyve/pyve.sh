@@ -25,7 +25,7 @@ pyve() {
       ;;
 
     *)
-      "${DOTFILES_BIN_HOME}/pyve/bin/pyve" "${@}"
+      "${DOTFILES_BIN_HOME}/pyve/bin/pyve" "${cmd}" "${@}"
       ;;
    esac
 

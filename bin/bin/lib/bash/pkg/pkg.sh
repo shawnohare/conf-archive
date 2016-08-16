@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# NOTE: By using nix collections, the need to get / ensure packages
+# becomes largely superfluous.
 
 
 DOTFILES=${DOTFILES:-${HOME}/dotfiles}
@@ -9,7 +11,6 @@ get_nix() {
   if ! exists "cmd" "nix-env"; then
     echo "Installing the nix package manager."
     curl "https://nixos.org/nix/install" | sh
-    # shellcheck source=/dev/null
   fi
 
   source "${HOME}/.nix-profile/etc/profile.d/nix.sh"

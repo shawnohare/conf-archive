@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 export DOTFILES="${DOTFILES:-${HOME}/dotfiles}"
 export DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
 
@@ -7,8 +9,6 @@ readonly lib="${DOTFILES}/bin/bin/lib"
 readonly libexec="${DOTFILES}/bin/bin/libexec"
 
 source "${lib}/bash/xdg/xdg.sh"
-source "${lib}/bash/pkg/pkg.sh"
-source "${lib}/bash/git/get.sh"
 source "${lib}/posix/echo.sh"
 
 # export LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
@@ -31,6 +31,24 @@ readonly pyenv="${PYENV_ROOT}/bin/pyenv"
 # Packages
 # ---------------------------------------------------------------------------
 
+# idempotently install the nix package manager.
+init_nix() {
+  # get nix if necessary
+  if [ ! -e "${HOME}/.nix-profile/bin/nix-env" ]; then
+    echo "Installing the nix package manager."
+    curl "https://nixos.org/nix/install" | sh
+  fi
+
+  # load the nix profile
+  local f="${HOME}/.nix-profile/etc/profile.d/nix.sh"
+  if [ -e "${f}" ]; then
+    source "${f}"
+  else
+    echo --error "${f} not found."
+    exit 1
+  fi
+}
+
 # Get or update a config dependency hosted by Github.
 get_github_opt() {
   local repo="$1";
@@ -38,7 +56,7 @@ get_github_opt() {
     $debug && echo "Repository name required."
     exit 1
   fi
-  git_get -u "https://github.com/${repo}.git" "${XDG_OPT_HOME}/${repo}"
+  "${libexec}/git/get" -u "https://github.com/${repo}.git" "${XDG_OPT_HOME}/${repo}"
 }
 
 # Get external dependencies that are not otherwise managed.
@@ -124,7 +142,7 @@ EOF
 # extract any options with getopts
 parse_opts() {
   OPTIND=1
-  while getopts ":a:dhlpv:" opt "${@}"; do
+  while getopts ":a:dhlpv" opt "${@}"; do
     case "${opt}" in
       a)
         # option -a is set with argument $OPTARG
@@ -147,23 +165,9 @@ parse_opts() {
         echo "User prompts enabled."
         ;;
       v)
-        case "${OPTARG}" in
-          3)
-            echo "Verbosity level 3: debug."
-            debug=true
-            verbose=true
-            ;;
-          2)
-            echo "Verbosity level 2: verbose."
-            verbose=true
-            ;;
-          1)
-            echo "Verbosity level 1: normal."
-            ;;
-          *)
-            echo "Verbosity level ${OPTARG} unknown. Defaulting to level 1."
-            ;;
-        esac
+        echo "Verbosity level 3: debug."
+        debug=true
+        verbose=true
         ;;
       \?)
         echo "Invalid option: -${OPTARG}"
@@ -228,7 +232,9 @@ link() {
         shift
         ignores+=("${ig}") # append
         ;;
-      "--all")
+      --all | -a)
+        shift
+        echo "Linking all configs."
         for path in *; do
           $verbose && echo "Adding ${path} to link candidates."
           paths+=("${path}")
@@ -276,7 +282,7 @@ cmd_link() {
 
 # get the nix package manager, make necessary dirs, and link all configs.
 cmd_init() {
-  $dry || get_nix
+  $dry || init_nix
 
   # make dirs
   $verbose && echo "Making necessary dirs."

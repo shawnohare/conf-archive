@@ -11,7 +11,7 @@ display_help() {
   Works best assuming multiple versions of python > 3.5 and a single
   version of Python 2, perhaps installed by Nix.
 
-  Usage: pyv [global options] cmd [...]
+  Usage: pyve [global options] cmd [...]
 
   Commands
 
@@ -26,6 +26,7 @@ display_help() {
 
 
   del venv  : delete the virtual env named venv
+
   list | ls : list current virtual envs
 
 EOF
@@ -83,7 +84,7 @@ cmd_new() {
   # parse opts
   while true; do
     case "${1}" in
-      "--python=" | "-p=")
+      --python=* | -p=*)
         python="${1#*=}"
         shift
         ;;
@@ -100,30 +101,32 @@ cmd_new() {
     path="${PYTHON_VENV_HOME}/${1}"
   fi
 
-  local ver="$(${python} --version)"
-
   if [ -e "${path}" ]; then
     echo "Virtual env ${path} already exists."
     return 0
   fi
 
+  ver=$(python -V 2>&1 | grep -Po '(?<=Python )(.+)')
+
   case "${ver}" in
-    "Python 3.5"*)
+    3*)
       echo "Running ${python} -m venv ${path}"
       "${python}" -m venv "${path}"
       ;;
-    "Python 3"*)
-      new_from_tool "pyvenv" "${path}"
+    2*)
+      # TODO make this more robust
+      virtualenv "${path}"
       ;;
-    "Python 2"*)
-      new_from_tool "virtualenv" "${path}"
+    *)
+      echo "debug Unknown python version"
+      return 1
       ;;
   esac
 }
 
 
 cmd_list() {
-  ls ${PYTHON_VENV_HOME} 
+  ls ${PYTHON_VENV_HOME}
 }
 
 main() {
@@ -134,8 +137,12 @@ main() {
 
   while true; do
     case "${cmd}" in
-       new | del)
+       new)
         "cmd_${cmd}" "${@}"
+        break
+        ;;
+      del | delete | rm | remove)
+        "cmd_del" "${@}"
         break
         ;;
       ls | list)
@@ -145,6 +152,10 @@ main() {
       use | act | activate)
         cmd_activate "${@}"
         break
+        ;;
+      help | --help | -h)
+        display_help
+        exit
         ;;
       *)
         echo "Command ${1} not recognized."
