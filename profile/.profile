@@ -94,7 +94,7 @@ fi
 
 # Generic binaries
 # Make sure ~/bin, and usr/local/bin occurs before usr/bin.
-PATH="${HOME}/bin:${XDG_BIN_HOME}:/usr/local/bin:/usr/local/sbin:$PATH"
+PATH="${XDG_BIN_HOME}:/usr/local/bin:/usr/local/sbin:$PATH"
 
 # --------------------------------------------------------------------------
 # Haskell
@@ -142,7 +142,7 @@ if [ -e "${DOTFILES_BIN_HOME}/pyve/pyve.sh" ]; then
   source "${DOTFILES_BIN_HOME}/pyve/pyve.sh"
 fi
 
-# pyenv 2016-08-16T15:08:16+0000 TODO transition away from pyenv 
+# pyenv 2016-08-16T15:08:16+0000 TODO transition away from pyenv
 # export PYENV_ROOT="${XDG_BIN_HOME}/stow/pyenv"
 # pyenv init will use PYENV_ROOT or default to ~/.pyenv
 # if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
@@ -155,4 +155,8 @@ nix_profile_script="${HOME}/.nix-profile/etc/profile.d/nix.sh"
 if [ -e ${nix_profile_script} ]; then
   . ${nix_profile_script}
 fi
+
+# Insert our personal bin dir before everything else.  Aside from personal
+# binaries, various overrides can go here, such as neovim compiled from
+PATH="${HOME}/bin:${PATH}"
 export PATH
