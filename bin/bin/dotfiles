@@ -145,7 +145,6 @@ parse_opts() {
         echo "User prompts enabled."
         ;;
       v)
-        echo "Verbosity level 3: debug."
         debug=true
         verbose=true
         ;;
