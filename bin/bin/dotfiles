@@ -2,18 +2,37 @@
 
 set -e
 
-export DOTFILES="${DOTFILES:-${HOME}/dotfiles}"
-export DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
+# ---------------------------------------------------------------------------
+# Global Constants
+# These will be set to the value of
+# the corresponding environment variable if that variable is set and
+# not null, or to the default substitution listed after the :-
+# We follow the convention that add-ons go in ~/opt and logs in ~/var
+# For the XDG specification, one good resource is:
+# https://wiki.debian.org/XDGBaseDirectorySpecification
+# ---------------------------------------------------------------------------
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
+XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
+XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
+XDG_STATE_HOME="${XDG_STATE_HOME:-${HOME}/.state}"
+XDG_BIN_HOME="${XDG_BIN_HOME:-${HOME}/.local/bin}"
+XDG_LIB_HOME="${XDG_LIB_HOME:-${HOME}/.local/lib}"
+XDG_OPT_HOME="${XDG_OPT_HOME:-${HOME}/.local/opt}"
+XDG_TMP_HOME="${XDG_TMP_HOME:-${HOME}/.local/tmp}"
+XDG_VAR_HOME="${XDG_VAR_HOME:-${HOME}/.local/var}"
 
-readonly lib="${DOTFILES}/bin/bin/lib"
-readonly libexec="${DOTFILES}/bin/bin/libexec"
+# DOTFILES specific vars
+DOTFILES="${DOTFILES:-${HOME}/dotfiles}"
+DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
+# dotfiles bin / lib dirs are used to avoid linking issues
+DOTFILES_BIN_HOME="${DOTFILES_BIN_HOME:-${DOTFILES}/bin/bin}"
+DOTFILES_LIB_HOME="${DOTFILES_LIB_HOME:-${DOTFILES}/lib/lib}"
+PYTHON_VENV_HOME="${PYTHON_VENV_HOME:-${XDG_DATA_HOME}/python/venvs}"
+PATH="${HOME}/.nix-profile/bin:${HOME}/bin:${PATH}"
 
-source "${lib}/bash/xdg/xdg.sh"
-source "${lib}/posix/echo.sh"
+source "${DOTFILES_LIB_HOME}/posix/echo.sh"
 
-# export LOGFILE="${LOGFILE:-${XDG_VAR_HOME}/dotfiles/log}"
-export PYTHON_VENV_HOME="${PYTHON_VENV_HOME:-${XDG_DATA_HOME}/python/venvs}"
-export PATH="${HOME}/.nix-profile/bin:${HOME}/bin:${PATH}"
+
 
 # ---------------------------------------------------------------------------
 # Global variables
@@ -22,7 +41,6 @@ export PATH="${HOME}/.nix-profile/bin:${HOME}/bin:${PATH}"
 declare verbose=false
 declare debug=false
 declare dry=false
-declare logging=false
 
 display_help() {
   cat << 'EOF'
@@ -85,6 +103,7 @@ init_nix() {
   fi
 }
 
+
 # Get or update a config dependency hosted by Github.
 get_github_opt() {
   local repo="$1";
@@ -92,7 +111,7 @@ get_github_opt() {
     $debug && echo "Repository name required."
     exit 1
   fi
-  "${libexec}/git/get" -u "https://github.com/${repo}.git" "${XDG_OPT_HOME}/${repo}"
+  "${DOTFILES_BIN_HOME}/git/get" "https://github.com/${repo}.git" "${XDG_OPT_HOME}/${repo}"
 }
 
 # Get external dependencies that are not otherwise managed.
@@ -122,7 +141,7 @@ get_pkgs() {
 # extract any options with getopts
 parse_opts() {
   OPTIND=1
-  while getopts ":a:dhlpv" opt "${@}"; do
+  while getopts ":a:dhpv" opt "${@}"; do
     case "${opt}" in
       a)
         # option -a is set with argument $OPTARG
@@ -136,9 +155,6 @@ parse_opts() {
         # print help message
         display_help
         exit 0
-        ;;
-      l)
-        logging=true
         ;;
       p)
         prompt_user=true
@@ -248,7 +264,7 @@ link() {
     done
 
     if $should_link; then
-      "${DOTFILES}/bin/bin/lndir" "${opts[@]}" "${DOTFILES}/${path}" "${HOME}"
+      "${DOTFILES_BIN_HOME}/lndir" "${opts[@]}" "${DOTFILES}/${path}" "${HOME}"
     fi
   done
 }
@@ -344,6 +360,9 @@ cmd_install() {
   get_opts
   cmd_zsh
   cmd_python
+
+  bash -r
+  source "${DOTFILES}/profile/.profile"
   echo "Finished installing."
   exit 0
 }
@@ -378,13 +397,6 @@ parse_cmd() {
 # It parses the script options.
 init() {
   parse_opts "${@}"
-
-  # FIXME consider removing and not having such fancy logging.
-  # Set up echoging, if necessary.  This is controlled by the -l option.
-  # if $logging; then
-  #   log_to "${LOGFILE}"
-  # fi
-
 }
 
 main() {
