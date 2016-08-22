@@ -14,9 +14,9 @@
         python27Packages.pip
         python27Packages.virtualenv
         python35
-        python35Packages.flake8
-        python35Packages.ipython
-        python35Packages.pylint
+        # python35Packages.flake8
+        # python35Packages.ipython
+        # python35Packages.pylint # errored on os x
         # python35Packages.pew # virtualenv tool, but venv path below nix's
         silver-searcher
         stow
