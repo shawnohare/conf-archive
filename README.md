@@ -15,10 +15,18 @@ Dotfiles are generally organized topically.
 
 # Installation
 
-1. Install `curl` and `git`.  This can be done with
+Some manual initialization leads to less headaches.
+
+Install `curl`, `git`, and `bzip`.  This can be done with
 ```bash
 xcode-select --install # macos
-sudo apt-get install -y curl git # debian / ubuntu
+```
+On Linux (Debian based systems) 
+
+```bash
+sudo apt-get update
+sudo apt-get -y upgrade 
+sudo apt-get install -y curl git bzip # debian / ubuntu
 ```
 
 1. `curl` the basic install script.
