@@ -109,19 +109,19 @@ cmd_new() {
     return 0
   fi
 
-  ver=$(${python} -V 2>&1 | grep -Po '(?<=Python )(.+)')
+  ver="$(${python} -V 2>&1)"
 
   case "${ver}" in
-    3*)
+    "Python 3"*)
       echo "Running ${python} -m venv ${path}"
       "${python}" -m venv "${path}"
       ;;
-    2*)
+    "Python 2"*)
       # TODO make this more robust
       virtualenv "${path}"
       ;;
     *)
-      echo "debug Unknown python version"
+      echo "ERROR: Unknown python version ${ver}"
       return 1
       ;;
   esac

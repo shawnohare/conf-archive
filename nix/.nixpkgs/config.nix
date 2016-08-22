@@ -3,7 +3,7 @@
     myworkspace = with pkgs; buildEnv {  # pkgs is your overriden set of packages itself
       name = "myworkspace";
       paths = [
-        cacert
+        # cacert
         curl
         git
         go

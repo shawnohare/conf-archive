@@ -1,42 +1,42 @@
-# ====================================================================== 
-# zshrc is loaded for interactive shells 
+# ======================================================================
+# zshrc is loaded for interactive shells
 # TOC
 # - aliases
 # - bindkeys
 # - colors
 # - exports
-# - functions 
-# - history 
+# - functions
+# - history
 # - modules
 # - options
 # - prompt
-# ====================================================================== 
+# ======================================================================
 
 # Evoke the .profile (sourced by .zshenv) path setter func.
 [ -e ~/.profile ] && source ~/.profile
 
-# ====================================================================== 
-# bindkeys 
-# ====================================================================== 
+# ======================================================================
+# bindkeys
+# ======================================================================
 # vim normal mode keybindings
-bindkey -v 
+bindkey -v
 
 
 # -------------------------------------------------------------------------
-# changing dirs 
+# changing dirs
 # -------------------------------------------------------------------------
 autoload -U chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
 
-# ====================================================================== 
+# ======================================================================
 # Completion (derived from http://dustri.org/b/my-zsh-configuration.html)
-# ====================================================================== 
+# ======================================================================
 
 autoload -U compinit && compinit
 zmodload -i zsh/complist
 setopt hash_list_all            # hash everything before completion
 setopt completealiases          # complete alisases
-setopt always_to_end            # when completing from the middle of a word, move the cursor to the end of the word    
+setopt always_to_end            # when completing from the middle of a word, move the cursor to the end of the word
 setopt complete_in_word         # allow completion from within a word/phrase
 setopt correct                  # spelling correction for commands
 setopt list_ambiguous           # complete as much of a completion until it gets ambiguous.
@@ -81,12 +81,12 @@ compdef _gnu_generic gdb
 
 
 #########################################################################
-# functions 
+# functions
 #########################################################################
 
 
 # -------------------------------------------------------------------------
-# help 
+# help
 # -------------------------------------------------------------------------
 autoload -Uz run-help
 autoload -Uz run-help-git
@@ -96,7 +96,7 @@ unalias run-help
 # alias help=run-help
 
 #########################################################################
-# history 
+# history
 #########################################################################
 
 HISTFILE="${XDG_STATE_HOME}/zsh_history"
@@ -113,7 +113,7 @@ setopt share_history             # share hist between sessions
 setopt bang_hist                 # !keyword
 
 # ===========================================================================
-# modules 
+# modules
 # External modules/add-ons to zsh
 # Should be the final thing sourced by zshrc.
 # ===========================================================================
@@ -147,7 +147,7 @@ bindkey '^[[B' history-substring-search-down
 # ===========================================================================
 
 source ${mods_dir}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# Fri, 29 Jan 2016 16:44:49 -0800 
+# Fri, 29 Jan 2016 16:44:49 -0800
 # It's not clear whether we actually need to set these values when using
 # iterm2, as the colors might be over-ridden by iterm2's color scheme.
 # Tries to be Solarized-ish
@@ -192,30 +192,30 @@ ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=cyan'
 ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=cyan'
 
 
-# ====================================================================== 
-# options 
-# ====================================================================== 
+# ======================================================================
+# options
+# ======================================================================
 # zsh optionso
-# - Options are primarily referred to by name. 
+# - Options are primarily referred to by name.
 # These names are case insensitive and underscores are ignored.
 # For example, 'allexport' is equivalent to 'A__lleXP_ort'.
 # - Comments reference the command below.
 # - More information at man zshoptions.
 
-# If a command is a dir name---and not a regular command---cd in. 
-setopt autocd 
+# If a command is a dir name---and not a regular command---cd in.
+setopt autocd
 # Treat the '#', '~' and '^' chars as part of patterns for filename generation, etc.
-setopt extendedglob 
+setopt extendedglob
 # If a pattern for filename generation has no matches, print an error.
 setopt nomatch
-# Report the status of background jobs immediately. 
+# Report the status of background jobs immediately.
 setopt notify
 
 
 
-# ====================================================================== 
-# prompt 
-# ====================================================================== 
+# ======================================================================
+# prompt
+# ======================================================================
 
 # autoload -U promptinit # allows some builtin prompts to be used
 # promptinit
@@ -248,13 +248,10 @@ RPROMPT='${prompt_time}'                           # time and date
 #zstyle :compinstall filename '/Users/shawn/.zshrc'
 # End of lines added by compinstall
 
-# source all config files: FIXME: old, can probably delete 
+# source all config files: FIXME: old, can probably delete
 # for file in "${ZDOTDIR}"/*.zsh; do
 #   source "${file}"
 # done
-
-# iterm2 shell integration
-# source "${DOTFILES}/iterm2/iterm2_shell_integration.zsh"
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
