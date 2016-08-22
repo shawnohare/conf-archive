@@ -3,6 +3,7 @@
     myworkspace = with pkgs; buildEnv {  # pkgs is your overriden set of packages itself
       name = "myworkspace";
       paths = [
+        awscli
         # cacert
         curl
         git
