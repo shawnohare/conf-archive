@@ -7,7 +7,6 @@ readonly DOTFILES=${DOTFILES:-"${HOME}/dotfiles"}
 readonly DOTFILES_BRANCH=${DOTFILES_BRANCH:-"master"}
 readonly repo="https://github.com/shawnohare/dotfiles.git"
 
-cd "${HOME}"
 if [ ! -d "${DOTFILES}" ]; then
   echo "Cloning ${repo}"
   git clone -b "${DOTFILES_BRANCH} "--recursive "${repo}" "${DOTFILES}"
@@ -15,6 +14,7 @@ fi
 
 
 if [ -d "${DOTFILES}" ]; then
+  cd "${DOTFILES}"
   git checkout "${DOTFILES_BRANCH}"
   "${DOTFILES}/bin/bin/dotfiles" -v install
 else
