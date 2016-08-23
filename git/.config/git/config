@@ -1,6 +1,6 @@
 [alias]
-	log = log --graph --decorate --pretty=oneline --abbrev-commit --all
 	la = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  s = status
 	sv = status --verbose
 [filter "media"]
 	required = true
@@ -12,6 +12,6 @@
   path = ~/.config/git/config.local
 [user]
 	name = Shawn O'Hare
-	email = ohare.shawn@gmail.com
+	email = shawn@ohare.io
 [credential]
   helper = cache --timeout 6048000
