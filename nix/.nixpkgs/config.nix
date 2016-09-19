@@ -6,9 +6,12 @@
         awscli
         # cacert
         curl
+        coreutils-prefixed
         git
-        hugo # static site generator
+        # FIXME 2016-09-15T06:56:15-0700
+        # Go builds having trouble.
         # "go-1.7" # this seems to install go without std lib?
+        # hugo 
         neovim
         nix-zsh-completions
         nox
@@ -20,8 +23,10 @@
         python35Packages.ipython
         # python35Packages.pylint # errored on os x
         # python35Packages.pew # virtualenv tool, but venv path below nix's
+        source-code-pro # font
         silver-searcher
         sqlite
+        stack # haskell build tool
         stow
         tmux
         wget

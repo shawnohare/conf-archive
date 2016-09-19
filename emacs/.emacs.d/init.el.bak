@@ -1,53 +1,53 @@
 (require 'package)
+(setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-
-;; Added by Package.el.  This must come before configurations of installed packages.  
 (package-initialize)
 
-; Define file the customize UI writes to.
+;; Define file the customize UI writes to.
 (setq custom-file "~/.emacs.d/customize.el")
 (load custom-file)
 
-;; Enable prefixed evil-leader in all modes.
-;; Normally runs set-mark-command.
-;; FIXME: this does not seem to actually work as we thought.
-;; (global-unset-key (kbd "C-<SPC>"))
-;; (setq evil-leader/in-all-states t)
+;; Prefer spaces to tabs.
+;; (setq-default indent-tabs-mode nil)
 
-(require 'evil-leader)
-(require 'evil)
-(global-evil-leader-mode) ;; must be enabled before evil-mode
-(evil-mode 1)
-(evil-commentary-mode)
-;; It is common for Emacs modes like Buffer Menu, Ediff, and others to
-;; define key bindings for RET and SPC. Since these are motion commands,
-;; Evil places its key bindings for these in evil-motion-state-map.
-;; However, these commands are fairly worthless to a seasoned Vim user, since
-;; they do the same thing as j and l commands. Thus it is useful to remove
-;; them from evil-motion-state-map so as when modes define them, RET and SPC
-;; bindings are available directly.
+;; Increase garbage collection threshold
+(setq gc-cons-threshold 20000000)
+(show-paren-mode)
+
+
+;; Bootstrap `use-package'
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(setq use-package-always-ensure t)
+
 (defun my-move-key (keymap-from keymap-to key)
-    "Moves key binding from one keymap to another, deleting from the old location. "
-    (define-key keymap-to key (lookup-key keymap-from key))
-    (define-key keymap-from key nil))
-(my-move-key evil-motion-state-map evil-normal-state-map (kbd "RET"))
-(my-move-key evil-motion-state-map evil-normal-state-map " ")
+  "Moves key binding from one keymap to another, deleting from the old location. "
+  ;; f(f, t, k), (define-key t k (lookup-key f k)), (define-key f k nil)
+  (define-key keymap-to key (lookup-key keymap-from key))
+  (define-key keymap-from key nil))
 
-(evil-leader/set-leader "<SPC>")
-(evil-leader/set-key
-    "b" 'switch-to-buffer
-    "k" 'kill-buffer
- )
+(use-package fzf)
+(use-package pt)
+(use-package which-key)
 
-;; -----------------------------------------------------------------------------------
-;; Helm 
-;; -----------------------------------------------------------------------------------
-(require 'helm-config)
+;; Builtin package to show line numbers.
+(use-package linum
+  :config
+  (global-linum-mode))
 
-;; -----------------------------------------------------------------------------------
-;; Ido 
-;; -----------------------------------------------------------------------------------
-(ido-mode 1)
-(setq ido-everywhere t)
-(setq ido-enable-flex-matching t)
+(use-package recentf
+  :config
+  (recentf-mode 1))
+;; (load "~/.emacs.d/init-with-ido.el")
+;; (load "~/.emacs.d/init-with-ivy.el")
+(load "~/.emacs.d/init-with-helm.el")
+;; (load "~/.emacs.d/init-with-builtin-completion.el")
+
+;; TODO
+;; - Consider using general instead of evil-leader
+;; - Consider using hydra for things like helm?
+;; - Try to pick helm, ivy, or ido.
+;; - which-key

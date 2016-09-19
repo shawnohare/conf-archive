@@ -214,7 +214,6 @@ parse_opts() {
 #-------------------------------------------------------------------------
 
 link() {
-  local ignores=( emacs ignore )
   local paths=()
   local opts=('--force')
   $verbose && opts+=('--verbose')
@@ -222,18 +221,13 @@ link() {
   cd "${DOTFILES}" || echo --error "${DOTFILES} does not exist."
   while true; do
     case "$1" in
-      --ignore=* | -i=*)
-        local ig="${1#*=}"
-        shift
-        ignores+=("${ig}") # append
-        ;;
       --all | -a)
         shift
         echo "Linking all configs."
-        for path in *; do
-          $verbose && echo "Adding ${path} to link candidates."
-          paths+=("${path}")
-        done
+        paths=(
+            aws bash bin emacs fish git iterm nix profile screen shell
+            spacemacs tmux vim zsh
+        )
         break
         ;;
       *)
@@ -253,19 +247,7 @@ link() {
       continue
     fi
 
-    # Determine if the path is ignored
-    local should_link=true
-    for ignore in "${ignores[@]}"; do
-      if [ "${path}" == "${ignore}" ]; then
-        echo "Not linking ignored dir ${path}"
-        should_link=false
-        break
-      fi
-    done
-
-    if $should_link; then
-      "${DOTFILES_BIN_HOME}/lndir" "${opts[@]}" "${DOTFILES}/${path}" "${HOME}"
-    fi
+    "${DOTFILES_BIN_HOME}/lndir" "${opts[@]}" "${DOTFILES}/${path}" "${HOME}"
   done
 }
 
@@ -306,6 +288,9 @@ cmd_init() {
 # simply pip install on the nix copies due to permission constraints.
 # One workaround is to create venvs and link them something like ~/bin,
 # but really we shouldn't be installing too much into the global pythons
+#
+# Another solution is to make virtualenvs for python2 and python3 that
+# we link to ~/.local/bin or ~/bin.
 cmd_python() {
 
   local pyve="${DOTFILES_BIN_HOME}/pyve/bin/pyve"

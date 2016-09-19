@@ -23,6 +23,7 @@ export XDG_VAR_HOME="${HOME}/.local/var"
 export DOTFILES="${HOME}/dotfiles"
 export DOTFILES_BIN_HOME="${HOME}/dotfiles/bin/bin"
 export PYTHON_VENV_HOME="${XDG_DATA_HOME}/python/venvs"
+export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
 
 # General
 export BASH="/usr/local/bin/bash"
