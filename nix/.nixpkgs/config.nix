@@ -5,7 +5,7 @@
       paths = [
         awscli
         # cacert
-        curl
+        # curl # causes issues with cacert
         coreutils-prefixed
         git
         # FIXME 2016-09-15T06:56:15-0700
