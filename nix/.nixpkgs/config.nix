@@ -4,15 +4,14 @@
       name = "myenv";
       paths = [
         awscli
-        # cacert
-        # curl # causes issues with cacert
+        cacert  # git seems to want this
         coreutils-prefixed
         git
         # FIXME 2016-09-15T06:56:15-0700
         # Go builds having trouble.
         # "go-1.7" # this seems to install go without std lib?
         # hugo 
-        neovim
+        # neovim # getting malloc error on macOS sierra
         nix-zsh-completions
         nox
         python27Full
@@ -23,7 +22,7 @@
         python35Packages.ipython
         # python35Packages.pylint # errored on os x
         # python35Packages.pew # virtualenv tool, but venv path below nix's
-        source-code-pro # font
+        # source-code-pro # font
         silver-searcher
         sqlite
         stack # haskell build tool

@@ -153,10 +153,14 @@ fi
 # --------------------------------------------------------------------------
 # nix
 # --------------------------------------------------------------------------
-nix_profile_script="${HOME}/.nix-profile/etc/profile.d/nix.sh"
-if [ -e ${nix_profile_script} ]; then
-  . ${nix_profile_script}
-fi
+# Nix does not always place nicely with macOS, since it uses a curl
+# using with OpenSSL certs.  In particular, the SSL related vars set by
+# the nix-profile sourced below cause any homebrew install <pkg> to fail.
+# https://github.com/NixOS/nix/issues/921
+ nix_profile_script="${HOME}/.nix-profile/etc/profile.d/nix.sh"
+ if [ -e ${nix_profile_script} ]; then
+   . ${nix_profile_script}
+ fi
 
 # Insert our personal bin dir before everything else.  Aside from personal
 # binaries, various overrides can go here, such as neovim compiled from
