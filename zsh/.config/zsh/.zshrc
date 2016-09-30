@@ -216,8 +216,9 @@ setopt notify
 # ======================================================================
 # prompt
 # ======================================================================
+# FIXME this does not work it seems
 # Avoid emacs hanging when attempting to connect remotely.
-# https://www.emacswiki.org/emacs/TrampMode
+# https://www.emacswiki.org/emacs/TrampMode#t
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
 
 # autoload -U promptinit # allows some builtin prompts to be used
@@ -257,5 +258,8 @@ RPROMPT='${prompt_time}'                           # time and date
 #   source "${file}"
 # done
 
+if [ -e "${HOME}/.iterm2_shell_integration.zsh" ]; then
+  source "${HOME}/.iterm2_shell_integration.zsh"
+fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

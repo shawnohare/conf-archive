@@ -121,12 +121,11 @@ PATH=".stack_work:${PATH}"
 # --------------------------------------------------------------------------
 # iterm
 # --------------------------------------------------------------------------
-# if [ -e "${XDG_CONFIG_HOME}/iterm/iterm2_shell_integration.`basename $SHELL`" ]; then
-#   source "${XDG_CONFIG_HOME}/iterm/iterm2_shell_integration.`basename $SHELL`"
+# FIXME This is not incredibly robust to changing shells during a session.
+# Consider putting individual sourcings in the appropriate shell rc files.
+# if [ -e "${HOME}/.iterm2_shell_integration.`basename $SHELL`" ]; then
+#   source "${HOME}/.iterm2_shell_integration.`basename $SHELL`"
 # fi
-if [ -e "${HOME}/.iterm2_shell_integration.`basename $SHELL`" ]; then
-  source "${HOME}/.iterm2_shell_integration.`basename $SHELL`"
-fi
 
 # --------------------------------------------------------------------------
 # golang
