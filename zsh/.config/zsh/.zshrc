@@ -216,6 +216,9 @@ setopt notify
 # ======================================================================
 # prompt
 # ======================================================================
+# Avoid emacs hanging when attempting to connect remotely.
+# https://www.emacswiki.org/emacs/TrampMode
+[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
 
 # autoload -U promptinit # allows some builtin prompts to be used
 # promptinit

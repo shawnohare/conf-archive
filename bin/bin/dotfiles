@@ -275,7 +275,7 @@ cmd_init() {
     mkdir -p "${XDG_VAR_HOME}"
     mkdir -p "${HOME}/bin"
     mkdir -p "${HOME}/tmp"
-    mkdir -p "${HOME}/wrk"
+    mkdir -p "${HOME}/src"
   fi
 
   $dry || link --all
@@ -291,6 +291,9 @@ cmd_init() {
 #
 # Another solution is to make virtualenvs for python2 and python3 that
 # we link to ~/.local/bin or ~/bin.
+#
+# FIXME Another issue is that the python 2 version with nix does not link
+# external deps like sqlite when creating a venv.
 cmd_python() {
 
   local pyve="${DOTFILES_BIN_HOME}/pyve/bin/pyve"
