@@ -270,7 +270,7 @@ RPROMPT='${prompt_time}'                           # time and date
 #   source "${file}"
 # done
 
-if [[ "$TERM" != "dumb" ]] &&  -e "${HOME}/.iterm2_shell_integration.zsh" ]; then
+if [[ "$TERM" != "dumb" ]] &&  [ -e "${HOME}/.iterm2_shell_integration.zsh" ]; then
   source "${HOME}/.iterm2_shell_integration.zsh"
 fi
 
