@@ -249,6 +249,9 @@ link() {
 
     "${DOTFILES_BIN_HOME}/lndir" "${opts[@]}" "${DOTFILES}/${path}" "${HOME}"
   done
+
+  # Misc links
+  ln -s "${PYENV_ROOT}/bin/pyenv" "${HOME}/.local/bin/pyenv"
 }
 
 # link each folder in the dotfiles root to the home dir.
@@ -316,7 +319,6 @@ cmd_python() {
   
   # Install pyenv
   curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-  ln -s "${HOME}/.pyenv/bin/pyenv" "${HOME}/.local/bin/pyenv"
   return 0
 }
 
