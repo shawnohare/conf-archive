@@ -15,7 +15,7 @@
 	<key>AppleSmoothFixedFontsSizeThreshold</key>
 	<integer>1</integer>
 	<key>AutoHideTmuxClientSession</key>
-	<false/>
+	<true/>
 	<key>CheckTestRelease</key>
 	<true/>
 	<key>ClosingHotkeySwitchesSpaces</key>
@@ -1576,7 +1576,7 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>-1396 95 606 469 -1920 0 1920 1057 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>256 201 918 512 0 0 1280 777 </string>
+	<string>-1325 326 796 473 -1920 0 1920 1057 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>80 193 592 584 0 0 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
@@ -4231,7 +4231,7 @@
 	<key>NoSyncInstallationId</key>
 	<string>595F3994-687C-4AA1-8A73-7CF2A4B56077</string>
 	<key>NoSyncLastTipTime</key>
-	<real>496862517.26584601</real>
+	<real>496948980.81224298</real>
 	<key>NoSyncNewWindowOrTabFromTmuxOpensTmux</key>
 	<true/>
 	<key>NoSyncNewWindowOrTabFromTmuxOpensTmux_selection</key>
@@ -4299,6 +4299,7 @@
 		<string>0051</string>
 		<string>0052</string>
 		<string>0053</string>
+		<string>0054</string>
 	</array>
 	<key>NoSyncTurnOffMouseReportingOnHostChange</key>
 	<false/>

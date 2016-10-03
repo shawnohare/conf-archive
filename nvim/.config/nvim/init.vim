@@ -1,6 +1,6 @@
 
 " ==========================================================================
-" Python 
+" Python
 " Initially we had some issues with getting neovim to work with the python
 " host, but this appeared to be more of a pyenv issue.  We need to ensure
 " that multiple versions of python 2 and 3 are globally available.
@@ -24,7 +24,7 @@
 " # of what env is currently active.  Repeat this pattern for other
 " # packages that provide cli programs that are used in Neovim.
 " pip install flake8
-" ln -s `pyenv which flake8` ~/bin/flake8  # Assumes that $HOME/bin is in $PATH 
+" ln -s `pyenv which flake8` ~/bin/flake8  # Assumes that $HOME/bin is in $PATH
 " ==========================================================================
 " NOTE: The standard env expansion is odd with setting the Python hosts.
 " For example '$PYENV_ROOT/versions/neovim3/bin/python' does not work.
@@ -35,7 +35,7 @@ let g:python3_host_prog = $PYTHON_VENV_HOME . '/neovim3/bin/python'
 source ~/.vim/vimrc
 
 " ==========================================================================
-" Colors 
+" Colors
 " ==========================================================================
 "
 " ---------------------------------------------------------------------------
@@ -54,11 +54,11 @@ source ~/.vim/vimrc
 " PLUGIN CONFIG
 " ==========================================================================
 "
-"--------------------------------------------------------------------------- 
+"---------------------------------------------------------------------------
 " Deoplete (dark powered completion for neovom)
-" Fri, 05 Feb 2016 10:52:51 -0800 
+" Fri, 05 Feb 2016 10:52:51 -0800
 " https://github.com/Shougo/deoplete.nvim
-"--------------------------------------------------------------------------- 
+"---------------------------------------------------------------------------
 let g:deoplete#enable_at_startup = 1
 
 " Manually trigger completion and auto insert

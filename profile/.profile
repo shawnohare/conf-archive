@@ -22,6 +22,7 @@ export XDG_VAR_HOME="${HOME}/.local/var"
 # User created variables.
 export DOTFILES="${HOME}/dotfiles"
 export DOTFILES_BIN_HOME="${HOME}/dotfiles/bin/bin"
+export PYENV_ROOT="${XDG_DATA_HOME}/pyenv"
 export PYTHON_VENV_HOME="${XDG_DATA_HOME}/python/venvs"
 export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
 
@@ -105,18 +106,18 @@ PATH="${XDG_BIN_HOME}:/usr/local/bin:/usr/local/sbin:$PATH"
 
 # GHC For MAC OS X
 # Add GHC 7.10.1 to the PATH, via https://ghcformacosx.github.io/
-export GHC_DOT_APP="${HOME}/Applications/ghc-7.10.1.app"
-if [[ -d "$GHC_DOT_APP" ]]; then
-  PATH="${GHC_DOT_APP}/Contents/bin:${PATH}"
-  PATH="${HOME}/.cabal/bin:${PATH}"
-fi
+# export GHC_DOT_APP="${HOME}/Applications/ghc-7.10.1.app"
+# if [[ -d "$GHC_DOT_APP" ]]; then
+#   PATH="${GHC_DOT_APP}/Contents/bin:${PATH}"
+#   PATH="${HOME}/.cabal/bin:${PATH}"
+# fi
 
 # Look for haskell tools installed by stack
 # FIXME: remove?
 # PATH="${HOME}/.stack/programs/:${PATH}"
 # Use haskell tools in the current sandbox/stack maintained dir. FIXME remove?
 # PATH=".cabal-sandbox/bin:${PATH}"
-PATH=".stack_work:${PATH}"
+# PATH=".stack_work:${PATH}"
 
 # --------------------------------------------------------------------------
 # iterm
@@ -137,17 +138,21 @@ PATH="${GOPATH}/bin:${PATH}"
 # Python
 # --------------------------------------------------------------------------
 
+# FIXME We can probably delete this, as the main functionality is
+# subsumbed by pyenv
 # pyve
-if [ -e "${DOTFILES_BIN_HOME}/pyve/pyve.sh" ]; then
-  source "${DOTFILES_BIN_HOME}/pyve/pyve.sh"
-fi
+# if [ -e "${DOTFILES_BIN_HOME}/pyve/pyve.sh" ]; then
+#   source "${DOTFILES_BIN_HOME}/pyve/pyve.sh"
+# fi
 
-# FIXME: can likely delete
-# pyenv 2016-08-16T15:08:16+0000 TODO transition away from pyenv
-# export PYENV_ROOT="${XDG_BIN_HOME}/stow/pyenv"
 # pyenv init will use PYENV_ROOT or default to ~/.pyenv
 # if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-#
+#export PATH="/Users/shawn/.pyenv/bin:$PATH"
+# PATH="${HOME}/.pyenv/bin:${PATH}"
+if [[ -e "${PYENV_ROOT}/bin/pyenv" ]]; then
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+fi
 
 # --------------------------------------------------------------------------
 # nix
@@ -165,3 +170,4 @@ fi
 # binaries, various overrides can go here, such as neovim compiled from
 PATH="${HOME}/bin:${PATH}"
 export PATH
+

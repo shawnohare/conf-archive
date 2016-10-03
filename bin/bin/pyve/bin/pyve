@@ -21,8 +21,8 @@ display_help() {
   the virtual env. The default value is python3.
 
   Example:
-    pyv --python=python2 myvenv
-    pyv --python=~/.nix-profile/bin/python3.5 myvenv
+    pyve --python=python2 myvenv
+    pyve --python=~/.nix-profile/bin/python3.5 myvenv
 
 
   del venv  : delete the virtual env named venv

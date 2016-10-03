@@ -11,27 +11,27 @@ set -e
 # For the XDG specification, one good resource is:
 # https://wiki.debian.org/XDGBaseDirectorySpecification
 # ---------------------------------------------------------------------------
-XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
-XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
-XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
-XDG_STATE_HOME="${XDG_STATE_HOME:-${HOME}/.local/state}"
-XDG_BIN_HOME="${XDG_BIN_HOME:-${HOME}/.local/bin}"
-XDG_LIB_HOME="${XDG_LIB_HOME:-${HOME}/.local/lib}"
-XDG_OPT_HOME="${XDG_OPT_HOME:-${HOME}/.local/opt}"
-XDG_TMP_HOME="${XDG_TMP_HOME:-${HOME}/.local/tmp}"
-XDG_VAR_HOME="${XDG_VAR_HOME:-${HOME}/.local/var}"
+# XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
+# XDG_DATA_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}"
+# XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
+# XDG_STATE_HOME="${XDG_STATE_HOME:-${HOME}/.local/state}"
+# XDG_BIN_HOME="${XDG_BIN_HOME:-${HOME}/.local/bin}"
+# XDG_LIB_HOME="${XDG_LIB_HOME:-${HOME}/.local/lib}"
+# XDG_OPT_HOME="${XDG_OPT_HOME:-${HOME}/.local/opt}"
+# XDG_TMP_HOME="${XDG_TMP_HOME:-${HOME}/.local/tmp}"
+# XDG_VAR_HOME="${XDG_VAR_HOME:-${HOME}/.local/var}"
+
+# PYTHON_VENV_HOME="${PYTHON_VENV_HOME:-${XDG_DATA_HOME}/python/venvs}"
+# PYENV_ROOT="${PYENV_ROOT:-${XDG_DATA_HOME}/pyenv}"
+# PATH="${HOME}/bin:${HOME}/.nix-profile/bin:${PATH}"
 
 # DOTFILES specific vars
 DOTFILES="${DOTFILES:-${HOME}/dotfiles}"
-DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/shawnohare/dotfiles.git}"
-# dotfiles bin / lib dirs are used to avoid linking issues
 DOTFILES_BIN_HOME="${DOTFILES_BIN_HOME:-${DOTFILES}/bin/bin}"
 DOTFILES_LIB_HOME="${DOTFILES_LIB_HOME:-${DOTFILES}/lib/lib}"
-PYTHON_VENV_HOME="${PYTHON_VENV_HOME:-${XDG_DATA_HOME}/python/venvs}"
-PATH="${HOME}/.nix-profile/bin:${HOME}/bin:${PATH}"
 
+source "${DOTFILES}/profile/.profile"
 source "${DOTFILES_LIB_HOME}/posix/echo.sh"
-
 
 
 # ---------------------------------------------------------------------------
@@ -134,7 +134,7 @@ get_opts() {
 
 get_pkgs() {
   # this assumes the nix dir has previously been linked
-  nix-env --install --attr nixpkgs.myworkspace
+  nix-env --install --attr nixpkgs.myenv
 }
 
 
@@ -284,7 +284,7 @@ cmd_init() {
 }
 
 
-# FIXME using nix to install python has some downsides in that you cannot
+# FIXME Using nix to install python has some downsides in that you cannot
 # simply pip install on the nix copies due to permission constraints.
 # One workaround is to create venvs and link them something like ~/bin,
 # but really we shouldn't be installing too much into the global pythons
@@ -296,12 +296,11 @@ cmd_init() {
 # external deps like sqlite when creating a venv.
 cmd_python() {
 
-  local pyve="${DOTFILES_BIN_HOME}/pyve/bin/pyve"
-
+  # Create venvs for neovim
   $verbose && echo "Ensuring neovim virtual envs."
   if ! $dry; then
-    "${pyve}" new "--python=python2" "neovim2"
-    "${pyve}" new "--python=python3" "neovim3"
+    virtualenv "${PYTHON_VENV_HOME}/neovim2"
+    python3 -m venv "${PYTHON_VENV_HOME}/neovim3"
   fi
 
   $verbose && echo "Installing modules in neovim virtual envs."
@@ -314,7 +313,10 @@ cmd_python() {
       "${pip}" install --upgrade "jedi"
     fi
   done
-
+  
+  # Install pyenv
+  curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+  ln -s "${HOME}/.pyenv/bin/pyenv" "${HOME}/.local/bin/pyenv"
   return 0
 }
 
@@ -375,7 +377,7 @@ parse_cmd() {
       exit 0
       ;;
     *)
-      echo "Command ${cmd} not recognized".
+    /pyenv  echo "Command ${cmd} not recognized".
       display_help
       exit 1
       ;;
