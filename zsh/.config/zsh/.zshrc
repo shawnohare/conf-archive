@@ -15,6 +15,18 @@
 # Evoke the .profile (sourced by .zshenv) path setter func.
 [ -e ~/.profile ] && source ~/.profile
 
+# iterm shell integration messes with the prompt and causes
+# emacs tramp mode to hang indefinitely.
+if [[ $TERM == "dumb" ]]; then
+  unsetopt zle
+  unsetopt prompt_cr
+  unsetopt prompt_subst
+  unfunction precmd
+  unfunction preexec
+  PS1='$ '
+  return
+fi
+
 # ======================================================================
 # bindkeys
 # ======================================================================
@@ -258,7 +270,7 @@ RPROMPT='${prompt_time}'                           # time and date
 #   source "${file}"
 # done
 
-if [ -e "${HOME}/.iterm2_shell_integration.zsh" ]; then
+if [[ "$TERM" != "dumb" ]] &&  [ -e "${HOME}/.iterm2_shell_integration.zsh" ]; then
   source "${HOME}/.iterm2_shell_integration.zsh"
 fi
 
