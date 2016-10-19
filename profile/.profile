@@ -156,10 +156,10 @@ fi
 # pyenv init will use PYENV_ROOT or default to ~/.pyenv
 # if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 #export PATH="/Users/shawn/.pyenv/bin:$PATH"
-# PATH="${HOME}/.pyenv/bin:${PATH}"
+PATH="${PYENV_ROOT}/bin:${PATH}"
 if [[ -e "${PYENV_ROOT}/bin/pyenv" ]]; then
-  eval "$(${PYENV_ROOT}/bin/pyenv init -)"
-  eval "$(${PYENV_ROOT}/bin/pyenv virtualenv-init -)"
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
 fi
 
 # --------------------------------------------------------------------------
