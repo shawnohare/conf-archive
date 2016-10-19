@@ -134,6 +134,14 @@ PATH="${XDG_BIN_HOME}:/usr/local/bin:/usr/local/sbin:$PATH"
 export GOPATH="${HOME}/src/go"
 PATH="${GOPATH}/bin:${PATH}"
 
+
+# --------------------------------------------------------------------------
+# Ruby
+# --------------------------------------------------------------------------
+if command -v rbenv >/dev/null 2>&1; then
+  eval "$(rbenv init -)"
+fi
+
 # --------------------------------------------------------------------------
 # Python
 # --------------------------------------------------------------------------
@@ -150,8 +158,8 @@ PATH="${GOPATH}/bin:${PATH}"
 #export PATH="/Users/shawn/.pyenv/bin:$PATH"
 # PATH="${HOME}/.pyenv/bin:${PATH}"
 if [[ -e "${PYENV_ROOT}/bin/pyenv" ]]; then
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
+  eval "$(${PYENV_ROOT}/bin/pyenv init -)"
+  eval "$(${PYENV_ROOT}/bin/pyenv virtualenv-init -)"
 fi
 
 # --------------------------------------------------------------------------
