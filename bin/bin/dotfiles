@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+# set -e
 
 # ---------------------------------------------------------------------------
 # Global Constants
@@ -250,8 +250,6 @@ link() {
     "${DOTFILES_BIN_HOME}/lndir" "${opts[@]}" "${DOTFILES}/${path}" "${HOME}"
   done
 
-  # Misc links
-  ln -s "${PYENV_ROOT}/bin/pyenv" "${HOME}/.local/bin/pyenv"
 }
 
 # link each folder in the dotfiles root to the home dir.
@@ -302,23 +300,36 @@ cmd_python() {
   # Create venvs for neovim
   $verbose && echo "Ensuring neovim virtual envs."
   if ! $dry; then
-    virtualenv "${PYTHON_VENV_HOME}/neovim2"
-    python3 -m venv "${PYTHON_VENV_HOME}/neovim3"
+    # Install pyenv.  ~/.profile defines PYENV_ROOT, the install location.
+    curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+
+    pyenv update
+
+    local python2="2.7.12"
+    local python3="3.5.2"
+
+    for ver in "${python2}" "${python3}"; do
+      if [[ ! -e "${PYENV_ROOT}/versions/${ver}" ]]; then
+        pyenv install "${ver}"
+      fi
+    done
+
+    pyenv virtualenv 3.5.2 neovim3
+    pyenv virtualenv 2.7.12 neovim2
   fi
 
   $verbose && echo "Installing modules in neovim virtual envs."
-  local venvs=( "neovim2" "neovim3" )
-  for venv in "${venvs[@]}"; do
-    local pip="${PYTHON_VENV_HOME}/${venv}/bin/pip"
+  for venv in "neovim2" "neovim3"; do
+    local pip="${PYENV_ROOT}/versions/${venv}/bin/pip"
     if ! $dry; then
       "${pip}" install --upgrade pip
       "${pip}" install --upgrade "neovim"
       "${pip}" install --upgrade "jedi"
     fi
   done
-  
-  # Install pyenv
-  curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+
+  echo "To initialize pyenv reload the shell or source ~/.profile"
+
   return 0
 }
 

@@ -9,7 +9,7 @@ Usage: lndir [-fr] src tar
 Description:
 
 Copy the dir structure of the input and symlink its files to the
-specified the target directory. 
+specified the target directory.
 
 In principle this command is a less robust version of the GNU stow command that only
 links files, and not entire directories.  This is useful when linking
@@ -19,11 +19,11 @@ dotfiles directory.
 Options:
 
 --force|-f   : Backup existing files and remove any existing symlinks before linking files.
---help|-h    : Display this help message 
+--help|-h    : Display this help message
 --remove|-r  : Remove symlinks in the target that match files in the source.
 --verbose|-v : Verbose messaging.
 
-Examples: 
+Examples:
 
 1.  Suppose ~/dotfiles/bin contains a number of personal binaries that
     should be linked into ~/bin. This can be accomplished via:
@@ -109,7 +109,7 @@ main() {
     if [ -d "${path}" ]; then
       if [ ! -d "${dest}" ]; then
         $verbose && echo "Making dir: ${dest}"
-        mkdir -p "${dest}" 
+        mkdir -p "${dest}"
         continue
       fi
     fi

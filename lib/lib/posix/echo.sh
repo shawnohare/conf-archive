@@ -20,6 +20,7 @@ echo() {
         if [ ! -z ${debug+x} ] && $debug; then
           printf "%s: " "${echo_prefix} DEBUG: ${*}"
         fi
+        ;; 
       "--verbose" | "-v")
         shift
         if [ ! -z ${verbose+x} ] && $verbose; then

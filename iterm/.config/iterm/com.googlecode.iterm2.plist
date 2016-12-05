@@ -1578,15 +1578,15 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>-1589 320 1190 494 -1920 0 1920 1057 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>330 289 620 392 0 0 1280 777 </string>
+	<string>-1270 499 620 392 -1920 0 1920 1057 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>-1396 95 606 469 -1920 0 1920 1057 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>-1325 275 918 452 -1920 0 1920 1057 </string>
+	<string>-1325 275 796 473 -1920 0 1920 1057 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>80 193 592 584 0 0 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 8 640 765 0 0 1280 777 </string>
+	<string>1 8 1277 765 0 0 1280 777 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -4239,7 +4239,7 @@
 	<key>NoSyncInstallationId</key>
 	<string>595F3994-687C-4AA1-8A73-7CF2A4B56077</string>
 	<key>NoSyncLastTipTime</key>
-	<real>497767777.93538499</real>
+	<real>498587714.70220798</real>
 	<key>NoSyncNewWindowOrTabFromTmuxOpensTmux</key>
 	<true/>
 	<key>NoSyncNewWindowOrTabFromTmuxOpensTmux_selection</key>
@@ -4311,6 +4311,14 @@
 		<string>0055</string>
 		<string>0056</string>
 		<string>0057</string>
+		<string>0058</string>
+		<string>0059</string>
+		<string>0060</string>
+		<string>0061</string>
+		<string>0062</string>
+		<string>0063</string>
+		<string>0064</string>
+		<string>0065</string>
 	</array>
 	<key>NoSyncTurnOffMouseReportingOnHostChange</key>
 	<false/>
@@ -4384,7 +4392,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-10-10T17:12:48Z</date>
+	<date>2016-11-01T17:42:08Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SavePasteHistory</key>
@@ -4448,7 +4456,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.20161002-nightly</string>
+	<string>3.0.20161027-nightly</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>7</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
