@@ -3,8 +3,8 @@
 # becomes largely superfluous.
 
 
-DOTFILES=${DOTFILES:-${HOME}/dotfiles}
-source "${DOTFILES}/bin/bin/lib/posix/exists.sh"
+CONF=${CONF:-${HOME}/conf}
+source "${CONF}/bin/bin/lib/posix/exists.sh"
 
 # idempotently install the nix package manager.
 get_nix() {

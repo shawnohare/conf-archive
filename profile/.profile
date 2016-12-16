@@ -20,8 +20,8 @@ export XDG_OPT_HOME="${HOME}/.local/opt"
 export XDG_VAR_HOME="${HOME}/.local/var"
 
 # User created variables.
-export DOTFILES="${HOME}/dotfiles"
-export DOTFILES_BIN_HOME="${HOME}/dotfiles/bin/bin"
+export CONF="${HOME}/conf"
+export CONF_BIN_HOME="${CONF}/bin/bin"
 export PYENV_ROOT="${XDG_DATA_HOME}/pyenv"
 export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
 
@@ -158,8 +158,8 @@ fi
 # --------------------------------------------------------------------------
 # pyve was our simplified version of pyenv.  Just usse pyenv?
 # pyve
-# if [ -e "${DOTFILES_BIN_HOME}/pyve/pyve.sh" ]; then
-#   source "${DOTFILES_BIN_HOME}/pyve/pyve.sh"
+# if [ -e "${CONF_BIN_HOME}/pyve/pyve.sh" ]; then
+#   source "${CONF_BIN_HOME}/pyve/pyve.sh"
 # fi
 
 # pyenv init will use PYENV_ROOT or default to ~/.pyenv

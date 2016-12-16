@@ -33,7 +33,7 @@ EOF
 }
 
 # Activate a particular virtual env.  This command is exposed
-# in the binary so that other executables, such as the dotfiles
+# in the binary so that other executables, such as the config 
 # script, can make use of virtual envs without havint to source
 # the interactive shell wrapper version.
 cmd_activate() {

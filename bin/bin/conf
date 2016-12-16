@@ -25,13 +25,13 @@
 # PYENV_ROOT="${PYENV_ROOT:-${XDG_DATA_HOME}/pyenv}"
 # PATH="${HOME}/bin:${HOME}/.nix-profile/bin:${PATH}"
 
-# DOTFILES specific vars
-DOTFILES="${DOTFILES:-${HOME}/dotfiles}"
-DOTFILES_BIN_HOME="${DOTFILES_BIN_HOME:-${DOTFILES}/bin/bin}"
-DOTFILES_LIB_HOME="${DOTFILES_LIB_HOME:-${DOTFILES}/lib/lib}"
+# CONF specific vars
+CONF="${CONF:-${HOME}/conf}"
+CONF_BIN_HOME="${CONF_BIN_HOME:-${CONF}/bin/bin}"
+CONF_LIB_HOME="${CONF_LIB_HOME:-${CONF}/lib/lib}"
 
-source "${DOTFILES}/profile/.profile"
-source "${DOTFILES_LIB_HOME}/posix/echo.sh"
+source "${CONF}/profile/.profile"
+source "${CONF_LIB_HOME}/posix/echo.sh"
 
 
 # ---------------------------------------------------------------------------
@@ -45,7 +45,7 @@ declare dry=false
 display_help() {
   cat << 'EOF'
 
-Usage: dotfiles.sh [-dhlv] [cmd]
+Usage: conf.sh [-dhlv] [cmd]
 
 Arguments:
 
@@ -74,7 +74,7 @@ install
 link [-a] [dir1 dir2 ...]
 
   Link dotfile dirs.  This will copy the directory substructure of each
-  dotfiles dir and then use GNU stow to symlink the contents.  The --all flag
+  conf dir and then use GNU stow to symlink the contents.  The --all flag
   is not necessary, and provided for semantic purposes.  Additional arguments
   for the stow command are passed through.  For example
     link --restow : calls stow dir --restow
@@ -111,7 +111,7 @@ get_github_opt() {
     $debug && echo "Repository name required."
     exit 1
   fi
-  "${DOTFILES_BIN_HOME}/git/get" "https://github.com/${repo}.git" "${XDG_OPT_HOME}/${repo}"
+  "${CONF_BIN_HOME}/git/get" "https://github.com/${repo}.git" "${XDG_OPT_HOME}/${repo}"
 }
 
 # Get external dependencies that are not otherwise managed.
@@ -180,21 +180,21 @@ parse_opts() {
 
 
 # FIXME: deprecated
-# link a dotfiles dir to the home dir.
+# link a conf dir to the home dir.
 # First copy the directory's structure, and then use GNU stow to
 # link the files.  This setup ensures that program data does not
-# accidentally end up in the dotfiles directories, which can happen
+# accidentally end up in the conf directories, which can happen
 # when entire directories are linked.
 # TODO: it might be nice to remove the dependency on stow here.
 # link_dir() {
 #   local dir="${1}"
 #   echo "Linking ${dir}"
 #   shift
-#   cd "${DOTFILES}/${dir}" || exit 1
+#   cd "${CONF}/${dir}" || exit 1
 
 #   # copy dir struct
 #   $dry || find . -type d -exec mkdir -p -- "${HOME}"/{} \;
-#   cd "${DOTFILES}" || exit 1
+#   cd "${CONF}" || exit 1
 #   # call stow with the link_dir options
 
 #   local opts
@@ -218,7 +218,7 @@ link() {
   local opts=('--force')
   $verbose && opts+=('--verbose')
 
-  cd "${DOTFILES}" || echo --error "${DOTFILES} does not exist."
+  cd "${CONF}" || echo --error "${CONF} does not exist."
   while true; do
     case "$1" in
       --all | -a)
@@ -247,12 +247,12 @@ link() {
       continue
     fi
 
-    "${DOTFILES_BIN_HOME}/lndir" "${opts[@]}" "${DOTFILES}/${path}" "${HOME}"
+    "${CONF_BIN_HOME}/lndir" "${opts[@]}" "${CONF}/${path}" "${HOME}"
   done
 
 }
 
-# link each folder in the dotfiles root to the home dir.
+# link each folder in the conf root to the home dir.
 # Usage: link [--restow] [--ignore=dir] [--all] dir1 dir2 ...
 cmd_link() {
   link "${@}"
@@ -357,7 +357,7 @@ cmd_zsh() {
 }
 
 cmd_install() {
-  echo "Installing dotfiles."
+  echo "Installing conf."
 
   cmd_init
   get_pkgs
@@ -366,7 +366,7 @@ cmd_install() {
   cmd_python
 
   bash -r
-  source "${DOTFILES}/profile/.profile"
+  source "${CONF}/profile/.profile"
   echo "Finished installing."
   exit 0
 }

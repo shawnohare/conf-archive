@@ -14,7 +14,7 @@ specified the target directory.
 In principle this command is a less robust version of the GNU stow command that only
 links files, and not entire directories.  This is useful when linking
 configuration files, as it avoids runtime files from populating the
-dotfiles directory.
+confdirectory.
 
 Options:
 
@@ -25,10 +25,10 @@ Options:
 
 Examples:
 
-1.  Suppose ~/dotfiles/bin contains a number of personal binaries that
+1.  Suppose ~/conf/bin contains a number of personal binaries that
     should be linked into ~/bin. This can be accomplished via:
 
-      lndir ~/dotfiles/bin ~/dotfiles
+      lndir ~/conf/bin ~/conf
 
 EOF
 }
@@ -116,7 +116,7 @@ main() {
 
     # CASE that the path points to a file
     # Check if the destination file already exists.
-    # If it does not exist, link from the dotfiles config.
+    # If it does not exist, link from the conf config.
     # If it's a link, remove if we are restowing, otherwise do nothing.
     # If it exists and is not a link, ask to back it up and then link.
     if [ -f "${path}" ]; then

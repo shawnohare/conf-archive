@@ -1,24 +1,24 @@
 #!/usr/bin/env bash
-# small wrapper around the dotfiles install command
+# small wrapper around the conf install command
 
 set -e
 
-readonly DOTFILES=${DOTFILES:-"${HOME}/dotfiles"}
-readonly DOTFILES_BRANCH=${DOTFILES_BRANCH:-"master"}
-readonly repo="https://github.com/shawnohare/dotfiles.git"
+readonly CONF=${CONF:-"${HOME}/conf"}
+readonly CONF_BRANCH=${CONF_BRANCH:-"master"}
+readonly repo="https://github.com/shawnohare/conf.git"
 
-if [ ! -d "${DOTFILES}" ]; then
+if [ ! -d "${CONF}" ]; then
   echo "Cloning ${repo}"
-  git clone -b "${DOTFILES_BRANCH} "--recursive "${repo}" "${DOTFILES}"
+  git clone -b "${CONF_BRANCH} "--recursive "${repo}" "${CONF}"
 fi
 
 
-if [ -d "${DOTFILES}" ]; then
-  cd "${DOTFILES}"
-  git checkout "${DOTFILES_BRANCH}"
-  "${DOTFILES}/bin/bin/dotfiles" -v install
+if [ -d "${CONF}" ]; then
+  cd "${CONF}"
+  git checkout "${CONF_BRANCH}"
+  "${CONF}/bin/bin/conf" -v install
 else
-  echo "Error: Could not clone dotfiles ${repo} into ${DOTFILES}."
+  echo "Error: Could not clone conf ${repo} into ${CONF}."
   exit 1
 fi
 

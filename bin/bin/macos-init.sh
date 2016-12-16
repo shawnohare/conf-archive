@@ -1,7 +1,7 @@
 
 # ---------------------------------------------------------------------------
 # macos Specific functions
-# This was originally part of the dotfiles helper script, but was split out
+# This was originally part of the config helper script, but was split out
 # to avoid having to switch on OS type constantly.
 # ---------------------------------------------------------------------------
 
