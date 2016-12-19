@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# A small wrapper for git clone / git pull.  Fetch a repo if it does not
+# exist, and try to pull the latest version if it does exist
+# and is in a clean state.
+
+# Usage: git-get [--update] remote local
+
+set -e
+
+remote="$1"
+loc="$2"
+
+# Error if both arguments are not provided.
+if [ -z "${remote+x}" ] || [ -z "${loc+x}" ]; then
+  display_help
+  echo "Usage: git-get <remote> <local>"
+  exit 1
+fi
+
+if [[ ! -d "${loc}" ]]; then
+  mkdir -p "${loc}"
+  git clone --recursive "${remote}" "${loc}"
+  return 0
+fi
+
+# Update
+cd "${loc}" || exit 1
+
+# Check whether there are changes.
+if ! git diff --quiet; then
+  return 1
+fi
+
+if ! git diff --cached --quiet; then
+  return 1
+fi
+
+git pull
+

@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+set -e
+
+CONF="${CONF:-${HOME}/conf}"
+
+readonly CONF_BRANCH="${CONF_BRANCH:-master}"
+readonly repo="https://github.com/shawnohare/conf.git"
+
+if [ ! -d "${CONF}" ]; then
+  echo "Cloning ${repo}"
+  git clone -b "${CONF_BRANCH} "--recursive "${repo}" "${CONF}"
+fi
+
+if [ ! -d "${CONF}" ]; then
+  >&2 echo "Error: Could not clone config repo."
+fi
+
+cd ${CONF}
+git checkout "${CONF_BRANCH}"
+
+echo "Sourcing ~/profile/.profile".
+source "${CONF}/profile/.profile"
+
+echo "Making necessary dirs."
+mkdir -p "${XDG_CONFIG_HOME}"
+mkdir -p "${XDG_DATA_HOME}"
+mkdir -p "${XDG_CACHE_HOME}"
+mkdir -p "${XDG_STATE_HOME}"
+mkdir -p "${XDG_BIN_HOME}"
+mkdir -p "${XDG_BIN_HOME}/stow"
+mkdir -p "${XDG_LIB_HOME}"
+mkdir -p "${XDG_TMP_HOME}"
+mkdir -p "${XDG_OPT_HOME}"
+mkdir -p "${XDG_VAR_HOME}"
+mkdir -p "${HOME}/bin"
+mkdir -p "${HOME}/tmp"
+mkdir -p "${HOME}/src"
+
+for bin in link nix zsh nvim; do
+  echo "Running ${bin}"
+  "${CONF}/bin/${bin}"
+done
+
+source "${CONF}/profile/.profile"
+
+echo "Finished installing.  Please restart the shell."
+

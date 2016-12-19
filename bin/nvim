@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# Using nix to install python has some downsides in that you cannot
+# simply pip install on the nix copies due to permission constraints.
+# One workaround is to create venvs and link them something like ~/bin,
+# but really we shouldn't be installing too much into the global pythons
+#
+# Another issue is that the python 2 version with nix does not link
+# external deps like sqlite when creating a venv.
+
+set -e
+
+# Default location for pyenv.  This is overriden by ~/.profile.
+PYENV_ROOT="${PYENV_ROOT:-${HOME}/.pyenv}"
+
+# Create venvs for neovim
+
+# Install pyenv to $PYENV_ROOT
+if [ ! -e "${PYENV_ROOT}/bin/pyenv" ]; then
+  echo "Installing pyenv."
+  curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+fi
+
+PATH="${PYENV_ROOT}/bin:${PATH}"
+export PATH
+
+echo "Updating pyenv."
+pyenv update
+
+python2="2.7.12"
+python3="3.5.2"
+
+echo "Installing neovim virtualenvs."
+for ver in "${python2}" "${python3}"; do
+  venv="neovim${ver:0:1}"
+  if [[ ! -e "${PYENV_ROOT}/versions/${ver}/envs/${venv}" ]]; then
+    pyenv install "${ver}"
+    pyenv virtualenv "${ver}" "${venv}"
+  fi
+done
+
+echo "Installing modules in neovim virtual envs."
+for venv in "neovim2" "neovim3"; do
+  pip="${PYENV_ROOT}/versions/${venv}/bin/pip"
+  "${pip}" install --upgrade pip
+  "${pip}" install --upgrade "neovim"
+  "${pip}" install --upgrade "jedi"
+done
+
+echo "To initialize pyenv reload the shell or source ~/.profile"
+exit 0

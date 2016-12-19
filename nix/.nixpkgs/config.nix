@@ -5,7 +5,9 @@
       name = "myenv";
       paths = [
         awscli
-        cacert  # git seems to want this
+        bashInteractive # regular bash is not meant for interactive use.
+        # cacert  # git seems to want this
+        # Received error on a fresh macOS install 2016-12-17T11:15:12-0800 
         coreutils-prefixed # Things like gls
         git
         # FIXME 2016-09-15T06:56:15-0700

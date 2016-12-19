@@ -1,8 +1,9 @@
 # ======================================================================
 # zshrc is loaded for interactive shells
 # TOC
-# - aliases
+# - init
 # - bindkeys
+# - hooks
 # - colors
 # - exports
 # - functions
@@ -12,7 +13,11 @@
 # - prompt
 # ======================================================================
 
-# Evoke the .profile (sourced by .zshenv) path setter func.
+# ======================================================================
+# init
+# ======================================================================
+
+# Set shell independent settings.
 [ -e ~/.profile ] && source ~/.profile
 
 # iterm shell integration messes with the prompt and causes
@@ -33,10 +38,7 @@ fi
 # vim normal mode keybindings
 bindkey -v
 
-
-# -------------------------------------------------------------------------
 # changing dirs
-# -------------------------------------------------------------------------
 autoload -U chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
 
@@ -80,21 +82,13 @@ zstyle ':completion:*' users $users
 compdef _gnu_generic gcc
 compdef _gnu_generic gdb
 
-
-
-#########################################################################
+# ======================================================================
 # exports
-#########################################################################
+# ======================================================================
 
-
-#########################################################################
-# exports
-#########################################################################
-
-
-#########################################################################
+# ======================================================================
 # functions
-#########################################################################
+# ======================================================================
 
 
 # -------------------------------------------------------------------------
@@ -107,9 +101,9 @@ autoload -Uz run-help-svk
 unalias run-help
 # alias help=run-help
 
-#########################################################################
+# ======================================================================
 # history
-#########################################################################
+# ======================================================================
 
 HISTFILE="${XDG_STATE_HOME}/zsh_history"
 HISTSIZE=2048                    # lines to maintain in memory
@@ -130,27 +124,28 @@ setopt bang_hist                 # !keyword
 # Should be the final thing sourced by zshrc.
 # ===========================================================================
 
-mods_dir="${XDG_OPT_HOME}/zsh-users"
+mods_dir="${XDG_CONFIG_HOME}/zsh/modules"
 
 # ===========================================================================
 # zsh-autosuggestions
 # ===========================================================================
 
-# source "${mods_dir}/zsh-autosuggestions/zsh-autosuggestions.zsh"
-# export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=246
+source "${mods_dir}/zsh-users/zsh-autosuggestions/zsh-autosuggestions.zsh"
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=246
 
 # ===========================================================================
 # zsh-completions
 # ===========================================================================
-fpath=(${mods_dir}/zsh-completions $fpath)
+fpath=(${mods_dir}/zsh-users/zsh-completions $fpath)
 
 # ===========================================================================
 # zsh-history-substring-search
 # ===========================================================================
 # vim-like snippet keybindings for history-substring-search
-source ${mods_dir}/zsh-history-substring-search/zsh-history-substring-search.zsh
+source ${mods_dir}/zsh-users/zsh-history-substring-search/zsh-history-substring-search.zsh
 bindkey '^[[A' history-substring-search-up
 bindkey '^K' history-substring-search-up
+bindkey '^J' history-substring-search-down
 bindkey '^[[B' history-substring-search-down
 
 
@@ -158,7 +153,7 @@ bindkey '^[[B' history-substring-search-down
 #  zsh-syntax-highlighting
 # ===========================================================================
 
-source ${mods_dir}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ${mods_dir}/zsh-users/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Fri, 29 Jan 2016 16:44:49 -0800
 # It's not clear whether we actually need to set these values when using
 # iterm2, as the colors might be over-ridden by iterm2's color scheme.
@@ -228,7 +223,7 @@ setopt notify
 # ======================================================================
 # prompt
 # ======================================================================
-# FIXME this does not work it seems
+# FIXME this does not work it seems.  Delete?
 # Avoid emacs hanging when attempting to connect remotely.
 # https://www.emacswiki.org/emacs/TrampMode#t
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
@@ -260,7 +255,6 @@ ${prompt_indicator} '
 RPROMPT='${prompt_time}'                           # time and date
 
 
-
 # The following lines were added by compinstall
 #zstyle :compinstall filename '/Users/shawn/.zshrc'
 # End of lines added by compinstall
@@ -270,8 +264,9 @@ RPROMPT='${prompt_time}'                           # time and date
 #   source "${file}"
 # done
 
-if [[ "$TERM" != "dumb" ]] &&  [ -e "${HOME}/.iterm2_shell_integration.zsh" ]; then
-  source "${HOME}/.iterm2_shell_integration.zsh"
-fi
+# Emacs hangs when connecting remotely via tramp mode.
+# if [[ "$TERM" != "dumb" ]] &&  [ -e "${HOME}/.iterm2_shell_integration.zsh" ]; then
+#   source "${HOME}/.iterm2_shell_integration.zsh"
+# fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

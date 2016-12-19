@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Install nix and packages managed by nix.
+
+set -e
+
+echo "Configuring the nix package manager."
+
+# Get nix if necessary.
+if [ ! -e "${HOME}/.nix-profile/bin/nix-env" ]; then
+  echo "Installing the nix package manager."
+  curl "https://nixos.org/nix/install" | sh
+fi
+
+# load the nix profile
+f="${HOME}/.nix-profile/etc/profile.d/nix.sh"
+if [ -e "${f}" ]; then
+  source "${f}"
+else
+  echo --error "${f} not found."
+  exit 1
+fi
+
+# Install common packages as defined in ~/.nixpkgs/config.nix
+nix-env --install --attr nixpkgs.myenv

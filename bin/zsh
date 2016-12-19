@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Changes user's shell to default to zsh and downloads modules.
+
+set -e
+
+CONF="${CONF:-${HOME}/conf}"
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
+
+# Wrapper for the git clone or update script.
+get() {
+  "${CONF}/libexec/git-get" $1 $2
+}
+
+echo "Configuring zsh."
+
+zsh_path="$(which zsh)"
+echo "zsh path: ${zsh_path}"
+echo "Currenrt shell: $SHELL"
+
+if grep -q "${zsh_path}" /etc/shells; then
+  echo "Adding ${zsh_path} to /etc/shells."
+  printf "%s" "${zsh_path}" | sudo tee -a /etc/shells
+fi
+
+# Change this user's default shell to zsh
+if [ "${SHELL}" != "${zsh_path}" ] && [ "${SHELL}" != "/bin/zsh" ]; then
+  echo "Changing this user's default shell to zsh."
+  user="${USER}"
+  sudo chsh -s "${zsh_path}" "${user}"
+fi
+
+echo "Updating zsh modules."
+mods=(
+  "zsh-users/zsh-history-substring-search"
+  "zsh-users/zsh-syntax-highlighting"
+  "zsh-users/zsh-completions"
+  "zsh-users/zsh-autosuggestions"
+)
+
+for mod in "${mods[@]}"; do
+  src="https://github.com/${mod}"
+  tar="${XDG_CONFIG_HOME}/zsh/modules/${mod}"
+  echo "Getting ${src}"
+  get "${src}" "${tar}"
+done
+
+exit 0
+

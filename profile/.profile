@@ -17,11 +17,11 @@ export XDG_STATE_HOME="${HOME}/.local/state" # can persist after reboot: logs
 export XDG_BIN_HOME="${HOME}/.local/bin"
 export XDG_LIB_HOME="${HOME}/.local/lib"
 export XDG_OPT_HOME="${HOME}/.local/opt"
+export XDG_TMP_HOME="${HOME}/.local/tmp"
 export XDG_VAR_HOME="${HOME}/.local/var"
 
 # User created variables.
 export CONF="${HOME}/conf"
-export CONF_BIN_HOME="${CONF}/bin/bin"
 export PYENV_ROOT="${XDG_DATA_HOME}/pyenv"
 export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
 
@@ -119,15 +119,6 @@ PATH="${XDG_BIN_HOME}:/usr/local/bin:/usr/local/sbin:$PATH"
 # PATH=".stack_work:${PATH}"
 
 # --------------------------------------------------------------------------
-# iterm
-# --------------------------------------------------------------------------
-# FIXME This is not incredibly robust to changing shells during a session.
-# Consider putting individual sourcings in the appropriate shell rc files.
-# if [ -e "${HOME}/.iterm2_shell_integration.`basename $SHELL`" ]; then
-#   source "${HOME}/.iterm2_shell_integration.`basename $SHELL`"
-# fi
-
-# --------------------------------------------------------------------------
 # golang
 # --------------------------------------------------------------------------
 export GOPATH="${HOME}/src/go"
@@ -156,7 +147,7 @@ fi
 # --------------------------------------------------------------------------
 # Python
 # --------------------------------------------------------------------------
-# pyve was our simplified version of pyenv.  Just usse pyenv?
+# FIXME pyve was our simplified version of pyenv.  Just usse pyenv?
 # pyve
 # if [ -e "${CONF_BIN_HOME}/pyve/pyve.sh" ]; then
 #   source "${CONF_BIN_HOME}/pyve/pyve.sh"
