@@ -1,1 +1,0 @@
-/Users/shawn/dotfiles/iterm/./.config/iterm/.iterm2_shell_integration.zsh
