@@ -1,17 +1,17 @@
 [alias]
-	la = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  la = log --graph --decorate --pretty=oneline --abbrev-commit --all
   s = status
-	sv = status --verbose
+  sv = status --verbose
 [filter "media"]
-	required = true
-	clean = git media clean %f
-	smudge = git media smudge %f
+  required = true
+  clean = git media clean %f
+  smudge = git media smudge %f
 [push]
-	default = simple
+  default = simple
 [include]
   path = ~/.config/git/config.local
 [user]
-	name = Shawn O'Hare
-	email = shawn@ohare.io
+  name = Shawn O'Hare
+  email = shawn@ohare.io
 [credential]
   helper = cache --timeout 6048000
