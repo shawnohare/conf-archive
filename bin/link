@@ -62,7 +62,7 @@ link_dir() {
 # Link config files.
 main () {
   local dirs=(
-      aws bash emacs fish git nix nvim profile screen 
+      bash emacs fish git nix nvim profile screen
       spacemacs tmux vim zsh
   )
 
