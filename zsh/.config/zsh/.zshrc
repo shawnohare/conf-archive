@@ -130,8 +130,8 @@ mods_dir="${XDG_CONFIG_HOME}/zsh/modules"
 # zsh-autosuggestions
 # ===========================================================================
 
-source "${mods_dir}/zsh-users/zsh-autosuggestions/zsh-autosuggestions.zsh"
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=246
+# source "${mods_dir}/zsh-users/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=246
 
 # ===========================================================================
 # zsh-completions
