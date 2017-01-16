@@ -31,6 +31,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     javascript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -329,7 +330,15 @@ you should place your code here."
   (setq TeX-source-correlate-mode t)
   (setq TeX-source-correlate-start-server t)
   (setq TeX-source-correlate-method 'synctex)
-  ;; AucTex recognizes some standard viewers, such as Skim.
+  ;; AucTex recognizes some standard viewers, but the default view command
+  ;; does not appear to sync.
+  (setq TeX-view-program-list
+        '(("Okular" "okular --unique %o#src:%n`pwd`/./%b")
+          ("Skim" "displayline -b -g %n %o %b")
+          ("Zathura"
+           ("zathura %o"
+            (mode-io-correlate
+             " --synctex-forward %n:0:%b -x \"emacsclient +%{line} %{input}\"")))))
   (cond
    ((spacemacs/system-is-mac) (setq TeX-view-program-selection '((output-pdf "Skim"))))
    ;; For linux, use Okular or perhaps Zathura.

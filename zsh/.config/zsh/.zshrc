@@ -252,7 +252,7 @@ prompt_indicator='%{%F{yellow}%}>%{%f%}' # prompt indicator
 prompt_time='%* %D'
 PROMPT='${user_host} ${curr_dir} ${vcs_info_msg_0_}
 ${prompt_indicator} '
-RPROMPT='${prompt_time}'                           # time and date
+# RPROMPT='${prompt_time}'                           # time and date
 
 
 # The following lines were added by compinstall
