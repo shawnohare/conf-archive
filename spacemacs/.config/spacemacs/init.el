@@ -31,7 +31,6 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     javascript
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -59,6 +58,7 @@ values."
               haskell-enable-hindent-style "fundamental")
      helm
      html
+     javascript
      latex
      markdown
      org
@@ -324,43 +324,5 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  ;; Latex
-  ;; Use Skim on macOS to utilize synctex.
-  ;; Confer https://mssun.me/blog/spacemacs-and-latex.html
-  (setq TeX-source-correlate-mode t)
-  (setq TeX-source-correlate-start-server t)
-  (setq TeX-source-correlate-method 'synctex)
-  ;; AucTex recognizes some standard viewers, but the default view command
-  ;; does not appear to sync.
-  (setq TeX-view-program-list
-        '(("Okular" "okular --unique %o#src:%n`pwd`/./%b")
-          ("Skim" "displayline -b -g %n %o %b")
-          ("Zathura"
-           ("zathura %o"
-            (mode-io-correlate
-             " --synctex-forward %n:0:%b -x \"emacsclient +%{line} %{input}\"")))))
-  (cond
-   ((spacemacs/system-is-mac) (setq TeX-view-program-selection '((output-pdf "Skim"))))
-   ;; For linux, use Okular or perhaps Zathura.
-   ((spacemacs/system-is-linux) (setq TeX-view-program-selection '((output-pdf "Okular")))))
+  (load-file (concat dotspacemacs-directory "user-config.el"))
   )
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (company-auctex auctex yapfify yaml-mode ws-butler window-numbering which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit spacemacs-theme spaceline smeargle slim-mode scss-mode sass-mode restart-emacs quelpa pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint less-css-mode intero info+ indent-guide ido-vertical-mode hy-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate golden-ratio go-guru go-eldoc gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flyspell-correct-helm flycheck-pos-tip flycheck-haskell flycheck-gometalinter flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu emmet-mode elisp-slime-nav dumb-jump diff-hl define-word cython-mode company-web company-statistics company-quickhelp company-go company-ghci company-ghc company-cabal company-anaconda column-enforce-mode cmm-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)
