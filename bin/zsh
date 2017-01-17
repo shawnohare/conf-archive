@@ -8,7 +8,7 @@ XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
 
 # Wrapper for the git clone or update script.
 get() {
-  "${CONF}/libexec/git-get" $1 $2
+  "${CONF}/bin/git-get" $1 $2
 }
 
 echo "Configuring zsh."

@@ -21,7 +21,7 @@ fi
 if [[ ! -d "${loc}" ]]; then
   mkdir -p "${loc}"
   git clone --recursive "${remote}" "${loc}"
-  return 0
+  exit 0
 fi
 
 # Update
@@ -29,11 +29,11 @@ cd "${loc}" || exit 1
 
 # Check whether there are changes.
 if ! git diff --quiet; then
-  return 1
+  exit 1
 fi
 
 if ! git diff --cached --quiet; then
-  return 1
+  exit 1
 fi
 
 git pull
