@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 brew install emacs --with-cocoa --with-librsvg --with-gnutls --with-imagemagick
-bbrew unlink emacs && brew link --overwrite emacs
+brew install aspell
+brew linkapps emacs

@@ -324,5 +324,32 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (load-file (concat dotspacemacs-directory "user-config.el"))
+
+  ;; Loading from an external file should work, but we encountered some odd
+  ;; issues.  LaTeX build command apparently is set to nil when loading from
+  ;; the config.
+  ;; (load-file (concat dotspacemacs-directory "user-config.el"))
+
+  ;; ;; Disable current line highlighting.
+  (global-hl-line-mode -1)
+
+  ;; ;; Latex
+  ;; ;; Use Skim on macOS to utilize synctex.
+  ;; ;; Confer https://mssun.me/blog/spacemacs-and-latex.html
+  (setq TeX-source-correlate-mode t)
+  (setq TeX-source-correlate-start-server t)
+  (setq TeX-source-correlate-method 'synctex)
+  ;; ;; AucTex recognizes some standard viewers, but the default view command
+  ;; ;; does not appear to support forward sync.
+  (setq TeX-view-program-list
+        '(("Okular" "okular --unique %o#src:%n`pwd`/./%b")
+          ("Skim" "displayline -b -g %n %o %b")
+          ("Zathura"
+           ("zathura %o"
+            (mode-io-correlate
+             " --synctex-forward %n:0:%b -x \"emacsclient +%{line} %{input}\"")))))
+  (cond
+   ((spacemacs/system-is-mac) (setq TeX-view-program-selection '((output-pdf "Skim"))))
+   ;; For linux, use Okular or perhaps Zathura.
+   ((spacemacs/system-is-linux) (setq TeX-view-program-selection '((output-pdf "Okular")))))
   )
