@@ -69,6 +69,7 @@ values."
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      spell-checking
+     sql
      syntax-checking
      (version-control :variables
                       version-control-global-margin t)
