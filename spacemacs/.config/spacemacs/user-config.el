@@ -1,7 +1,7 @@
 ;; user-config.el takes the place of a standard init.el file
 
-;; Disable current line highlighting.
 (global-hl-line-mode -1)
+(vc-follow-link t)
 
 ;; Latex
 ;; Use Skim on macOS to utilize synctex.
