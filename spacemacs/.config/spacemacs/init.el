@@ -46,6 +46,7 @@ values."
                       ;; auto-completion-complete-with-key-sequence-delay 0.1    ;; default 0.1
                       ;; auto-completion-private-snippets-directory nil          ;; default nil
                       )
+     ;; (colors :variables colors-colorize-identifiers 'variables)
      emacs-lisp
      git
      (go :variables
