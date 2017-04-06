@@ -74,6 +74,7 @@ export GREP_OPTIONS='--color=auto'
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
+alias emc="emacsclient"
 alias ls="ls -GF"
 alias la="ls -GFlash"
 alias ll="ls -GFlsh"
