@@ -2,25 +2,23 @@
 
 set -e
 
-CONF="${CONF:-${HOME}/conf}"
-
-readonly CONF_BRANCH="${CONF_BRANCH:-master}"
+dir="${CONF:-${HOME}/conf}"
+readonly branch="${CONF_BRANCH:-master}"
 readonly repo="https://github.com/shawnohare/conf.git"
 
-if [ ! -d "${CONF}" ]; then
+if [ ! -d "${dir}" ]; then
   echo "Cloning ${repo}"
-  git clone -b "${CONF_BRANCH} "--recursive "${repo}" "${CONF}"
+  git clone -b "${branch} "--recursive "${repo}" "${dir}"
 fi
 
-if [ ! -d "${CONF}" ]; then
+if [ ! -d "${dir}" ]; then
   >&2 echo "Error: Could not clone config repo."
 fi
 
-cd ${CONF}
-git checkout "${CONF_BRANCH}"
+cd ""${dir}""
+git checkout "${branch}"
 
-echo "Sourcing ~/profile/.profile".
-source "${CONF}/profile/.profile"
+source "${dir}/profile/.profile"
 
 echo "Making necessary dirs."
 mkdir -p "${XDG_CONFIG_HOME}"
@@ -37,12 +35,14 @@ mkdir -p "${HOME}/bin"
 mkdir -p "${HOME}/tmp"
 mkdir -p "${HOME}/src"
 
-for bin in link nix zsh nvim; do
-  echo "Running ${bin}"
-  "${CONF}/bin/${bin}"
-done
+# Link config files.
+"${dir}/bin/link"
 
-source "${CONF}/profile/.profile"
+# Run specific setup scripts.
+for bin in nix zsh nvim; do
+  echo "Running ${bin}"
+  "${dir}/bin/setup/${bin}"
+done
 
 echo "Finished installing.  Please restart the shell."
 
