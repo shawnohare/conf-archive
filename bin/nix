@@ -21,4 +21,4 @@ else
 fi
 
 # Install common packages as defined in ~/.nixpkgs/config.nix
-nix-env --install --attr nixpkgs.myenv
+nix-env --install --attr nixpkgs.all

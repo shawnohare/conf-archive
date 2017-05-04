@@ -1,8 +1,8 @@
 {
   packageOverrides = pkgs_: with pkgs_; {  # pkgs_ is the original set of packages
     # Install some core programs in an OS independent way.
-    myenv = with pkgs; buildEnv {  # pkgs is your overriden set of packages itself
-      name = "myenv";
+    all = with pkgs; buildEnv {  # pkgs is your overriden set of packages itself
+      name = "all";
       paths = [
         awscli
         bashInteractive # regular bash is not meant for interactive use.
@@ -38,7 +38,8 @@
         # source-code-pro # font
         silver-searcher
         sqlite
-        stack # haskell build tool
+        # 2017-05-04 encountered a stack build error
+        # stack # haskell build tool
         stow
         tmux
         wget
