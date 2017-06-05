@@ -452,7 +452,7 @@ syntax on                    " enable syntax highlighting
 set showmode                 " show current mode at bottom of screen
 set showcmd                  " show (partial) commands below statusline
 " set showmatch                " show matching delimiters
-" set relativenumber           " show relative line numbers
+set relativenumber           " show relative line numbers
 set number                   " show line number of cursor
 " au InsertEnter * :set number " absolute numbers in insert mode
 " au InsertLeave * :set rnu    " relative numbers when leaving insert mode
@@ -485,9 +485,11 @@ endif
   if (has("termguicolors"))
     set termguicolors
   endif
+
 " --------------------------------------------------------------------------
 " Colorscheme
 " --------------------------------------------------------------------------
+" TODO: Clean up some of the unused colorschemes.
 
 set background=dark
 
@@ -511,7 +513,8 @@ set background=dark
 " colorscheme mustard
 
 " One
-let g:one_allow_italics = 1
+" NOTE: (2017-06-05) Alacritty renders italics with a gray background.
+" let g:one_allow_italics = 1
 colorscheme one
 
 
