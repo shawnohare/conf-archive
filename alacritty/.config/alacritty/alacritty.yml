@@ -93,8 +93,8 @@ colors:
     background: '0x282c34'
     # NOTE: Foreground colors from lightest to darkest.
     # foreground: '0xdcdfe4'
-    foreground: '0xc6c8cd'
-    # foreground: '0xb0b2b6'
+    # foreground: '0xc6c8cd'
+    foreground: '0xb0b2b6'
     # foreground: '0xb9a9c9f'
 
   normal:
