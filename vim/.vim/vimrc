@@ -485,9 +485,11 @@ endif
   if (has("termguicolors"))
     set termguicolors
   endif
+
 " --------------------------------------------------------------------------
 " Colorscheme
 " --------------------------------------------------------------------------
+" TODO: Clean up some of the unused colorschemes.
 
 set background=dark
 
@@ -511,7 +513,8 @@ set background=dark
 " colorscheme mustard
 
 " One
-let g:one_allow_italics = 1
+" NOTE: (2017-06-05) Alacritty renders italics with a gray background.
+" let g:one_allow_italics = 1
 colorscheme one
 
 
