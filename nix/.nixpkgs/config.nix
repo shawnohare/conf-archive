@@ -1,11 +1,13 @@
 {
   packageOverrides = pkgs_: with pkgs_; {  # pkgs_ is the original set of packages
     # Install some core programs in an OS independent way.
-    all = with pkgs; buildEnv {  # pkgs is your overriden set of packages itself
+    # pkgs is your overriden set of packages itself
+    all = with pkgs; buildEnv {
       name = "all";
       paths = [
         awscli
-        bashInteractive # regular bash is not meant for interactive use.
+        # regular bash is not meant for interactive use.
+        bashInteractive
         # NOTE: There has been some issues with darwin's outdated openssl cert
         # and how nix sets SSL_CERT_FILE. See:
         # https://github.com/NixOS/nix/issues/921
