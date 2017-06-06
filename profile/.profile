@@ -122,13 +122,14 @@ PATH="${XDG_BIN_HOME}:/usr/local/bin:/usr/local/sbin:$PATH"
 # --------------------------------------------------------------------------
 # golang
 # --------------------------------------------------------------------------
+# GOROOT is /usr/local/go by default.
 export GOPATH="${HOME}/src/go"
-PATH="${GOPATH}/bin:${PATH}"
+PATH="${GOPATH}/bin:/usr/local/go/bin:${PATH}"
 
 # --------------------------------------------------------------------------
-# rust 
+# rust
 # --------------------------------------------------------------------------
-export RUSTPATH="${HOME}/.cargo" 
+export RUSTPATH="${HOME}/.cargo"
 PATH="${RUSTPATH}/bin:${PATH}"
 
 # --------------------------------------------------------------------------

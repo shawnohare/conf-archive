@@ -19,34 +19,56 @@ symlinked into the appropriate target, usually `$HOME`.
 
 Some manual initialization leads to less headaches.
 
-Install `curl`, `git`, and `bzip`.  This can be done with
+## Initialization
+
+Some basic system tools are necessary before running the config install script.
+These are: `curl`, `git`, `bzip`.  
+
+### macos
+
+All the tools above can be installed via:
+
 ```bash
-xcode-select --install # macos
+xcode-select --install
 ```
-On Linux (Debian based systems)
+
+### Debian-based
 
 ```bash
 sudo apt-get update
 sudo apt-get -y upgrade
-sudo apt-get install -y curl git bzip # debian / ubuntu
+sudo apt-get install -y curl git bzip
 ```
 
-`curl` the basic install script.
+## Install script
+
+Next, the config install script must be run. 
+
+The preferred method is:
 ```bash
-curl https://raw.githubusercontent.com/shawnohare/config files/master/bin/install | bash
+git clone https://github.com/shawnohare/conf
+cd conf
+bin/install
 ```
-Alternatively, clone the repo and execute `~/conf/bin/install`.
 
-# Manual Steps
+Alternatively:
+```bash
+curl https://raw.githubusercontent.com/shawnohare/conf/master/bin/install | bash
+```
 
-- Installing the basic initialzation tools mentioned above: `xcode` command
-  line tools, `curl`, and `git`.
+##  Manual post-install steps
+
 - Download `iterm` for macOS and install the associated shell integration
   script via iterm, if desired.
 - Tell `iterm` to look in `~/conf/iterm/` for its config.
 - Delete the spurious `~/.zshrc` file created by the iterm shell integration
   install. This is an unfortunate consequence of specifying a custom
   `ZDOTDIR` directory.
+
+## Development
+
+1. Install `golang` via `sudo bin/setup/golang`. 
+1. Install `rust` via `bin/setup/rust` or `curl https://sh.rustup.rs -sSf | sh`
 
 # Configuration
 

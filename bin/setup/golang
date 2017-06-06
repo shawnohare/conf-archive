@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# ---
+# Install golang for macos or linux. Ideally this should be handled by a
+# package manager such as nix, but it appears there's some hoops to jump
+# through to develop in go using the compiler provided by nix.
+# ---
+
+readonly version="${VERSION:-1.8.3}"
+readonly arch="${ARCH:-amd64}"
+os="${OS:-$(uname -s)}"
+# Lower first character.
+os="${os,}"
+
+readonly src="go${version}.${os}-${arch}.tar.gz"
+wget "https://storage.googleapis.com/golang/${src}"
+tar -C "/usr/local" -xzf "${src}"
+rm "${src}"
+
+

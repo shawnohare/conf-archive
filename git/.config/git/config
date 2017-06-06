@@ -14,4 +14,4 @@
   name = Shawn O'Hare
   email = shawn@ohare.io
 [credential]
-  helper = cache --timeout 6048000
+  helper = cache --timeout 604800
