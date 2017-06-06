@@ -24,6 +24,7 @@
         # "go-1.7" # this seems to install go without std lib?
         # hugo
         jq
+        mosh
         neovim
         nix-zsh-completions
         nox
@@ -38,6 +39,7 @@
         # python35Packages.pylint # errored on os x
         # python35Packages.pew # virtualenv tool, but venv path below nix's
         # source-code-pro # font
+        screen
         silver-searcher
         sqlite
         # 2017-05-04 encountered a stack build error
