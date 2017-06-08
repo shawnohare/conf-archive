@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+# Relies on oh-my-zsh commands.
 #
 declare -r green="%{$fg_bold[green]%}"
 declare -r blue="%{$fg_bold[blue]%}"

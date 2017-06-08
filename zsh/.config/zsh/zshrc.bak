@@ -228,6 +228,16 @@ setopt notify
 # https://www.emacswiki.org/emacs/TrampMode#t
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
 
+
+declare -r green="%{$fg_bold[green]%}"
+declare -r blue="%{$fg_bold[blue]%}"
+declare -r red="%{$fg_bold[red]%}"
+declare -r yellow="%{$fg_bold[yellow]%}"
+declare -r cyan="%{$fg_bold[cyan]%}"
+declare -r magenta="%{$fg_bold[magenta]%}"
+declare -r white="%{$fg_bold[white]%}"
+declare -r reset_color="%{$reset_color%}"
+
 # autoload -U promptinit # allows some builtin prompts to be used
 # promptinit
 setopt PROMPT_SUBST      # allow for more extensive expansion in prompts
@@ -238,13 +248,14 @@ autoload -Uz vcs_info
 
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:git:*' formats 'git:%u%c%{%F{green}%}%b%{%f%} '
+zstyle ':vcs_info:git:*' formats 'git:%u%c${green}%b'
 zstyle ':vcs_info:git:*' stagedstr '%{%F{yellow}%}+%{%f%}'
 zstyle ':vcs_info:git:*' unstagedstr '%{%F{red}%}*%{%f%}'
 precmd() {
   vcs_info
 }
 
+user=''
 user_host='%n@%m'
 curr_dir='%{%F{blue}%}%4~%{%f%}'         # current directory
 exit_codes='%(?..%{%F{yellow}%}%?'       # exit codes

@@ -29,17 +29,17 @@ if [ "${SHELL}" != "${zsh_path}" ] && [ "${SHELL}" != "/bin/zsh" ]; then
   sudo chsh -s "${zsh_path}" "${user}"
 fi
 
-echo "Updating zsh modules."
-mods=(
+plugins=(
   "zsh-users/zsh-history-substring-search"
   "zsh-users/zsh-syntax-highlighting"
   "zsh-users/zsh-completions"
   "zsh-users/zsh-autosuggestions"
+  "zsh-users/zaw"
 )
 
-for mod in "${mods[@]}"; do
-  src="https://github.com/${mod}"
-  tar="${XDG_CONFIG_HOME}/zsh/modules/${mod}"
+for plugin in "${plugins[@]}"; do
+  src="https://github.com/${plugin}"
+  tar="${XDG_CONFIG_HOME}/zsh/plugins/${plugin}"
   echo "Getting ${src}"
   get "${src}" "${tar}"
 done
