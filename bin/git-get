@@ -13,7 +13,6 @@ loc="$2"
 
 # Error if both arguments are not provided.
 if [ -z "${remote+x}" ] || [ -z "${loc+x}" ]; then
-  display_help
   echo "Usage: git-get <remote> <local>"
   exit 1
 fi

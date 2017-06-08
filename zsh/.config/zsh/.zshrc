@@ -6,6 +6,27 @@
 [ -e ~/.profile ] && source ~/.profile
 
 
+# ===========================================================================
+# plugins
+# ===========================================================================
+# Load plugins.
+# We have some basic custom logic for managing plugins. Basic profiling
+# suggests its only about 100-200ms faster loading than zplug.
+# If using our custom logic:
+fpath=(${ZPLUGIN_HOME}/zsh-users/zsh-completions $fpath)
+autoload -U compinit && compinit
+source "${ZPLUGIN_HOME}/init.zsh"
+#
+# If using zplug:
+# fpath=(${ZPLUGIN_HOME}/zsh-users/zsh-completions $fpath)
+# if [[ ! -d "${ZPLUG_HOME}" ]]; then
+#   curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
+# fi
+# source "${ZPLUG_HOME}/init.zsh"
+# zplug check --verbose || zplug install
+# zplug load
+
+
 # NOTE: iterm shell integration messes with the prompt and causes
 # emacs tramp mode to hang indefinitely. There are some attempts to fix
 # this throughout.
@@ -35,8 +56,7 @@ add-zsh-hook chpwd chpwd_recent_dirs
 # ======================================================================
 # Completion (derived from http://dustri.org/b/my-zsh-configuration.html)
 # ======================================================================
-
-autoload -U compinit && compinit
+# Some of these might be taken care of by oh-my-zsh/lib/completion
 zmodload -i zsh/complist
 setopt hash_list_all            # hash everything before completion
 setopt completealiases          # complete alisases
@@ -98,33 +118,21 @@ setopt inc_append_history        # add commands as they are typed, don't wait un
 setopt share_history             # share hist between sessions
 setopt bang_hist                 # !keyword
 
-# ===========================================================================
-# plugins
-# ===========================================================================
-
-plugins_dir="${ZDOTDIR}/plugins"
-
-source "${plugins_dir}/zsh-users/zaw/zaw.zsh"
 
 # ===========================================================================
 # zsh-autosuggestions
 # ===========================================================================
 
-# source "${plugins_dir}/zsh-users/zsh-autosuggestions/zsh-autosuggestions.zsh"
 # export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=246
 
 # ===========================================================================
 # zsh-completions
 # ===========================================================================
-# FIXME
-fpath=(${plugins_dir}/zsh-users/zsh-completions $fpath)
 
 # ===========================================================================
 # zsh-history-substring-search
 # ===========================================================================
 # vim-like snippet keybindings for history-substring-search
-# FIXME
-source ${plugins_dir}/zsh-users/zsh-history-substring-search/zsh-history-substring-search.zsh
 bindkey '^[[A' history-substring-search-up
 bindkey '^K' history-substring-search-up
 bindkey '^J' history-substring-search-down
@@ -134,9 +142,6 @@ bindkey '^[[B' history-substring-search-down
 # ===========================================================================
 #  zsh-syntax-highlighting
 # ===========================================================================
-
-# FIXME
-source ${plugins_dir}/zsh-users/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=blue'
 ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=166'
@@ -148,8 +153,8 @@ ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
 ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=yellow'
 ZSH_HIGHLIGHT_STYLES[alias]='fg=yellow'
 ZSH_HIGHLIGHT_STYLES[builtin]='fg=green'
-ZSH_HIGHLIGHT_STYLES[function]='fg=166'
 ZSH_HIGHLIGHT_STYLES[command]='fg=green'
+ZSH_HIGHLIGHT_STYLES[function]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[precommand]='fg=violet'
 ZSH_HIGHLIGHT_STYLES[commandseparator]=none
 ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=blue'
@@ -171,7 +176,6 @@ ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=cyan'
 # ======================================================================
 # options
 # ======================================================================
-
 setopt autocd
 setopt extendedglob
 setopt nomatch
@@ -190,19 +194,17 @@ setopt notify
 autoload -Uz vcs_info
 autoload -U colors && colors
 setopt PROMPT_SUBST
-setopt TRANSIENT_RPROMPT
+# setopt TRANSIENT_RPROMPT
 
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:git:*' formats "%s:${fg_bold[magenta]}%b${reset_color}%u%c"
 zstyle ':vcs_info:git:*' stagedstr '%{%F{yellow}%}+%{%f%}'
-zstyle ':vcs_info:git:*' unstagedstr '%{%F{red}%}✺%{%f%}'
+zstyle ':vcs_info:git:*' unstagedstr '%{%F{red}%}✴%{%f%}'
 precmd() {
   vcs_info
 }
-# ●
-
-
+# ● ✺ ✴
 
 user="${fg_bold[green]}%n${reset_color}"
 machine="%B%m%b"
@@ -210,22 +212,16 @@ dir="${fg_bold[blue]}%3~${reset_color}"
 date="${fg_bold[cyan]}%D{%Y-%m-%dT%T}${reset_color}"
 indicator=">%{${reset_color}%}"
 PROMPT='${user}@${machine}: ${dir} ${vcs_info_msg_0_}
-%(?.${fg_bold[yellow]}.${fg_bold[red]})${indicator} '
+%(?.${fg_bold[magenta]}.${fg_bold[red]})${indicator} '
 # Some other start symbols
-# ⇨ → 🐉 ➤
-
-# The following lines were added by compinstall
-#zstyle :compinstall filename '/Users/shawn/.zshrc'
-# End of lines added by compinstall
-
-# source all config files: FIXME: old, can probably delete
-# for file in "${ZDOTDIR}"/*.zsh; do
-#   source "${file}"
-# done
+# ⇨ → 🐉 ➤ ⛩️
+# ⥲
+#
 
 # Emacs hangs when connecting remotely via tramp mode.
 # if [[ "$TERM" != "dumb" ]] &&  [ -e "${HOME}/.iterm2_shell_integration.zsh" ]; then
 #   source "${HOME}/.iterm2_shell_integration.zsh"
 # fi
 
+# fzf is installed as a vim-plugin
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
