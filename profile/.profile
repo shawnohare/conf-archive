@@ -176,3 +176,12 @@ fi
 PATH="${HOME}/bin:${PATH}"
 export PATH
 
+# In case we want to switch on OSTYPE in the future. Should likely avoid.
+# case "$OSTYPE" in
+#   darwin*) source "${XDG_CONFIG_HOME}/macos";;
+#   linux*) source "${XDG_CONFIG_HOME}/linux";;
+#   *bsd*) source "${XDG_CONFIG_HOME}/bsd";;
+#   **) export OSTYPE=$(uname -s);;
+# esac
+
+
