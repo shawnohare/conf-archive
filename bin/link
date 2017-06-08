@@ -63,7 +63,7 @@ link_dir() {
 main () {
   local dirs=(
       alacritty bash emacs fish git nix nvim profile screen
-      spacemacs tmux vim zsh
+      spacemacs tmux vim zsh zplug
   )
 
   for dir in "${dirs[@]}"; do
