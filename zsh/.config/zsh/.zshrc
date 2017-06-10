@@ -107,7 +107,7 @@ unalias run-help
 
 HISTFILE="${XDG_STATE_HOME}/zsh_history"
 HISTSIZE=2048                    # lines to maintain in memory
-SAVEHIST=65536                   # lines to maintain in history file
+SAVEHIST=100000                  # lines to maintain in history file
 setopt extended_history          # include timestamps
 setopt append_history            # append
 setopt hist_ignore_all_dups      # no duplicate
@@ -137,6 +137,7 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^K' history-substring-search-up
 bindkey '^J' history-substring-search-down
 bindkey '^[[B' history-substring-search-down
+# HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=yellow,bol'
 
 
 # ===========================================================================
@@ -192,27 +193,29 @@ setopt notify
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
 
 autoload -Uz vcs_info
-autoload -U colors && colors
+# autoload -U colors && colors
 setopt PROMPT_SUBST
 # setopt TRANSIENT_RPROMPT
 
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:git:*' formats "%s:${fg_bold[magenta]}%b${reset_color}%u%c"
-zstyle ':vcs_info:git:*' stagedstr '%{%F{yellow}%}+%{%f%}'
-zstyle ':vcs_info:git:*' unstagedstr '%{%F{red}%}✴%{%f%}'
+zstyle ':vcs_info:git:*' formats "%s:%F{magenta}%b%f%u%c"
+zstyle ':vcs_info:git:*' stagedstr '%F{yellow}+%f'
+zstyle ':vcs_info:git:*' unstagedstr '%F{red}✴%f'
 precmd() {
   vcs_info
 }
 # ● ✺ ✴
 
-user="${fg_bold[green]}%n${reset_color}"
+# The %{...%} delimiters tells zsh the text has zero width. Since v 4.3 it's
+# probably better to use the %F{color}...%f syntax.
+user="%F{green}%B%n%b%f"
 machine="%B%m%b"
-dir="${fg_bold[blue]}%3~${reset_color}"
-date="${fg_bold[cyan]}%D{%Y-%m-%dT%T}${reset_color}"
-indicator=">%{${reset_color}%}"
+dir="%F{blue}%3~%f"
+date="%F{cyan}%D{%Y-%m-%dT%T}%f"
+indicator=">"
 PROMPT='${user}@${machine}: ${dir} ${vcs_info_msg_0_}
-%(?.${fg_bold[magenta]}.${fg_bold[red]})${indicator} '
+%(?.%F{magenta}.%F{red})${indicator}%f '
 # Some other start symbols
 # ⇨ → 🐉 ➤ ⛩️
 # ⥲

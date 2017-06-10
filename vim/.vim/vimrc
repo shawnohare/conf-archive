@@ -7,6 +7,7 @@
 "==========================================================================
 " Initialization
 "==========================================================================
+set shell=zsh
 let mapleader = "\<Space>"
 
 " Define plugin dir locations
@@ -40,8 +41,9 @@ Plug 'majutsushi/tagbar'  " display tags in a window
 " Colorscheme
 " FIXME: Consider using a colorscheme that looks good without truecolor enabled.
 " In particular, nvim in screen looks bad when true color is enabled.
-Plug 'joshdick/onedark.vim'
+" Plug 'joshdick/onedark.vim'
 Plug 'rakr/vim-one'
+Plug 'sonph/onehalf', { 'rtp': 'vim/' }
 " Base16 colorschemes seemed to messs up a few others after they were
 " activated when running inside tmux.
 " Plug 'chriskempson/base16-vim'
@@ -50,11 +52,11 @@ Plug 'rakr/vim-one'
 
 " 24-bit / True / Hex Colorschemes
 " Plug 'geoffharcourt/one-dark.vim'
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
 " Plug 'jacoborus/tender'
 " Plug 'sts10/vim-mustard'
-Plug 'romainl/flattened'
-Plug 'lifepillar/vim-solarized8'
+" Plug 'romainl/flattened'
+" Plug 'lifepillar/vim-solarized8'
 
 " Completion
 " Plug 'Shougo/neocomplete', {'on': 'NeocompleteOn'}
@@ -101,8 +103,9 @@ Plug 'ntpeters/vim-better-whitespace'
 " plugins tend to not load very much initially, so it could be
 " advantageous to load all plugins.
 " use vim-latex instead?
-Plug 'LnL7/vim-nix' ,        { 'for': 'nix' }
-Plug 'lervag/vimtex' ,       { 'for': 'tex' }
+Plug 'kopischke/fish.vim',   { 'for': 'fish' }
+Plug 'LnL7/vim-nix',         { 'for': 'nix' }
+Plug 'lervag/vimtex',        { 'for': 'tex' }
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 Plug 'fatih/vim-go',         { 'for': 'go' }
 Plug 'chrisbra/csv.vim',     { 'for': 'csv' }
@@ -517,7 +520,6 @@ set background=dark
 " let g:one_allow_italics = 1
 colorscheme one
 
-
 " One Dark (Atom) theme (https://github.com/joshdick/onedark.vim)
 " let g:onedark_terminal_italics=0
 " colorscheme onedark
@@ -534,10 +536,10 @@ colorscheme one
 " Gruvbox
 " set background=dark
 " let g:gruvbox_contrast_light="hard"
-let g:gruvbox_italic=1
-let g:gruvbox_italicize_comments=1
+" let g:gruvbox_italic=1
+" let g:gruvbox_italicize_comments=1
 " let g:gruvbox_improved_strings=1
-let g:gruvbox_improved_warnings=1
+" let g:gruvbox_improved_warnings=1
 " let g:gruvbox_sign_column="bg0"
 " colorscheme gruvbox
 "

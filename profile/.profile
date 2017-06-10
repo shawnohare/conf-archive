@@ -27,7 +27,8 @@ export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
 
 # General
 export BASH="/usr/local/bin/bash"
-export BROWSER="safari"
+# Setting the BROWSER env var can break fish's help command.
+# export BROWSER="safari"
 export ECLIPSE_HOME="${HOME}/Applications/Eclipse.app/Contents/Eclipse"
 export EDITOR="nvim"
 export SCREENRC="${XDG_CONFIG_HOME}/screen/screenrc"

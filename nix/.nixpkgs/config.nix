@@ -18,6 +18,7 @@
         # cacert
         # curl
         coreutils-prefixed # Things like gls
+        fish
         git
         # FIXME 2016-09-15T06:56:15-0700
         # Go builds having trouble.
