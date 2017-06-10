@@ -3,7 +3,7 @@
 # ======================================================================
 
 # Set shell independent settings.
-[ -e ~/.profile ] && source ~/.profile
+source ~/.profile > /dev/null 2>&1
 
 
 # ===========================================================================
@@ -15,7 +15,8 @@
 # If using our custom logic:
 fpath=(${ZPLUGIN_HOME}/zsh-users/zsh-completions $fpath)
 autoload -U compinit && compinit
-source "${ZPLUGIN_HOME}/init.zsh"
+source "${ZPLUGIN_HOME}/init.zsh" > /dev/null 2>&1 || \
+  "${ZPLUGIN_HOME}/bin/init" && source "${ZPLUGIN_HOME}/init.zsh"
 #
 # If using zplug:
 # fpath=(${ZPLUGIN_HOME}/zsh-users/zsh-completions $fpath)
@@ -137,7 +138,7 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^K' history-substring-search-up
 bindkey '^J' history-substring-search-down
 bindkey '^[[B' history-substring-search-down
-# HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=yellow,bol'
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=magenta,fg=255,bold'
 
 
 # ===========================================================================
@@ -151,27 +152,29 @@ ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[cursor]='bg=black'
 ZSH_HIGHLIGHT_STYLES[default]=none
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
-ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=yellow'
+ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=yellow,bold'
 ZSH_HIGHLIGHT_STYLES[alias]='fg=yellow'
-ZSH_HIGHLIGHT_STYLES[builtin]='fg=green'
-ZSH_HIGHLIGHT_STYLES[command]='fg=green'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=green,bold'
+ZSH_HIGHLIGHT_STYLES[command]='bold'
 ZSH_HIGHLIGHT_STYLES[function]='fg=magenta'
-ZSH_HIGHLIGHT_STYLES[precommand]='fg=violet'
-ZSH_HIGHLIGHT_STYLES[commandseparator]=none
+ZSH_HIGHLIGHT_STYLES[precommand]='fg=magenta,bold'
+ZSH_HIGHLIGHT_STYLES[commandseparator]='bold'
 ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=blue'
 ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=yellow'
 ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=yellow'
 ZSH_HIGHLIGHT_STYLES[path]='fg=blue'
+ZSH_HIGHLIGHT_STYLES[path_pathseparator]='fg=white,bold'
 ZSH_HIGHLIGHT_STYLES[path_prefix]='fg=61'
+ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]='fg=white'
 ZSH_HIGHLIGHT_STYLES[path_approx]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[globbing]='fg=166'
-ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=blue'
-ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=cyan
+ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=bold'
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=cyan'
 ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=009
 ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=009
 ZSH_HIGHLIGHT_STYLES[assign]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=cyan'
-ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=cyan'
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=green'
 
 
 # ======================================================================
