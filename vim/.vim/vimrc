@@ -12,8 +12,8 @@ let mapleader = "\<Space>"
 
 " Define plugin dir locations
 if has('nvim')
-  let vimplug = "$XDG_CONFIG_HOME/nvim/autoload/plug.vim"
-  let plugged = "$XDG_CONFIG_HOME/nvim/plugged"
+  let vimplug = "$XDG_DATA_HOME/nvim/site/autoload/plug.vim"
+  let plugged = "$XDG_DATA_HOME/nvim/plugged"
 else
   let vimplug = "~/.vim/autoload/plug.vim"
   let plugged = "~/.vim/plugged"
@@ -37,13 +37,10 @@ call plug#begin(plugged)
 Plug 'tpope/vim-vinegar'  " enhanced netrw file browser
 Plug 'majutsushi/tagbar'  " display tags in a window
 
-
 " Colorscheme
 " FIXME: Consider using a colorscheme that looks good without truecolor enabled.
 " In particular, nvim in screen looks bad when true color is enabled.
 " Plug 'joshdick/onedark.vim'
-Plug 'rakr/vim-one'
-Plug 'sonph/onehalf', { 'rtp': 'vim/' }
 " Base16 colorschemes seemed to messs up a few others after they were
 " activated when running inside tmux.
 " Plug 'chriskempson/base16-vim'
@@ -57,6 +54,8 @@ Plug 'sonph/onehalf', { 'rtp': 'vim/' }
 " Plug 'sts10/vim-mustard'
 " Plug 'romainl/flattened'
 " Plug 'lifepillar/vim-solarized8'
+Plug 'rakr/vim-one'
+" Plug 'sonph/onehalf', { 'rtp': 'vim/' }
 
 " Completion
 " Plug 'Shougo/neocomplete', {'on': 'NeocompleteOn'}
