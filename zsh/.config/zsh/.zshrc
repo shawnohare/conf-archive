@@ -13,12 +13,9 @@ source ~/.profile > /dev/null 2>&1
 # We have some basic custom logic for managing plugins. Basic profiling
 # suggests its only about 100-200ms faster loading than zplug.
 # If using our custom logic:
-fpath=(${ZPLUGIN_HOME}/zsh-users/zsh-completions $fpath)
+fpath=(${ZPLUGIN_HOME}/repos/zsh-users/zsh-completions $fpath)
 autoload -U compinit && compinit
-source "${ZPLUGIN_HOME}/init.zsh" || \
-  (echo "Installing plugins." && \
-  "${ZPLUGIN_HOME}/bin/init" && \
-  source "${ZPLUGIN_HOME}/init.zsh")
+source "${ZPLUGIN_HOME}/init.zsh"
 
 # If using zplug:
 # if [[ ! -e "${ZPLUG_HOME}/init.zsh" ]]; then
