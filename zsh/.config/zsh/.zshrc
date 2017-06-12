@@ -17,14 +17,14 @@ fpath=(${ZPLUGIN_HOME}/zsh-users/zsh-completions $fpath)
 autoload -U compinit && compinit
 source "${ZPLUGIN_HOME}/init.zsh" > /dev/null 2>&1 || \
   "${ZPLUGIN_HOME}/bin/init" && source "${ZPLUGIN_HOME}/init.zsh"
-#
+
+
 # If using zplug:
-# fpath=(${ZPLUGIN_HOME}/zsh-users/zsh-completions $fpath)
-# if [[ ! -d "${ZPLUG_HOME}" ]]; then
+# if [[ ! -e "${ZPLUG_HOME}/init.zsh" ]]; then
 #   curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
 # fi
 # source "${ZPLUG_HOME}/init.zsh"
-# zplug check --verbose || zplug install
+# # zplug check --verbose || zplug install
 # zplug load
 
 
@@ -145,14 +145,14 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=magenta,fg=255,bold'
 #  zsh-syntax-highlighting
 # ===========================================================================
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
-ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=blue'
-ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=166'
-ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=yellow'
-ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=magenta'
+ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=white,bold'
+ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=yellow,bold'
+ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=green,bold'
+ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=magenta,bold'
 ZSH_HIGHLIGHT_STYLES[cursor]='bg=black'
 ZSH_HIGHLIGHT_STYLES[default]=none
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
-ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=yellow,bold'
+ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=magenta,bold'
 ZSH_HIGHLIGHT_STYLES[alias]='fg=yellow'
 ZSH_HIGHLIGHT_STYLES[builtin]='fg=green,bold'
 ZSH_HIGHLIGHT_STYLES[command]='bold'
@@ -229,5 +229,6 @@ PROMPT='${user}@${machine}: ${dir} ${vcs_info_msg_0_}
 #   source "${HOME}/.iterm2_shell_integration.zsh"
 # fi
 
+# TODO This file appears to no longer exist and is split into two?
 # fzf is installed as a vim-plugin
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

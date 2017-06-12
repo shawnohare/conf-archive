@@ -1,3 +1,4 @@
+zplug "rupa/z", use:"z.sh"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-history-substring-search"

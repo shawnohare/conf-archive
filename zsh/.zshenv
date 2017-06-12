@@ -22,4 +22,6 @@
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
 export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 export ZPLUGIN_HOME="${ZDOTDIR}/plugins"
-export ZPLUG_HOME="${XDG_CONFIG_HOME}/zplug"
+export ZPLUGIN_CACHE="${ZPLUGIN_HOME}/cache.zsh"
+export ZPLUG_HOME="${ZDOTDIR}/zplug"
+export Z_DATA="${XDG_DATA_HOME}/z"
