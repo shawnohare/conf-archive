@@ -21,4 +21,9 @@ else
 fi
 
 # Install common packages as defined in ~/.nixpkgs/config.nix
+# As a stupid hack, we link and then unlink the config, since stow, our
+# symlink farm manager, is installed via the below. This can be bypassed
+# if a simple flat file is used instead, perhaps.
+ln -s "${CONF}/nix/.nixpkgs/config.nix" "${HOME}/.nixpkgs/config.nix"
 nix-env --install --attr nixpkgs.all
+rm "${HOME}/.nixpkgs/config.nix"

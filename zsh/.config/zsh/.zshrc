@@ -15,9 +15,10 @@ source ~/.profile > /dev/null 2>&1
 # If using our custom logic:
 fpath=(${ZPLUGIN_HOME}/zsh-users/zsh-completions $fpath)
 autoload -U compinit && compinit
-source "${ZPLUGIN_HOME}/init.zsh" > /dev/null 2>&1 || \
-  "${ZPLUGIN_HOME}/bin/init" && source "${ZPLUGIN_HOME}/init.zsh"
-
+source "${ZPLUGIN_HOME}/init.zsh" || \
+  (echo "Installing plugins." && \
+  "${ZPLUGIN_HOME}/bin/init" && \
+  source "${ZPLUGIN_HOME}/init.zsh")
 
 # If using zplug:
 # if [[ ! -e "${ZPLUG_HOME}/init.zsh" ]]; then

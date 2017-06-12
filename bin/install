@@ -31,15 +31,16 @@ mkdir -p "${XDG_LIB_HOME}"
 mkdir -p "${XDG_TMP_HOME}"
 mkdir -p "${XDG_OPT_HOME}"
 mkdir -p "${XDG_VAR_HOME}"
-mkdir -p "${HOME}/bin"
-mkdir -p "${HOME}/tmp"
 mkdir -p "${HOME}/src"
+
+# Install basic utilities with nix.
+"${dir}/bin/setup/nix"
 
 # Link config files.
 "${dir}/bin/link"
 
 # Run specific setup scripts.
-for bin in nix zsh nvim; do
+for bin in zsh nvim; do
   echo "Running ${bin}"
   "${dir}/bin/setup/${bin}"
 done

@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# Sourceable and executable file that sets some basic environment variables
+# and nothing else. PATH is not set to avoid shells / programs from overriding.
+
+export ENV_FILE="${HOME}/.environment"
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_CACHE_HOME="${HOME}/.cache" # can be wiped after reboot, non-essential
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_STATE_HOME="${HOME}/.local/state" # can persist after reboot: logs
+# personal XDG-like vars
+export XDG_BIN_HOME="${HOME}/.local/bin"
+export XDG_LIB_HOME="${HOME}/.local/lib"
+export XDG_OPT_HOME="${HOME}/.local/opt"
+export XDG_TMP_HOME="${HOME}/.local/tmp"
+export XDG_VAR_HOME="${HOME}/.local/var"
+
+# User created variables.
+export CONF="${HOME}/conf"
+export PYENV_ROOT="${XDG_DATA_HOME}/pyenv"
+export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
+
+# General
+export BASH="/usr/local/bin/bash"
+# Setting the BROWSER env var can break fish's help command.
+# export BROWSER="safari"
+export ECLIPSE_HOME="${HOME}/Applications/Eclipse.app/Contents/Eclipse"
+export EDITOR="nvim"
+export SCREENRC="${XDG_CONFIG_HOME}/screen/screenrc"
+export VISUAL="nvim"
+
+# colors
+# All of these settings enable consistent coloring of the most frequently
+# used parts of the CLI. For historical reasons 'ls', 'less', 'grep', and
+# the completion menu all require separate color settings.
+
+# Enable command line color
+export CLICOLOR=1
+# Define colors for the 'ls' command on BSD/Darwin
+export LSCOLORS='exfxcxdxbxGxDxabagacad'
+# Define colors for the zsh completion system
+export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
+
+# The pager 'less' (the default pager for man-pages) depends on
+# the (obsolete) TERMCAP library for color capabilities. Exporting
+# the following parameters provides for colored man-page display.
+export LESS_TERMCAP_mb=$'\E[01;31m'    # begins blinking = LIGHT_RED
+export LESS_TERMCAP_md=$'\E[0;34m'     # begins bold = BLUE
+export LESS_TERMCAP_me=$'\E[0m'        # ends mode = NO_COLOR
+export LESS_TERMCAP_se=$'\E[0m'        # ends standout-mode = NO_COLOR
+export LESS_TERMCAP_so=$'\E[00;47;30m' # begins standout-mode = REVERSE_WHITE
+export LESS_TERMCAP_ue=$'\E[0m'        # ends underline = NO_COLOR
+export LESS_TERMCAP_us=$'\E[01;32m'    # begins underline = LIGHT_GREEN
+
+# The following provide color highlighing by default for GREP
+# export GREP_COLOR='37;45'
+export GREP_OPTIONS='--color=auto'
+
+# PATH exports.
+export GOPATH="${HOME}/src/go"
+export RUSTPATH="${HOME}/.cargo"

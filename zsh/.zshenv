@@ -19,9 +19,8 @@
 #
 #
 
-XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
+source "${HOME}/.environment"
 export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
-export ZPLUGIN_HOME="${ZDOTDIR}/plugins"
-export ZPLUGIN_CACHE="${ZPLUGIN_HOME}/cache.zsh"
-export ZPLUG_HOME="${ZDOTDIR}/zplug"
+export ZPLUGIN_HOME="${XDG_DATA_HOME}/zsh/plugins"
+export ZPLUG_HOME="${XDG_DATA_HOME}/zsh/zplug"
 export Z_DATA="${XDG_DATA_HOME}/z"
