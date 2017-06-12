@@ -4,15 +4,7 @@ set -e
 
 CONF="${CONF:-${HOME}/conf}"
 
-# Backup existing file / remove link that collides with a config.
-backup_or_remove() {
-  if [ -L "$1" ]; then
-    rm "$1"
-  elif [ -f "${1}" ]; then
-    mv "${1}" "${1}.$(date "+%Y-%m-%dT%H:%M:%S").backup"
-  fi
-}
-
+# Wrapper for GNU stow
 link_dir() {
 
   if [ -z "${1}" ] || [ -z "${2}" ]; then
@@ -23,51 +15,41 @@ link_dir() {
   local src="${1}"
   local tar="${2}"
 
-  # Check to make sure the source dir exists.
-  if [ ! -d "${src}" ]; then
-    >&2 echo "Error: Source dir ${src} does not exist.  Exiting."
-    exit 1
-  fi
+  echo "Linking ${src} to ${tar}"
 
-  echo "Linking ${src} dir to ${tar}"
-
-  cd "${src}"
-
-  # Copy the dir structure to the target and symlink any config files.
-  # in bash > v4 you can recurse using for x in **, but macos ships with v3
+  # Hard copy the dir tree to the target.
+  cd "${CONF}/${src}"
   while read -r path; do
-
     local dest="${tar}/${path}"
-
-    if [ -d "${path}" ]; then
-      if [ ! -d "${dest}" ]; then
-        echo "Making dir: ${dest}"
-        mkdir -p "${dest}"
-      fi
-    elif [ -f "${path}" ]; then
-      # Check if the destination file already exists.
-      # If it does not exist, link from the conf config.
-      # If it's a link, remove.
-      # If it's a file, back it up and link the desired config.
-      backup_or_remove "${dest}"
-      local fullpath="${src}/${path}"
-      echo "Linking ${fullpath} to ${dest}"
-      ln -s "${fullpath}" "${dest}"
-    fi
-
-  done < <(find .)
-
+    mkdir -p "${dest}"
+  done < <(find . -type d)
+  stow -R --target="${tar}" --dir="${CONF}" "${src}"
 }
 
 # Link config files.
 main () {
   local dirs=(
-      alacritty bash emacs fish git nix nvim profile screen
-      spacemacs tmux vim zsh zplug
+      alacritty
+      bash
+      emacs
+      fish
+      git
+      nix
+      nvim
+      profile
+      screen
+      spacemacs
+      tmux
+      vim
+      zsh
   )
 
+  if [ ! -z "${1+x}" ]; then
+    dirs=("$1")
+  fi
+
   for dir in "${dirs[@]}"; do
-    link_dir "${CONF}/${dir}" "${HOME}"
+    link_dir "${dir}" "${HOME}"
   done
 
 }

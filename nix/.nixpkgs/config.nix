@@ -1,4 +1,5 @@
 {
+  allowUnfree = true;
   packageOverrides = pkgs_: with pkgs_; {  # pkgs_ is the original set of packages
     # Install some core programs in an OS independent way.
     # pkgs is your overriden set of packages itself
@@ -18,8 +19,12 @@
         # cacert
         # curl
         coreutils-prefixed # Things like gls
+        fira-code
         fish
+        fzf
         git
+        hack-font
+        hasklig
         # FIXME 2016-09-15T06:56:15-0700
         # Go builds having trouble.
         # "go-1.7" # this seems to install go without std lib?
@@ -53,3 +58,4 @@
     };
   };
 }
+

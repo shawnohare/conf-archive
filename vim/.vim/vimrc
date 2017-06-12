@@ -73,7 +73,10 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'gabesoft/vim-ags'        " Fast find/replace across all files.
 Plug 'rking/ag.vim'            " Nicer interface than vim-ags.
 " fzf subsumes ctrlp
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" The fzf binary is installed by nix, while the repo itself exists as a plugin
+" in the zsh config dir.
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
 
