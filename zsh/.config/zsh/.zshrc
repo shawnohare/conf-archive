@@ -118,19 +118,17 @@ setopt share_history             # share hist between sessions
 setopt bang_hist                 # !keyword
 
 
-# ===========================================================================
+# -------------------------------------------------------------------------
 # zsh-autosuggestions
-# ===========================================================================
-
 # export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=246
+bindkey '^L' autosuggest-accept
+# NOTE: Accepting an autosuggestion leads to weird highlighting.
 
-# ===========================================================================
+# -------------------------------------------------------------------------
 # zsh-completions
-# ===========================================================================
 
-# ===========================================================================
+# -------------------------------------------------------------------------
 # zsh-history-substring-search
-# ===========================================================================
 # vim-like snippet keybindings for history-substring-search
 bindkey '^[[A' history-substring-search-up
 bindkey '^K' history-substring-search-up
@@ -138,10 +136,8 @@ bindkey '^J' history-substring-search-down
 bindkey '^[[B' history-substring-search-down
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=magenta,fg=255,bold'
 
-
-# ===========================================================================
+# -------------------------------------------------------------------------
 #  zsh-syntax-highlighting
-# ===========================================================================
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=white,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=yellow,bold'
