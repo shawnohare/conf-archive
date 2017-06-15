@@ -419,7 +419,7 @@ set linebreak                " don't break words at wrap; disabled by list
 set visualbell         " flash screen instead of audio bell for alert
 " set visualbell t_vb=         " turn off visualbell effect
 " set title                    " update terminal window title
-set guifont=SF \Mono
+set guifont=SF\ Mono
 set shortmess+=A       " don't show warning for existing swapfiles
 
 "For Neovim > 0.1.5 and Vim > patch 7.4.1799
