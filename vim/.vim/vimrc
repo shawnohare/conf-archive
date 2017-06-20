@@ -364,8 +364,8 @@ set background=dark
 " One
 " NOTE: (2017-06-05) Alacritty renders italics with a gray background.
 " let g:one_allow_italics = 1
-colorscheme one
-" colorscheme onedark
+" colorscheme one
+colorscheme onedark
 
 " let g:onedark_terminal_italics=0
 " colorscheme onedark
