@@ -1497,17 +1497,17 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>-1589 320 1190 360 -1920 0 1920 1057 </string>
+	<string>845 112 731 377 0 0 1680 1027 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>-1270 269 700 622 -1920 0 1920 1057 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>269 50 606 469 0 0 1280 777 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>-1325 593 958 433 -1920 0 1920 1057 </string>
-	<key>NSWindow Frame UKCrashReporter</key>
-	<string>80 193 592 584 0 0 1280 777 </string>
+	<string>269 368 958 433 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>40 777 0 0 0 0 1280 777 </string>
+	<string>0 4 1680 1023 0 0 1680 1027 </string>
+	<key>NSWindow Frame iTerm Window 1</key>
+	<string>212 101 570 452 0 0 1680 1027 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -4164,7 +4164,7 @@
 	<key>NoSyncInstallationId</key>
 	<string>595F3994-687C-4AA1-8A73-7CF2A4B56077</string>
 	<key>NoSyncLastTipTime</key>
-	<real>498587714.70220798</real>
+	<real>519110804.61281699</real>
 	<key>NoSyncNewWindowOrTabFromTmuxOpensTmux</key>
 	<true/>
 	<key>NoSyncNewWindowOrTabFromTmuxOpensTmux_selection</key>
@@ -4236,14 +4236,10 @@
 		<string>0055</string>
 		<string>0056</string>
 		<string>0057</string>
+		<string>0057</string>
 		<string>0058</string>
 		<string>0059</string>
 		<string>0060</string>
-		<string>0061</string>
-		<string>0062</string>
-		<string>0063</string>
-		<string>0064</string>
-		<string>0065</string>
 	</array>
 	<key>NoSyncTurnOffMouseReportingOnHostChange</key>
 	<false/>
@@ -4319,7 +4315,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-06-14T06:44:28Z</date>
+	<date>2017-06-13T03:59:37Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SavePasteHistory</key>
@@ -4331,6 +4327,8 @@
 	<key>ShowBookmarkName</key>
 	<true/>
 	<key>ShowFullScreenTabBar</key>
+	<true/>
+	<key>ShowNewOutputIndicator</key>
 	<true/>
 	<key>ShowPaneTitles</key>
 	<true/>
@@ -4345,7 +4343,7 @@
 	<key>SwitchWindowModifier</key>
 	<integer>6</integer>
 	<key>TabStyle</key>
-	<integer>0</integer>
+	<integer>1</integer>
 	<key>TabViewType</key>
 	<integer>0</integer>
 	<key>ThreeFingerEmulates</key>
