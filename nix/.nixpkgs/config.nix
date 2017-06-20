@@ -29,6 +29,7 @@
         # Go builds having trouble.
         # "go-1.7" # this seems to install go without std lib?
         # hugo
+        htop
         jq
         mosh
         neovim
@@ -46,6 +47,7 @@
         # python35Packages.pew # virtualenv tool, but venv path below nix's
         # source-code-pro # font
         screen
+        shellcheck
         silver-searcher
         sqlite
         # 2017-05-04 encountered a stack build error
