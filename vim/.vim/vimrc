@@ -38,10 +38,11 @@ Plug 'tpope/vim-vinegar'  " enhanced netrw file browser
 Plug 'majutsushi/tagbar'  " display tags in a window
 
 " Colorscheme
-Plug 'joshdick/onedark.vim'
+" Plug 'joshdick/onedark.vim'
 Plug 'rakr/vim-one'
-Plug 'rakr/vim-two-firewatch'
-Plug 'sonph/onehalf', { 'rtp': 'vim/' }
+" Plug 'rakr/vim-two-firewatch'
+" Plug 'chriskempson/base16-vim'
+" Plug 'sonph/onehalf', { 'rtp': 'vim/' }
 
 " Completion
 Plug 'Shougo/neosnippet'
@@ -138,7 +139,7 @@ let g:ale_sign_warning = "⚠"
 let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
 let g:ale_open_list = 1
 let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 1
+let g:ale_lint_on_save = 0
 let g:ale_lint_on_text_changed = 'never'
 nmap <leader>lint <Plug>(ale_lint)
 nmap <leader>lj <Plug>(ale_next_wrap)
@@ -360,10 +361,12 @@ set background=dark
 " colorscheme slate " nice default
 " colorscheme base16-solarized-dark
 " colorscheme base16-spacemacs
+" colorscheme base16-onedark
+" colorscheme onedark
 
 " One
 " NOTE: (2017-06-05) Alacritty renders italics with a gray background.
-let g:one_allow_italics = 1
+" let g:one_allow_italics = 1
 colorscheme one
 
 " let g:onedark_terminal_italics=0
@@ -436,9 +439,9 @@ set smartcase
 " STATUSLINE
 " --------------------------------------------------------------------------
 set laststatus=2        " Always display statusline.
-set statusline=%{mode()}\ \|\  " Current mode.
-set statusline+=b\:%n\ \|\   " Buffer number.
-set statusline+=%t\        "tail of the filename
+set statusline+=%n\ \|\  " Buffer number.
+set statusline+=%t\ \|\       "tail of the filename
+set statusline+=%{mode()}  " Current mode.
 " set statusline+=%{fugitive#statusline()}  " git branch
 set statusline+=%(\ %)%#ModeMsg#%{&paste?'\ PASTE\ ':''}%*  " paste mode
 set statusline+=%=              " left/right separator
@@ -452,10 +455,13 @@ set statusline+=%y\ \|\          " filetype
 set statusline+=%p%%\ %l:%c " % through file : line num: column num
 set statusline+=%#warningmsg#
 set statusline+=%*
-"
+
+" hi StatusLine guifg=white guibg=black ctermfg=white ctermbg=black
+" hi StatusLine guifg=white guibg=none ctermbg=none ctermfg=white 
+
 " let g:lightline = {
-"     \ 'colorscheme': 'one',
+"     \ 'colorscheme': 'neodark',
 "     \ 'component': {
-"     \     'filename': '%n | %t'
+"     \     'filename': '%n: %t'
 "     \ }
 "     \ }

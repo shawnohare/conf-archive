@@ -19,7 +19,7 @@
 #
 #
 
-source "${HOME}/.environment"
+source "${HOME}/.env"
 export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 export ZPLUGIN_HOME="${XDG_DATA_HOME}/zsh/plugins"
 export ZPLUG_HOME="${XDG_DATA_HOME}/zsh/zplug"
