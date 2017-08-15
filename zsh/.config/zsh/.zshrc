@@ -51,6 +51,8 @@ bindkey -v
 autoload -U chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
 
+autoload -U zmv
+
 
 # ======================================================================
 # Completion (derived from http://dustri.org/b/my-zsh-configuration.html)
