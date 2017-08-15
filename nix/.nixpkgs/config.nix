@@ -35,6 +35,7 @@
         neovim
         nix-zsh-completions
         nox
+        pass
         # NOTE: Python installation through nix was fraught with issues.
         # python27Full
         # python27Packages.pip
