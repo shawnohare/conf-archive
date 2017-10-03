@@ -34,15 +34,15 @@ mkdir -p "${XDG_VAR_HOME}"
 mkdir -p "${HOME}/src"
 
 # Install basic utilities with nix.
-"${dir}/bin/setup/nix"
+"${dir}/bin/init/nix"
 
 # Link config files.
 "${dir}/bin/link"
 
-# Run specific setup scripts.
-for bin in zsh nvim; do
+# Run specific init / install scripts.
+for bin in zsh nvim golang; do
   echo "Running ${bin}"
-  "${dir}/bin/setup/${bin}"
+  "${dir}/bin/init/${bin}"
 done
 
 echo "Finished installing.  Please restart the shell."

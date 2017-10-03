@@ -5,7 +5,7 @@
 # through to develop in go using the compiler provided by nix.
 # ---
 
-readonly version="${VERSION:-1.8.3}"
+readonly version="${VERSION:-1.9}"
 readonly arch="${ARCH:-amd64}"
 os="${OS:-$(uname -s)}"
 # Lower first character.
