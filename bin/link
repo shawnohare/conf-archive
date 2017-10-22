@@ -44,6 +44,7 @@ main () {
       zsh
   )
 
+  # Link the specified folder if provided, else everything.
   if [ ! -z "${1+x}" ]; then
     dirs=("$1")
   fi

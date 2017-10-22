@@ -4,7 +4,7 @@
 set -e
 
 CONF="${CONF:-${HOME}/conf}"
-XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
+source "${HOME}/.env"
 
 # Wrapper for the git clone or update script.
 get() {
@@ -29,20 +29,21 @@ if [ "${SHELL}" != "${zsh_path}" ] && [ "${SHELL}" != "/bin/zsh" ]; then
   sudo chsh -s "${zsh_path}" "${user}"
 fi
 
-plugins=(
-  "zsh-users/zsh-history-substring-search"
-  "zsh-users/zsh-syntax-highlighting"
-  "zsh-users/zsh-completions"
-  "zsh-users/zsh-autosuggestions"
-  "zsh-users/zaw"
-)
+# FIXME: Plugins should be managed externally now.
+# plugins=(
+#   "zsh-users/zsh-history-substring-search"
+#   "zsh-users/zsh-syntax-highlighting"
+#   "zsh-users/zsh-completions"
+#   "zsh-users/zsh-autosuggestions"
+#   "zsh-users/zaw"
+# )
 
-for plugin in "${plugins[@]}"; do
-  src="https://github.com/${plugin}"
-  tar="${XDG_CONFIG_HOME}/zsh/plugins/${plugin}"
-  echo "Getting ${src}"
-  get "${src}" "${tar}"
-done
+# for plugin in "${plugins[@]}"; do
+#   src="https://github.com/${plugin}"
+#   tar="${USER_CONFIG_HOME}/zsh/plugins/${plugin}"
+#   echo "Getting ${src}"
+#   get "${src}" "${tar}"
+# done
 
 exit 0
 

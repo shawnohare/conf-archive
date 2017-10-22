@@ -12,8 +12,8 @@ let mapleader = "\<Space>"
 
 " Define plugin dir locations
 if has('nvim')
-  let vimplug = "$XDG_DATA_HOME/nvim/site/autoload/plug.vim"
-  let plugged = "$XDG_DATA_HOME/nvim/plugged"
+  let vimplug = "$USER_DATA_HOME/nvim/site/autoload/plug.vim"
+  let plugged = "$USER_DATA_HOME/nvim/plugged"
 else
   let vimplug = "~/.vim/autoload/plug.vim"
   let plugged = "~/.vim/plugged"
@@ -49,6 +49,7 @@ Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 
 " Search and replace
+Plug 'mileszs/ack.vim' " Can support ag or rg too.
 Plug 'gabesoft/vim-ags'        " Fast find/replace across all files.
 " The fzf binary is installed by nix.
 Plug 'junegunn/fzf'
@@ -103,7 +104,7 @@ if has('nvim')
   endfunction
   Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
   " Plug 'Shougo/echodoc.vim' " Displaying preview-like info
-  Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '$XDG_DATA_HOME/nvim/plugged/gocode/nvim/symlink.sh' }
+  Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '$USER_DATA_HOME/nvim/plugged/gocode/nvim/symlink.sh' }
   Plug 'zchee/deoplete-go', { 'do': 'make' }
   Plug 'zchee/deoplete-jedi'
   Plug 'drinksober/nvim-yapf-formater' " 2016-08-10T13:08:28-0700 immature
@@ -127,6 +128,13 @@ call plug#end()
 " ==========================================================================
 " PLUGIN CONFIG
 " ==========================================================================
+"
+" --------------------------------------------------------------------------
+" ack
+" --------------------------------------------------------------------------
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep --no-heading -uuu'
+endif
 
 " --------------------------------------------------------------------------
 " ale

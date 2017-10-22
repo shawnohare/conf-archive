@@ -2,10 +2,9 @@
 
 # Introduction
 
-These config files are organized to take advantage of symlink
-farm manager system similar to GNU `stow`.  Where possible, we prefer
-to follow the XDG conventions for configuration files, as an increasing
-number of applications we use take advantage of this specification.
+These config files are organized to take advantage of symlink farm manager
+system similar to GNU `stow`.  We prefer a BSD-like user home directory
+structure that also services applications utilizing the XDG conventions.
 
 In order to maintain a measure of robustness to change, some steps that could
 be automated are specifically made manual. It is our experience that
@@ -80,6 +79,6 @@ up our shell profile. It is sourced by `~.bash_profile`, `~.bashrc`, and
 
 ## Git
 
-These files live in `${XDG_CONFIG_HOME}/git` and represent the global
+These files live in `${USER_CONFIG_HOME}/git` and represent the global
 user configuration settings.  Local or private settings go in the
 `config.local` file, which is loaded by the `config` file.

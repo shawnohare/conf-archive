@@ -2,7 +2,8 @@
 # This file is not read by bash, if ~/.bash_profile or ~/.bash_login exists.
 # See /usr/share/doc/bash/examples/startup-files for examples.
 
-[ ! -z "${ENV_FILE+x}" ] || source "${HOME}/.environment"
+# Source the common env file if necessary.
+[ ! -z "${USER_ENV_FILE+x}" ] || source "${HOME}/.env"
 
 # OS specific settings can go here.
 case "$OSTYPE" in
@@ -11,8 +12,8 @@ case "$OSTYPE" in
     alias ll="ls --color -Flsh"
     alias ls="ls --color -F"
     ;;
-  # darwin*) source "${XDG_CONFIG_HOME}/macos";;
-  # *bsd*) source "${XDG_CONFIG_HOME}/bsd";;
+  # darwin*) source "${USER_CONFIG_HOME}/macos";;
+  # *bsd*) source "${USER_CONFIG_HOME}/bsd";;
   (**)
     alias ls="ls -GF"
     alias la="ls -GFlash"
@@ -43,7 +44,7 @@ alias vi="nvim"
 
 # Generic binaries
 # Make sure ~/bin, and usr/local/bin occurs before usr/bin.
-PATH="${XDG_BIN_HOME}:/usr/local/bin:/usr/local/sbin:$PATH"
+PATH="${USER_BIN_HOME}:/usr/local/opt/bin:/usr/local/bin:/usr/local/sbin:$PATH"
 
 # --------------------------------------------------------------------------
 # Haskell
@@ -120,8 +121,8 @@ export PATH
 
 # In case we want to switch on OSTYPE in the future. Should likely avoid.
 # case "$OSTYPE" in
-#   darwin*) source "${XDG_CONFIG_HOME}/macos";;
-#   linux*) source "${XDG_CONFIG_HOME}/linux";;
-#   *bsd*) source "${XDG_CONFIG_HOME}/bsd";;
+#   darwin*) source "${USER_CONFIG_HOME}/macos";;
+#   linux*) source "${USER_CONFIG_HOME}/linux";;
+#   *bsd*) source "${USER_CONFIG_HOME}/bsd";;
 #   **) export OSTYPE=$(uname -s);;
 # esac
