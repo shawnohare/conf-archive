@@ -1,18 +1,19 @@
-# Shawn O'Hare's config files
+# User configuration files
 
 # Introduction
 
-These config files are organized to take advantage of symlink farm manager
-system similar to GNU `stow`.  We prefer a BSD-like user home directory
-structure that also services applications utilizing the XDG conventions.
+These config files are organized to take advantage of the symlink farm manager
+system GNU `stow`.  Config files are generally organized topically, and the
+structure of each directory mirrors what it should look like when it the entire
+contents are symlinked into the appropriate target, usually `$HOME`.
+
+We prefer a BSD-like user home directory structure that also services
+applications utilizing the XDG conventions.
 
 In order to maintain a measure of robustness to change, some steps that could
 be automated are specifically made manual. It is our experience that
 automatation maintenance costs increase hyper-linearly with volatility.
 
-Config files are generally organized topically, and the structure of each
-directory mirrors what it should look like when it the entire contents are
-symlinked into the appropriate target, usually `$HOME`.
 
 # Installation
 
@@ -55,7 +56,7 @@ Alternatively:
 curl https://raw.githubusercontent.com/shawnohare/conf/master/bin/install | bash
 ```
 
-##  Manual post-install steps
+#  Manual post-install steps
 
 - Download `iterm` for macOS and install the associated shell integration
   script via iterm, if desired.
@@ -64,21 +65,15 @@ curl https://raw.githubusercontent.com/shawnohare/conf/master/bin/install | bash
   install. This is an unfortunate consequence of specifying a custom
   `ZDOTDIR` directory.
 
-## Development
 
-1. Install `golang` via `sudo bin/setup/golang`. 
-1. Install `rust` via `bin/setup/rust` or `curl https://sh.rustup.rs -sSf | sh`
+# Development
 
-# Configuration
+1. Install `golang` via `sudo bin/init/golang`. 
+1. Install `rust` via `bin/init/rust` or `curl https://sh.rustup.rs -sSf | sh`
 
-## profile
 
-The `profile` dir contains common shell exports, aliases, and etc. that make
-up our shell profile. It is sourced by `~.bash_profile`, `~.bashrc`, and
-`~/.zshenv`
+# Profile 
 
-## Git
-
-These files live in `${USER_CONFIG_HOME}/git` and represent the global
-user configuration settings.  Local or private settings go in the
-`config.local` file, which is loaded by the `config` file.
+1. `~/.env` file exports common user environment variables.
+2. `~/.profile` sources the user env file above and sets the path.
+3. Shell specific startup scripts (e.g., `~/.zshenv`)should source `~/.profile`.
