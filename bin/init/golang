@@ -3,6 +3,7 @@
 # Install golang for macos or linux. Ideally this should be handled by a
 # package manager such as nix, but it appears there's some hoops to jump
 # through to develop in go using the compiler provided by nix.
+# WARNING: This script completely removes old installations of golang.
 # ---
 
 readonly version="${VERSION:-1.9.1}"
@@ -12,8 +13,8 @@ os="${OS:-$(uname -s)}"
 os="${os,}"
 
 readonly src="go${version}.${os}-${arch}.tar.gz"
-wget "https://storage.googleapis.com/golang/${src}"
-tar -C "/usr/local" -xzf "${src}"
-rm "${src}"
-
+readonly path="${HOME}/tmp/${src}"
+[[ -e "${path}" ]] || wget "https://storage.googleapis.com/golang/${src}" -O "${path}"
+sudo rm -rf "/usr/local/go"
+sudo tar -C "/usr/local" -xzf "${path}"
 

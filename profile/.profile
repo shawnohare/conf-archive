@@ -36,15 +36,13 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias emc="emacsclient"
-alias vi="nvim"
 
 # =========================================================================
 # path
 # =========================================================================
 
-# Generic binaries
-# Make sure ~/bin, and usr/local/bin occurs before usr/bin.
-PATH="${USER_BIN_HOME}:/usr/local/opt/bin:/usr/local/bin:/usr/local/sbin:$PATH"
+# Make sure usr/local/bin occurs before usr/bin.
+PATH="/usr/local/opt/bin:/usr/local/bin:/usr/local/sbin:$PATH"
 
 # --------------------------------------------------------------------------
 # Haskell
@@ -78,14 +76,6 @@ PATH="${GOPATH}/bin:/usr/local/go/bin:${PATH}"
 # --------------------------------------------------------------------------
 PATH="${RUSTPATH}/bin:${PATH}"
 
-# --------------------------------------------------------------------------
-# nix
-# --------------------------------------------------------------------------
-# Nix does not always place nicely with macOS, since it uses a curl
-# using with OpenSSL certs.  In particular, the SSL related vars set by
-# the nix-profile sourced below cause any homebrew install <pkg> to fail.
-# https://github.com/NixOS/nix/issues/921
- source "${HOME}/.nix-profile/etc/profile.d/nix.sh" > /dev/null 2>&1
 
 # --------------------------------------------------------------------------
 # Ruby
@@ -93,7 +83,6 @@ PATH="${RUSTPATH}/bin:${PATH}"
 # if command -v rbenv >/dev/null 2>&1; then
 #   eval "$(rbenv init -)"
 # fi
-
 
 # --------------------------------------------------------------------------
 # Python
@@ -116,7 +105,7 @@ fi
 
 # Insert our personal bin dir before everything else.  Aside from personal
 # binaries, various overrides can go here, such as neovim compiled from
-PATH="${HOME}/bin:${PATH}"
+PATH="${USER_BIN_HOME}:${PATH}"
 export PATH
 
 # In case we want to switch on OSTYPE in the future. Should likely avoid.
@@ -126,3 +115,6 @@ export PATH
 #   *bsd*) source "${USER_CONFIG_HOME}/bsd";;
 #   **) export OSTYPE=$(uname -s);;
 # esac
+
+# Expose nix-env
+source "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
