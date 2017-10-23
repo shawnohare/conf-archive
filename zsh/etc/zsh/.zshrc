@@ -106,7 +106,7 @@ unalias run-help
 # history
 # ======================================================================
 
-HISTFILE="${USER_STATE_HOME}/zsh_history"
+HISTFILE="${USER_DATA_HOME}/zsh/history"
 HISTSIZE=2048                    # lines to maintain in memory
 SAVEHIST=100000                  # lines to maintain in history file
 setopt extended_history          # include timestamps
