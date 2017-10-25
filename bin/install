@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+# set -e
 
 dir="${CONF:-${HOME}/conf}"
 readonly branch="${CONF_BRANCH:-master}"
@@ -15,9 +15,13 @@ if [ ! -d "${dir}" ]; then
   >&2 echo "Error: Could not clone config repo."
 fi
 
-cd ""${dir}""
+cd "${dir}"
 git checkout "${branch}"
 
+# Init basic profile.
+echo "Sourcing .env."
+source "${dir}/profile/.env"
+echo "Sourcing .profile"
 source "${dir}/profile/.profile"
 
 echo "Making necessary dirs."

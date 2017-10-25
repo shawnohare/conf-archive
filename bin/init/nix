@@ -12,18 +12,23 @@ if [ ! -e "${HOME}/.nix-profile/bin/nix-env" ]; then
 fi
 
 # load the nix profile
-f="${HOME}/.nix-profile/etc/profile.d/nix.sh"
-if [ -e "${f}" ]; then
-  source "${f}"
+if [ -e "${USER_NIX_PROFILE}" ]; then
+  source "${USER_NIX_PROFILE}"
 else
-  echo --error "${f} not found."
+  echo --error "${USER_NIX_PROFILE} not found."
   exit 1
 fi
 
 # Install common packages as defined in ~/.nixpkgs/config.nix
-# As a stupid hack, we link and then unlink the config, since stow, our
-# symlink farm manager, is installed via the below. This can be bypassed
-# if a simple flat file is used instead, perhaps.
-ln -s "${CONF}/nix/.nixpkgs/config.nix" "${HOME}/.nixpkgs/config.nix"
-nix-env --install --attr nixpkgs.all
-rm "${HOME}/.nixpkgs/config.nix"
+echo "Installing nix packages."
+if [ ! -e "${NIXPKGS_CONFIG}" ]; then
+  # As a stupid hack, we link and then unlink the config, since stow, our
+  # symlink farm manager, is installed via the below. This can be bypassed
+  # if a simple flat file is used instead, or if stow is manually installed.
+  ln -s "${CONF}/nix/etc/nixpkgs/config.nix" "${NIXPKGS_CONFIG}"
+  nix-env --install --attr nixpkgs.all
+  rm "${NIXPKGS_CONFIG}"
+else
+  nix-env --install --attr nixpkgs.all
+fi
+

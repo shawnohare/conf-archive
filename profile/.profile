@@ -117,4 +117,4 @@ export PATH
 # esac
 
 # Expose nix-env
-source "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+[ -e "${USER_NIX_PROFILE}" ] && source "${USER_NIX_PROFILE}"

@@ -30,7 +30,7 @@ link_dir() {
 main () {
   local dirs=(
       alacritty
-      bash
+      # bash
       emacs
       fish
       git
