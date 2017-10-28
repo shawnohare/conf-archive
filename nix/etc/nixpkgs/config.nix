@@ -46,7 +46,7 @@
         # python35Packages.ipython
         # python35Packages.pylint # errored on os x
         # python35Packages.pew # virtualenv tool, but venv path below nix's
-        pew
+        # pew
         ripgrep
         # source-code-pro # font
         screen
