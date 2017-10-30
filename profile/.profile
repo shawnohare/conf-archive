@@ -87,11 +87,6 @@ PATH="${CARGO_HOME}/bin:${PATH}"
 # --------------------------------------------------------------------------
 # Python
 # --------------------------------------------------------------------------
-# FIXME pyve was our simplified version of pyenv.  Just usse pyenv?
-# pyve
-# if [ -e "${CONF_BIN_HOME}/pyve/pyve.sh" ]; then
-#   source "${CONF_BIN_HOME}/pyve/pyve.sh"
-# fi
 
 # pyenv init will use PYENV_ROOT or default to ~/.pyenv
 # if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
@@ -103,9 +98,8 @@ if [[ -e "${PYENV_ROOT}/bin/pyenv" ]]; then
 fi
 
 
-# Insert our personal bin dir before everything else.  Aside from personal
-# binaries, various overrides can go here, such as neovim compiled from
-PATH="${USER_BIN_HOME}:${PATH}"
+# 
+PATH="${USER_BIN_HOME}:${USER_LOCAL_HOME}/bin:${HOME}/.local/bin:${PATH}"
 export PATH
 
 # In case we want to switch on OSTYPE in the future. Should likely avoid.

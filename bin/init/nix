@@ -15,8 +15,8 @@ fi
 if [ -e "${USER_NIX_PROFILE}" ]; then
   source "${USER_NIX_PROFILE}"
 else
-  echo --error "${USER_NIX_PROFILE} not found."
-  exit 1
+  # The daemon needs to run for existing shells to use nix.
+  source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 fi
 
 # Install common packages as defined in ~/.nixpkgs/config.nix
@@ -25,6 +25,7 @@ if [ ! -e "${NIXPKGS_CONFIG}" ]; then
   # As a stupid hack, we link and then unlink the config, since stow, our
   # symlink farm manager, is installed via the below. This can be bypassed
   # if a simple flat file is used instead, or if stow is manually installed.
+  mkdir -p "${USER_CONFIG_HOME}/nixpkgs"
   ln -s "${CONF}/nix/etc/nixpkgs/config.nix" "${NIXPKGS_CONFIG}"
   nix-env --install --attr nixpkgs.all
   rm "${NIXPKGS_CONFIG}"

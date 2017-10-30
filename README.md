@@ -47,8 +47,7 @@ Next, the config install script must be run.
 The preferred method is:
 ```bash
 git clone https://github.com/shawnohare/conf
-cd conf
-bin/install
+~/conf/bin/install
 ```
 
 Alternatively:
@@ -64,6 +63,9 @@ curl https://raw.githubusercontent.com/shawnohare/conf/master/bin/install | bash
 - Delete the spurious `~/.zshrc` file created by the iterm shell integration
   install. This is an unfortunate consequence of specifying a custom
   `ZDOTDIR` directory.
+- Remove any lines added automatically by installers such as nix, go, cargo.
+- Allow macos admin users to use sudo without passwords: `sudo visudo` and
+  edit `%admin ALL=(ALL) ALL` to `%admin ALL=(ALL) NOPASSWD:ALL`.
 
 
 # Development
