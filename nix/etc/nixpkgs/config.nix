@@ -35,6 +35,7 @@
         neovim
         nix-zsh-completions
         nox
+        pandoc
         pass
         # NOTE: Python installation through nix was fraught with issues.
         # python27Full
@@ -48,7 +49,7 @@
         # python35Packages.pew # virtualenv tool, but venv path below nix's
         # pew
         pipenv
-        ripgrep
+        # ripgrep
         # source-code-pro # font
         screen
         shellcheck
