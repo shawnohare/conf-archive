@@ -23,7 +23,7 @@ link_dir() {
     local dest="${tar}/${path}"
     mkdir -p "${dest}"
   done < <(find . -type d)
-  stow -R --target="${tar}" --dir="${CONF}" "${src}"
+  stow -v -R --target="${tar}" --dir="${CONF}" "${src}"
 }
 
 # Link config files.
@@ -40,6 +40,7 @@ main () {
       profile
       screen
       spacemacs
+      stack
       tmux
       vim
       zsh

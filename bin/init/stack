@@ -1,0 +1,6 @@
+#! /usr/bin/env bash
+# Install stack. Should install to data files to $STACK_ROOT
+set -e
+curl -sSL https://get.haskellstack.org/ | sh
+/usr/local/bin/stack setup
+
