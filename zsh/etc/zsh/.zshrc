@@ -204,7 +204,8 @@ zstyle ':vcs_info:git:*' unstagedstr '%F{red}✴%f'
 precmd() {
   vcs_info
 }
-# ● ✺ ✴
+
+
 
 # The %{...%} delimiters tells zsh the text has zero width. Since v 4.3 it's
 # probably better to use the %F{color}...%f syntax.
@@ -215,7 +216,14 @@ date="%F{cyan}%D{%Y-%m-%dT%T}%f"
 indicator=">"
 PROMPT='${user}@${machine}: ${dir} ${vcs_info_msg_0_}
 %(?.%F{magenta}.%F{red})${indicator}%f '
-# Some other start symbols
+
+
+# Simplified prompt
+# indicator="⛩️"
+# PROMPT='${user}@${machine}: ${dir} ${indicator}  '
+
+# Fun unicode we can interpolate
+# ● ✺ ✴
 # ⇨ → 🐉 ➤ ⛩️
 # ⥲
 #

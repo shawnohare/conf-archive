@@ -96,6 +96,7 @@ Plug 'mindriot101/vim-yapf' " python autoformatter
 " lazy-loading the julia-vim plugin causes issues
 Plug 'JuliaLang/julia-vim'
 " Plug 'ensime/ensime-vim' " had issues getting ensime to work
+Plug 'rust-lang/rust.vim',   { 'for': 'rust' }
 
 " Neovim specific plugins
 " FIXME: find a better way to separate neovim/vim plugins.  Ideally we do not
