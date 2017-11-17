@@ -1,8 +1,16 @@
 #! /usr/bin/env bash
-rm -rf $HOME/{.nix-channels,.nix-defexpr,.nix-profile,.config/nixpkgs}
-rm -rf ${USER_CONFIG_HOME}/nixpkgs
-sudo rm -rf /etc/nix /nix /var/root/.nix-profile /var/root/.nix-defexpr /var/root/.nix-channels /Users/shawn/.nix-profile /Users/shawn/.nix-defexpr /Users/shawn/.nix-channels
-sudo rm -rf /nix
+
+# Delete /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+
+sudo launchctl unload /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+sudo rm /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+
+# Restore profiles / rc files
 for conf in profile bashrc zshrc; do
     sudo mv "/etc/${conf}.backup-before-nix" "/etc/${conf}"
 done
+
+# Delete the files Nix added to your system:
+rm -rf $HOME/{.nix-channels,.nix-defexpr,.nix-profile,.config/nixpkgs}
+rm -rf ${USER_CONFIG_HOME}/nixpkgs
+sudo rm -rf /etc/nix /nix /var/root/.nix-profile /var/root/.nix-defexpr /var/root/.nix-channels

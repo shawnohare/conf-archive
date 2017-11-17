@@ -450,7 +450,7 @@ set smartcase
 " --------------------------------------------------------------------------
 set laststatus=2        " Always display statusline.
 set statusline+=%n\ \|\  " Buffer number.
-set statusline+=%t\ \|\       "tail of the filename
+set statusline+=%F\ \|\       "tail of the filename
 set statusline+=%{mode()}  " Current mode.
 " set statusline+=%{fugitive#statusline()}  " git branch
 set statusline+=%(\ %)%#ModeMsg#%{&paste?'\ PASTE\ ':''}%*  " paste mode
