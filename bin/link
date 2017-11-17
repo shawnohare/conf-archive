@@ -12,18 +12,40 @@ link_dir() {
     return 1
   fi
 
-  local src="${1}"
-  local tar="${2}"
+  local src_dir="${1}"
+  local tar_dir="${2}"
 
-  echo "Linking ${src} to ${tar}"
+  cd "${CONF}/${src_dir}"
 
-  # Hard copy the dir tree to the target.
-  cd "${CONF}/${src}"
+  # Hard copy the dir tree to the target. This is done primarily so that
+  # data files are not stored in the configuration repo. 
   while read -r path; do
-    local dest="${tar}/${path}"
-    mkdir -p "${dest}"
+    mkdir -p "${tar_dir}/${path}"
   done < <(find . -type d)
-  stow -v -R --target="${tar}" --dir="${CONF}" "${src}"
+
+  # Symlink files to the target.
+  while read -r path; do
+    # Ignore the initial ./ appearing in the results of find output.
+    local path="${path:2}"
+    local src="${CONF}/${src_dir}/${path}"
+    local tar="${tar_dir}/${path}"
+
+    if [ -f "${tar}" ] && [ ! -L "${tar}" ]; then
+      echo "${tar} exists and is not a symbolic link. Exiting."
+      exit 1
+    fi
+
+    if [ ! -L "${tar}" ]; then
+      echo "Linking ${src} to ${tar}"
+      ln -s "${src}" "${tar}"
+    else
+      echo "Link from ${src} to ${tar} already exists. Skipping."
+    fi
+
+
+  done < <(find . -type f)
+
+  # stow -v -R --target="${tar}" --dir="${CONF}" "${src}"
 }
 
 # Link config files.
