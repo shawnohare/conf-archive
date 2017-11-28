@@ -198,7 +198,7 @@ setopt PROMPT_SUBST
 
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:git:*' formats "%s:%F{magenta}%b%f%u%c"
+zstyle ':vcs_info:git:*' formats "%%F{magenta}%b%f%u%c"
 zstyle ':vcs_info:git:*' stagedstr '%F{yellow}+%f'
 zstyle ':vcs_info:git:*' unstagedstr '%F{red}✴%f'
 precmd() {
@@ -214,8 +214,8 @@ machine="%B%m%b"
 dir="%F{blue}%3~%f"
 date="%F{cyan}%D{%Y-%m-%dT%T}%f"
 indicator=">"
-PROMPT='${user}@${machine}: ${dir} ${vcs_info_msg_0_}
-%(?.%F{magenta}.%F{red})${indicator}%f '
+PROMPT='${user}@${machine} ${dir} ${vcs_info_msg_0_}
+%(?.%F{green}.%F{red}%? )${indicator}%f '
 
 
 # Simplified prompt
