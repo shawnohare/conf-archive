@@ -20,9 +20,9 @@ git checkout "${branch}"
 
 # Init basic profile.
 echo "Sourcing .env."
-source "${dir}/profile/.env"
+source profile/.env
 echo "Sourcing .profile"
-source "${dir}/profile/.profile"
+source profile/.profile
 
 echo "Making necessary dirs."
 mkdir -p "${USER_BIN_HOME}"
@@ -35,15 +35,33 @@ mkdir -p "${USER_TMP_HOME}"
 mkdir -p "${USER_VAR_HOME}"
 
 # Install basic utilities with nix.
-"${dir}/bin/init/nix"
+bin/init/nix
 
 # Link config files.
-"${dir}/bin/link"
+dirs_to_link=(
+    alacritty
+    bash
+    emacs
+    fish
+    git
+    ipython
+    nix
+    nvim
+    profile
+    screen
+    spacemacs
+    stack
+    tmux
+    vim
+    zsh
+)
+bin/link ${dirs_to_link[@]}
+
 
 # Run specific init / install scripts.
 for bin in zsh nvim golang; do
   echo "Running ${bin}"
-  "${dir}/bin/init/${bin}"
+  "bin/init/${bin}"
 done
 
 echo "Finished installing.  Please restart the shell."

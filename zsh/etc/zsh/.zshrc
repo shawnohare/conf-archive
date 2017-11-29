@@ -1,14 +1,9 @@
-# ======================================================================
-# init
-# ======================================================================
+# .zshrc is sourced by interactive shells.
 
 # Set shell independent settings.
 source ~/.profile > /dev/null 2>&1
 
-
-# ===========================================================================
 # plugins
-# ===========================================================================
 # Load plugins.
 # We have some basic custom logic for managing plugins. Basic profiling
 # suggests its only about 100-200ms faster loading than zplug.
@@ -17,7 +12,7 @@ fpath=(${ZPLUGIN_HOME}/repos/zsh-users/zsh-completions $fpath)
 autoload -U compinit && compinit
 source "${ZPLUGIN_HOME}/init.zsh"
 
-# If using zplug:
+# NOTE: zplug is more feature rich than our homebrew manager, but slower[]
 # if [[ ! -e "${ZPLUG_HOME}/init.zsh" ]]; then
 #   curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
 # fi
@@ -27,10 +22,7 @@ source "${ZPLUGIN_HOME}/init.zsh"
 
 
 # NOTE: iterm shell integration messes with the prompt and causes
-# emacs tramp mode to hang indefinitely. There are some attempts to fix
-# this throughout.
-# TODO: We should determine whether emacs tramp move works with shell
-# integration turned off.
+# emacs tramp mode to hang indefinitely.
 if [[ $TERM == "dumb" ]]; then
   unsetopt zle
   unsetopt prompt_cr
@@ -41,22 +33,15 @@ if [[ $TERM == "dumb" ]]; then
   return
 fi
 
-# ======================================================================
-# bindkeys
-# ======================================================================
-# vim normal mode keybindings
 bindkey -v
 
 # changing dirs
 autoload -U chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
-
 autoload -U zmv
 
 
-# ======================================================================
 # Completion (derived from http://dustri.org/b/my-zsh-configuration.html)
-# ======================================================================
 # Some of these might be taken care of by oh-my-zsh/lib/completion
 zmodload -i zsh/complist
 setopt hash_list_all            # hash everything before completion
@@ -73,7 +58,7 @@ zstyle ':completion:*' menu select=2                        # menu if nb items >
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}       # colorz !
 zstyle ':completion:*::::' completer _expand _complete _ignored _approximate # list of completers to use
 
-# sections completion !
+# sections completion
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*:descriptions' format $'\e[00;34m%d'
 zstyle ':completion:*:messages' format $'\e[00;31m%d'
@@ -92,9 +77,7 @@ zstyle ':completion:*' users $users
 compdef _gnu_generic gcc
 compdef _gnu_generic gdb
 
-# -------------------------------------------------------------------------
 # help
-# -------------------------------------------------------------------------
 autoload -Uz run-help
 autoload -Uz run-help-git
 autoload -Uz run-help-svn
@@ -102,10 +85,7 @@ autoload -Uz run-help-svk
 unalias run-help
 # alias help=run-help
 
-# ======================================================================
 # history
-# ======================================================================
-
 HISTFILE="${USER_DATA_HOME}/zsh/history"
 HISTSIZE=2048                    # lines to maintain in memory
 SAVEHIST=100000                  # lines to maintain in history file
@@ -120,16 +100,12 @@ setopt share_history             # share hist between sessions
 setopt bang_hist                 # !keyword
 
 
-# -------------------------------------------------------------------------
 # zsh-autosuggestions
 # export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=246
 bindkey '^L' autosuggest-accept
 # NOTE: Accepting an autosuggestion leads to weird highlighting.
 
-# -------------------------------------------------------------------------
 # zsh-completions
-
-# -------------------------------------------------------------------------
 # zsh-history-substring-search
 # vim-like snippet keybindings for history-substring-search
 bindkey '^[[A' history-substring-search-up
@@ -138,101 +114,11 @@ bindkey '^J' history-substring-search-down
 bindkey '^[[B' history-substring-search-down
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=magenta,fg=255,bold'
 
-# -------------------------------------------------------------------------
-#  zsh-syntax-highlighting
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
-ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=white,bold'
-ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=yellow,bold'
-ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=green,bold'
-ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=magenta,bold'
-ZSH_HIGHLIGHT_STYLES[cursor]='bg=black'
-ZSH_HIGHLIGHT_STYLES[default]=none
-ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
-ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=magenta,bold'
-ZSH_HIGHLIGHT_STYLES[alias]='fg=yellow'
-ZSH_HIGHLIGHT_STYLES[builtin]='fg=green,bold'
-ZSH_HIGHLIGHT_STYLES[command]='bold'
-ZSH_HIGHLIGHT_STYLES[function]='fg=magenta'
-ZSH_HIGHLIGHT_STYLES[precommand]='fg=magenta,bold'
-ZSH_HIGHLIGHT_STYLES[commandseparator]='bold'
-ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=blue'
-ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=yellow'
-ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=yellow'
-ZSH_HIGHLIGHT_STYLES[path]='fg=blue'
-ZSH_HIGHLIGHT_STYLES[path_pathseparator]='fg=white,bold'
-ZSH_HIGHLIGHT_STYLES[path_prefix]='fg=61'
-ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]='fg=white'
-ZSH_HIGHLIGHT_STYLES[path_approx]='fg=magenta'
-ZSH_HIGHLIGHT_STYLES[globbing]='fg=166'
-ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=bold'
-ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=cyan'
-ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=009
-ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=009
-ZSH_HIGHLIGHT_STYLES[assign]='fg=magenta'
-ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=cyan'
-ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=green'
-
-
-# ======================================================================
 # options
-# ======================================================================
 setopt autocd
 setopt extendedglob
 setopt nomatch
 setopt notify
 
-
-
-# ======================================================================
-# prompt
-# ======================================================================
-# FIXME this does not work it seems.  Delete?
-# Avoid emacs hanging when attempting to connect remotely.
-# https://www.emacswiki.org/emacs/TrampMode#t
-[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
-
-autoload -Uz vcs_info
-# autoload -U colors && colors
-setopt PROMPT_SUBST
-# setopt TRANSIENT_RPROMPT
-
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:git:*' formats "%%F{magenta}%b%f%u%c"
-zstyle ':vcs_info:git:*' stagedstr '%F{yellow}+%f'
-zstyle ':vcs_info:git:*' unstagedstr '%F{red}✴%f'
-precmd() {
-  vcs_info
-}
-
-
-
-# The %{...%} delimiters tells zsh the text has zero width. Since v 4.3 it's
-# probably better to use the %F{color}...%f syntax.
-user="%F{green}%B%n%b%f"
-machine="%B%m%b"
-dir="%F{blue}%3~%f"
-date="%F{cyan}%D{%Y-%m-%dT%T}%f"
-indicator=">"
-PROMPT='${user}@${machine} ${dir} ${vcs_info_msg_0_}
-%(?.%F{green}.%F{red}%? )${indicator}%f '
-
-
-# Simplified prompt
-# indicator="⛩️"
-# PROMPT='${user}@${machine}: ${dir} ${indicator}  '
-
-# Fun unicode we can interpolate
-# ● ✺ ✴
-# ⇨ → 🐉 ➤ ⛩️
-# ⥲
-#
-
-# Emacs hangs when connecting remotely via tramp mode.
-# if [[ "$TERM" != "dumb" ]] &&  [ -e "${HOME}/.iterm2_shell_integration.zsh" ]; then
-#   source "${HOME}/.iterm2_shell_integration.zsh"
-# fi
-
-# TODO This file appears to no longer exist and is split into two?
-# fzf is installed as a vim-plugin
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source "${ZDOTDIR}/highlight.zsh"
+source "${ZDOTDIR}/prompt.zsh"

@@ -31,7 +31,7 @@ link_dir() {
     local tar="${tar_dir}/${path}"
 
     if [ -f "${tar}" ] && [ ! -L "${tar}" ]; then
-      echo "${tar} exists and is not a symbolic link. Exiting."
+      echo "WARNING: ${tar} exists and is not a symbolic link. Skipping."
       exit 1
     fi
 
@@ -50,33 +50,9 @@ link_dir() {
 
 # Link config files.
 main () {
-  local dirs=(
-      alacritty
-      # bash
-      emacs
-      fish
-      git
-      ipython
-      nix
-      nvim
-      profile
-      screen
-      spacemacs
-      stack
-      tmux
-      vim
-      zsh
-  )
-
-  # Link the specified folder if provided, else everything.
-  if [ ! -z "${1+x}" ]; then
-    dirs=("$1")
-  fi
-
-  for dir in "${dirs[@]}"; do
+  for dir in "$@"; do
     link_dir "${dir}" "${HOME}"
   done
-
 }
 
 main "$@"
