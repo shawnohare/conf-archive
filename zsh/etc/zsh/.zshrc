@@ -12,7 +12,7 @@ fpath=(${ZPLUGIN_HOME}/repos/zsh-users/zsh-completions $fpath)
 autoload -U compinit && compinit
 source "${ZPLUGIN_HOME}/init.zsh"
 
-# NOTE: zplug is more feature rich than our homebrew manager, but slower[]
+# NOTE: zplug is more feature rich than our homebrew manager, but slower
 # if [[ ! -e "${ZPLUG_HOME}/init.zsh" ]]; then
 #   curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
 # fi
@@ -95,7 +95,7 @@ setopt hist_ignore_all_dups      # no duplicate
 unsetopt hist_ignore_space       # ignore space prefixed commands
 setopt hist_reduce_blanks        # trim blanks
 setopt hist_verify               # show before executing history commands
-setopt inc_append_history        # add commands as they are typed, don't wait until shell exit
+setopt inc_append_history        # add commands as they are typed, 
 setopt share_history             # share hist between sessions
 setopt bang_hist                 # !keyword
 
@@ -104,6 +104,40 @@ setopt bang_hist                 # !keyword
 # export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=246
 bindkey '^L' autosuggest-accept
 # NOTE: Accepting an autosuggestion leads to weird highlighting.
+
+# highlights
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=white,bold'
+ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=yellow,bold'
+ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=green,bold'
+ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=magenta,bold'
+ZSH_HIGHLIGHT_STYLES[cursor]='bg=black'
+ZSH_HIGHLIGHT_STYLES[default]=none
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
+ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=magenta,bold'
+ZSH_HIGHLIGHT_STYLES[alias]='fg=yellow'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=green,bold'
+ZSH_HIGHLIGHT_STYLES[command]='bold'
+ZSH_HIGHLIGHT_STYLES[function]='fg=magenta'
+ZSH_HIGHLIGHT_STYLES[precommand]='fg=magenta,bold'
+ZSH_HIGHLIGHT_STYLES[commandseparator]='bold'
+ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=blue'
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=yellow'
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=yellow'
+ZSH_HIGHLIGHT_STYLES[path]='fg=blue'
+ZSH_HIGHLIGHT_STYLES[path_pathseparator]='fg=white,bold'
+ZSH_HIGHLIGHT_STYLES[path_prefix]='fg=61'
+ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]='fg=white'
+ZSH_HIGHLIGHT_STYLES[path_approx]='fg=magenta'
+ZSH_HIGHLIGHT_STYLES[globbing]='fg=166'
+ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=bold'
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=cyan'
+ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=009
+ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=009
+ZSH_HIGHLIGHT_STYLES[assign]='fg=magenta'
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=cyan'
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=green'
+
 
 # zsh-completions
 # zsh-history-substring-search
@@ -120,5 +154,39 @@ setopt extendedglob
 setopt nomatch
 setopt notify
 
-source "${ZDOTDIR}/highlight.zsh"
-source "${ZDOTDIR}/prompt.zsh"
+# prompt
+autoload -Uz vcs_info
+# autoload -U colors && colors
+setopt PROMPT_SUBST
+# setopt TRANSIENT_RPROMPT
+
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:git:*' formats "%%F{magenta}%b%f%u%c"
+zstyle ':vcs_info:git:*' stagedstr '%F{yellow}+%f'
+zstyle ':vcs_info:git:*' unstagedstr '%F{red}✴%f'
+precmd() {
+  vcs_info
+}
+
+
+
+# The %{...%} delimiters tells zsh the text has zero width. Since v 4.3 it's
+# probably better to use the %F{color}...%f syntax.
+user="%F{green}%B%n%b%f"
+machine="%B%m%b"
+dir="%F{blue}%3~%f"
+date="%F{cyan}%D{%Y-%m-%dT%T}%f"
+indicator=">"
+PROMPT='${user}@${machine} ${dir} ${vcs_info_msg_0_}
+%(?.%F{green}.%F{red}%? )${indicator}%f '
+
+
+# Simplified prompt
+# indicator="⛩️"
+# PROMPT='${user}@${machine}: ${dir} ${indicator}  '
+
+# Fun unicode we can interpolate
+# ● ✺ ✴
+# ⇨ → 🐉 ➤ ⛩️
+# ⥲
