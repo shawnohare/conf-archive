@@ -34,9 +34,6 @@ mkdir -p "${USER_SRC_HOME}"
 mkdir -p "${USER_TMP_HOME}"
 mkdir -p "${USER_VAR_HOME}"
 
-# Install basic utilities with nix.
-bin/init/nix
-
 # Link config files.
 dirs_to_link=(
     alacritty
@@ -59,7 +56,7 @@ bin/link ${dirs_to_link[@]}
 
 
 # Run specific init / install scripts.
-for bin in zsh nvim golang; do
+for bin in nix zsh pyenv neovim golang rust stack; do
   echo "Running ${bin}"
   "bin/init/${bin}"
 done

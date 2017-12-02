@@ -17,9 +17,11 @@
         # `unset SSL_CERT_FILE` and using the system `curl` allows
         # builtin curl to function again.
         # cacert
-        # curl
+        cmake
         coreutils-prefixed # Things like gls
-        fira-code
+        # curl
+        # exa  # use cargo
+        # fira-code
         fish
         fzf
         git
@@ -48,8 +50,8 @@
         # python35Packages.pylint # errored on os x
         # python35Packages.pew # virtualenv tool, but venv path below nix's
         # pew
-        pipenv
-        # ripgrep
+        # pipenv
+        # ripgrep # use cargo
         # source-code-pro # font
         screen
         shellcheck

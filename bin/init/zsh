@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
 # Changes user's shell to default to zsh and downloads modules.
+# Assumes zsh is already installed.
+# TODO: If universal package manager is used, consider checkikng for install.
 
 set -e
 
 CONF="${CONF:-${HOME}/conf}"
 source "${HOME}/.env"
-
-# Wrapper for the git clone or update script.
-get() {
-  "${CONF}/bin/git-get" $1 $2
-}
 
 echo "Configuring zsh."
 
@@ -28,22 +25,6 @@ if [ "${SHELL}" != "${zsh_path}" ] && [ "${SHELL}" != "/bin/zsh" ]; then
   user="${USER}"
   sudo chsh -s "${zsh_path}" "${user}"
 fi
-
-# FIXME: Plugins should be managed externally now.
-# plugins=(
-#   "zsh-users/zsh-history-substring-search"
-#   "zsh-users/zsh-syntax-highlighting"
-#   "zsh-users/zsh-completions"
-#   "zsh-users/zsh-autosuggestions"
-#   "zsh-users/zaw"
-# )
-
-# for plugin in "${plugins[@]}"; do
-#   src="https://github.com/${plugin}"
-#   tar="${USER_CONFIG_HOME}/zsh/plugins/${plugin}"
-#   echo "Getting ${src}"
-#   get "${src}" "${tar}"
-# done
 
 exit 0
 

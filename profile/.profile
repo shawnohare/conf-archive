@@ -112,3 +112,5 @@ export PATH
 
 # Expose nix-env
 [ -e "${USER_NIX_PROFILE}" ] && source "${USER_NIX_PROFILE}"
+
+export PATH="/Users/shawn/local/cargo/bin:$PATH"

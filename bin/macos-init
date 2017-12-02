@@ -1,4 +1,4 @@
-
+#! /usr/bin/env bash
 # ---------------------------------------------------------------------------
 # macos Specific functions
 # This was originally part of the config helper script, but was split out
@@ -18,18 +18,11 @@ install_xcode() {
   fi
 }
 
-# In bash, hash <command> exits with with 0 iff the command exists.
-install_homebrew() {
-  if ! cmd_exists "brew"; then
-    echo "Installing homebrew."
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  else
-    $debug && echo "Homebrew already installed."
-  fi
-}
+# init() {
+#   install_xcode
+#   return 0
+# }
 
-init() {
-  macos_install_xcode
-  # macos_install_homebrew
-  return 0
-}
+
+defaults write -g ApplePressAndHoldEnabled -bool false
+defaults write com.apple.finder AppleShowAllFiles YES

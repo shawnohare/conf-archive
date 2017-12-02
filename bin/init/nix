@@ -6,10 +6,13 @@ set -e
 echo "Configuring the nix package manager."
 
 # Get nix if necessary.
-if [ ! -e "${HOME}/.nix-profile/bin/nix-env" ]; then
+if [ ! -e "${USER_NIX_PROFILE}/bin/nix-env" ]; then
   echo "Installing the nix package manager."
   curl "https://nixos.org/nix/install" | sh
 fi
+
+echo "Restart the shell."
+exit
 
 # load the nix profile
 if [ -e "${USER_NIX_PROFILE}" ]; then
@@ -21,16 +24,5 @@ fi
 
 # Install common packages as defined in ~/.nixpkgs/config.nix
 echo "Installing nix packages."
-echo "For now, skipping installation of packages. Consider using upkg."
-# if [ ! -e "${NIXPKGS_CONFIG}" ]; then
-#   # As a stupid hack, we link and then unlink the config, since stow, our
-#   # symlink farm manager, is installed via the below. This can be bypassed
-#   # if a simple flat file is used instead, or if stow is manually installed.
-#   mkdir -p "${USER_CONFIG_HOME}/nixpkgs"
-#   ln -s "${CONF}/nix/etc/nixpkgs/config.nix" "${NIXPKGS_CONFIG}"
+echo "For now, skipping package installation. Consider using upkg."
 #   nix-env --install --attr nixpkgs.all
-#   rm "${NIXPKGS_CONFIG}"
-# else
-#   nix-env --install --attr nixpkgs.all
-# fi
-
