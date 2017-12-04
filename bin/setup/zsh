@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Changes user's shell to default to zsh and downloads modules.
+# Assumes zsh is already installed.
+# TODO: If universal package manager is used, consider checkikng for install.
+
+if [ -e /bin/zsh ]; then
+  zsh_path="/bin/zsh"
+else
+  zsh_path = $(which zsh)
+fi
+
+sudo chsh -s "${zsh_path}" "$USER"
+
+# FIXME: This appears unnecessary in macos and debian
+# if [ ! $(grep -q "${zsh_path}" /etc/shells) ]; then
+#   echo "Adding ${zsh_path} to /etc/shells."
+#   printf "%s" "${zsh_path}" | sudo tee -a /etc/shells
+# fi
+
+# Change this user's default shell to zsh
+# if [ "${SHELL}" != "${zsh_path}" ]; then
+#   echo "Current shell: $SHELL"
+#   sudo chsh -s "${zsh_path}" "${user}"
+# fi
+
+exit 
+

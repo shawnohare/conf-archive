@@ -1,0 +1,40 @@
+#! /usr/bin/env bash
+
+set -e
+
+# Init basic profile.
+echo "Sourcing env and profile"
+source profile/.env
+source profile/.profile
+
+echo "Making dirs."
+mkdir -p "${USER_BIN_HOME}"
+mkdir -p "${USER_CONFIG_HOME}"
+mkdir -p "${USER_CACHE_HOME}"
+mkdir -p "${USER_LIB_HOME}"
+mkdir -p "${USER_SHARE_HOME}"
+mkdir -p "${USER_SRC_HOME}"
+mkdir -p "${USER_TMP_HOME}"
+mkdir -p "${USER_VAR_HOME}"
+
+echo "Backing up profiles."
+for file in .profile .bash_profile .bashrc .zshenv .zshrc; do
+  original="${HOME}/${file}"
+  backup="${orginal}.backup"
+  [ -L "${original}" ] && continue
+
+  if [ -f "${original}" ] && [ -f "${backup}" ]; then
+    echo "It appears some profile backups have already been created. Exiting"
+    exit 1
+  elif [ -f "${original}" ]; then
+    echo "Backing up ${original}"
+    mv "${original}" "${backup}"
+  fi
+done
+
+
+# Likely an abuse of make (to call it during the config part)
+make link
+
+source "${HOME}/.profile"
+

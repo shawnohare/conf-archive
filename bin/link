@@ -38,8 +38,6 @@ link_dir() {
     if [ ! -L "${tar}" ]; then
       echo "Linking ${src} to ${tar}"
       ln -s "${src}" "${tar}"
-    else
-      echo "Link from ${src} to ${tar} already exists. Skipping."
     fi
 
 
@@ -51,6 +49,7 @@ link_dir() {
 # Link config files.
 main () {
   for dir in "$@"; do
+    echo "Linking $dir"
     link_dir "${dir}" "${HOME}"
   done
 }

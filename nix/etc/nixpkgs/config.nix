@@ -17,6 +17,7 @@
         # `unset SSL_CERT_FILE` and using the system `curl` allows
         # builtin curl to function again.
         # cacert
+        # clang
         cmake
         coreutils-prefixed # Things like gls
         # curl
@@ -50,7 +51,7 @@
         # python35Packages.pylint # errored on os x
         # python35Packages.pew # virtualenv tool, but venv path below nix's
         # pew
-        # pipenv
+        pipenv
         # ripgrep # use cargo
         # source-code-pro # font
         screen
