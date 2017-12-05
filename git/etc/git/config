@@ -9,7 +9,7 @@
 [push]
   default = simple
 [include]
-  path = ~/.config/git/config.local
+  path = ~/etc/git/config.local
 [user]
   name = Shawn O'Hare
   email = shawn@ohare.io
