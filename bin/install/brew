@@ -1,0 +1,14 @@
+#! /usr/bin/env bash
+# TODO Consider augmenting to install linux brew also?
+
+if [ "$(uname -s)" != "Darwin" ]; then
+  echo "Platform other than macOS detected. Exiting."
+  exit
+fi
+
+if [ -e "/usr/local/bin/brew" ]; then
+  echo "brew already installed."
+  exit
+fi
+
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"

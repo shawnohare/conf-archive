@@ -2,23 +2,27 @@
 
 set -e
 
+
 CONF="${CONF:-${HOME}/conf}"
 
-# Wrapper for GNU stow
-link_dir() {
+# Link configuration files stored inside a specified directory.
+link_config_dir() {
 
-  if [ -z "${1}" ] || [ -z "${2}" ]; then
+  if [ -z "${1}" ]; then
     >&2 echo "Error: No source or target dir passed."
     return 1
   fi
 
   local src_dir="${1}"
   local tar_dir="${2}"
+  if [ -z "${tar_dir}" ]; then tar_dir="${HOME}"; fi
+
+  echo "Linking ${src_dir}"
 
   cd "${CONF}/${src_dir}"
 
   # Hard copy the dir tree to the target. This is done primarily so that
-  # data files are not stored in the configuration repo. 
+  # data files are not stored in the configuration repo.
   while read -r path; do
     mkdir -p "${tar_dir}/${path}"
   done < <(find . -type d)
@@ -46,12 +50,22 @@ link_dir() {
   # stow -v -R --target="${tar}" --dir="${CONF}" "${src}"
 }
 
+# Link directories stored in the hardcoded Linkfile
+# Elements of the Linkfile are of the form <src> [tar]
+link_Linkfile() {
+  while read -r line; do
+    local args=($line)
+    link_config_dir "${args[@]}"
+  done < "${CONF}/Linkfile"
+}
+
 # Link config files.
 main () {
-  for dir in "$@"; do
-    echo "Linking $dir"
-    link_dir "${dir}" "${HOME}"
-  done
+  if [ -z "$1" ]; then
+    link_Linkfile
+  else
+    link_config_dir "$@"
+  fi
 }
 
 main "$@"

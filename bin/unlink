@@ -4,7 +4,7 @@ CONF="${CONF:-${HOME}/conf}"
 
 # Inspect config files in the src dir and remove corresponding symlinks in
 # the target dir, no matter where the link points to.
-unlink_dir() {
+unlink_config_dir() {
   if [ -z "${1}" ] || [ -z "${2}" ]; then
     >&2 echo "Error: No source or target dir passed."
     return 1
@@ -36,10 +36,11 @@ unlink_dir() {
 
 # Link config files.
 main () {
-  for dir in "$@"; do
-    unlink_dir "${dir}" "${HOME}"
-  done
-
+  src=$1
+  tar=$2
+  [ -z "$tar" ] || tar="${HOME}"
+  unlink_config_dir "${src}" "${tar}"
 }
+
 
 main "$@"

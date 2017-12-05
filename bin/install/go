@@ -6,11 +6,16 @@
 # WARNING: This script completely removes old installations of golang.
 # ---
 
-readonly version="${VERSION:-1.9.1}"
+readonly version="${VERSION:-1.9.2}"
 readonly arch="${ARCH:-amd64}"
 os="${OS:-$(uname -s)}"
 # Lower first character.
 os="${os,}"
+
+if [ "$(go version 2> /dev/null)" == "go version go${version} ${os}/${arch}" ]; then
+  echo "go is up to date."
+  exit
+fi
 
 readonly src="go${version}.${os}-${arch}.tar.gz"
 readonly path="${HOME}/tmp/${src}"

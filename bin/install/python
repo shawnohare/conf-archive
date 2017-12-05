@@ -8,7 +8,7 @@ PYENV_ROOT="${PYENV_ROOT:-${HOME}/.pyenv}"
 # Install pyenv to $PYENV_ROOT
 if [ ! -e "${PYENV_ROOT}/bin/pyenv" ]; then
   echo "Installing pyenv."
-  curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+  curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
 fi
 
 echo "Updating pyenv."
