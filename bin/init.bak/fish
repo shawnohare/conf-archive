@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Install the fisherman plugin manager.
+if [ ! -e ${USER_CONFIG_HOME}/fish/functions/fisher.fish ]; then
+  curl -Lo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
+fi

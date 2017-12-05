@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+# set -e
+
+dir="${CONF:-${HOME}/conf}"
+readonly branch="${CONF_BRANCH:-master}"
+readonly repo="https://github.com/shawnohare/conf.git"
+
+if [ ! -d "${dir}" ]; then
+  echo "Cloning ${repo}"
+  git clone -b "${branch} "--recursive "${repo}" "${dir}"
+fi
+
+if [ ! -d "${dir}" ]; then
+  >&2 echo "Error: Could not clone config repo."
+fi
+
+cd "${dir}"
+git checkout "${branch}"
+
+# Init basic profile.
+echo "Sourcing .env."
+source profile/.env
+echo "Sourcing .profile"
+source profile/.profile
+
+echo "Making necessary dirs."
+mkdir -p "${USER_BIN_HOME}"
+mkdir -p "${USER_CONFIG_HOME}"
+mkdir -p "${USER_CACHE_HOME}"
+mkdir -p "${USER_LIB_HOME}"
+mkdir -p "${USER_SHARE_HOME}"
+mkdir -p "${USER_SRC_HOME}"
+mkdir -p "${USER_TMP_HOME}"
+mkdir -p "${USER_VAR_HOME}"
+
+# Link config files.
+dirs_to_link=(
+    alacritty
+    bash
+    emacs
+    fish
+    git
+    ipython
+    nix
+    nvim
+    profile
+    screen
+    spacemacs
+    stack
+    tmux
+    vim
+    zsh
+)
+bin/link ${dirs_to_link[@]}
+
+
+# Run specific init / install scripts.
+for bin in nix zsh pyenv neovim golang rust stack; do
+  echo "Running ${bin}"
+  "bin/init/${bin}"
+done
+
+echo "Finished installing.  Please restart the shell."
+

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Using nix to install python has some downsides in that you cannot
+# simply pip install on the nix copies due to permission constraints.
+# One workaround is to create venvs and link them something like ~/bin,
+# but really we shouldn't be installing too much into the global pythons
+#
+# Another issue is that the python 2 version with nix does not link
+# external deps like sqlite when creating a venv.
+
+set -e
+
+"${CONF}/bin/init/pyenv"
+
+echo "Installing neovim virtualenvs."
+for ver in "2.7.13" "3.6.3"; do
+  venv="neovim${ver:0:1}"
+  if [[ ! -e "${PYENV_ROOT}/versions/${ver}/envs/${venv}" ]]; then
+    pyenv install "${ver}"
+    pyenv virtualenv "${ver}" "${venv}"
+  fi
+done
+
+echo "Installing modules in neovim virtual envs."
+for venv in neovim2 neovim3; do
+  pip="${PYENV_ROOT}/versions/${venv}/bin/pip"
+  "${pip}" install --upgrade pip
+  "${pip}" install --upgrade neovim
+  "${pip}" install --upgrade jedi
+done
+
+exit

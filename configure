@@ -3,7 +3,7 @@
 set -e
 
 # Init basic profile.
-echo "Sourcing env and profile"
+profile="${CONF:-${HOME}/conf/profile}"
 source profile/.env
 source profile/.profile
 
@@ -20,7 +20,7 @@ mkdir -p "${USER_VAR_HOME}"
 echo "Backing up profiles."
 for file in .profile .bash_profile .bashrc .zshenv .zshrc; do
   original="${HOME}/${file}"
-  backup="${orginal}.backup"
+  backup="${original}.backup"
   [ -L "${original}" ] && continue
 
   if [ -f "${original}" ] && [ -f "${backup}" ]; then
@@ -32,9 +32,20 @@ for file in .profile .bash_profile .bashrc .zshenv .zshrc; do
   fi
 done
 
+# NOTE:
+# Should have 3-stage for bootstrapping.
+# 1. Init that creates dirs / links files.
+# 2. Install toolchains.
+# 3. Install packages
+
+# NOTE:
+# More granular approach would be:
+# 1. Create dirs / backup existing profiles (for ec2, etc.)
+# 2. Link.
+# 3. Install toolchains.
+# 4. Install packages: upkg or a series of commands?
 
 # Likely an abuse of make (to call it during the config part)
 make link
 
-source "${HOME}/.profile"
 
