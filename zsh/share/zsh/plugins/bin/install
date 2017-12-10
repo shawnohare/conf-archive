@@ -1,6 +1,0 @@
-#!/usr/bin/env zsh
-# Install or update plugins listed in the plugin file. Cache the results.
-
-source "${ZPLUGIN_HOME}/bin/plug.zsh" install
-source "${ZDOTDIR}/plugins.zsh"
-"${ZPLUGIN_HOME}/bin/cache"
