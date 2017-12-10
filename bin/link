@@ -6,7 +6,7 @@ set -e
 CONF="${CONF:-${HOME}/conf}"
 
 # Link configuration files stored inside a specified directory.
-link_config_dir() {
+conflink () {
 
   if [ -z "${1}" ]; then
     >&2 echo "Error: No source or target dir passed."
@@ -50,22 +50,7 @@ link_config_dir() {
   # stow -v -R --target="${tar}" --dir="${CONF}" "${src}"
 }
 
-# Link directories stored in the hardcoded Linkfile
-# Elements of the Linkfile are of the form <src> [tar]
-link_Linkfile() {
-  while read -r line; do
-    local args=($line)
-    link_config_dir "${args[@]}"
-  done < "${CONF}/Linkfile"
-}
+# Link the following directories.
+conflink home
 
-# Link config files.
-main () {
-  if [ -z "$1" ]; then
-    link_Linkfile
-  else
-    link_config_dir "$@"
-  fi
-}
 
-main "$@"

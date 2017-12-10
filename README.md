@@ -2,29 +2,22 @@
 
 # Introduction
 
-These config files are organized to take advantage of the symlink farm manager
-system GNU `stow`.  Config files are generally organized topically, and the
-structure of each directory mirrors what it should look like when it the entire
-contents are symlinked into the appropriate target, usually `$HOME`.
+Simplicity and speed take precedence over the elaborate and general-purpose.
 
-We prefer a BSD-like user home directory structure that also services
-applications utilizing the XDG conventions.
+The configuration files are organized to take advantage of a basic, fast
+symlink farm manager similar to `stow`. For example, the tree structure of
+`home` is symlinked to `$HOME`, except that directories are actually created
+so that app data files do not unexpectedly appear in this repository.
 
-In order to maintain a measure of robustness to change, some steps that could
-be automated are specifically made manual. It is our experience that
-automatation maintenance costs increase hyper-linearly with volatility.
+Generally, the files organization is inspired by BSD and the XDG spec.
 
 
-# Installation
-
-Some manual initialization leads to less headaches.
-
-## Initialization
+# Manual Initialization
 
 Some basic system tools are necessary before running the config install script.
 These are: `curl`, `git`, `bzip`.  
 
-### macos
+## macos
 
 All the tools above can be installed via:
 
@@ -32,7 +25,7 @@ All the tools above can be installed via:
 xcode-select --install
 ```
 
-### Debian-based
+## Debian-based
 
 ```bash
 sudo apt-get update
@@ -40,7 +33,7 @@ sudo apt-get -y upgrade
 sudo apt-get install -y curl git bzip
 ```
 
-## Install script
+# Install script
 
 Next, the config install script must be run. 
 
