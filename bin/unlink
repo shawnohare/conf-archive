@@ -4,14 +4,10 @@ CONF="${CONF:-${HOME}/conf}"
 
 # Inspect config files in the src dir and remove corresponding symlinks in
 # the target dir, no matter where the link points to.
-confunlink () {
-  if [ -z "${1}" ] || [ -z "${2}" ]; then
-    >&2 echo "Error: No source or target dir passed."
-    return 1
-  fi
+conf::unlink () {
 
-  local src_dir="${1}"
-  local tar_dir="${2}"
+  src_dir="${1:-src}"
+  tar_dir="${2:-${HOME}}"
 
   cd "${CONF}/${src_dir}"
 
@@ -27,20 +23,12 @@ confunlink () {
     # The commented out line will remove the link only if it points to src.
     # elif [ -L "${tar}" ] && [ $(readlink "${tar}") = "${src}" ]; then
     elif [ -L "${tar}" ]; then
-       echo "Unlinking ${tar}".
+       echo -e "\e[1m\e[32mUnlinking \e[0m${tar}"
        rm "${tar}"
     fi
 
   done < <(find . -type f)
 }
 
-# Link config files.
-main () {
-  src=$1
-  tar=$2
-  if [ -z "$tar" ]; then tar="${HOME}"; fi
-  confunlink "${src}" "${tar}"
-}
+conf::unlink "$@"
 
-
-main "$@"

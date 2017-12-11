@@ -1,0 +1,10 @@
+#! /usr/bin/env bash
+
+pkgs=(
+   exa
+   ripgrep
+)
+
+for pkg in "${pkgs[@]}"; do
+  cargo install --force "${pkg}"
+done

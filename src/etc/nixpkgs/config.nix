@@ -3,8 +3,8 @@
   packageOverrides = pkgs_: with pkgs_; {  # pkgs_ is the original set of packages
     # Install some core programs in an OS independent way.
     # pkgs is your overriden set of packages itself
-    all = with pkgs; buildEnv {
-      name = "all";
+    local = with pkgs; buildEnv {
+      name = "local";
       paths = [
         awscli
         # regular bash is not meant for interactive use.
@@ -21,11 +21,12 @@
         cmake
         coreutils-prefixed # Things like gls
         # curl
-        # exa  # use cargo
+        # exa # errors when compiling
         # fira-code
         fish
         fzf
         git
+        gnumake
         hack-font
         hasklig
         # FIXME 2016-09-15T06:56:15-0700
@@ -52,7 +53,7 @@
         # python35Packages.pew # virtualenv tool, but venv path below nix's
         # pew
         pipenv
-        # ripgrep # use cargo
+        # ripgrep
         # source-code-pro # font
         screen
         shellcheck
@@ -64,6 +65,15 @@
         tmux
         wget
         zsh
+      ];
+    };
+
+    vms = with pkgs; buildEnv {
+      name = "vms";
+      paths = [
+        vagrant
+        # virtualbox # virtualbox not supported for macos
+        docker
       ];
     };
   };

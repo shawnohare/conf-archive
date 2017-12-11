@@ -2,14 +2,14 @@
 
 # Introduction
 
-Simplicity and speed take precedence over the elaborate and general-purpose.
+Simplicity, speed and portability take precedence over the elaborate and general-purpose.
 
-The configuration files are organized to take advantage of a basic, fast
+The configuration files are organized to take advantage of a basic
 symlink farm manager similar to `stow`. For example, the tree structure of
-`home` is symlinked to `$HOME`, except that directories are actually created
+`src` is symlinked to `$HOME`, except that directories are actually created
 so that app data files do not unexpectedly appear in this repository.
 
-Generally, the files organization is inspired by BSD and the XDG spec.
+Generally, the file organization is inspired by BSD and the XDG spec.
 
 
 # Manual Initialization

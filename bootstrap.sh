@@ -1,7 +1,5 @@
 #! /usr/bin/env bash
 
-set -e
-
 # Init basic profile.
 CONF="${CONF:-${HOME}/conf}"
 
@@ -19,10 +17,10 @@ if [ ! -d "${CONF}" ]; then
 fi
 
 cd "${CONF}"
+git checkout "${branch}"
 
-# git checkout "${branch}"
-source src/.env
-source src/.profile
+source "${CONF}/src/.env"
+source "${CONF}/src/.profile"
 
 mkdir -p "${USER_BIN_HOME}"
 mkdir -p "${USER_CONFIG_HOME}"
@@ -32,21 +30,15 @@ mkdir -p "${USER_SRC_HOME}"
 mkdir -p "${USER_TMP_HOME}"
 mkdir -p "${USER_VAR_HOME}"
 
-make link
+"${CONF}/bin/link"
 
-# NOTE:
-# Should have 3-stage for bootstrapping.
-# 1. Init that creates dirs / links files.
-# 2. Install toolchains.
-# 3. Install packages
+# Install toolchains and packages related to those toolchains.
+for tool in python nix go rust; do
+  dir="${CONF}/bin/${tool}"
+  "${dir}/install"
+  exec bash -l
+  "${dir}/pkgs"
+done
 
-# NOTE:
-# More granular approach would be:
-# 1. Create dirs / backup existing profiles (for ec2, etc.)
-# 2. Link.
-# 3. Install toolchains.
-# 4. Install packages: upkg or a series of commands?
-
-# Likely an abuse of make (to call it during the config part)
-# make link
+# TODO: Check for platform, do platform specific install here.
 

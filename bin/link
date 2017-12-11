@@ -5,19 +5,14 @@ set -e
 
 CONF="${CONF:-${HOME}/conf}"
 
-# Link configuration files stored inside a specified directory.
-conflink () {
+# Link configuration files contained inside the configuration repository.
+# By default this links $CONF/src to ~, but
+conf::link () {
 
-  if [ -z "${1}" ]; then
-    >&2 echo "Error: No source or target dir passed."
-    return 1
-  fi
+  src_dir="${1:-src}"
+  tar_dir="${2:-${HOME}}"
 
-  local src_dir="${1}"
-  local tar_dir="${2}"
-  if [ -z "${tar_dir}" ]; then tar_dir="${HOME}"; fi
-
-  echo "Linking ${src_dir}"
+  echo -e "Linking ${src_dir} -> ${tar_dir}"
 
   cd "${CONF}/${src_dir}"
 
@@ -34,23 +29,25 @@ conflink () {
     local src="${CONF}/${src_dir}/${path}"
     local tar="${tar_dir}/${path}"
 
+    # Backup existing files.
     if [ -f "${tar}" ] && [ ! -L "${tar}" ]; then
-      echo "WARNING: ${tar} exists and is not a symbolic link. Skipping."
-      exit 1
+      if [ ! -f "${tar}.bak" ]; then
+        echo "Backing up ${tar}"
+        mv "${tar}" "${tar}.bak"
+      else
+        echo -e "\e[1m\e[33mWARNING: \e[0m Non link ${tar} and backup exists. Skipping."
+        continue
+      fi
     fi
 
     if [ ! -L "${tar}" ]; then
-      echo "Linking ${src} to ${tar}"
+      echo -e "\e[1m\e[32mLinking \e[0m${path}"
       ln -s "${src}" "${tar}"
     fi
 
 
   done < <(find . -type f)
-
-  # stow -v -R --target="${tar}" --dir="${CONF}" "${src}"
 }
 
-# Link the following directories.
-conflink home
-
+conf::link "$@"
 
