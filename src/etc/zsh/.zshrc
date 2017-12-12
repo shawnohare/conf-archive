@@ -82,7 +82,7 @@ autoload -Uz run-help
 autoload -Uz run-help-git
 autoload -Uz run-help-svn
 autoload -Uz run-help-svk
-unalias run-help
+unalias run-help &> /dev/null
 # alias help=run-help
 
 # history
