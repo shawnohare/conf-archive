@@ -35,9 +35,10 @@ mkdir -p "${USER_VAR_HOME}"
 # Install toolchains and packages related to those toolchains.
 for tool in python nix go rust; do
   dir="${CONF}/bin/${tool}"
-  "${dir}/install"
-  exec bash -l
-  "${dir}/pkgs"
+  for cmd in install setup pkgs; do
+    cmd="${CONF}/bin/${tool}/${cmd}"
+    [ -f "${cmd}" ] && bash -l "${dir}/${cmd}"
+  done
 done
 
 # TODO: Check for platform, do platform specific install here.
