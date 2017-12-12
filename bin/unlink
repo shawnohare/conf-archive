@@ -23,7 +23,7 @@ conf::unlink () {
     # The commented out line will remove the link only if it points to src.
     # elif [ -L "${tar}" ] && [ $(readlink "${tar}") = "${src}" ]; then
     elif [ -L "${tar}" ]; then
-       echo -e "\e[1m\e[32mUnlinking \e[0m${tar}"
+       echo -e "  \e[1m\e[32mUnlinking \e[0m${tar}"
        rm "${tar}"
     fi
 

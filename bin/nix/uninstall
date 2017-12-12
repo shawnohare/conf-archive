@@ -1,0 +1,32 @@
+#! /usr/bin/env bash
+
+set -e pipefail
+
+if [ -f /Library/LaunchDaemons/org.nixos.nix-daemon.plist ]; then
+    sudo launchctl unload /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+    sudo rm /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+fi
+
+# Restore profiles / rc files
+for conf in profile bashrc zshrc; do
+    if [ -f "/etc/${conf}.backup-before-nix" ]; then
+      sudo mv "/etc/${conf}.backup-before-nix" "/etc/${conf}"
+    fi
+done
+
+# Remove nix build user
+for i in $(seq 1 $(sysctl -n hw.ncpu)); do
+    if id -u "nixbld$i" ; then
+        sudo /usr/bin/dscl . -delete "/Users/nixbld$i"
+    fi
+done
+
+if id -g nixbld; then
+    sudo /usr/bin/dscl . -delete "/Groups/nixbld"
+fi
+
+# Delete the files Nix added to your system:
+rm -rf $HOME/{.nix-channels,.nix-defexpr,.nix-profile,.config/nixpkgs}
+
+# rm -rf ${USER_CONFIG_HOME}/nixpkgs
+sudo rm -rf /etc/nix /nix /var/root/.nix-profile /var/root/.nix-defexpr /var/root/.nix-channels

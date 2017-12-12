@@ -32,16 +32,16 @@ conf::link () {
     # Backup existing files.
     if [ -f "${tar}" ] && [ ! -L "${tar}" ]; then
       if [ ! -f "${tar}.bak" ]; then
-        echo "Backing up ${tar}"
+        echo "  \e[1m\e[33m Copying \e[0m${tar}"
         mv "${tar}" "${tar}.bak"
       else
-        echo -e "\e[1m\e[33mWARNING: \e[0m Non link ${tar} and backup exists. Skipping."
+        echo -e "\e[1m\e[31mWARNING: \e[0m Non link ${tar} and backup exists. Skipping."
         continue
       fi
     fi
 
     if [ ! -L "${tar}" ]; then
-      echo -e "\e[1m\e[32mLinking \e[0m${path}"
+      echo -e "  \e[1m\e[32mLinking \e[0m${path}"
       ln -s "${src}" "${tar}"
     fi
 

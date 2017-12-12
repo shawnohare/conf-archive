@@ -37,7 +37,7 @@ go:
 nix:
 	$(info Installing nix package manager.)
 	test -d /nix || curl "https://nixos.org/nix/install" | sh
-	bash -l $(bin)/nix/pkgs
+	# bash -l $(bin)/nix/pkgs
 	# exec bash -l && nix-env -iA nixpkgs.local
 
 # NOTE: the .ONESHELL feature is in 3.82, but macOS High Sierra has 3.81

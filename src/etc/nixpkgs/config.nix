@@ -38,7 +38,7 @@
         mosh
         neovim
         nix-zsh-completions
-        nox
+        # nox
         pandoc
         pass
         # NOTE: Python installation through nix was fraught with issues.
@@ -64,7 +64,7 @@
         stow
         tmux
         wget
-        zsh
+        # zsh To avoid bootstrap issues, install through other means
       ];
     };
 

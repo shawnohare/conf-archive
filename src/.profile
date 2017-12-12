@@ -70,6 +70,5 @@ if [[ -e "${PYENV_ROOT}/bin/pyenv" ]]; then
 fi
 
 
-#
 PATH="${USER_BIN_HOME}:${USER_LOCAL_HOME}/bin:${HOME}/.local/bin:${PATH}"
 export PATH
