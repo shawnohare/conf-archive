@@ -53,6 +53,7 @@
         # python35Packages.pew # virtualenv tool, but venv path below nix's
         # pew
         pipenv
+        openssl
         # ripgrep
         # source-code-pro # font
         screen
@@ -67,6 +68,16 @@
         # zsh To avoid bootstrap issues, install through other means
       ];
     };
+
+    # Unknown errors.
+    # rustpkgs = with pkgs; buildEnv {
+    #   name = "rustpkgs";
+    #   paths = [
+    #     exa
+    #     ripgrep
+    #     vis
+    #   ];
+    # };
 
     vms = with pkgs; buildEnv {
       name = "vms";

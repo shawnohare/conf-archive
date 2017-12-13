@@ -16,11 +16,11 @@ if [ ! -d "${CONF}" ]; then
   exit 1
 fi
 
-cd "${CONF}"
+cd "${CONF}" || exit 1
 git checkout "${branch}"
 
-source "${CONF}/src/.env"
-source "${CONF}/src/.profile"
+source src/.env
+source src/.profile
 
 mkdir -p "${USER_BIN_HOME}"
 mkdir -p "${USER_CONFIG_HOME}"
@@ -33,11 +33,12 @@ mkdir -p "${USER_VAR_HOME}"
 "${CONF}/bin/link"
 
 # Install toolchains and packages related to those toolchains.
-for tool in python nix go rust; do
+# NOTE: It's possible that a multi-user nix install might fail here.
+for tool in python nix go rust zsh; do
   dir="${CONF}/bin/${tool}"
-  for cmd in install setup pkgs; do
-    cmd="${CONF}/bin/${tool}/${cmd}"
-    [ -f "${cmd}" ] && bash -l "${dir}/${cmd}"
+  for x in install setup pkgs; do
+    cmd="${CONF}/bin/${tool}/${x}"
+    [ -f "${cmd}" ] && bash -l "${cmd}"
   done
 done
 

@@ -1,4 +1,6 @@
 # Finding conf home won't work if another makefile is included.
+# NOTE: This Makefile is primarily for educational purposes. It seems
+# overly tedius to use it as a bootstrap mechanism.
 conf_home := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 bin := $(conf_home)bin
 
@@ -16,29 +18,23 @@ unlink:
 	$(bin)/unlink
 
 brew:
-	$(info Installing brew package manager.)
 	$(bin)/brew/install
 	bash -l brew bundle $(HOME)/etc/brew/Brewfile
 
 python:
-	$(info Installing python toolchain.)
 	$(bin)/python/install
 
 rust:
-	$(info Installing rust toolchain via rustup.)
-	test -d "${USER_LOCAL_HOME}/cargo" || (curl https://sh.rustup.rs -sSf | bash -s -- --no-modify-path)
+	bash -l $(bin)/rust/install
 	bash -l $(bin)/rust/pkgs
 
 go:
-	$(info Installing go toolchain.)
-	$(bin)/go/install
+	bash -l $(bin)/go/install
 	bash -l $(bin)/go/pkgs
 
 nix:
-	$(info Installing nix package manager.)
-	test -d /nix || curl "https://nixos.org/nix/install" | sh
-	# bash -l $(bin)/nix/pkgs
-	# exec bash -l && nix-env -iA nixpkgs.local
+	bash -l $(bin)/nix/install
+	bash -l $(bin)/nix/pkgs
 
 # NOTE: the .ONESHELL feature is in 3.82, but macOS High Sierra has 3.81
 .ONESHELL:

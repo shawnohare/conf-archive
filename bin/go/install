@@ -12,8 +12,8 @@ os="${OS:-$(uname -s)}"
 # Lower first character.
 os="${os,}"
 
-if [ "$(go version 2> /dev/null)" == "go version go${version} ${os}/${arch}" ]; then
-  echo "go is up to date."
+if go version 2> /dev/null | grep -q "${version}"; then
+  echo "golang ${version} already installed."
   exit
 fi
 
@@ -22,4 +22,3 @@ readonly path="${HOME}/tmp/${src}"
 [[ -e "${path}" ]] || wget "https://storage.googleapis.com/golang/${src}" -O "${path}"
 sudo rm -rf "/usr/local/go"
 sudo tar -C "/usr/local" -xzf "${path}"
-

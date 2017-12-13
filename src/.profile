@@ -21,14 +21,6 @@ case "$OSTYPE" in
     ;;
 esac
 
-# linux specific aliases
-# In particular, the non-BSD versions of ls do not support -G for color
-if [[ $OSTYPE =~ linux ]]; then
-  alias la="ls --color -Flash"
-  alias ll="ls --color -Flsh"
-  alias ls="ls --color -F"
-fi
-
 # =========================================================================
 # aliases
 # =========================================================================

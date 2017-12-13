@@ -17,9 +17,10 @@ Generally, the file organization is inspired by BSD and the XDG spec.
 Some basic system tools are necessary before running the config install script.
 These are: `curl`, `git`, `bzip`.  
 
-## macos
+## macOS
 
-All the tools above can be installed via:
+Note that macOS comes with a copy of `zsh` pre-installed, so all
+dependencies can be installed via
 
 ```bash
 xcode-select --install
@@ -30,7 +31,7 @@ xcode-select --install
 ```bash
 sudo apt-get update
 sudo apt-get -y upgrade
-sudo apt-get install -y curl git bzip
+sudo apt-get install -y curl git bzip zsh
 ```
 
 # Install script
@@ -38,6 +39,7 @@ sudo apt-get install -y curl git bzip
 Next, the config install script must be run. 
 
 The preferred method is:
+
 ```bash
 git clone https://github.com/shawnohare/conf
 ~/conf/bin/install

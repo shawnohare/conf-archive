@@ -1,4 +1,5 @@
 # source the appropriate files
-if [ -f ~/.bashrc ]; then
-  source ~/.bashrc
-fi
+source "${HOME}/.env"
+source "${HOME}/.profile"
+HISTFILE="${USER_DATA_HOME}/bash/history"
+# [ -f ~/.bashrc ] && source ~/.bashrc
