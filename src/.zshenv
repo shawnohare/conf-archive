@@ -24,4 +24,4 @@ export ZDOTDIR="${USER_CONFIG_HOME}/zsh"
 export ZPLUGIN_HOME="${USER_DATA_HOME}/zsh/plugins"
 export ZPLUG_HOME="${USER_DATA_HOME}/zsh/zplug"
 export Z_DATA="${USER_DATA_HOME}/z"
-export ZSH_AUTOSUGGEST_USE_ASYNC=1
+# export ZSH_AUTOSUGGEST_USE_ASYNC=1

@@ -3,7 +3,7 @@
 set -e
 
 
-CONF="${CONF:-${HOME}/conf}"
+CONF="${CONF_HOME:-${HOME}/conf}"
 
 # Link configuration files contained inside the configuration repository.
 # By default this links $CONF/src to ~, but
@@ -14,7 +14,7 @@ conf::link () {
 
   printf "Linking ${src_dir} -> ${tar_dir}\n"
 
-  cd "${CONF}/${src_dir}"
+  cd "${CONF_HOME}/${src_dir}"
 
   # Hard copy the dir tree to the target. This is done primarily so that
   # data files are not stored in the configuration repo.
@@ -26,7 +26,7 @@ conf::link () {
   while read -r path; do
     # Ignore the initial ./ appearing in the results of find output.
     local path="${path:2}"
-    local src="${CONF}/${src_dir}/${path}"
+    local src="${CONF_HOME}/${src_dir}/${path}"
     local tar="${tar_dir}/${path}"
 
     # Backup existing files.
