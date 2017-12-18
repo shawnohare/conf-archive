@@ -1,9 +1,9 @@
-## ~/.profile: executed by the command interpreter for login shells.
-# This file is not read by bash, if ~/.bash_profile or ~/.bash_login exists.
-# See /usr/share/doc/bash/examples/startup-files for examples.
+# ~/.profile: executed by the command interpreter for login shells.
+# This file is not always read by bash when ~/.bash_profile or ~/.bash_login
+# exist.  See /usr/share/doc/bash/examples/startup-files for examples.
 
 # Source the common env file if necessary.
-[ ! -z "${USER_ENV_FILE+x}" ] || source "${HOME}/.env"
+[ ! -z "${_USER_ENV_SOURCED+x}" ] || source "${HOME}/.env"
 
 # OS specific settings can go here.
 case "$OSTYPE" in
@@ -42,7 +42,8 @@ PATH="${GOPATH}/bin:/usr/local/go/bin:${PATH}"
 # rust
 PATH="${CARGO_HOME}/bin:${PATH}"
 
-PATH="${USER_BIN_HOME}:${USER_LOCAL_HOME}/bin:${HOME}/.local/bin:${PATH}"
+# Other
+PATH="${USER_BIN_HOME}:${HOME}/.local/bin:${PATH}"
 export PATH
 
 # Ruby
@@ -55,14 +56,11 @@ export PATH
 # --------------------------------------------------------------------------
 
 # pyenv init will use PYENV_ROOT or default to ~/.pyenv
-# if hash pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-#export PATH="/Users/shawn/.pyenv/bin:$PATH"
 PATH="${PYENV_ROOT}/bin:${PATH}"
 if [[ -e "${PYENV_ROOT}/bin/pyenv" ]]; then
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
 fi
-
 
 
 # Multi-user installs source the nix-daemon.sh in /etc profiles but

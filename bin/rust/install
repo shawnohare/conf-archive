@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
 
-if [ ! -d "${USER_LOCAL_HOME}/cargo" ]; then
+if [ ! -d "${USER_OPT_HOME}/cargo" ]; then
     curl https://sh.rustup.rs -sSf | bash -s -- --no-modify-path
 fi
