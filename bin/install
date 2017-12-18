@@ -1,22 +1,22 @@
 #! /usr/bin/env bash
 
 # Init basic profile.
-CONF="${CONF:-${HOME}/conf}"
+CONF="${CONF_HOME:-${HOME}/conf}"
 
-readonly branch="${CONF_BRANCH:-master}"
+readonly branch="${CONF_HOME_BRANCH:-master}"
 readonly repo="https://github.com/shawnohare/conf.git"
 
-if [ ! -d "${CONF}" ]; then
+if [ ! -d "${CONF_HOME}" ]; then
   echo "Cloning ${repo}"
-  git clone -b "${branch} "--recursive "${repo}" "${CONF}"
+  git clone -b "${branch} "--recursive "${repo}" "${CONF_HOME}"
 fi
 
-if [ ! -d "${CONF}" ]; then
+if [ ! -d "${CONF_HOME}" ]; then
   >&2 echo "Error: Could not clone config repo."
   exit 1
 fi
 
-cd "${CONF}" || exit 1
+cd "${CONF_HOME}" || exit 1
 git checkout "${branch}"
 
 source src/.env
@@ -30,14 +30,14 @@ mkdir -p "${USER_SRC_HOME}"
 mkdir -p "${USER_TMP_HOME}"
 mkdir -p "${USER_VAR_HOME}"
 
-"${CONF}/bin/link"
+"${CONF_HOME}/bin/link"
 
 # Install toolchains and packages related to those toolchains.
 # NOTE: It's possible that a multi-user nix install might fail here.
 for tool in python nix go rust zsh; do
-  dir="${CONF}/bin/${tool}"
+  dir="${CONF_HOME}/bin/${tool}"
   for x in install setup pkgs; do
-    cmd="${CONF}/bin/${tool}/${x}"
+    cmd="${CONF_HOME}/bin/${tool}/${x}"
     [ -f "${cmd}" ] && bash -l "${cmd}"
   done
 done

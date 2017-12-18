@@ -23,6 +23,9 @@ install_xcode() {
 #   return 0
 # }
 
+# Copy over SF mono font for use system wide. Needed in macOS < 10.13
+cp /Applications/Utilities/Terminal.app/Contents/Resources/Fonts/*.otf ~/Library/Fonts
+
 
 defaults write -g ApplePressAndHoldEnabled -bool false
 defaults write com.apple.finder AppleShowAllFiles YES
