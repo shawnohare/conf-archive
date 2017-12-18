@@ -42,6 +42,8 @@ PATH="${GOPATH}/bin:/usr/local/go/bin:${PATH}"
 # rust
 PATH="${CARGO_HOME}/bin:${PATH}"
 
+PATH="${USER_BIN_HOME}:${USER_LOCAL_HOME}/bin:${HOME}/.local/bin:${PATH}"
+export PATH
 
 # Ruby
 # if command -v rbenv >/dev/null 2>&1; then
@@ -62,8 +64,6 @@ if [[ -e "${PYENV_ROOT}/bin/pyenv" ]]; then
 fi
 
 
-PATH="${USER_BIN_HOME}:${USER_LOCAL_HOME}/bin:${HOME}/.local/bin:${PATH}"
-export PATH
 
 # Multi-user installs source the nix-daemon.sh in /etc profiles but
 # single-user installs do not modify those files. Moreover, a multi-user

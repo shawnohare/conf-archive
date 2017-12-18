@@ -8,7 +8,7 @@
       paths = [
         awscli
         # regular bash is not meant for interactive use.
-        bashInteractive
+        # bashInteractive
         # NOTE: There has been some issues with darwin's outdated openssl cert
         # and how nix sets SSL_CERT_FILE. See:
         # https://github.com/NixOS/nix/issues/921
@@ -18,8 +18,8 @@
         # builtin curl to function again.
         # cacert
         # clang
-        cmake
-        coreutils-prefixed # Things like gls
+        # cmake
+        # coreutils-prefixed # Things like gls
         # curl
         # exa # errors when compiling
         # fira-code
@@ -40,7 +40,7 @@
         nix-zsh-completions
         # nox
         pandoc
-        pass
+        # pass
         # NOTE: Python installation through nix was fraught with issues.
         # python27Full
         # python27Packages.pip
@@ -58,7 +58,7 @@
         # source-code-pro # font
         screen
         shellcheck
-        silver-searcher
+        # silver-searcher
         sqlite
         # 2017-05-04 encountered a stack build error
         # stack # haskell build tool

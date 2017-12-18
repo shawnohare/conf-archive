@@ -26,6 +26,17 @@ for ver in "${versions[@]}"; do
     "${PYENV_ROOT}/versions/${ver}/bin/pip" install --upgrade "${pkg}"
   done
 
+  # Create neovim virtualenvs.
+  venv="neovim${ver:0:1}"
+  if [ ! -e "${PYENV_ROOT}/versions/${venv}/bin/python" ]; then
+    pyenv virtualenv "${ver}" "${venv}"
+  fi
+
+  for pkg in pip neovim; do
+    "${PYENV_ROOT}/versions/${venv}/bin/pip" install --upgrade "${pkg}"
+  done
+
+
 done
 
 pyenv global "${versions[@]}"
