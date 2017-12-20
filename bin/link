@@ -3,7 +3,7 @@
 set -e
 
 
-CONF="${CONF_HOME:-${HOME}/conf}"
+CONF_HOME="${CONF_HOME:-${HOME}/conf}"
 
 # Link configuration files contained inside the configuration repository.
 # By default this links $CONF/src to ~, but
