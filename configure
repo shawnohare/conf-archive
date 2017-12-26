@@ -3,7 +3,6 @@
 
 CONF_HOME="${CONF_HOME:-${HOME}/conf}"
 
-. "${CONF_HOME}/home/.env"
 . "${CONF_HOME}/home/.profile"
 
 make -f "${CONF_HOME}/Makefile"

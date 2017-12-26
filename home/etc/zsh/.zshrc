@@ -1,7 +1,7 @@
 # .zshrc is sourced by interactive shells.
 
 # Set shell independent settings.
-source ~/.profile > /dev/null 2>&1
+# source ~/.profile > /dev/null 2>&1
 
 # plugins
 # Load plugins.
