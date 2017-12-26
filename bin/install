@@ -1,7 +1,6 @@
-#! /usr/bin/env bash
+#! /usr/bin/env sh
 
-# Init basic profile.
-CONF="${CONF_HOME:-${HOME}/conf}"
+CONF_HOME="${CONF_HOME:-${HOME}/conf}"
 
 readonly branch="${CONF_HOME_BRANCH:-master}"
 readonly repo="https://github.com/shawnohare/conf.git"
@@ -16,31 +15,24 @@ if [ ! -d "${CONF_HOME}" ]; then
   exit 1
 fi
 
-cd "${CONF_HOME}" || exit 1
+cd "${CONF_HOME}"
 git checkout "${branch}"
 
-source src/.env
-source src/.profile
+. "${CONF_HOME}/home/.env"
+. "${CONF_HOME}/home/.profile"
 
-mkdir -p "${USER_BIN_HOME}"
-mkdir -p "${USER_CONFIG_HOME}"
-mkdir -p "${USER_CACHE_HOME}"
-mkdir -p "${USER_DATA_HOME}"
-mkdir -p "${USER_SRC_HOME}"
-mkdir -p "${USER_TMP_HOME}"
-mkdir -p "${USER_VAR_HOME}"
-
-"${CONF_HOME}/bin/link"
+make install
 
 # Install toolchains and packages related to those toolchains.
 # NOTE: It's possible that a multi-user nix install might fail here.
-for tool in python nix go rust zsh; do
-  dir="${CONF_HOME}/bin/${tool}"
-  for x in install setup pkgs; do
-    cmd="${CONF_HOME}/bin/${tool}/${x}"
-    [ -f "${cmd}" ] && bash -l "${cmd}"
-  done
-done
+
+# for tool in python nix go rust zsh; do
+#   dir="${CONF_HOME}/bin/${tool}"
+#   for x in install setup pkgs; do
+#     cmd="${CONF_HOME}/bin/${tool}/${x}"
+#     [ -f "${cmd}" ] && bash -l "${cmd}"
+#   done
+# done
 
 # TODO: Check for platform, do platform specific install here.
 

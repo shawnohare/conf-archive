@@ -6,11 +6,16 @@ set -e
 CONF_HOME="${CONF_HOME:-${HOME}/conf}"
 
 # Link configuration files contained inside the configuration repository.
-# By default this links $CONF/src to ~, but
 conf::link () {
 
-  src_dir="${1:-src}"
-  tar_dir="${2:-${HOME}}"
+  if [ -z "$1" ] || [ -z "$2" ]; then
+	  echo "Source and target dirs not specified. Exiting."
+	  exit 1
+  fi
+
+  src_dir="$1"
+  tar_dir="$2"
+
 
   printf "Linking ${src_dir} -> ${tar_dir}\n"
 

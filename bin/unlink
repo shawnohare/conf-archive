@@ -6,8 +6,13 @@ CONF="${CONF_HOME:-${HOME}/conf}"
 # the target dir, no matter where the link points to.
 conf::unlink () {
 
-  src_dir="${1:-src}"
-  tar_dir="${2:-${HOME}}"
+  if [ -z "$1" ] || [ -z "$2" ]; then
+	  echo "Source and target dirs not specified. Exiting."
+	  exit 1
+  fi
+
+  src_dir="$1"
+  tar_dir="$2"
 
   cd "${CONF_HOME}/${src_dir}"
 
