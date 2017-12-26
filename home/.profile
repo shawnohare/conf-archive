@@ -3,7 +3,7 @@
 # exist.  See /usr/share/doc/bash/examples/startup-files for examples.
 
 # Source the common env file if necessary.
-[ ! -z "${_USER_ENV_SOURCED+x}" ] || source "${HOME}/.env"
+[ ! -z "${_USER_ENV_SOURCED+x}" ] || . "${HOME}/.env"
 
 # OS specific settings can go here.
 case "$OSTYPE" in
@@ -57,7 +57,7 @@ export PATH
 
 # pyenv init will use PYENV_ROOT or default to ~/.pyenv
 PATH="${PYENV_ROOT}/bin:${PATH}"
-if [[ -e "${PYENV_ROOT}/bin/pyenv" ]]; then
+if [ -e "${PYENV_ROOT}/bin/pyenv" ]; then
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
 fi
