@@ -1,0 +1,58 @@
+#! /usr/bin/env bash
+#
+# Install basic packages with the system package manager.
+
+set -e
+
+declare -a _pkgs=(
+  # openssl
+  # pipenv
+  # stack # haskell build tool
+  awscli
+  bash
+  curl
+  fish
+  fzf
+  git
+  htop
+  jq
+  mosh
+  neovim
+  pandoc
+  ripgrep
+  # screen
+  shellcheck
+  # stow
+  tmux
+  wget
+  zsh
+)
+
+# An associative array of package names. Can be overriden if system manager
+# uses a different name or requires custom options.
+declare -A pkgs
+for p in "${_pkgs[@]}"; do pkgs[$p]=$p; done
+
+case $OSTYPE in
+  freebsd*)
+    install="sudo pkg install -y"
+    pkgs[shellcheck]="hs-ShellCheck"
+    pkgs[pandoc]="hs-pandoc"
+    # pkgs[neovim]="neovim --freebsd-opts"
+    ;;
+  darwin*)
+    install="brew install"
+    ;;
+  debian*)
+    install="sudo apt-get install -y"
+    ;;
+  **)
+    echo "Error: Unknown OS."
+    exit 1
+    ;;
+esac
+
+for pkg in "${pkgs[@]}"; do
+  printf "\e[1;32mInstalling ${pkg}\e[0m\n"
+  ${install} ${pkg}
+done
