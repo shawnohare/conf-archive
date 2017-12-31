@@ -67,10 +67,3 @@ curl https://raw.githubusercontent.com/shawnohare/conf/master/bin/install | bash
 
 1. Install `golang` via `sudo bin/init/golang`. 
 1. Install `rust` via `bin/init/rust` or `curl https://sh.rustup.rs -sSf | sh`
-
-
-# Profile 
-
-1. `~/.env` file exports common user environment variables.
-2. `~/.profile` sources the user env file above and sets the path.
-3. Shell specific startup scripts (e.g., `~/.zshenv`)should source `~/.profile`.

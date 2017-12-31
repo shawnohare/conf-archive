@@ -18,7 +18,6 @@ fi
 cd "${CONF_HOME}"
 git checkout "${branch}"
 
-. "${CONF_HOME}/home/.env"
 . "${CONF_HOME}/home/.profile"
 
 make install

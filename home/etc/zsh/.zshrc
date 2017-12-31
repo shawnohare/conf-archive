@@ -1,7 +1,7 @@
 # .zshrc is sourced by interactive shells.
 
 # Set shell independent settings.
-source ~/.profile > /dev/null 2>&1
+# source ~/.profile > /dev/null 2>&1
 
 # plugins
 # Load plugins.
@@ -125,9 +125,9 @@ ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=blue'
 ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=yellow'
 ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=yellow'
 ZSH_HIGHLIGHT_STYLES[path]='fg=blue'
-ZSH_HIGHLIGHT_STYLES[path_pathseparator]='fg=white,bold'
+ZSH_HIGHLIGHT_STYLES[path_pathseparator]='fg=blue,bold'
 ZSH_HIGHLIGHT_STYLES[path_prefix]='fg=61'
-ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]='fg=white'
+ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]='bold'
 ZSH_HIGHLIGHT_STYLES[path_approx]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[globbing]='fg=166'
 ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=bold'
