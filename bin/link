@@ -3,10 +3,8 @@
 set -e
 
 
-CONF_HOME="${CONF_HOME:-${HOME}/conf}"
-
 # Link configuration files contained inside the configuration repository.
-conf::link () {
+main() {
 
   if [ -z "$1" ] || [ -z "$2" ]; then
 	  echo "Source and target dirs not specified. Exiting."
@@ -19,7 +17,7 @@ conf::link () {
 
   printf "Linking ${src_dir} -> ${tar_dir}\n"
 
-  cd "${CONF_HOME}/${src_dir}"
+  cd "${src_dir}"
 
   # Hard copy the dir tree to the target. This is done primarily so that
   # data files are not stored in the configuration repo.
@@ -31,7 +29,7 @@ conf::link () {
   while read -r path; do
     # Ignore the initial ./ appearing in the results of find output.
     local path="${path:2}"
-    local src="${CONF_HOME}/${src_dir}/${path}"
+    local src="${src_dir}/${path}"
     local tar="${tar_dir}/${path}"
 
     # Backup existing files.
@@ -49,10 +47,8 @@ conf::link () {
       printf "\e[1m\e[32m Linking \e[0m${path}\n"
       ln -s "${src}" "${tar}"
     fi
-
-
   done < <(find . -type f)
 }
 
-conf::link "$@"
+main "$@"
 

@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
-CONF="${CONF_HOME:-${HOME}/conf}"
-
 # Inspect config files in the src dir and remove corresponding symlinks in
 # the target dir, no matter where the link points to.
-conf::unlink () {
+main () {
 
   if [ -z "$1" ] || [ -z "$2" ]; then
 	  echo "Source and target dirs not specified. Exiting."
@@ -14,13 +12,13 @@ conf::unlink () {
   src_dir="$1"
   tar_dir="$2"
 
-  cd "${CONF_HOME}/${src_dir}"
+  cd "${src_dir}"
 
   # Remove existing symlinks in target dir that point to files in src dir.
   while read -r path; do
     # Ignore the initial ./ appearing in the results of find output.
     local path="${path:2}"
-    local src="${CONF_HOME}/${src_dir}/${path}"
+    local src="${src_dir}/${path}"
     local tar="${tar_dir}/${path}"
 
     if [ -f "${tar}" ] && [ ! -L "${tar}" ]; then
@@ -35,5 +33,5 @@ conf::unlink () {
   done < <(find . -type f)
 }
 
-conf::unlink "$@"
+main "$@"
 
