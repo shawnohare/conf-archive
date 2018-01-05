@@ -3,7 +3,7 @@
 # settings that are not inherited are put in rc files so they can be re-read
 # by ever new interactive shell invocation.
 
-[ "${USER_ENV_SOURCED+x}" ] && . "${HOME}/.env"
+[ "${USER_ENV_SOURCED+x}" ] || . "${HOME}/.env"
 
 # OS specific settings can go here.
 case "$OSTYPE" in
