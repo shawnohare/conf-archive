@@ -3,23 +3,21 @@
 set -e
 
 
-CONF="${CONF:-${HOME}/conf}"
+# Link configuration files contained inside the configuration repository.
+main() {
 
-# Link configuration files stored inside a specified directory.
-link_config_dir() {
-
-  if [ -z "${1}" ]; then
-    >&2 echo "Error: No source or target dir passed."
-    return 1
+  if [ -z "$1" ] || [ -z "$2" ]; then
+	  echo "Source and target dirs not specified. Exiting."
+	  exit 1
   fi
 
-  local src_dir="${1}"
-  local tar_dir="${2}"
-  if [ -z "${tar_dir}" ]; then tar_dir="${HOME}"; fi
+  src_dir="$1"
+  tar_dir="$2"
 
-  echo "Linking ${src_dir}"
 
-  cd "${CONF}/${src_dir}"
+  printf "Linking ${src_dir} -> ${tar_dir}\n"
+
+  cd "${src_dir}"
 
   # Hard copy the dir tree to the target. This is done primarily so that
   # data files are not stored in the configuration repo.
@@ -31,41 +29,26 @@ link_config_dir() {
   while read -r path; do
     # Ignore the initial ./ appearing in the results of find output.
     local path="${path:2}"
-    local src="${CONF}/${src_dir}/${path}"
+    local src="${src_dir}/${path}"
     local tar="${tar_dir}/${path}"
 
+    # Backup existing files.
     if [ -f "${tar}" ] && [ ! -L "${tar}" ]; then
-      echo "WARNING: ${tar} exists and is not a symbolic link. Skipping."
-      exit 1
+      if [ ! -f "${tar}.bak" ]; then
+        printf "\e[1m\e[33m Copying \e[0m${tar}\n"
+        mv "${tar}" "${tar}.bak"
+      else
+        printf "\e[1m\e[31mWARNING: \e[0m Non link ${tar} and backup exists. Skipping.\n"
+        continue
+      fi
     fi
 
     if [ ! -L "${tar}" ]; then
-      echo "Linking ${src} to ${tar}"
+      printf "\e[1m\e[32m Linking \e[0m${path}\n"
       ln -s "${src}" "${tar}"
     fi
-
-
   done < <(find . -type f)
-
-  # stow -v -R --target="${tar}" --dir="${CONF}" "${src}"
-}
-
-# Link directories stored in the hardcoded Linkfile
-# Elements of the Linkfile are of the form <src> [tar]
-link_Linkfile() {
-  while read -r line; do
-    local args=($line)
-    link_config_dir "${args[@]}"
-  done < "${CONF}/Linkfile"
-}
-
-# Link config files.
-main () {
-  if [ -z "$1" ]; then
-    link_Linkfile
-  else
-    link_config_dir "$@"
-  fi
 }
 
 main "$@"
+

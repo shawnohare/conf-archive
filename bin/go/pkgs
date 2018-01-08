@@ -1,0 +1,9 @@
+#! /usr/bin/env bash
+pkgs=(
+  "github.com/gohugoio/hugo"
+  "github.com/elves/elvish"
+)
+
+for pkg in "${pkgs[@]}"; do
+  go get -v -u "${pkg}"
+done

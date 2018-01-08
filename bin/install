@@ -1,0 +1,37 @@
+#! /usr/bin/env sh
+
+CONF_HOME="${CONF_HOME:-${HOME}/conf}"
+
+readonly branch="${CONF_HOME_BRANCH:-master}"
+readonly repo="https://github.com/shawnohare/conf.git"
+
+if [ ! -d "${CONF_HOME}" ]; then
+  echo "Cloning ${repo}"
+  git clone -b "${branch} "--recursive "${repo}" "${CONF_HOME}"
+fi
+
+if [ ! -d "${CONF_HOME}" ]; then
+  >&2 echo "Error: Could not clone config repo."
+  exit 1
+fi
+
+cd "${CONF_HOME}"
+git checkout "${branch}"
+
+. "${CONF_HOME}/home/.profile"
+
+make install
+
+# Install toolchains and packages related to those toolchains.
+# NOTE: It's possible that a multi-user nix install might fail here.
+
+# for tool in python nix go rust zsh; do
+#   dir="${CONF_HOME}/bin/${tool}"
+#   for x in install setup pkgs; do
+#     cmd="${CONF_HOME}/bin/${tool}/${x}"
+#     [ -f "${cmd}" ] && bash -l "${cmd}"
+#   done
+# done
+
+# TODO: Check for platform, do platform specific install here.
+

@@ -1,51 +1,61 @@
 # Finding conf home won't work if another makefile is included.
+# NOTE: This Makefile is primarily for educational purposes. It seems
+# overly tedius to use it as a bootstrap mechanism.
+
 conf_home := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-conf_bin_home := $(conf_home)bin
+bin := $(conf_home)bin
 
-.PHONY: brew go nix python rust stack toolchains
+.PHONY: dirs link unlink brew go nix python rust stack toolchains install
 
-# Assumes we have run ./configure, which sources env and profile.
-# Link files, install toolchains / package managers.
-init: link toolchains
-	$(info installializing: Link config files and install toolchains.)
+init: link
 
 link:
-	$(conf_bin_home)/link
+	$(bin)/link $(conf_home)home "${HOME}"
 
-install:
-	$(info Installing packages used by the system)
-	$(conf_bin_home)/setup/zsh
+unlink:
+	$(bin)/unlink $(conf_home)home "${HOME}"
 
-# Installs language toolchains, package managers, etc.
-toolchains: brew go nix python rust stack
+dirs:
+	mkdir -p "${USER_BIN_HOME}"
+	mkdir -p "${USER_CONFIG_HOME}"
+	mkdir -p "${USER_CACHE_HOME}"
+	mkdir -p "${USER_DATA_HOME}"
+	mkdir -p "${USER_OPT_HOME}"
+	mkdir -p "${USER_SRC_HOME}"
+	mkdir -p "${USER_TMP_HOME}"
+	mkdir -p "${USER_VAR_HOME}"
+
+pkgs:
+	$(bin)/pkgs
 
 brew:
-	$(info Installing brew package manager.)
-	$(conf_bin_home)/install/brew
-
+	$(bin)/brew/install
+	bash -l brew bundle $(HOME)/etc/brew/Brewfile
 
 python:
-	$(info Installing python toolchain.)
-	$(conf_bin_home)/install/python
+	bash -l $(bin)/python/install
 
 rust:
-	$(info Installing rust toolchain via rustup.)
-	test -d "${USER_LOCAL_HOME}/cargo" || (curl https://sh.rustup.rs -sSf | bash -s -- --no-modify-path)
+	bash -l $(bin)/rust/install
+	bash -l $(bin)/rust/pkgs
 
 go:
-	$(info Installing go toolchain.)
-	$(conf_bin_home)/install/go
+	bash -l $(bin)/go/install
+	bash -l $(bin)/go/pkgs
 
 nix:
-	$(info Installing nix package manager.)
-	test -d /nix || curl "https://nixos.org/nix/install" | sh
+	bash -l $(bin)/nix/install
+	bash -l $(bin)/nix/pkgs
 
 # NOTE: the .ONESHELL feature is in 3.82, but macOS High Sierra has 3.81
-# Hence the escaped lines
 .ONESHELL:
 stack :
 	$(info Installing the Haskell build tool stack.)
 	test -e "/usr/local/bin/stack" || curl -sSL "https://get.haskellstack.org/"
 	/usr/local/bin/stack setup
 
-# packages:
+
+# NOTE: brew not installed by the script.
+toolchains: pkgs python go rust stack
+
+install: link dirs pkgs

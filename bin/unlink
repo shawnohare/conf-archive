@@ -1,25 +1,24 @@
 #!/usr/bin/env bash
 
-CONF="${CONF:-${HOME}/conf}"
-
 # Inspect config files in the src dir and remove corresponding symlinks in
 # the target dir, no matter where the link points to.
-unlink_config_dir() {
-  if [ -z "${1}" ] || [ -z "${2}" ]; then
-    >&2 echo "Error: No source or target dir passed."
-    return 1
+main () {
+
+  if [ -z "$1" ] || [ -z "$2" ]; then
+	  echo "Source and target dirs not specified. Exiting."
+	  exit 1
   fi
 
-  local src_dir="${1}"
-  local tar_dir="${2}"
+  src_dir="$1"
+  tar_dir="$2"
 
-  cd "${CONF}/${src_dir}"
+  cd "${src_dir}"
 
   # Remove existing symlinks in target dir that point to files in src dir.
   while read -r path; do
     # Ignore the initial ./ appearing in the results of find output.
     local path="${path:2}"
-    local src="${CONF}/${src_dir}/${path}"
+    local src="${src_dir}/${path}"
     local tar="${tar_dir}/${path}"
 
     if [ -f "${tar}" ] && [ ! -L "${tar}" ]; then
@@ -27,20 +26,12 @@ unlink_config_dir() {
     # The commented out line will remove the link only if it points to src.
     # elif [ -L "${tar}" ] && [ $(readlink "${tar}") = "${src}" ]; then
     elif [ -L "${tar}" ]; then
-       echo "not actually Removing ${tar}".
-       # rm "${tar}"
+       printf "\e[1m\e[32m Unlinking \e[0m${tar}\n"
+       rm "${tar}"
     fi
 
   done < <(find . -type f)
 }
 
-# Link config files.
-main () {
-  src=$1
-  tar=$2
-  [ -z "$tar" ] || tar="${HOME}"
-  unlink_config_dir "${src}" "${tar}"
-}
-
-
 main "$@"
+

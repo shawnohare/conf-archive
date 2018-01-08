@@ -1,0 +1,40 @@
+#! /usr/bin/env bash
+
+set -e
+
+# Default location for pyenv.  This is overriden by ~/.profile.
+PYENV_ROOT="${PYENV_ROOT:-${HOME}/.pyenv}"
+
+# Install pyenv to $PYENV_ROOT
+if [ ! -e "${PYENV_ROOT}/bin/pyenv" ]; then
+  echo "Installing pyenv."
+  curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
+fi
+
+echo "Updating pyenv."
+pyenv update
+
+versions=("3.6.4" "2.7.14")
+packages=(pip jedi pylint ipython yapf)
+
+for ver in "${versions[@]}"; do
+
+  # Install the appropriate python version if needed.
+  [ ! -e "${PYENV_ROOT}/versions/${ver}/bin/python" ] &&  pyenv install "${ver}"
+
+  for pkg in "${packages[@]}"; do
+    "${PYENV_ROOT}/versions/${ver}/bin/pip" install --upgrade "${pkg}"
+  done
+
+  # Create neovim virtualenvs.
+  venv="neovim${ver:0:1}"
+  if [ ! -e "${PYENV_ROOT}/versions/${venv}/bin/python" ]; then
+    pyenv virtualenv "${ver}" "${venv}"
+  fi
+
+  for pkg in pip neovim; do
+    "${PYENV_ROOT}/versions/${venv}/bin/pip" install --upgrade "${pkg}"
+  done
+
+
+done

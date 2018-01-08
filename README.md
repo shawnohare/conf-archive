@@ -2,49 +2,44 @@
 
 # Introduction
 
-These config files are organized to take advantage of the symlink farm manager
-system GNU `stow`.  Config files are generally organized topically, and the
-structure of each directory mirrors what it should look like when it the entire
-contents are symlinked into the appropriate target, usually `$HOME`.
+Simplicity, speed and portability take precedence over the elaborate and general-purpose.
 
-We prefer a BSD-like user home directory structure that also services
-applications utilizing the XDG conventions.
+The configuration files are organized to take advantage of a basic
+symlink farm manager similar to `stow`. For example, the tree structure of
+`src` is symlinked to `$HOME`, except that directories are actually created
+so that app data files do not unexpectedly appear in this repository.
 
-In order to maintain a measure of robustness to change, some steps that could
-be automated are specifically made manual. It is our experience that
-automatation maintenance costs increase hyper-linearly with volatility.
+Generally, the file organization is inspired by BSD and the XDG spec.
 
 
-# Installation
-
-Some manual initialization leads to less headaches.
-
-## Initialization
+# Manual Initialization
 
 Some basic system tools are necessary before running the config install script.
 These are: `curl`, `git`, `bzip`.  
 
-### macos
+## macOS
 
-All the tools above can be installed via:
+Note that macOS comes with a copy of `zsh` pre-installed, so all
+dependencies can be installed via
 
 ```bash
 xcode-select --install
 ```
 
-### Debian-based
+## Debian-based
 
 ```bash
 sudo apt-get update
 sudo apt-get -y upgrade
-sudo apt-get install -y curl git bzip
+sudo apt-get install -y curl git bzip zsh
 ```
 
-## Install script
+# Install script
 
 Next, the config install script must be run. 
 
 The preferred method is:
+
 ```bash
 git clone https://github.com/shawnohare/conf
 ~/conf/bin/install
@@ -72,10 +67,3 @@ curl https://raw.githubusercontent.com/shawnohare/conf/master/bin/install | bash
 
 1. Install `golang` via `sudo bin/init/golang`. 
 1. Install `rust` via `bin/init/rust` or `curl https://sh.rustup.rs -sSf | sh`
-
-
-# Profile 
-
-1. `~/.env` file exports common user environment variables.
-2. `~/.profile` sources the user env file above and sets the path.
-3. Shell specific startup scripts (e.g., `~/.zshenv`)should source `~/.profile`.

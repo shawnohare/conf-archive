@@ -1,0 +1,132 @@
+#! /usr/bin/env bash
+#
+# Install basic packages with the system package manager.
+# Requires bash>=4 in order to use associative arrays.
+# FIXME: This creates a bit of a bootstrap problem for macOS.
+
+set -e
+
+# Version using associative arrays. Requires bash >= 4
+v4() {
+  declare -a _pkgs=(
+    # openssl
+    # pipenv
+    # stack # haskell build tool
+    awscli
+    bash
+    curl
+    # fish
+    fzf
+    git
+    htop
+    jq
+    mosh
+    neovim
+    pandoc
+    ripgrep
+    # screen
+    shellcheck
+    # stow
+    tmux
+    wget
+    zsh
+  )
+
+  # An associative array of package names. Can be overriden if system manager
+  # uses a different name or requires custom options.
+  declare -A pkgs
+  for p in "${_pkgs[@]}"; do pkgs[$p]=$p; done
+
+  case $OSTYPE in
+    freebsd*)
+      install="sudo pkg install -y"
+      tag="freebsd"
+      # FreeBSD appears to install GCC. Is hs-ShellCheck a lib?
+      pkgs[shellcheck]="hs-ShellCheck"
+      pkgs[pandoc]="hs-pandoc"
+      # pkgs[neovim]="neovim --freebsd-opts"
+      ;;
+    darwin*)
+      install="brew install"
+      tag=macos
+      ;;
+    debian*)
+      install="sudo apt-get install -y"
+      tag=debian
+      ;;
+    **)
+      echo "Error: Unknown OS."
+      exit 1
+      ;;
+  esac
+
+  for pkg in "${pkgs[@]}"; do
+    printf "\e[1;32mInstalling ${pkg}\e[0m\n"
+    ${install} ${pkg}
+  done
+}
+
+
+# Install packages. Platform specific package names and options can be passed.
+# To skip pkg installation for a particular platform, add the <platform>:skip
+# tag to the config line.
+conf=(
+  # openssl
+  # pipenv
+  # stack # haskell build tool
+  awscli
+  # bash
+  # curl
+  # # fish
+  # fzf
+  # git
+  # htop
+  # jq
+  # # mosh
+  # neovim
+  # "pandoc freebsd:hs-pandoc"
+  # ripgrep
+  # # screen
+  # "shellcheck freebsd:hs-ShellCheck"
+  # # stow
+  # tmux
+  # wget
+  # zsh
+)
+
+case $OSTYPE in
+  freebsd*)
+    install="sudo pkg install -y"
+    tag="freebsd"
+    ;;
+  darwin*)
+    install="brew install"
+    tag="macos"
+    ;;
+  debian*)
+    install="sudo apt-get install -y"
+    tag="debian"
+    ;;
+  **)
+    echo "Error: Unknown OS."
+    exit 1
+    ;;
+esac
+
+for pkg in "${pkgs[@]}"; do
+  printf "\e[1;32mInstalling ${pkg}\e[0m\n"
+  ${install} ${pkg}
+done
+
+for line in "${conf[@]}"; do
+  # Split line on spaces, grep for the tag, get contents after tag
+  pkg=$(echo "${line}" | tr ' ' '\n' | tr '__' ' ' | grep "${tag}"| sed -e 's/.*:\(.*\).*/\1/')
+  [ "${pkg}" = skip ] && continue
+  if [ -z "${pkg}" ]; then pkg="${line}"; fi
+  printf "\e[1;32mInstalling ${pkg}\e[0m\n"
+  ${install} ${pkg}
+done
+
+
+
+
