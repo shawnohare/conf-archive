@@ -14,7 +14,7 @@
 # sourced if we are a login shell).  if [[ $SHLVL == 1 && ! -o LOGIN ]]; then
 # source ~/.zpath fi
 
-source "${HOME}/.profile"
+source "${HOME}/.env"
 export ZDOTDIR="${USER_CONFIG_HOME}/zsh"
 export ZPLUGIN_HOME="${USER_DATA_HOME}/zsh/plugins"
 export ZPLUG_HOME="${USER_DATA_HOME}/zsh/zplug"
