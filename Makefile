@@ -7,7 +7,13 @@ bin := $(conf_home)bin
 
 .PHONY: dirs link unlink brew go nix python rust stack toolchains install
 
-init: dirs link
+init: link
+
+link:
+	$(bin)/link $(conf_home)home "${HOME}"
+
+unlink:
+	$(bin)/unlink $(conf_home)home "${HOME}"
 
 dirs:
 	mkdir -p "${USER_BIN_HOME}"
@@ -19,18 +25,15 @@ dirs:
 	mkdir -p "${USER_TMP_HOME}"
 	mkdir -p "${USER_VAR_HOME}"
 
-link:
-	$(bin)/link home "${HOME}"
-
-unlink:
-	$(bin)/unlink home "${HOME}"
+pkgs:
+	$(bin)/pkgs
 
 brew:
 	$(bin)/brew/install
 	bash -l brew bundle $(HOME)/etc/brew/Brewfile
 
 python:
-	$(bin)/python/install
+	bash -l $(bin)/python/install
 
 rust:
 	bash -l $(bin)/rust/install
@@ -53,6 +56,6 @@ stack :
 
 
 # NOTE: brew not installed by the script.
-toolchains: python nix go rust stack
+toolchains: pkgs python go rust stack
 
-install: dirs link toolchains
+install: link dirs pkgs

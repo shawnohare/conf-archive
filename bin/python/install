@@ -14,8 +14,8 @@ fi
 echo "Updating pyenv."
 pyenv update
 
-versions=("3.6.3" "2.7.14")
-packages=(pip jedi pylint ipython yapf PyYaml)
+versions=("3.6.4" "2.7.14")
+packages=(pip jedi pylint ipython yapf)
 
 for ver in "${versions[@]}"; do
 
@@ -38,5 +38,3 @@ for ver in "${versions[@]}"; do
 
 
 done
-
-pyenv global "${versions[@]}"
