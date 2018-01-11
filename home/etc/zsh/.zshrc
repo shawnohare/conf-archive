@@ -102,7 +102,7 @@ setopt bang_hist                 # !keyword
 
 
 # zsh-autosuggestions
-# export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=246
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=244
 bindkey '^L' autosuggest-accept
 # NOTE: Accepting an autosuggestion leads to weird highlighting.
 
