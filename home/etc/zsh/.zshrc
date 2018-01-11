@@ -147,7 +147,8 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^K' history-substring-search-up
 bindkey '^J' history-substring-search-down
 bindkey '^[[B' history-substring-search-down
-HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=magenta,fg=255,bold'
+# HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=magenta,fg=255,bold'
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=red,bold'
 
 # options
 setopt autocd

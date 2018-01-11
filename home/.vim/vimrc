@@ -8,7 +8,7 @@
 " Initialization
 "==========================================================================
 let g:is_bash = 1
-set shell=zsh
+" set shell=zsh
 let mapleader = "\<Space>"
 
 " Define plugin dir locations
@@ -44,7 +44,9 @@ Plug 'majutsushi/tagbar'  " display tags in a window
 " Plug 'rakr/vim-two-firewatch'
 " Plug 'chriskempson/base16-vim'
 " Plug 'sonph/onehalf', { 'rtp': 'vim/' }
+Plug 'challenger-deep-theme/vim'
 Plug 'rafi/awesome-vim-colorschemes'
+" Plug 'lifepillar/vim-solarized8'
 
 " Completion
 Plug 'Shougo/neosnippet'
@@ -100,6 +102,7 @@ Plug 'mindriot101/vim-yapf' " python autoformatter
 Plug 'JuliaLang/julia-vim'
 " Plug 'ensime/ensime-vim' " had issues getting ensime to work
 Plug 'rust-lang/rust.vim',   { 'for': 'rust' }
+Plug 'sheerun/vim-polyglot'
 
 " Neovim specific plugins
 " FIXME: find a better way to separate neovim/vim plugins.  Ideally we do not
@@ -186,6 +189,11 @@ smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 " --------------------------------------------------------------------------
+" polyglot
+" --------------------------------------------------------------------------
+let g:polyglot_disabled = ['latex']
+
+" --------------------------------------------------------------------------
 " tagbar
 " --------------------------------------------------------------------------
 
@@ -247,7 +255,6 @@ let g:go_highlight_build_constraints = 1
 let g:go_snippet_engine              = "neosnippet"
 let g:go_auto_type_info              = 1
 let g:go_fmt_command                 = "goimports"
-" play nice with syntastic.
 " let g:go_fmt_fail_silently           = 1
 " play nice with neosnippet
 " let g:go_disable_autoinstall = 1
@@ -354,43 +361,35 @@ set linebreak                " don't break words at wrap; disabled by list
 set visualbell         " flash screen instead of audio bell for alert
 " set visualbell t_vb=         " turn off visualbell effect
 " set title                    " update terminal window title
-set guifont=SF\ Mono
+" set guifont=SFMono
 set shortmess+=A       " don't show warning for existing swapfiles
 
 "For Neovim > 0.1.5 and Vim > patch 7.4.1799
-if (has("termguicolors"))
+if (has("termguicolors") && $COLORTERM == "truecolor")
   set termguicolors
 endif
 
 " --------------------------------------------------------------------------
 " Colorscheme
 " --------------------------------------------------------------------------
-" TODO: Clean up some of the unused colorschemes.
 
 set background=dark
-
-" base16
-" colorscheme base16-solar-flare " brighter solarized, highlight looks bad
-" colorscheme base16-materia " background a bit bright
-" colorscheme slate " nice default
-" colorscheme base16-solarized-dark
-" colorscheme base16-spacemacs
-" colorscheme base16-onedark
-" colorscheme onedark
 
 " One
 " NOTE: (2017-06-05) Alacritty renders italics with a gray background.
 " let g:one_allow_italics = 1
+" colorscheme challenger_deep
+" Make solarized8 colorscheme have appropriate colors. h: xterm-true-color
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" colorscheme deep-space
 colorscheme one
+" colorscheme challenger_deep
+let g:solarized_extra_hi_groups=1
 
-" let g:onedark_terminal_italics=0
-" colorscheme onedark
-
-" NOTE Fri, 29 Jan 2016 16:13:41 -0800
-" Setting background to dark conflicts with the Atom onedark theme.
 " Switch between light and dark backgrounds.
-map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
-
+" map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
+nmap<leader>light :let &background = ( &background == "dark"? "light" : "dark")<CR>
 " When running without plugins use the desert colorscheme
 " colorscheme desert " a nice dark built-in colorscheme
 
@@ -399,7 +398,7 @@ map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 " --------------------------------------------------------------------------
 " hi clear SpellBad " if set, onedark would not highlight spelling errors
 hi SpellBad cterm=underline,bold ctermfg=red
-hi Comment cterm=italic
+" hi Comment cterm=italic
 
 " --------------------------------------------------------------------------
 " Editing
@@ -470,7 +469,6 @@ set statusline+=%p%%\ %l:%c " % through file : line num: column num
 set statusline+=%#warningmsg#
 set statusline+=%*
 
-" hi StatusLine guifg=white guibg=black ctermfg=white ctermbg=black
 " hi StatusLine guifg=white guibg=none ctermbg=none ctermfg=white 
 
 " let g:lightline = {

@@ -36,7 +36,7 @@
         htop
         jq
         mosh
-        neovim
+        # neovim
         nix-zsh-completions
         # nox
         pandoc

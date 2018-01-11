@@ -6,7 +6,8 @@
 
 set -e
 
-# Version using associative arrays. Requires bash >= 4
+# Version using associative arrays. Requires bash >= 4, which macos
+# does not ship with as of 2018-01-08.
 v4() {
   declare -a _pkgs=(
     # openssl
