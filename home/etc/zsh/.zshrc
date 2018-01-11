@@ -23,7 +23,7 @@ source "${ZDOTDIR}/plugins.zsh"
 
 
 # NOTE: iterm shell integration messes with the prompt and causes
-# emacs tramp mode to hang indefinitely.
+#uto emacs tramp mode to hang indefinitely.
 if [[ $TERM == "dumb" ]]; then
   unsetopt zle
   unsetopt prompt_cr
@@ -102,7 +102,7 @@ setopt bang_hist                 # !keyword
 
 
 # zsh-autosuggestions
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=244
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=244
 bindkey '^L' autosuggest-accept
 # NOTE: Accepting an autosuggestion leads to weird highlighting.
 
@@ -112,7 +112,7 @@ ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=white,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=yellow,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=green,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=magenta,bold'
-ZSH_HIGHLIGHT_STYLES[cursor]='bg=black'
+# ZSH_HIGHLIGHT_STYLES[cursor]='bg=black'
 ZSH_HIGHLIGHT_STYLES[default]=none
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
 ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=magenta,bold'
@@ -148,7 +148,7 @@ bindkey '^K' history-substring-search-up
 bindkey '^J' history-substring-search-down
 bindkey '^[[B' history-substring-search-down
 # HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=magenta,fg=255,bold'
-HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=red,bold'
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=yellow,fg=black'
 
 # options
 setopt autocd

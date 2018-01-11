@@ -277,10 +277,8 @@ nmap <Leader>tag :TagbarToggle<CR>
 " SETTINGS
 " =========================================================================
 
-" --------------------------------------------------------------------------
-" vim specific settings that nvim includes by default
-" --------------------------------------------------------------------------
 if has('vim')
+  " vim settings that nvim toggles on by deafult.
   set autoindent
   set autoread           " reread files that have been changed while open
   set backspace   = indent,eol,start " backspace over line breaks, insertion, start
@@ -364,16 +362,26 @@ set visualbell         " flash screen instead of audio bell for alert
 " set guifont=SFMono
 set shortmess+=A       " don't show warning for existing swapfiles
 
-"For Neovim > 0.1.5 and Vim > patch 7.4.1799
-if (has("termguicolors") && $COLORTERM == "truecolor")
-  set termguicolors
-endif
 
 " --------------------------------------------------------------------------
 " Colorscheme
 " --------------------------------------------------------------------------
 
 set background=dark
+
+" Full 24bit color support is still a bit dodgy as of 2018-01-11.
+" Issues ocurr when attemping to use this configuration in old environments
+" such as AWS EMR clusters that have versions of tmux or vim that do not
+" support truecolor. Moreover, TMUX does not set the COLORTERM variable
+"For Neovim > 0.1.5 and Vim > patch 7.4.1799
+" tmux does not set COLORTERM
+" if (has("termguicolors") && $COLORTERM == "truecolor")
+if (has("termguicolors"))
+  set termguicolors
+  colorscheme one
+else
+  colorscheme apprentice
+endif
 
 " One
 " NOTE: (2017-06-05) Alacritty renders italics with a gray background.
@@ -383,7 +391,6 @@ set background=dark
 " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 " colorscheme deep-space
-colorscheme one
 " colorscheme challenger_deep
 let g:solarized_extra_hi_groups=1
 
