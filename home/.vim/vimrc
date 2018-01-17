@@ -40,13 +40,17 @@ Plug 'majutsushi/tagbar'  " display tags in a window
 
 " Colorscheme
 " Plug 'joshdick/onedark.vim'
-" Plug 'rakr/vim-one'
+Plug 'rakr/vim-one'
 " Plug 'rakr/vim-two-firewatch'
 " Plug 'chriskempson/base16-vim'
 " Plug 'sonph/onehalf', { 'rtp': 'vim/' }
-Plug 'challenger-deep-theme/vim'
+" Plug 'challenger-deep-theme/vim'
 Plug 'rafi/awesome-vim-colorschemes'
-" Plug 'lifepillar/vim-solarized8'
+Plug 'lifepillar/vim-solarized8'
+Plug 'robertmeta/nofrils'
+Plug 'igungor/schellar'
+Plug 'plan9-for-vimspace/acme-colors'
+Plug  'romainl/Apprentice'
 
 " Completion
 Plug 'Shougo/neosnippet'
@@ -375,13 +379,16 @@ set background=dark
 " support truecolor. Moreover, TMUX does not set the COLORTERM variable
 "For Neovim > 0.1.5 and Vim > patch 7.4.1799
 " tmux does not set COLORTERM
-" if (has("termguicolors") && $COLORTERM == "truecolor")
-if (has("termguicolors"))
+if (has("termguicolors")) && ($COLORTERM == "truecolor" || &term =~ "screen")
   set termguicolors
-  colorscheme one
+  " colorscheme solarized8
 else
-  colorscheme apprentice
+  let g:solarized_use16 = 1
+  " colorscheme solarized8
 endif
+
+" NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
+colorscheme solarized8
 
 " One
 " NOTE: (2017-06-05) Alacritty renders italics with a gray background.
@@ -393,6 +400,7 @@ endif
 " colorscheme deep-space
 " colorscheme challenger_deep
 let g:solarized_extra_hi_groups=1
+" let g:nofrils_heavylinenumbers=1
 
 " Switch between light and dark backgrounds.
 " map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
