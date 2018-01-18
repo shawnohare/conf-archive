@@ -175,13 +175,16 @@ precmd() {
 
 # The %{...%} delimiters tells zsh the text has zero width. Since v 4.3 it's
 # probably better to use the %F{color}...%f syntax.
-user="%F{green}%B%n%b%f"
-machine="%B%m%b"
+# user="%F{yellow}%B%n%b%f"
+# machine="%B%m%b"
+user="%B%n%b"
+machine="%m"
 dir="%F{blue}%3~%f"
 date="%F{cyan}%D{%Y-%m-%dT%T}%f"
 indicator=">"
 PROMPT='${user}@${machine} ${dir} ${vcs_info_msg_0_}
-%(?.%F{green}.%F{red}%? )${indicator}%f '
+%(?.%F{green}.%F{red})${indicator}%f '
+# %(?.%F{green}.%F{red}%? )${indicator}%f ' the %? yields output of last cmd
 
 
 # Simplified prompt

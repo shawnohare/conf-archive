@@ -484,6 +484,7 @@ set statusline+=%p%%\ %l:%c " % through file : line num: column num
 set statusline+=%#warningmsg#
 set statusline+=%*
 
+hi StatusLine gui=None cterm=None term=None
 " hi StatusLine guifg=white guibg=none ctermbg=none ctermfg=white 
 
 " let g:lightline = {
