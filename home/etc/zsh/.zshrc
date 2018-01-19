@@ -1,15 +1,14 @@
 # .zshrc is sourced by interactive shells.
 
 # Set shell independent settings.
-source ~/.profile > /dev/null 2>&1
+source "${HOME}/.profile" > /dev/null 2>&1
 
 # plugins
 # Load plugins.
 # We have some basic custom logic for managing plugins. Basic profiling
 # suggests its only about 100-200ms faster loading than zplug.
 # If using our custom logic:
-source "${HOME}/.profile"
-fpath=(${ZPLUGIN_HOME}/zsh-users/zsh-completions $fpath)
+fpath=(${ZSHPLUGIN_HOME}/zsh-users/zsh-completions $fpath)
 autoload -U compinit && compinit
 source "${ZDOTDIR}/plugins.zsh"
 
@@ -164,7 +163,8 @@ setopt PROMPT_SUBST
 
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:git:*' formats "%%F{magenta}%b%f%u%c"
+# zstyle ':vcs_info:git:*' formats "(%%F{white}%b%f%u%c)"
+zstyle ':vcs_info:git:*' formats "(%b%u%c)"
 zstyle ':vcs_info:git:*' stagedstr '%F{yellow}+%f'
 zstyle ':vcs_info:git:*' unstagedstr '%F{red}✴%f'
 precmd() {
@@ -181,9 +181,9 @@ user="%B%n%b"
 machine="%m"
 dir="%F{blue}%3~%f"
 date="%F{cyan}%D{%Y-%m-%dT%T}%f"
-indicator=">"
+indicator="❯"
 PROMPT='${user}@${machine} ${dir} ${vcs_info_msg_0_}
-%(?.%F{green}.%F{red})${indicator}%f '
+%(?.%F{blue}.%F{red})${indicator}%f '
 # %(?.%F{green}.%F{red}%? )${indicator}%f ' the %? yields output of last cmd
 
 
