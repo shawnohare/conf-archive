@@ -7,7 +7,7 @@ bin := $(conf_home)bin
 
 .PHONY: dirs link unlink brew go nix python rust stack toolchains install
 
-init: link
+init: dirs link
 
 link:
 	$(bin)/link $(conf_home)home "${HOME}"
@@ -16,6 +16,10 @@ unlink:
 	$(bin)/unlink $(conf_home)home "${HOME}"
 
 dirs:
+	sudo mkdir -p /usr/local/opt
+	sudo mkdir -p /usr/local/share
+	sudo mkdir -p /usr/local/bin
+	sudo chmod 775 /usr/local/opt
 	mkdir -p "${USER_BIN_HOME}"
 	mkdir -p "${USER_CONFIG_HOME}"
 	mkdir -p "${USER_CACHE_HOME}"

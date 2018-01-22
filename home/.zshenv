@@ -16,7 +16,7 @@
 
 source "${HOME}/.env"
 export ZDOTDIR="${USER_CONFIG_HOME}/zsh"
-export ZSHPLUGIN_HOME="${USER_DATA_HOME}/zsh/plugins"
-export ZPLUG_HOME="${USER_DATA_HOME}/zsh/zplug"
+export ZSHPLUGIN_HOME="${USER_OPT_HOME}/zsh/plugins"
+export ZPLUG_HOME="${USER_OPT_HOME}/zsh/zplug"
 export Z_DATA="${USER_DATA_HOME}/z"
 # export ZSH_AUTOSUGGEST_USE_ASYNC=1

@@ -1,5 +1,4 @@
-"
-"=========================================================================
+" =========================================================================
 " .vimrc
 " Settings for VIM
 "==========================================================================
@@ -41,16 +40,19 @@ Plug 'majutsushi/tagbar'  " display tags in a window
 " Colorscheme
 " Plug 'joshdick/onedark.vim'
 Plug 'rakr/vim-one'
-" Plug 'rakr/vim-two-firewatch'
-" Plug 'chriskempson/base16-vim'
+Plug 'rakr/vim-two-firewatch'
+Plug 'chriskempson/base16-vim'
 " Plug 'sonph/onehalf', { 'rtp': 'vim/' }
-" Plug 'challenger-deep-theme/vim'
-Plug 'rafi/awesome-vim-colorschemes'
+Plug 'challenger-deep-theme/vim'
+" Plug 'rafi/awesome-vim-colorschemes'
+Plug 'KeitaNakamura/neodark.vim'
+Plug 'tyrannicaltoucan/vim-deep-space'
 Plug 'lifepillar/vim-solarized8'
 Plug 'robertmeta/nofrils'
 Plug 'igungor/schellar'
 Plug 'plan9-for-vimspace/acme-colors'
 Plug  'romainl/Apprentice'
+Plug 'trevordmiller/nova-vim'
 
 " Completion
 Plug 'Shougo/neosnippet'
@@ -371,6 +373,7 @@ set shortmess+=A       " don't show warning for existing swapfiles
 " Colorscheme
 " --------------------------------------------------------------------------
 
+
 set background=dark
 
 " Full 24bit color support is still a bit dodgy as of 2018-01-11.
@@ -389,6 +392,9 @@ endif
 
 " NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
 colorscheme solarized8
+" Set solarized8 specific highlight overrides.
+hi StatusLine gui=None cterm=None term=None
+hi Visual gui=None guibg=#003541 guifg=#93a1a1
 
 " One
 " NOTE: (2017-06-05) Alacritty renders italics with a gray background.
@@ -397,16 +403,12 @@ colorscheme solarized8
 " Make solarized8 colorscheme have appropriate colors. h: xterm-true-color
 " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-" colorscheme deep-space
-" colorscheme challenger_deep
 let g:solarized_extra_hi_groups=1
 " let g:nofrils_heavylinenumbers=1
 
 " Switch between light and dark backgrounds.
 " map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
-nmap<leader>light :let &background = ( &background == "dark"? "light" : "dark")<CR>
-" When running without plugins use the desert colorscheme
-" colorscheme desert " a nice dark built-in colorscheme
+nmap<leader>bgs :let &background = ( &background == "dark"? "light" : "dark")<CR>
 
 " --------------------------------------------------------------------------
 " Highlighting
@@ -484,8 +486,6 @@ set statusline+=%p%%\ %l:%c " % through file : line num: column num
 set statusline+=%#warningmsg#
 set statusline+=%*
 
-hi StatusLine gui=None cterm=None term=None
-" hi StatusLine guifg=white guibg=none ctermbg=none ctermfg=white 
 
 " let g:lightline = {
 "     \ 'colorscheme': 'neodark',

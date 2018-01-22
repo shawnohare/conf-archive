@@ -44,15 +44,15 @@ autoload -U zmv
 # Completion (derived from http://dustri.org/b/my-zsh-configuration.html)
 # Some of these might be taken care of by oh-my-zsh/lib/completion
 zmodload -i zsh/complist
-setopt hash_list_all            # hash everything before completion
-setopt completealiases          # complete alisases
-setopt always_to_end            # when completing from the middle of a word, move the cursor to the end of the word
-setopt complete_in_word         # allow completion from within a word/phrase
-setopt correct                  # spelling correction for commands
-setopt list_ambiguous           # complete as much of a completion until it gets ambiguous.
+setopt hash_list_all
+setopt completealiases
+setopt always_to_end
+setopt complete_in_word
+setopt correct
+setopt list_ambiguous
 
 zstyle ':completion::complete:*' use-cache on               # completion caching, use rehash to clear
-zstyle ':completion:*' cache-path "${ZDOTDIR}/.cache"              # cache path
+zstyle ':completion:*' cache-path "${USER_CACHE_DIR}/zsh"   # cache path
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'   # ignore case
 zstyle ':completion:*' menu select=2                        # menu if nb items > 2
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}       # colorz !
@@ -95,7 +95,7 @@ setopt hist_ignore_all_dups      # no duplicate
 unsetopt hist_ignore_space       # ignore space prefixed commands
 setopt hist_reduce_blanks        # trim blanks
 setopt hist_verify               # show before executing history commands
-setopt inc_append_history        # add commands as they are typed, 
+setopt inc_append_history        # add commands as they are typed,
 setopt share_history             # share hist between sessions
 setopt bang_hist                 # !keyword
 
@@ -147,13 +147,15 @@ bindkey '^K' history-substring-search-up
 bindkey '^J' history-substring-search-down
 bindkey '^[[B' history-substring-search-down
 # HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=magenta,fg=255,bold'
-HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=yellow,fg=black'
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=yellow,fg=black,bold'
+# HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=magenta,bold'
 
 # options
 setopt autocd
 setopt extendedglob
 setopt nomatch
 setopt notify
+
 
 # prompt
 autoload -Uz vcs_info
@@ -163,8 +165,8 @@ setopt PROMPT_SUBST
 
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
-# zstyle ':vcs_info:git:*' formats "(%%F{white}%b%f%u%c)"
-zstyle ':vcs_info:git:*' formats "(%b%u%c)"
+zstyle ':vcs_info:git:*' formats "(%%F{green}%b%f%u%c)"
+# zstyle ':vcs_info:git:*' formats "(%b%u%c)"
 zstyle ':vcs_info:git:*' stagedstr '%F{yellow}+%f'
 zstyle ':vcs_info:git:*' unstagedstr '%F{red}✴%f'
 precmd() {
