@@ -7,7 +7,7 @@
 function zplug() {
   local plugin="${ZSHPLUGIN_HOME}/$1/$2"
   if [[ ! -e "${plugin}" ]]; then
-    sudo git clone --recursive "https://$1" "${ZSHPLUGIN_HOME}/$1"
+      git clone --recursive "https://$1" "${ZSHPLUGIN_HOME}/$1"
   fi
   source "${plugin}"
 }
