@@ -394,7 +394,7 @@ endif
 colorscheme solarized8
 " Set solarized8 specific highlight overrides.
 hi StatusLine gui=None cterm=None term=None
-hi Visual gui=None guibg=#003541 guifg=#93a1a1
+hi Visual cterm=None ctermbg=black ctermfg=gray gui=None guibg=#003541 guifg=#93a1a1
 
 " One
 " NOTE: (2017-06-05) Alacritty renders italics with a gray background.
