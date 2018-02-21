@@ -376,21 +376,28 @@ set shortmess+=A       " don't show warning for existing swapfiles
 
 set background=dark
 
+" FIXME: Delete this check for termguicolors as most versions of tmux and
+" we use in practice support true color.
 " Full 24bit color support is still a bit dodgy as of 2018-01-11.
 " Issues ocurr when attemping to use this configuration in old environments
 " such as AWS EMR clusters that have versions of tmux or vim that do not
 " support truecolor. Moreover, TMUX does not set the COLORTERM variable
 "For Neovim > 0.1.5 and Vim > patch 7.4.1799
 " tmux does not set COLORTERM
+"  NOTE: This might not work. It's only an issue when working in very old
+"  environments like AWS EMR clusters, but we probably don't need to edit
+"  too much there.
 if (has("termguicolors")) && ($COLORTERM == "truecolor" || &term =~ "screen")
-  set termguicolors
+  " set termguicolors
   " colorscheme solarized8
 else
-  let g:solarized_use16 = 1
+  " let g:solarized_use16 = 1
   " colorscheme solarized8
 endif
 
 " NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
+" colorscheme solarized8
+set termguicolors
 colorscheme solarized8
 " Set solarized8 specific highlight overrides.
 hi StatusLine gui=None cterm=None term=None
