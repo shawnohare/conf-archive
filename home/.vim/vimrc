@@ -39,20 +39,23 @@ Plug 'majutsushi/tagbar'  " display tags in a window
 
 " Colorscheme
 " Plug 'joshdick/onedark.vim'
+" Plug 'rafi/awesome-vim-colorschemes'
+" Plug 'sonph/onehalf', { 'rtp': 'vim/' }
+Plug 'romainl/Apprentice'
+Plug 'KeitaNakamura/neodark.vim'
+Plug 'challenger-deep-theme/vim'
+Plug 'chriskempson/base16-vim'
+Plug 'icymind/NeoSolarized'
+Plug 'igungor/schellar'
+Plug 'jacoborus/tender'
+Plug 'lifepillar/vim-solarized8'
+Plug 'morhetz/gruvbox'
+Plug 'plan9-for-vimspace/acme-colors'
 Plug 'rakr/vim-one'
 Plug 'rakr/vim-two-firewatch'
-Plug 'chriskempson/base16-vim'
-" Plug 'sonph/onehalf', { 'rtp': 'vim/' }
-Plug 'challenger-deep-theme/vim'
-" Plug 'rafi/awesome-vim-colorschemes'
-Plug 'KeitaNakamura/neodark.vim'
-Plug 'tyrannicaltoucan/vim-deep-space'
-Plug 'lifepillar/vim-solarized8'
 Plug 'robertmeta/nofrils'
-Plug 'igungor/schellar'
-Plug 'plan9-for-vimspace/acme-colors'
-Plug  'romainl/Apprentice'
 Plug 'trevordmiller/nova-vim'
+Plug 'tyrannicaltoucan/vim-deep-space'
 
 " Completion
 Plug 'Shougo/neosnippet'
@@ -73,6 +76,7 @@ Plug 'jiangmiao/auto-pairs'    " Automatic closing of parentheses etc.
 Plug 'junegunn/vim-easy-align' " Easy alignment of text blocks
 Plug 'tpope/vim-commentary'    " Easy toggling of comment markers
 Plug 'tpope/vim-repeat'        " Make vim-surround and vim-commentary repeatable
+Plug 'kshenoy/vim-signature'   " Make marks and navigate between.
 
 " Source Code Management Tools
 Plug 'tpope/vim-fugitive'      " git integration for VIM
@@ -83,6 +87,7 @@ Plug 'sbdchd/neoformat'        " unified autofmt
 
 " Syntax Highlighting
 Plug 'ntpeters/vim-better-whitespace'
+
 " Filetype Specific
 " One disadvantage of selective loading is that help files are unavailable
 " when working on a different file-type.  This is an minor annoyance when
@@ -114,10 +119,7 @@ Plug 'sheerun/vim-polyglot'
 " FIXME: find a better way to separate neovim/vim plugins.  Ideally we do not
 " maintain separate files, either.
 if has('nvim')
-  function! DoRemote(arg)
-    UpdateRemotePlugins
-  endfunction
-  Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   " Plug 'Shougo/echodoc.vim' " Displaying preview-like info
   Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '$USER_DATA_HOME/nvim/plugged/gocode/nvim/symlink.sh' }
   Plug 'zchee/deoplete-go', { 'do': 'make' }
@@ -396,8 +398,8 @@ else
 endif
 
 " NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
-" colorscheme solarized8
 set termguicolors
+" colorscheme gruvbox
 colorscheme solarized8
 " Set solarized8 specific highlight overrides.
 hi StatusLine gui=None cterm=None term=None
