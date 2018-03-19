@@ -39,20 +39,23 @@ Plug 'majutsushi/tagbar'  " display tags in a window
 
 " Colorscheme
 " Plug 'joshdick/onedark.vim'
+" Plug 'rafi/awesome-vim-colorschemes'
+" Plug 'sonph/onehalf', { 'rtp': 'vim/' }
+Plug 'romainl/Apprentice'
+Plug 'KeitaNakamura/neodark.vim'
+Plug 'challenger-deep-theme/vim'
+Plug 'chriskempson/base16-vim'
+Plug 'icymind/NeoSolarized'
+Plug 'igungor/schellar'
+Plug 'jacoborus/tender'
+Plug 'lifepillar/vim-solarized8'
+Plug 'morhetz/gruvbox'
+Plug 'plan9-for-vimspace/acme-colors'
 Plug 'rakr/vim-one'
 Plug 'rakr/vim-two-firewatch'
-Plug 'chriskempson/base16-vim'
-" Plug 'sonph/onehalf', { 'rtp': 'vim/' }
-Plug 'challenger-deep-theme/vim'
-" Plug 'rafi/awesome-vim-colorschemes'
-Plug 'KeitaNakamura/neodark.vim'
-Plug 'tyrannicaltoucan/vim-deep-space'
-Plug 'lifepillar/vim-solarized8'
 Plug 'robertmeta/nofrils'
-Plug 'igungor/schellar'
-Plug 'plan9-for-vimspace/acme-colors'
-Plug  'romainl/Apprentice'
 Plug 'trevordmiller/nova-vim'
+Plug 'tyrannicaltoucan/vim-deep-space'
 
 " Completion
 Plug 'Shougo/neosnippet'
@@ -73,6 +76,7 @@ Plug 'jiangmiao/auto-pairs'    " Automatic closing of parentheses etc.
 Plug 'junegunn/vim-easy-align' " Easy alignment of text blocks
 Plug 'tpope/vim-commentary'    " Easy toggling of comment markers
 Plug 'tpope/vim-repeat'        " Make vim-surround and vim-commentary repeatable
+Plug 'kshenoy/vim-signature'   " Make marks and navigate between.
 
 " Source Code Management Tools
 Plug 'tpope/vim-fugitive'      " git integration for VIM
@@ -83,6 +87,7 @@ Plug 'sbdchd/neoformat'        " unified autofmt
 
 " Syntax Highlighting
 Plug 'ntpeters/vim-better-whitespace'
+
 " Filetype Specific
 " One disadvantage of selective loading is that help files are unavailable
 " when working on a different file-type.  This is an minor annoyance when
@@ -114,10 +119,7 @@ Plug 'sheerun/vim-polyglot'
 " FIXME: find a better way to separate neovim/vim plugins.  Ideally we do not
 " maintain separate files, either.
 if has('nvim')
-  function! DoRemote(arg)
-    UpdateRemotePlugins
-  endfunction
-  Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   " Plug 'Shougo/echodoc.vim' " Displaying preview-like info
   Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '$USER_DATA_HOME/nvim/plugged/gocode/nvim/symlink.sh' }
   Plug 'zchee/deoplete-go', { 'do': 'make' }
@@ -376,25 +378,32 @@ set shortmess+=A       " don't show warning for existing swapfiles
 
 set background=dark
 
+" FIXME: Delete this check for termguicolors as most versions of tmux and
+" we use in practice support true color.
 " Full 24bit color support is still a bit dodgy as of 2018-01-11.
 " Issues ocurr when attemping to use this configuration in old environments
 " such as AWS EMR clusters that have versions of tmux or vim that do not
 " support truecolor. Moreover, TMUX does not set the COLORTERM variable
 "For Neovim > 0.1.5 and Vim > patch 7.4.1799
 " tmux does not set COLORTERM
+"  NOTE: This might not work. It's only an issue when working in very old
+"  environments like AWS EMR clusters, but we probably don't need to edit
+"  too much there.
 if (has("termguicolors")) && ($COLORTERM == "truecolor" || &term =~ "screen")
-  set termguicolors
+  " set termguicolors
   " colorscheme solarized8
 else
-  let g:solarized_use16 = 1
+  " let g:solarized_use16 = 1
   " colorscheme solarized8
 endif
 
 " NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
+set termguicolors
+" colorscheme gruvbox
 colorscheme solarized8
 " Set solarized8 specific highlight overrides.
 hi StatusLine gui=None cterm=None term=None
-hi Visual gui=None guibg=#003541 guifg=#93a1a1
+hi Visual cterm=None ctermbg=black ctermfg=gray gui=None guibg=#003541 guifg=#93a1a1
 
 " One
 " NOTE: (2017-06-05) Alacritty renders italics with a gray background.

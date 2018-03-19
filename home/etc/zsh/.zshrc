@@ -124,9 +124,9 @@ ZSH_HIGHLIGHT_STYLES[commandseparator]='bold'
 ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=blue'
 ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=yellow'
 ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=yellow'
-ZSH_HIGHLIGHT_STYLES[path]='fg=blue'
+ZSH_HIGHLIGHT_STYLES[path]='fg=blue,bold'
 ZSH_HIGHLIGHT_STYLES[path_pathseparator]='fg=blue,bold'
-ZSH_HIGHLIGHT_STYLES[path_prefix]='fg=61'
+ZSH_HIGHLIGHT_STYLES[path_prefix]='fg=61,bold'
 ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]='bold'
 ZSH_HIGHLIGHT_STYLES[path_approx]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[globbing]='fg=166'
@@ -148,7 +148,7 @@ bindkey '^J' history-substring-search-down
 bindkey '^[[B' history-substring-search-down
 # HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=magenta,fg=255,bold'
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=yellow,fg=black,bold'
-# HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=magenta,bold'
+# HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=yellow,bold'
 
 # options
 setopt autocd
