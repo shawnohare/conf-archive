@@ -63,12 +63,9 @@ source ~/.vim/vimrc
 let g:deoplete#enable_at_startup = 1
 
 " Manually trigger completion and auto insert
-let g:deoplete#disable_auto_complete = 1
-inoremap <silent><expr> <Tab>
-\ pumvisible() ? "\<C-n>" :
-\ deoplete#mappings#manual_complete()
-inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
-
-
-
+" let g:deoplete#disable_auto_complete = 1
+" inoremap <silent><expr> <Tab>
+" \ pumvisible() ? "\<C-n>" :
+" \ deoplete#mappings#manual_complete()
+" inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"

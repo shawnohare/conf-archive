@@ -69,6 +69,7 @@ values."
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
+     themes-megapack
      spell-checking
      sql
      syntax-checking
