@@ -57,9 +57,20 @@ Plug 'robertmeta/nofrils'
 Plug 'trevordmiller/nova-vim'
 Plug 'tyrannicaltoucan/vim-deep-space'
 
+" Language Server Protocol
+" As of 2018-03-21 vim-lsp is very immature.
+" Plug 'prabirshrestha/async.vim'
+" Plug 'prabirshrestha/vim-lsp'
+
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+
 " Completion
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
+" TODO: Turn back on if needed.
+" Plug 'Shougo/neosnippet'
+" Plug 'Shougo/neosnippet-snippets'
 
 " Search and replace
 Plug 'mileszs/ack.vim' " Can support ag or rg too.
@@ -82,8 +93,8 @@ Plug 'kshenoy/vim-signature'   " Make marks and navigate between.
 Plug 'tpope/vim-fugitive'      " git integration for VIM
 Plug 'airblade/vim-gitgutter'  " display git diffs in the gutter
 " Plug 'neomake/neomake'         " syntax checking + building
-Plug 'w0rp/ale'                " buffer syntax checking, conflicts with neomake
-Plug 'sbdchd/neoformat'        " unified autofmt
+" Plug 'w0rp/ale'                " buffer syntax checking, conflicts with neomake
+" Plug 'sbdchd/neoformat'        " unified autofmt
 
 " Syntax Highlighting
 Plug 'ntpeters/vim-better-whitespace'
@@ -121,16 +132,17 @@ Plug 'sheerun/vim-polyglot'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   " Plug 'Shougo/echodoc.vim' " Displaying preview-like info
-  Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '$USER_DATA_HOME/nvim/plugged/gocode/nvim/symlink.sh' }
-  Plug 'zchee/deoplete-go', { 'do': 'make' }
-  Plug 'zchee/deoplete-jedi'
-  Plug 'drinksober/nvim-yapf-formater' " 2016-08-10T13:08:28-0700 immature
+  " Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '$USER_DATA_HOME/nvim/plugged/gocode/nvim/symlink.sh' }
+  " Plug 'zchee/deoplete-go', { 'do': 'make' }
+  " Plug 'zchee/deoplete-jedi'
+  " Plug 'drinksober/nvim-yapf-formater' " 2016-08-10T13:08:28-0700 immature
 endif
 
 " Vim only filetype specific plugins
 if !has('nvim')
   " Plugins can go here.
 endif
+
 
 " Other
 " Plug 'Shougo/unite.vim'
@@ -171,6 +183,28 @@ nmap <leader>lj <Plug>(ale_next_wrap)
 nmap <leader>lk <Plug>(ale_previous_wrap)
 
 " --------------------------------------------------------------------------
+" lsp
+" --------------------------------------------------------------------------
+" if executable('pyls')
+"     " pip install python-language-server
+"     au User lsp_setup call lsp#register_server({
+"         \ 'name': 'pyls',
+"         \ 'cmd': {server_info->['pyls']},
+"         \ 'whitelist': ['python'],
+"         \ })
+" endif
+
+let g:LanguageClient_serverCommands = {
+    \ 'python': ['pyls'],
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ }
+
+nnoremap <silent> <Leader>sym :call LanguageClient_textDocument_documentSymbol()<CR>
+nnoremap <silent> <Leader>doc :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+
+" --------------------------------------------------------------------------
 " netrw (built-in)
 " --------------------------------------------------------------------------
 " let g:netrw_banner    = 0      " Do not display info on top
@@ -192,9 +226,9 @@ set autochdir
 " --------------------------------------------------------------------------
 "
 " Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
+" imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 " --------------------------------------------------------------------------
 " polyglot
@@ -329,7 +363,8 @@ set splitright  " and to the right of the current.  Default is opposite.
 "  The preview option for completeopt worked weird with neovim and deoplete.
 " See https://github.com/zchee/deoplete-go/issues/40
 set completeopt+=longest,menuone,noinsert
-set completeopt-=preview
+" set completeopt-=preview  " minus for deoplete
+set completeopt+=preview
 set wildmenu                             " command-line completion
 set wildmode=list:longest,full           " shell-style completion behavior
 " File types to ignore for command-line completion
