@@ -57,13 +57,10 @@ Plug 'robertmeta/nofrils'
 Plug 'trevordmiller/nova-vim'
 Plug 'tyrannicaltoucan/vim-deep-space'
 
-" Completion
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
-
 " Search and replace
-Plug 'mileszs/ack.vim' " Can support ag or rg too.
-Plug 'gabesoft/vim-ags'        " Fast find/replace across all files.
+Plug 'mileszs/ack.vim'  " Can support ag or rg too.
+Plug 'dyng/ctrlsf.vim'  " Allows in place editing like vim-ags
+Plug 'gabesoft/vim-ags' " Fast find/replace across all files.
 " The fzf binary is installed by nix.
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
@@ -115,6 +112,14 @@ Plug 'JuliaLang/julia-vim'
 Plug 'rust-lang/rust.vim',   { 'for': 'rust' }
 Plug 'sheerun/vim-polyglot'
 
+" Completion
+Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet-snippets'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+
 " Neovim specific plugins
 " FIXME: find a better way to separate neovim/vim plugins.  Ideally we do not
 " maintain separate files, either.
@@ -150,7 +155,7 @@ call plug#end()
 " ack
 " --------------------------------------------------------------------------
 if executable('rg')
-  let g:ackprg = 'rg --vimgrep --no-heading -uuu'
+  let g:ackprg = 'rg --vimgrep --no-heading -uu'
 endif
 
 " --------------------------------------------------------------------------
@@ -192,9 +197,10 @@ set autochdir
 " --------------------------------------------------------------------------
 "
 " Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
+" imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" xmap <C-k>     <Plug>(neosnippet_expand_target)
+
 
 " --------------------------------------------------------------------------
 " polyglot
