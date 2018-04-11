@@ -73,8 +73,9 @@ Plug 'autozimu/LanguageClient-neovim', {
 " Plug 'Shougo/neosnippet-snippets'
 
 " Search and replace
-Plug 'mileszs/ack.vim' " Can support ag or rg too.
-Plug 'gabesoft/vim-ags'        " Fast find/replace across all files.
+Plug 'mileszs/ack.vim'  " Can support ag or rg too.
+Plug 'dyng/ctrlsf.vim'  " Allows in place editing like vim-ags
+Plug 'gabesoft/vim-ags' " Fast find/replace across all files.
 " The fzf binary is installed by nix.
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
@@ -94,6 +95,7 @@ Plug 'tpope/vim-fugitive'      " git integration for VIM
 Plug 'airblade/vim-gitgutter'  " display git diffs in the gutter
 " Plug 'neomake/neomake'         " syntax checking + building
 " Plug 'w0rp/ale'                " buffer syntax checking, conflicts with neomake
+" Plug 'sbdchd/neoformat'        " unified autofmt
 " Plug 'sbdchd/neoformat'        " unified autofmt
 
 " Syntax Highlighting
@@ -125,6 +127,14 @@ Plug 'JuliaLang/julia-vim'
 " Plug 'ensime/ensime-vim' " had issues getting ensime to work
 Plug 'rust-lang/rust.vim',   { 'for': 'rust' }
 Plug 'sheerun/vim-polyglot'
+
+" Completion
+Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet-snippets'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
 " Neovim specific plugins
 " FIXME: find a better way to separate neovim/vim plugins.  Ideally we do not
@@ -162,7 +172,7 @@ call plug#end()
 " ack
 " --------------------------------------------------------------------------
 if executable('rg')
-  let g:ackprg = 'rg --vimgrep --no-heading -uuu'
+  let g:ackprg = 'rg --vimgrep --no-heading -uu'
 endif
 
 " --------------------------------------------------------------------------
@@ -185,6 +195,7 @@ nmap <leader>lk <Plug>(ale_previous_wrap)
 " --------------------------------------------------------------------------
 " lsp
 " --------------------------------------------------------------------------
+"  vim-lsp setup
 " if executable('pyls')
 "     " pip install python-language-server
 "     au User lsp_setup call lsp#register_server({
@@ -199,12 +210,12 @@ let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
     \ }
 
-nnoremap <silent> <Leader>sym :call LanguageClient_textDocument_documentSymbol()<CR>
-nnoremap <silent> <Leader>doc :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>
+nnoremap <silent> <Leader>lsd :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> <Leader>lsr :call LanguageClient_textDocument_rename()<CR>
 
-" --------------------------------------------------------------------------
 " netrw (built-in)
 " --------------------------------------------------------------------------
 " let g:netrw_banner    = 0      " Do not display info on top
@@ -491,7 +502,10 @@ set foldnestmax=8       " no more than 8 levels of folds
 set foldmethod=indent   " default folding method. syntax method is SLOW.
 " set foldcolumn=1        " gutter fold marks
 
-
+" --------------------------------------------------------------------------
+" Key mapping 
+" --------------------------------------------------------------------------
+inoremap <C-h> <BS>
 " --------------------------------------------------------------------------
 " Indentation
 " --------------------------------------------------------------------------
