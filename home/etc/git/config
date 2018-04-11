@@ -12,6 +12,6 @@
   path = ~/etc/git/config.local
 [user]
   name = Shawn O'Hare
-  email = shawn@ohare.io
+  email = shawn@shawnohare.com
 [credential]
   helper = cache --timeout 604800
