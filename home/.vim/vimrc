@@ -80,7 +80,11 @@ Plug 'tpope/vim-fugitive'      " git integration for VIM
 Plug 'airblade/vim-gitgutter'  " display git diffs in the gutter
 " Plug 'neomake/neomake'         " syntax checking + building
 Plug 'w0rp/ale'                " buffer syntax checking, conflicts with neomake
+<<<<<<< Updated upstream
 Plug 'sbdchd/neoformat'        " unified autofmt
+=======
+" Plug 'sbdchd/neoformat'        " unified autofmt
+>>>>>>> Stashed changes
 
 " Syntax Highlighting
 Plug 'ntpeters/vim-better-whitespace'
@@ -176,6 +180,33 @@ nmap <leader>lj <Plug>(ale_next_wrap)
 nmap <leader>lk <Plug>(ale_previous_wrap)
 
 " --------------------------------------------------------------------------
+<<<<<<< Updated upstream
+=======
+" lsp
+" --------------------------------------------------------------------------
+"  vim-lsp setup
+" if executable('pyls')
+"     " pip install python-language-server
+"     au User lsp_setup call lsp#register_server({
+"         \ 'name': 'pyls',
+"         \ 'cmd': {server_info->['pyls']},
+"         \ 'whitelist': ['python'],
+"         \ })
+" endif
+
+let g:LanguageClient_serverCommands = {
+    \ 'python': ['pyls'],
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ }
+
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>
+nnoremap <silent> <Leader>lsd :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> <Leader>lsr :call LanguageClient_textDocument_rename()<CR>
+
+" --------------------------------------------------------------------------
+>>>>>>> Stashed changes
 " netrw (built-in)
 " --------------------------------------------------------------------------
 " let g:netrw_banner    = 0      " Do not display info on top
@@ -462,7 +493,10 @@ set foldnestmax=8       " no more than 8 levels of folds
 set foldmethod=indent   " default folding method. syntax method is SLOW.
 " set foldcolumn=1        " gutter fold marks
 
-
+" --------------------------------------------------------------------------
+" Key mapping 
+" --------------------------------------------------------------------------
+inoremap <C-h> <BS>
 " --------------------------------------------------------------------------
 " Indentation
 " --------------------------------------------------------------------------
