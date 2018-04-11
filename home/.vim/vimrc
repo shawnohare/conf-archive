@@ -207,6 +207,7 @@ nmap <leader>lk <Plug>(ale_previous_wrap)
 " endif
 
 let g:LanguageClient_serverCommands = {
+    \ 'sh': ['bash-language-server', 'start'],
     \ 'python': ['pyls'],
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
     \ }

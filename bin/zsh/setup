@@ -23,5 +23,5 @@ sudo chsh -s "${zsh_path}" "$USER"
 #   sudo chsh -s "${zsh_path}" "${user}"
 # fi
 
-exit 
+exit
 

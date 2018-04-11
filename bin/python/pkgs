@@ -1,1 +1,22 @@
 #! /usr/bin/env bash
+set -e
+
+PYENV_ROOT="${PYENV_ROOT:-${HOME}/.pyenv}"
+readonly pkgs_global=(pip jedi pylint ipython yapf)
+readonly pkgs_2=(mech)
+readonly pkgs_3=()
+
+# Install packages ($2...) for the specified python venv ($1).
+install() {
+   "${PYENV_ROOT}/versions/$1/bin/pip" install --upgrade ${@:2}
+}
+
+main() {
+  for v in 2 3; do
+    pkgs="pkgs_${v}[@]"  # Array reference for version specific pkgs.
+    install "neovim${v}" pip neovim
+    install "user${v}" ${pkgs_global[@]} ${!pkgs}
+  done
+}
+
+main $@

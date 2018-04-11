@@ -1,40 +1,52 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 
 set -e
 
 # Default location for pyenv.  This is overriden by ~/.profile.
 PYENV_ROOT="${PYENV_ROOT:-${HOME}/.pyenv}"
+readonly root="$(dirname ${BASH_SOURCE[0]})" # rel dir to source
+readonly versions=("3.6.4" "2.7.14")  # Major python versions.
+readonly venvs=(neovim user)  # Venvs to install in each major version.
 
-# Install pyenv to $PYENV_ROOT
-if [ ! -e "${PYENV_ROOT}/bin/pyenv" ]; then
-  echo "Installing pyenv."
-  curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
-fi
-
-echo "Updating pyenv."
-pyenv update
-
-versions=("3.6.4" "2.7.14")
-packages=(pip jedi pylint ipython yapf)
-
-for ver in "${versions[@]}"; do
-
-  # Install the appropriate python version if needed.
-  [ ! -e "${PYENV_ROOT}/versions/${ver}/bin/python" ] &&  pyenv install "${ver}"
-
-  for pkg in "${packages[@]}"; do
-    "${PYENV_ROOT}/versions/${ver}/bin/pip" install --upgrade "${pkg}"
-  done
-
-  # Create neovim virtualenvs.
-  venv="neovim${ver:0:1}"
-  if [ ! -e "${PYENV_ROOT}/versions/${venv}/bin/python" ]; then
-    pyenv virtualenv "${ver}" "${venv}"
+install_pyenv() {
+  if [ ! -e "${PYENV_ROOT}/bin/pyenv" ]; then
+    echo "Installing pyenv."
+    curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
   fi
+  echo "Updating pyenv."
+  pyenv update
+}
 
-  for pkg in pip neovim; do
-    "${PYENV_ROOT}/versions/${venv}/bin/pip" install --upgrade "${pkg}"
+# Install a particular version of python.
+install_python() {
+  if [ ! -e "${PYENV_ROOT}/versions/$1/bin/python" ]; then
+    pyenv install $1
+  fi
+}
+
+# Create a python $1 virtualenv $2.
+install_venv(){
+  echo "Installing $1 $2"
+  install_python $1
+  if [ ! -e "${PYENV_ROOT}/versions/$1/envs/$2/bin/python" ]; then
+    # Remove the eponymous venv that might have a different minor version.
+    pyenv uninstall --force $2
+    pyenv virtualenv $1 $2
+  fi
+}
+
+
+main() {
+  install_pyenv
+  for ver in "${versions[@]}"; do
+    local major_ver="${ver:0:1}"
+    for venv in "${venvs[@]}"; do
+      install_venv "${ver}" "${venv}${major_ver}"
+    done
   done
 
+  bash "${root}/pkgs"
+  pyenv global user3 user2 system
+}
 
-done
+main $@
