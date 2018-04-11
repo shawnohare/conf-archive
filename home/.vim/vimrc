@@ -96,7 +96,6 @@ Plug 'airblade/vim-gitgutter'  " display git diffs in the gutter
 " Plug 'neomake/neomake'         " syntax checking + building
 " Plug 'w0rp/ale'                " buffer syntax checking, conflicts with neomake
 " Plug 'sbdchd/neoformat'        " unified autofmt
-" Plug 'sbdchd/neoformat'        " unified autofmt
 
 " Syntax Highlighting
 Plug 'ntpeters/vim-better-whitespace'
