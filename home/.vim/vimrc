@@ -31,6 +31,7 @@ if empty(glob(vimplug))
   autocmd VimEnter * PlugInstall
 endif
 
+
 call plug#begin(plugged)
 
 " Browsing
@@ -38,9 +39,10 @@ Plug 'tpope/vim-vinegar'  " enhanced netrw file browser
 Plug 'majutsushi/tagbar'  " display tags in a window
 
 " Colorscheme
-" Plug 'joshdick/onedark.vim'
+Plug 'joshdick/onedark.vim'
 " Plug 'rafi/awesome-vim-colorschemes'
-" Plug 'sonph/onehalf', { 'rtp': 'vim/' }
+Plug 'sonph/onehalf', { 'rtp': 'vim/' }
+Plug 'arcticicestudio/nord-vim'
 Plug 'romainl/Apprentice'
 Plug 'KeitaNakamura/neodark.vim'
 Plug 'challenger-deep-theme/vim'
@@ -425,7 +427,46 @@ set shortmess+=A       " don't show warning for existing swapfiles
 " --------------------------------------------------------------------------
 
 
+set termguicolors
 set background=dark
+
+" Attempt to get italics. Might be unncessary.
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+" ---
+let g:gruvbox_bold = 1
+let g:gruvbox_italic = 1
+let g:gruvbox_italicize_comments = 1
+" let g:gruvbox_italicize_strings = 1
+let g:gruvbox_undercurl = 1
+let g:gruvbox_underline = 1
+let g:gruvbox_invert_selection = 0
+" let g:gruvbox_contrast_dark = 'hard'
+
+" ---
+" let g:neosolarized_visibility = 'high'
+let g:neosolarized_bold = 1
+let g:neosolarized_italic = 1
+let g:neosolarized_underline = 1
+
+" ---
+" NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
+let g:nord_italic = 1
+let g:nord_italic_comments = 1
+let g:nord_comment_brightness = 5
+
+" ---
+" let g:solarized_extra_hi_groups=1
+" hi StatusLine gui=None cterm=None term=None
+" hi Visual cterm=None ctermbg=black ctermfg=gray gui=None guibg=#003541 guifg=#93a1a1
+
+" ---
+" NOTE: (2017-06-05) Alacritty renders italics with a gray background.
+let g:one_allow_italics = 1
+
+" ---
+let g:nofrils_heavylinenumbers=1
 
 " FIXME: Delete this check for termguicolors as most versions of tmux and
 " we use in practice support true color.
@@ -433,7 +474,7 @@ set background=dark
 " Issues ocurr when attemping to use this configuration in old environments
 " such as AWS EMR clusters that have versions of tmux or vim that do not
 " support truecolor. Moreover, TMUX does not set the COLORTERM variable
-"For Neovim > 0.1.5 and Vim > patch 7.4.1799
+" For Neovim > 0.1.5 and Vim > patch 7.4.1799
 " tmux does not set COLORTERM
 "  NOTE: This might not work. It's only an issue when working in very old
 "  environments like AWS EMR clusters, but we probably don't need to edit
@@ -446,33 +487,16 @@ else
   " colorscheme solarized8
 endif
 
-" NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
-set termguicolors
-" colorscheme gruvbox
+" Set actual colorscheme here:
 colorscheme solarized8
-" Set solarized8 specific highlight overrides.
-hi StatusLine gui=None cterm=None term=None
-hi Visual cterm=None ctermbg=black ctermfg=gray gui=None guibg=#003541 guifg=#93a1a1
-
-" One
-" NOTE: (2017-06-05) Alacritty renders italics with a gray background.
-" let g:one_allow_italics = 1
-" colorscheme challenger_deep
-" Make solarized8 colorscheme have appropriate colors. h: xterm-true-color
-" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-let g:solarized_extra_hi_groups=1
-" let g:nofrils_heavylinenumbers=1
 
 " Switch between light and dark backgrounds.
 " map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 nmap<leader>bgs :let &background = ( &background == "dark"? "light" : "dark")<CR>
 
-" --------------------------------------------------------------------------
-" Highlighting
-" --------------------------------------------------------------------------
+
 " hi clear SpellBad " if set, onedark would not highlight spelling errors
-hi SpellBad cterm=underline,bold ctermfg=red
+" hi SpellBad cterm=underline,bold ctermfg=red
 " hi Comment cterm=italic
 
 " --------------------------------------------------------------------------
@@ -506,7 +530,7 @@ set foldmethod=indent   " default folding method. syntax method is SLOW.
 " set foldcolumn=1        " gutter fold marks
 
 " --------------------------------------------------------------------------
-" Key mapping 
+" Key mapping
 " --------------------------------------------------------------------------
 inoremap <C-h> <BS>
 " --------------------------------------------------------------------------
