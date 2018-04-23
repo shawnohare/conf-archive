@@ -59,7 +59,6 @@ PATH="${PYENV_ROOT}/bin:${PATH}"
 if [ -e "${PYENV_ROOT}/bin/pyenv" ]; then
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
-  PATH="${PYENV_ROOT}/versions/local/bin:${PATH}"
 fi
 
 

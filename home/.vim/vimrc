@@ -9,7 +9,6 @@
 let g:is_bash = 1
 " set shell=zsh
 let mapleader = "\<Space>"
-
 " Define plugin dir locations
 if has('nvim')
   let vimplug = "$USER_DATA_HOME/nvim/site/autoload/plug.vim"
@@ -42,7 +41,7 @@ Plug 'majutsushi/tagbar'  " display tags in a window
 Plug 'joshdick/onedark.vim'
 " Plug 'rafi/awesome-vim-colorschemes'
 Plug 'sonph/onehalf', { 'rtp': 'vim/' }
-Plug 'arcticicestudio/nord-vim'
+Plug 'shawnohare/singularity', { 'rtp': 'vim/' }
 Plug 'romainl/Apprentice'
 Plug 'KeitaNakamura/neodark.vim'
 Plug 'challenger-deep-theme/vim'
@@ -417,7 +416,7 @@ set linebreak                " don't break words at wrap; disabled by list
 " set list                     " show whitespace
 set visualbell         " flash screen instead of audio bell for alert
 " set visualbell t_vb=         " turn off visualbell effect
-" set title                    " update terminal window title
+set title                    " update terminal window title
 " set guifont=SFMono
 set shortmess+=A       " don't show warning for existing swapfiles
 
@@ -487,8 +486,24 @@ else
   " colorscheme solarized8
 endif
 
-" Set actual colorscheme here:
-colorscheme solarized8
+" NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
+set termguicolors
+" colorscheme gruvbox
+colorscheme base16-singularity-dark
+
+" Set solarized8 specific highlight overrides.
+" hi StatusLine gui=None cterm=None term=None
+" hi Visual cterm=None ctermbg=black ctermfg=gray gui=None guibg=#003541 guifg=#93a1a1
+
+" One
+" NOTE: (2017-06-05) Alacritty renders italics with a gray background.
+" let g:one_allow_italics = 1
+" colorscheme challenger_deep
+" Make solarized8 colorscheme have appropriate colors. h: xterm-true-color
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+let g:solarized_extra_hi_groups=1
+" let g:nofrils_heavylinenumbers=1
 
 " Switch between light and dark backgrounds.
 " map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
@@ -537,8 +552,8 @@ inoremap <C-h> <BS>
 " Indentation
 " --------------------------------------------------------------------------
 set expandtab  " <Tab> converted to softtabstop # spaces
-set tabstop=2  " number of visual spaces per <Tab> character
 set softtabstop=2 " number of spaces <Tab> converted to
+set tabstop=2  " number of visual spaces per <Tab> character
 set shiftwidth=2 " <Tab> converts to this # spaces at beginning of line
 " set smartindent " dumbindent?
 " set cindent " also dumb?
@@ -555,7 +570,7 @@ set smartcase
 " --------------------------------------------------------------------------
 set laststatus=2        " Always display statusline.
 set statusline+=%n\ \|\  " Buffer number.
-set statusline+=%F\ \|\       "tail of the filename
+set statusline+=%f\ \|\  "tail of the filename if f or full path if F
 set statusline+=%{mode()}  " Current mode.
 " set statusline+=%{fugitive#statusline()}  " git branch
 set statusline+=%(\ %)%#ModeMsg#%{&paste?'\ PASTE\ ':''}%*  " paste mode
