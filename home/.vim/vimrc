@@ -40,6 +40,7 @@ Plug 'majutsushi/tagbar'  " display tags in a window
 " Colorscheme
 Plug 'joshdick/onedark.vim'
 " Plug 'rafi/awesome-vim-colorschemes'
+Plug 'Erichain/vim-monokai-pro'
 Plug 'sonph/onehalf', { 'rtp': 'vim/' }
 Plug 'shawnohare/singularity', { 'rtp': 'vim/' }
 Plug 'romainl/Apprentice'
@@ -63,10 +64,10 @@ Plug 'tyrannicaltoucan/vim-deep-space'
 " Plug 'prabirshrestha/async.vim'
 " Plug 'prabirshrestha/vim-lsp'
 
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
 
 " Completion
 " TODO: Turn back on if needed.
@@ -95,7 +96,7 @@ Plug 'kshenoy/vim-signature'   " Make marks and navigate between.
 Plug 'tpope/vim-fugitive'      " git integration for VIM
 Plug 'airblade/vim-gitgutter'  " display git diffs in the gutter
 " Plug 'neomake/neomake'         " syntax checking + building
-" Plug 'w0rp/ale'                " buffer syntax checking, conflicts with neomake
+Plug 'w0rp/ale'                " buffer syntax checking, conflicts with neomake
 " Plug 'sbdchd/neoformat'        " unified autofmt
 
 " Syntax Highlighting
@@ -177,13 +178,17 @@ endif
 
 " --------------------------------------------------------------------------
 " ale
+" 2018-04-23: ALE is adding support for LSPs, as is neovim (v0.3). It
+" is possible that ALE could be the be-all-end-all interface for these
+" language servers, but that is to be seen.
 " --------------------------------------------------------------------------
-" let g:ale_linters = {
-"       \ 'python': ['flake8']
-"       \ }
-let g:ale_sign_error = "✖" " ☓⚐
+let g:ale_linters = {
+      \ 'python': ['pyls']
+      \ }
+let g:ale_sign_error = "✖" " ☓, ⚐
 let g:ale_sign_warning = "⚠"
 let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
+let g:ale_completion_enabled = 1
 let g:ale_open_list = 1
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 0
@@ -191,9 +196,14 @@ let g:ale_lint_on_text_changed = 'never'
 nmap <leader>lint <Plug>(ale_lint)
 nmap <leader>lj <Plug>(ale_next_wrap)
 nmap <leader>lk <Plug>(ale_previous_wrap)
+" nnoremap <silent>gd <Plug>(ale_go_to_definition)
 
 " --------------------------------------------------------------------------
-" lsp
+" better-whitespace
+" --------------------------------------------------------------------------
+let b:better_whitespace_enabled=0
+" let g:strip_whitespace_on_save=1
+
 " --------------------------------------------------------------------------
 " lsp
 " --------------------------------------------------------------------------
