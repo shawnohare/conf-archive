@@ -116,10 +116,10 @@ ZSH_HIGHLIGHT_STYLES[default]=none
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
 ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=magenta,bold'
 ZSH_HIGHLIGHT_STYLES[alias]='fg=yellow'
-ZSH_HIGHLIGHT_STYLES[builtin]='fg=green,bold'
-ZSH_HIGHLIGHT_STYLES[command]='bold'
-ZSH_HIGHLIGHT_STYLES[function]='fg=magenta'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=magenta,bold'
+ZSH_HIGHLIGHT_STYLES[command]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[precommand]='fg=magenta,bold'
+ZSH_HIGHLIGHT_STYLES[function]='fg=blue'
 ZSH_HIGHLIGHT_STYLES[commandseparator]='bold'
 ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=blue'
 ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=yellow'
@@ -146,9 +146,7 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^K' history-substring-search-up
 bindkey '^J' history-substring-search-down
 bindkey '^[[B' history-substring-search-down
-# HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=magenta,fg=255,bold'
-HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=yellow,fg=black,bold'
-# HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=yellow,bold'
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=red,bold'
 
 # options
 setopt autocd
