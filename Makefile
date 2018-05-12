@@ -23,11 +23,9 @@ dirs:
 	mkdir -p "${USER_BIN_HOME}"
 	mkdir -p "${USER_CONFIG_HOME}"
 	mkdir -p "${USER_CACHE_HOME}"
-	mkdir -p "${USER_DATA_HOME}"
-	mkdir -p "${USER_OPT_HOME}"
-	mkdir -p "${USER_SRC_HOME}"
-	mkdir -p "${USER_TMP_HOME}"
-	mkdir -p "${USER_VAR_HOME}"
+	mkdir -p "${USER_SHARE_HOME}"
+	mkdir -p "${HOME}/opt"
+	mkdir -p "${HOME}/tmp"
 
 pkgs:
 	$(bin)/pkgs

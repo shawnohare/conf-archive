@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-readonly dir="${USER_OPT_HOME}/alacritty"
+readonly dir="/usr/local/opt/alacritty"
 
 if [ ! -d "${dir}" ]; then
   git clone https://github.com/jwilm/alacritty "${dir}"
@@ -11,7 +11,3 @@ if [ ! -d "${dir}" ]; then
       cp -r target/release/osx/Alacritty.app /Applications/Alacritty.app
   fi
 fi
-
-
-
-
