@@ -5,9 +5,9 @@
 # Install and load a plugin.
 # zplug(plugin_repo, relative_path_to_source)
 function zplug() {
-  local plugin="${ZSHPLUGIN_HOME}/$1/$2"
+  local plugin="${ZSH_PLUGIN_HOME}/$1/$2"
   if [[ ! -e "${plugin}" ]]; then
-      git clone --recursive "https://$1" "${ZSHPLUGIN_HOME}/$1"
+      git clone --recursive "https://$1" "${ZSH_PLUGIN_HOME}/$1"
   fi
   source "${plugin}"
 }
