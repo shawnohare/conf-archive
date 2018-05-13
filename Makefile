@@ -24,6 +24,7 @@ dirs:
 	mkdir -p "${USER_CONFIG_HOME}"
 	mkdir -p "${USER_CACHE_HOME}"
 	mkdir -p "${USER_SHARE_HOME}"
+	mkdir -p "${HOME}/bin"
 	mkdir -p "${HOME}/opt"
 	mkdir -p "${HOME}/tmp"
 
