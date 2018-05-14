@@ -1,4 +1,5 @@
-# `.zshenv' is sourced on all invocations of the shell, unless the -f option is
+#
+#`.zshenv' is sourced on all invocations of the shell, unless the -f option is
 # set. It should contain commands to set the command search path, plus other
 # important environment variables. `.zshenv' should not contain commands that
 # produce output or assume the shell is attached to a tty.
@@ -16,5 +17,5 @@
 
 source "${HOME}/.env"
 export ZDOTDIR="${USER_CONFIG_HOME}/zsh"
-export ZSH_PLUGIN_HOME="${ZDOTDIR}/plugins"
+export Z_DATA="${ZDOTDIR}/z"
 # export ZSH_AUTOSUGGEST_USE_ASYNC=1
