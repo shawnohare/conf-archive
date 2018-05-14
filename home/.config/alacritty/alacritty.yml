@@ -58,7 +58,7 @@ font:
     style: Italic
 
   # Point size of the font
-  size: 11.0
+  size: 12.0
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
@@ -85,8 +85,8 @@ render_timer: false
 # and cursor.background colors, otherwise invert the colors of the cursor.
 custom_cursor_colors: true
 
-# Base16 Singularity Dark - alacritty color config
-# Shawn O&#x27;Hare (http://github.com/shawnohare/singularity)
+# Modified Base16 Singularity Dark - alacritty color config
+# Shawn O'Hare (http://github.com/shawnohare/singularity)
 colors:
   # Default colors
   primary:
@@ -94,9 +94,12 @@ colors:
     foreground: '0x93a1a1'
 
   # Colors the cursor will use if `custom_cursor_colors` is true
+  # The foreground / background colors are swapped in vi-mode.
   cursor:
-    text: '0x002b36'
-    cursor: '0x93a1a1'
+    # foreground = text
+    # background = cursor
+    # text: '0xffffff'
+    # cursor: '0x98c379'
 
   # Normal colors
   normal:
@@ -119,6 +122,17 @@ colors:
     magenta: '0xeee8d5'
     cyan:    '0xbe5046'
     white:   '0x93a1a1'
+
+  # Bright colors (256 variant keeping ANSI intact)
+  # bright:
+  #   black:   '0x657b83'
+  #   red:     '0xe06c75'
+  #   green:   '0x98c379'
+  #   yellow:  '0xe5c07b'
+  #   blue:    '0x61afef'
+  #   magenta: '0xc678dd'
+  #   cyan:    '0x56b6c2'
+  #   white:   '0x93a1a1'
 
 # Colors (Solarized Dark)
 # colors:
@@ -275,7 +289,7 @@ mouse:
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
 
-hide_cursor_when_typing: false
+hide_cursor_when_typing: true
 
 # Style of the cursor
 #
@@ -283,7 +297,7 @@ hide_cursor_when_typing: false
 # - Block
 # - Underline
 # - Beam
-cursor_style: Block
+cursor_style: Beam
 
 # Live config reload (changes require restart)
 live_config_reload: true
