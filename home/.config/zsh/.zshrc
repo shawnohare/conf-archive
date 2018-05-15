@@ -1,11 +1,11 @@
 # .zshrc is sourced by interactive shells.
+# PATH is set in .zprofile, which is a proxy for ~/.profile.
 
 # Set shell independent settings.
-source "${HOME}/.profile" > /dev/null 2>&1
+source "${USER_CONFIG_HOME}/rc.sh" > /dev/null 2>&1
 fpath=(${ZDOTDIR}/plugins/zsh-users/zsh-completions $fpath)
 autoload -U compinit && compinit
 
-# plugins
 # Load plugins.
 # We have some basic custom logic for managing plugins. Basic profiling
 # suggests its only about 100-200ms faster loading than zplug.
@@ -30,16 +30,16 @@ zplug "github.com/zsh-users/zsh-history-substring-search" "zsh-history-substring
 
 
 # NOTE: iterm shell integration messes with the prompt and causes
-#uto emacs tramp mode to hang indefinitely.
-if [[ $TERM == "dumb" ]]; then
-  unsetopt zle
-  unsetopt prompt_cr
-  unsetopt prompt_subst
-  unfunction precmd
-  unfunction preexec
-  PS1='$ '
-  return
-fi
+# emacs tramp mode to hang indefinitely.
+# if [[ $TERM == "dumb" ]]; then
+#   unsetopt zle
+#   unsetopt prompt_cr
+#   unsetopt prompt_subst
+#   unfunction precmd
+#   unfunction preexec
+#   PS1='$ '
+#   return
+# fi
 
 bindkey -v
 
@@ -60,7 +60,7 @@ setopt correct
 setopt list_ambiguous
 
 zstyle ':completion::complete:*' use-cache on               # completion caching, use rehash to clear
-zstyle ':completion:*' cache-path "${USER_CACHE_DIR}/zsh"   # cache path
+zstyle ':completion:*' cache-path "$USER_CACHE_DIR/zsh"     # cache path
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'   # ignore case
 zstyle ':completion:*' menu select=2                        # menu if nb items > 2
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}       # colorz !
