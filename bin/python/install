@@ -4,8 +4,7 @@ set -e
 
 # Default location for pyenv.  This is overriden by ~/.profile.
 PYENV_ROOT="${PYENV_ROOT:-${HOME}/.pyenv}"
-readonly root="$(dirname ${BASH_SOURCE[0]})" # rel dir to source
-readonly versions=("3.6.4" "2.7.14")  # Major python versions.
+readonly versions=("3.6.5" "2.7.15")  
 readonly venvs=(neovim user)  # Venvs to install in each major version.
 
 install_pyenv() {
@@ -35,6 +34,17 @@ install_venv(){
   fi
 }
 
+install_packages() {
+  local reqs="${XDG_CONFIG_HOME}/python/packages"
+  echo "Install user packages specified in: ${reqs}"
+  for ver in 2 3; do
+    "${PYENV_ROOT}/versions/neovim${ver}/bin/pip" install -U pip neovim 
+    "${PYENV_ROOT}/versions/user${ver}/bin/pip" install \
+      -U -r "${reqs}/py${ver}" \
+      -U -r "${reqs}/all" 
+  done
+}
+
 
 main() {
   install_pyenv
@@ -45,7 +55,7 @@ main() {
     done
   done
 
-  bash "${root}/pkgs"
+  install_packages
   pyenv global user3 user2 system
 }
 

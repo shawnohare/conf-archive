@@ -2,7 +2,7 @@
 # PATH is set in .zprofile, which is a proxy for ~/.profile.
 
 # Set shell independent settings.
-source "${USER_CONFIG_HOME}/rc.sh" > /dev/null 2>&1
+source "${XDG_CONFIG_HOME}/sh/rc.sh" > /dev/null 2>&1
 fpath=(${ZDOTDIR}/plugins/zsh-users/zsh-completions $fpath)
 autoload -U compinit && compinit
 
@@ -60,7 +60,7 @@ setopt correct
 setopt list_ambiguous
 
 zstyle ':completion::complete:*' use-cache on               # completion caching, use rehash to clear
-zstyle ':completion:*' cache-path "$USER_CACHE_DIR/zsh"     # cache path
+zstyle ':completion:*' cache-path "$XDG_CACHE_DIR/zsh"     # cache path
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'   # ignore case
 zstyle ':completion:*' menu select=2                        # menu if nb items > 2
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}       # colorz !

@@ -1,9 +1,7 @@
 # Install the fisherman plugin manager.
-#
-
 # Seems to cause some keybindings to fail, namely reminding CTL-k to up?
-if not test -e $USER_CONFIG_HOME/fish/functions/fisher.fish
-  curl -Lo $USER_CONFIG_HOME/fish/functions/fisher.fish --create-dirs git.io/fisher
+if not test -e $XDG_CONFIG_HOME/fish/functions/fisher.fish
+  curl -Lo $XDG_CONFIG_HOME/fish/functions/fisher.fish --create-dirs git.io/fisher
 end
 
 fish_vi_key_bindings

@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-readonly dir="${USER_OPT_HOME}/alacritty"
+readonly dir="${HOME}/opt/alacritty"
 
 if [ ! -d "${dir}" ]; then
   git clone https://github.com/jwilm/alacritty "${dir}"

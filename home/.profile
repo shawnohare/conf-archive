@@ -12,35 +12,38 @@
 
 # Basic home configuration.
 export CONF_HOME="${HOME}/conf"
-export USER_CONFIG_HOME="${HOME}/.config"
-export USER_OPT_HOME="${HOME}/opt"
-export USER_SHARE_HOME="${HOME}/.local/share" # data, state, historiy, etc.
-export USER_DATA_HOME="${USER_SHARE_HOME}"
 
-# Many applications utilize the XDG config settings. Align with above.
+# - XDG_CONFIG_HOME application configuration and some state 
+# - XDG_DATA_HOME typically houses more static data files such as fonts.
+#   We store application data here for apps that typically dump everything into
+#   "~/.{app}", such as pyenv, go, etc. Another candidate location is ~/opt
+#   or ~/.local/opt
 export XDG_BIN_HOME="${HOME}/.local/bin"
-export XDG_CONFIG_HOME="${USER_CONFIG_HOME}"
-export XDG_CACHE_HOME="${HOME}/.cache"
-export XDG_DATA_HOME="${USER_SHARE_HOME}"
+export XDG_CACHE_HOME="${HOME}/.cache"  # application config and state
+export XDG_CONFIG_HOME="${HOME}/.config"  # application config and state
+export XDG_DATA_HOME="${HOME}/.local/share" 
 
 # Misc vars forcing apps to adhere to the dir structure above.
 # NOTE: Some apps, like ansible, appear to not respect AWS vars.
-# export AWS_CONFIG_FILE="${USER_CONFIG_HOME}/aws/config"
-# export AWS_SHARED_CREDENTIALS_FILE="${USER_CONFIG_HOME}/aws/credentials"
-export IPYTHONDIR="${USER_CONFIG_HOME}/ipython"
-export NIXPKGS_CONFIG="${USER_CONFIG_HOME}/nixpkgs/config.nix"
+# export AWS_CONFIG_FILE="${XDG_CONFIG_HOME}/aws/config"
+# export AWS_SHARED_CREDENTIALS_FILE="${XDG_CONFIG_HOME}/aws/credentials"
+export IPYTHONDIR="${XDG_CONFIG_HOME}/ipython"
+export NIXPKGS_CONFIG="${XDG_CONFIG_HOME}/nixpkgs/config.nix"
 export PYSPARK_DRIVER_PYTHON="ipython"
-export SCREENRC="${USER_CONFIG_HOME}/screen/screenrc"
-export SPACEMACSDIR="${USER_CONFIG_HOME}/spacemacs"
+export SCREENRC="${XDG_CONFIG_HOME}/screen/screenrc"
+export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
 
 # Optional packages that tend to utilize a single dir.
-# export PYTHONUSERBASE="${USER_OPT_HOME}"
-export CARGO_HOME="${USER_OPT_HOME}/cargo"
-export GOPATH="${USER_OPT_HOME}/go"
-export PYENV_ROOT="${USER_OPT_HOME}/pyenv"
-export RUSTUP_HOME="${USER_OPT_HOME}/rustup" # Might be superfluous.
+# export PYTHONUSERBASE="${XDG_OPT_HOME}"
+export CARGO_HOME="${XDG_DATA_HOME}/cargo"
+# Cargo install root (without trailing bin/)
+# export CARGO_INSTALL_ROOT="${XDG_BIN_HOME}"
+export GOPATH="${XDG_DATA_HOME}/go"
+export GOBIN="${XDG_BIN_HOME}"
+export PYENV_ROOT="${XDG_DATA_HOME}/pyenv"
+export RUSTUP_HOME="${XDG_DATA_HOME}/rustup" # Might be superfluous.
 # export SPARK_HOME="/opt/spark"
-export STACK_ROOT="${USER_OPT_HOME}/stack"
+export STACK_ROOT="${XDG_DATA_HOME}/stack"
 
 # export BASH="/usr/local/bin/bash"
 # Setting the BROWSER env var can break fish's help command.
@@ -69,7 +72,7 @@ export CLICOLOR=1
 # the terminfo termcap interface for color capabilities. Exporting
 # the following parameters provides for colored man-page display.
 export MANCOLOR=1
-export LESSHISTFILE="${USER_CONFIG_HOME}/less/history"
+export LESSHISTFILE="${XDG_CONFIG_HOME}/less/history"
 export LESS_TERMCAP_mb=$(printf "\033[01;31m")    # begins blinking = LIGHT_RED
 export LESS_TERMCAP_md=$(printf "\033[00;34m")     # begins bold = BLUE
 export LESS_TERMCAP_me=$(printf "\033[0m")        # ends mode = NO_COLOR
@@ -91,14 +94,10 @@ export LESS_TERMCAP_ue=$(printf "\033[0m")        # ends underline = NO_COLOR
 # Make sure usr/local/bin occurs before usr/bin.
 PATH="/usr/local/opt/bin:/usr/local/bin:/usr/local/sbin:$PATH"
 
-# golang
-PATH="${GOPATH}/bin:/usr/local/go/bin:${PATH}"
-
-# rust
 PATH="${CARGO_HOME}/bin:${PATH}"
 
-# Other
-PATH="${HOME}/bin:${HOME}/.local/bin:${PATH}"
+# Local bins
+PATH="${HOME}/bin:${XDG_BIN_HOME}:${PATH}"
 
 # Ruby
 # if command -v rbenv >/dev/null 2>&1; then

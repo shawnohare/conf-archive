@@ -6,7 +6,7 @@
 if [ -e /bin/zsh ]; then
   zsh_path="/bin/zsh"
 else
-  zsh_path = $(which zsh)
+  zsh_path=$(which zsh)
 fi
 
 sudo chsh -s "${zsh_path}" "$USER"
