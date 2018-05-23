@@ -20,12 +20,13 @@ dirs:
 	sudo mkdir -p /usr/local/share
 	sudo mkdir -p /usr/local/bin
 	sudo chmod 775 /usr/local/opt
-	mkdir -p "${USER_BIN_HOME}"
-	mkdir -p "${USER_CONFIG_HOME}"
-	mkdir -p "${USER_CACHE_HOME}"
-	mkdir -p "${USER_SHARE_HOME}"
+	mkdir -p "${XDG_BIN_HOME}"
+	mkdir -p "${XDG_CONFIG_HOME}"
+	mkdir -p "${XDG_CACHE_HOME}"
+	mkdir -p "${XDG_DATA_HOME}"
 	mkdir -p "${HOME}/bin"
 	mkdir -p "${HOME}/opt"
+	mkdir -p "${HOME}/src"
 	mkdir -p "${HOME}/tmp"
 
 pkgs:

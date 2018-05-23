@@ -5,6 +5,6 @@
 #   source "${HOME}/.iterm2_shell_integration.bash"
 # fi
 
-HISTFILE="${USER_CONFIG_HOME}/bash/history"
-source "${USER_CONFIG_HOME}/rc.sh" > /dev/null 2>&1
+HISTFILE="${XDG_CONFIG_HOME}/bash/history"
+source "${XDG_CONFIG_HOME}/sh/rc.sh" > /dev/null 2>&1
 

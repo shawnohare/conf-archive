@@ -9,8 +9,8 @@ case "${OSTYPE}" in
     alias ll="ls --color -Flsh"
     alias ls="ls --color -F"
     ;;
-  # darwin*) source "${USER_CONFIG_HOME}/macos";;
-  # *bsd*) source "${USER_CONFIG_HOME}/bsd";;
+  # darwin*) source "${XDG_CONFIG_HOME}/macos";;
+  # *bsd*) source "${XDG_CONFIG_HOME}/bsd";;
   (**)
     alias ls="ls -GF"
     alias la="ls -GFlash"
