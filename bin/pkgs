@@ -6,66 +6,66 @@
 
 set -e
 
-# Version using associative arrays. Requires bash >= 4, which macos
-# does not ship with as of 2018-01-08.
-v4() {
-  declare -a _pkgs=(
-    # openssl
-    # pipenv
-    # stack # haskell build tool
-    awscli
-    bash
-    curl
-    # fish
-    fzf
-    git
-    htop
-    jq
-    mosh
-    neovim
-    pandoc
-    ripgrep
-    # screen
-    shellcheck
-    # stow
-    tmux
-    wget
-    zsh
-  )
+# # Version using associative arrays. Requires bash >= 4, which macos
+# # does not ship with as of 2018-01-08.
+# v4() {
+#   declare -a _pkgs=(
+#     # openssl
+#     # pipenv
+#     # stack # haskell build tool
+#     awscli
+#     bash
+#     curl
+#     # fish
+#     fzf
+#     git
+#     htop
+#     jq
+#     mosh
+#     neovim
+#     pandoc
+#     ripgrep
+#     # screen
+#     shellcheck
+#     # stow
+#     tmux
+#     wget
+#     zsh
+#   )
 
-  # An associative array of package names. Can be overriden if system manager
-  # uses a different name or requires custom options.
-  declare -A pkgs
-  for p in "${_pkgs[@]}"; do pkgs[$p]=$p; done
+#   # An associative array of package names. Can be overriden if system manager
+#   # uses a different name or requires custom options.
+#   declare -A pkgs
+#   for p in "${_pkgs[@]}"; do pkgs[$p]=$p; done
 
-  case $OSTYPE in
-    freebsd*)
-      install="sudo pkg install -y"
-      tag="freebsd"
-      # FreeBSD appears to install GCC. Is hs-ShellCheck a lib?
-      pkgs[shellcheck]="hs-ShellCheck"
-      pkgs[pandoc]="hs-pandoc"
-      # pkgs[neovim]="neovim --freebsd-opts"
-      ;;
-    darwin*)
-      install="brew install"
-      tag=macos
-      ;;
-    debian*)
-      install="sudo apt-get install -y"
-      tag=debian
-      ;;
-    **)
-      echo "Error: Unknown OS."
-      exit 1
-      ;;
-  esac
+#   case $OSTYPE in
+#     freebsd*)
+#       install="sudo pkg install -y"
+#       tag="freebsd"
+#       # FreeBSD appears to install GCC. Is hs-ShellCheck a lib?
+#       pkgs[shellcheck]="hs-ShellCheck"
+#       pkgs[pandoc]="hs-pandoc"
+#       # pkgs[neovim]="neovim --freebsd-opts"
+#       ;;
+#     darwin*)
+#       install="brew install"
+#       tag=macos
+#       ;;
+#     debian*)
+#       install="sudo apt-get install -y"
+#       tag=debian
+#       ;;
+#     **)
+#       echo "Error: Unknown OS."
+#       exit 1
+#       ;;
+#   esac
 
-  for pkg in "${pkgs[@]}"; do
-    printf "\e[1;32mInstalling ${pkg}\e[0m\n"
-    ${install} ${pkg}
-  done
-}
+#   for pkg in "${pkgs[@]}"; do
+#     printf "\e[1;32mInstalling ${pkg}\e[0m\n"
+#     ${install} ${pkg}
+#   done
+# }
 
 
 # Install packages. Platform specific package names and options can be passed.
@@ -95,16 +95,17 @@ conf=(
   # zsh
 )
 
-case $OSTYPE in
-  freebsd*)
+os="$(uname -a)"
+case "${os}" in
+  *FreeBSD*)
     install="sudo pkg install -y"
     tag="freebsd"
     ;;
-  darwin*)
+  Darwin*)
     install="brew install"
     tag="macos"
     ;;
-  debian*)
+  *Debian*)
     install="sudo apt-get install -y"
     tag="debian"
     ;;
@@ -114,17 +115,13 @@ case $OSTYPE in
     ;;
 esac
 
-for pkg in "${pkgs[@]}"; do
-  printf "\e[1;32mInstalling ${pkg}\e[0m\n"
-  ${install} ${pkg}
-done
 
 for line in "${conf[@]}"; do
   # Split line on spaces, grep for the tag, get contents after tag
   pkg=$(echo "${line}" | tr ' ' '\n' | tr '__' ' ' | grep "${tag}"| sed -e 's/.*:\(.*\).*/\1/')
   [ "${pkg}" = skip ] && continue
   if [ -z "${pkg}" ]; then pkg="${line}"; fi
-  printf "\e[1;32mInstalling ${pkg}\e[0m\n"
+  printf "Installing ${pkg}\n"
   ${install} ${pkg}
 done
 

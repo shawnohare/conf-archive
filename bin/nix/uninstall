@@ -28,5 +28,5 @@ fi
 # Delete the files Nix added to your system:
 rm -rf $HOME/{.nix-channels,.nix-defexpr,.nix-profile,.config/nixpkgs}
 
-# rm -rf ${USER_CONFIG_HOME}/nixpkgs
+# rm -rf ${XDG_CONFIG_HOME}/nixpkgs
 sudo rm -rf /etc/nix /nix /var/root/.nix-profile /var/root/.nix-defexpr /var/root/.nix-channels

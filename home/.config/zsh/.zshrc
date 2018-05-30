@@ -1,37 +1,45 @@
 # .zshrc is sourced by interactive shells.
+# PATH is set in .zprofile, which is a proxy for ~/.profile.
 
 # Set shell independent settings.
-source "${HOME}/.profile" > /dev/null 2>&1
+source "${XDG_CONFIG_HOME}/sh/rc.sh" > /dev/null 2>&1
+fpath=(${ZDOTDIR}/plugins/zsh-users/zsh-completions $fpath)
+autoload -U compinit && compinit
 
-# plugins
 # Load plugins.
 # We have some basic custom logic for managing plugins. Basic profiling
 # suggests its only about 100-200ms faster loading than zplug.
-# If using our custom logic:
-fpath=(${ZSHPLUGIN_HOME}/zsh-users/zsh-completions $fpath)
-autoload -U compinit && compinit
-source "${ZDOTDIR}/plugins.zsh"
 
-# NOTE: zplug is more feature rich than our homebrew manager, but slower
-# if [[ ! -e "${ZPLUG_HOME}/init.zsh" ]]; then
-#   curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
-# fi
-# source "${ZPLUG_HOME}/init.zsh"
-# # zplug check --verbose || zplug install
-# zplug load
+# zplug(plugin_repo, relative_path_to_source)
+function zplug() {
+  local plugin="${ZDOTDIR}/plugins/$1/$2"
+  if [[ ! -e "${plugin}" ]]; then
+      git clone --recursive "https://$1" "${ZDOTDIR}/plugins/$1"
+  fi
+  source "${plugin}"
+}
+
+zplug "github.com/junegunn/fzf" "shell/completion.zsh"
+zplug "github.com/junegunn/fzf" "shell/key-bindings.zsh"
+zplug "github.com/rupa/z" "z.sh"
+zplug "github.com/zsh-users/zsh-completions" "zsh-completions.plugin.zsh"
+zplug "github.com/zsh-users/zsh-autosuggestions" "zsh-autosuggestions.zsh"
+zplug "github.com/hlissner/zsh-autopair" "autopair.zsh"
+zplug "github.com/zsh-users/zsh-syntax-highlighting" "zsh-syntax-highlighting.zsh"
+zplug "github.com/zsh-users/zsh-history-substring-search" "zsh-history-substring-search.zsh"
 
 
 # NOTE: iterm shell integration messes with the prompt and causes
-#uto emacs tramp mode to hang indefinitely.
-if [[ $TERM == "dumb" ]]; then
-  unsetopt zle
-  unsetopt prompt_cr
-  unsetopt prompt_subst
-  unfunction precmd
-  unfunction preexec
-  PS1='$ '
-  return
-fi
+# emacs tramp mode to hang indefinitely.
+# if [[ $TERM == "dumb" ]]; then
+#   unsetopt zle
+#   unsetopt prompt_cr
+#   unsetopt prompt_subst
+#   unfunction precmd
+#   unfunction preexec
+#   PS1='$ '
+#   return
+# fi
 
 bindkey -v
 
@@ -52,7 +60,7 @@ setopt correct
 setopt list_ambiguous
 
 zstyle ':completion::complete:*' use-cache on               # completion caching, use rehash to clear
-zstyle ':completion:*' cache-path "${USER_CACHE_DIR}/zsh"   # cache path
+zstyle ':completion:*' cache-path "${XDG_CACHE_DIR}/zsh"     # cache path
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'   # ignore case
 zstyle ':completion:*' menu select=2                        # menu if nb items > 2
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}       # colorz !
@@ -86,7 +94,7 @@ unalias run-help &> /dev/null
 # alias help=run-help
 
 # history
-HISTFILE="${USER_DATA_HOME}/zsh/history"
+HISTFILE="${ZDOTDIR}/history"
 HISTSIZE=2048                    # lines to maintain in memory
 SAVEHIST=100000                  # lines to maintain in history file
 setopt extended_history          # include timestamps
@@ -146,7 +154,12 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^K' history-substring-search-up
 bindkey '^J' history-substring-search-down
 bindkey '^[[B' history-substring-search-down
+
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=red,bold'
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=red,fg=black,bold'
+# HISTORY_SUBSTRING_SEARCH_GLOBBING_FLAGS='i'
+# HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=''
+# HISTORY_SUBSTRING_SEARCH_FUZZY=''
 
 # options
 setopt autocd

@@ -9,8 +9,7 @@
 templates:
   params:
    author-name: "Shawn O'Hare"
-   author-email: shawn@ohare.io
-#    copyright:
+   author-email: shawn@oshawnohare.com
    github-username: shawnohare
 
 local-bin-path: /usr/local/bin

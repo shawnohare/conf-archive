@@ -11,8 +11,8 @@ let g:is_bash = 1
 let mapleader = "\<Space>"
 " Define plugin dir locations
 if has('nvim')
-  let vimplug = "$USER_DATA_HOME/nvim/site/autoload/plug.vim"
-  let plugged = "$USER_DATA_HOME/nvim/plugged"
+  let vimplug = "$XDG_CONFIG_HOME/nvim/autoload/plug.vim"
+  let plugged = "$XDG_CONFIG_HOME/nvim/plugged"
 else
   let vimplug = "~/.vim/autoload/plug.vim"
   let plugged = "~/.vim/plugged"
@@ -143,14 +143,11 @@ Plug 'autozimu/LanguageClient-neovim', {
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   " Plug 'Shougo/echodoc.vim' " Displaying preview-like info
-  " Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '$USER_DATA_HOME/nvim/plugged/gocode/nvim/symlink.sh' }
+  " Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '$XDG_DATA_HOME/nvim/plugged/gocode/nvim/symlink.sh' }
   " Plug 'zchee/deoplete-go', { 'do': 'make' }
   " Plug 'zchee/deoplete-jedi'
   " Plug 'drinksober/nvim-yapf-formater' " 2016-08-10T13:08:28-0700 immature
-endif
-
-" Vim only filetype specific plugins
-if !has('nvim')
+else
   " Plugins can go here.
 endif
 

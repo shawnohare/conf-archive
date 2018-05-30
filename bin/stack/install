@@ -1,0 +1,4 @@
+#/usr/bin/env bash
+
+test -e "/usr/local/bin/stack" || curl -sSL "https://get.haskellstack.org/"
+/usr/local/bin/stack setup
