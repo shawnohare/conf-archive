@@ -10,9 +10,6 @@
 # Non-inheritted settings, like aliases our custom ~/.config/rc.sh and sourced
 # from the shell specific rc file (e.g., .bashrc, .zshrc)
 
-# Basic home configuration.
-export CONF_HOME="${HOME}/conf"
-
 # - XDG_CONFIG_HOME application configuration and some state 
 # - XDG_DATA_HOME typically houses more static data files such as fonts.
 #   We store application data here for apps that typically dump everything into
@@ -22,6 +19,7 @@ export XDG_BIN_HOME="${HOME}/.local/bin"
 export XDG_CACHE_HOME="${HOME}/.cache"  # application config and state
 export XDG_CONFIG_HOME="${HOME}/.config"  # application config and state
 export XDG_DATA_HOME="${HOME}/.local/share" 
+export XDG_OPT_HOME="${HOME}/.local/opt" 
 
 # Misc vars forcing apps to adhere to the dir structure above.
 # NOTE: Some apps, like ansible, appear to not respect AWS vars.
@@ -32,18 +30,19 @@ export NIXPKGS_CONFIG="${XDG_CONFIG_HOME}/nixpkgs/config.nix"
 export PYSPARK_DRIVER_PYTHON="ipython"
 export SCREENRC="${XDG_CONFIG_HOME}/screen/screenrc"
 export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
+export STASH_TARGET="${HOME}"
 
 # Optional packages that tend to utilize a single dir.
 # export PYTHONUSERBASE="${XDG_OPT_HOME}"
-export CARGO_HOME="${XDG_DATA_HOME}/cargo"
+export CARGO_HOME="${XDG_OPT_HOME}/cargo"
 # Cargo install root (without trailing bin/)
 # export CARGO_INSTALL_ROOT="${XDG_BIN_HOME}"
-export GOPATH="${XDG_DATA_HOME}/go"
-export GOBIN="${XDG_BIN_HOME}"
-export PYENV_ROOT="${XDG_DATA_HOME}/pyenv"
-export RUSTUP_HOME="${XDG_DATA_HOME}/rustup" # Might be superfluous.
+export GOPATH="${XDG_OPT_HOME}/go"
+# export GOBIN="${XDG_BIN_HOME}"
+export PYENV_ROOT="${XDG_OPT_HOME}/pyenv"
+export RUSTUP_HOME="${XDG_OPT_HOME}/rustup" # Might be superfluous.
 # export SPARK_HOME="/opt/spark"
-export STACK_ROOT="${XDG_DATA_HOME}/stack"
+export STACK_ROOT="${XDG_OPT_HOME}/stack"
 
 # export BASH="/usr/local/bin/bash"
 # Setting the BROWSER env var can break fish's help command.
@@ -88,17 +87,18 @@ export LESS_TERMCAP_ue=$(printf "\033[0m")        # ends underline = NO_COLOR
 
 
 # =========================================================================
-# path
+# PATH 
 # =========================================================================
 
 # Make sure usr/local/bin occurs before usr/bin.
 PATH="/usr/local/opt/bin:/usr/local/bin:/usr/local/sbin:$PATH"
-
-PATH="${CARGO_HOME}/bin:${PATH}"
-
-# Local bins
+PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
 PATH="${HOME}/bin:${XDG_BIN_HOME}:${PATH}"
+PATH="${PYENV_ROOT}/bin:${PATH}"
 
+# =========================================================================
+# lang tools 
+# =========================================================================
 # Ruby
 # if command -v rbenv >/dev/null 2>&1; then
 #   eval "$(rbenv init -)"
@@ -106,7 +106,6 @@ PATH="${HOME}/bin:${XDG_BIN_HOME}:${PATH}"
 
 # Python
 # pyenv init will use PYENV_ROOT or default to ~/.pyenv
-PATH="${PYENV_ROOT}/bin:${PATH}"
 if [ -e "${PYENV_ROOT}/bin/pyenv" ]; then
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"

@@ -6,7 +6,8 @@
 # WARNING: This script completely removes old installations of golang.
 # ---
 
-echo "Not installing golang. Use a package manager:\nsudo apt-get -t unstable install golang"
+echo "Not installing golang. Use a package manager:"
+echo "sudo apt-get -t unstable install golang"
 # readonly version="${VERSION:-1.9.2}"
 # readonly arch="${ARCH:-amd64}"
 # os="${OS:-$(uname -s)}"
@@ -23,3 +24,12 @@ echo "Not installing golang. Use a package manager:\nsudo apt-get -t unstable in
 # [[ -e "${path}" ]] || wget "https://storage.googleapis.com/golang/${src}" -O "${path}"
 # sudo rm -rf "/usr/local/go"
 # sudo tar -C "/usr/local" -xzf "${path}"
+
+# pkgs=(
+#   "github.com/gohugoio/hugo"
+#   "github.com/elves/elvish"
+# )
+
+# for pkg in "${pkgs[@]}"; do
+#   go get -v -u "${pkg}"
+# done

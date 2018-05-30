@@ -60,7 +60,7 @@ setopt correct
 setopt list_ambiguous
 
 zstyle ':completion::complete:*' use-cache on               # completion caching, use rehash to clear
-zstyle ':completion:*' cache-path "$XDG_CACHE_DIR/zsh"     # cache path
+zstyle ':completion:*' cache-path "${XDG_CACHE_DIR}/zsh"     # cache path
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'   # ignore case
 zstyle ':completion:*' menu select=2                        # menu if nb items > 2
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}       # colorz !

@@ -1,1 +1,0 @@
-stash -t "${HOME}" "${CONF_HOME}/home"

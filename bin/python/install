@@ -56,7 +56,7 @@ main() {
   done
 
   install_packages
-  pyenv global user3 user2 system
+  pyenv global user3 user2 
 }
 
 main $@
