@@ -35,13 +35,13 @@ install_venv(){
 }
 
 install_packages() {
-  local reqs="${XDG_CONFIG_HOME}/python/packages"
+  local reqs="${XDG_CONFIG_HOME}/python/requirements"  # prefix
   echo "Install user packages specified in: ${reqs}"
   for ver in 2 3; do
     "${PYENV_ROOT}/versions/neovim${ver}/bin/pip" install -U pip neovim 
     "${PYENV_ROOT}/versions/user${ver}/bin/pip" install \
-      -U -r "${reqs}/py${ver}" \
-      -U -r "${reqs}/all" 
+      -U -r "${reqs}_py${ver}" \
+      -U -r "${reqs}_all" 
   done
 }
 
@@ -56,7 +56,7 @@ main() {
   done
 
   install_packages
-  pyenv global user3 user2 
+  pyenv global "user3" "user2" "system"
 }
 
 main $@
