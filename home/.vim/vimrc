@@ -117,6 +117,7 @@ Plug 'lervag/vimtex',        { 'for': 'tex' }
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 Plug 'fatih/vim-go',         { 'for': 'go' }
 " Plug 'chrisbra/csv.vim',     { 'for': 'csv' }
+Plug 'mechatroner/rainbow_csv'
 Plug 'cespare/vim-toml',     { 'for': 'toml' }
 Plug 'mattn/emmet-vim',      { 'for': 'html' }
 Plug 'othree/html5.vim',     { 'for': 'html' }
