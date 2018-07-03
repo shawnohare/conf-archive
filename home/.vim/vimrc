@@ -38,24 +38,29 @@ Plug 'tpope/vim-vinegar'  " enhanced netrw file browser
 Plug 'majutsushi/tagbar'  " display tags in a window
 
 " Colorscheme
-Plug 'joshdick/onedark.vim'
+" Plug 'Erichain/vim-monokai-pro'
 " Plug 'rafi/awesome-vim-colorschemes'
-Plug 'Erichain/vim-monokai-pro'
-Plug 'sonph/onehalf', { 'rtp': 'vim/' }
-Plug 'shawnohare/singularity', { 'rtp': 'vim/' }
-Plug 'romainl/Apprentice'
+Plug 'arcticicestudio/nord-vim', { 'branch': 'develop' }
+Plug 'ayu-theme/ayu-vim'
 Plug 'KeitaNakamura/neodark.vim'
 Plug 'challenger-deep-theme/vim'
 Plug 'chriskempson/base16-vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'icymind/NeoSolarized'
 Plug 'igungor/schellar'
 Plug 'jacoborus/tender'
+Plug 'joshdick/onedark.vim'
 Plug 'lifepillar/vim-solarized8'
 Plug 'morhetz/gruvbox'
+Plug 'phanviet/vim-monokai-pro'
 Plug 'plan9-for-vimspace/acme-colors'
 Plug 'rakr/vim-one'
 Plug 'rakr/vim-two-firewatch'
 Plug 'robertmeta/nofrils'
+Plug 'romainl/Apprentice'
+Plug 'shawnohare/singularity', { 'rtp': 'vim/' }
+Plug 'sonph/onehalf', { 'rtp': 'vim/' }
 Plug 'trevordmiller/nova-vim'
 Plug 'tyrannicaltoucan/vim-deep-space'
 
@@ -64,10 +69,7 @@ Plug 'tyrannicaltoucan/vim-deep-space'
 " Plug 'prabirshrestha/async.vim'
 " Plug 'prabirshrestha/vim-lsp'
 
-" Plug 'autozimu/LanguageClient-neovim', {
-"     \ 'branch': 'next',
-"     \ 'do': 'bash install.sh',
-"     \ }
+Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 
 " Completion
 " TODO: Turn back on if needed.
@@ -180,7 +182,7 @@ endif
 " language servers, but that is to be seen.
 " --------------------------------------------------------------------------
 let g:ale_linters = {
-      \ 'python': ['pyls']
+      \ 'python': ['pylint','pyls']
       \ }
 let g:ale_sign_error = "✖" " ☓, ⚐
 let g:ale_sign_warning = "⚠"
@@ -439,8 +441,12 @@ set background=dark
 " Attempt to get italics. Might be unncessary.
 " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+"
+" - ayu
+let ayucolor='mirage'
 
-" ---
+
+" --- gruvbox
 let g:gruvbox_bold = 1
 let g:gruvbox_italic = 1
 let g:gruvbox_italicize_comments = 1
@@ -448,16 +454,20 @@ let g:gruvbox_italicize_comments = 1
 let g:gruvbox_undercurl = 1
 let g:gruvbox_underline = 1
 let g:gruvbox_invert_selection = 0
-" let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_contrast_dark = 'soft'
 
-" ---
+" - neosolarized
 " let g:neosolarized_visibility = 'high'
+let g:neosolarized_contrast = "normal"
 let g:neosolarized_bold = 1
 let g:neosolarized_italic = 1
 let g:neosolarized_underline = 1
+let g:neosolarized_visibility = "normal"
+let g:neosolarized_vertSplitBgTrans = 1
 
 " ---
 " NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
+" Has poor syntax support for python.
 let g:nord_italic = 1
 let g:nord_italic_comments = 1
 let g:nord_comment_brightness = 5
@@ -467,11 +477,11 @@ let g:nord_comment_brightness = 5
 " hi StatusLine gui=None cterm=None term=None
 " hi Visual cterm=None ctermbg=black ctermfg=gray gui=None guibg=#003541 guifg=#93a1a1
 
-" ---
+" - one
 " NOTE: (2017-06-05) Alacritty renders italics with a gray background.
 let g:one_allow_italics = 1
 
-" ---
+" - nofrills
 let g:nofrils_heavylinenumbers=1
 
 " FIXME: Delete this check for termguicolors as most versions of tmux and
@@ -495,8 +505,17 @@ endif
 
 " NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
 set termguicolors
-" colorscheme gruvbox
+" colorscheme NeoSolarized
+" colorscheme NeoSolarized 
+" colorscheme ayu
+" colorscheme dracula
 colorscheme base16-singularity-dark
+" colorscheme base16-solarized-dark
+" colorscheme gruvbox
+" colorscheme nord
+" colors one
+" colorscheme onedark
+" colorscheme palenight
 
 " Set solarized8 specific highlight overrides.
 " hi StatusLine gui=None cterm=None term=None
