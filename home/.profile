@@ -10,6 +10,7 @@
 # Non-inheritted settings, like aliases our custom ~/.config/rc.sh and sourced
 # from the shell specific rc file (e.g., .bashrc, .zshrc)
 
+# --- XDG ---
 # - XDG_CONFIG_HOME application configuration and some state 
 # - XDG_DATA_HOME typically houses more static data files such as fonts.
 #   We store application data here for apps that typically dump everything into
@@ -43,6 +44,10 @@ export PYENV_ROOT="${XDG_OPT_HOME}/pyenv"
 export RUSTUP_HOME="${XDG_OPT_HOME}/rustup" # Might be superfluous.
 # export SPARK_HOME="/opt/spark"
 export STACK_ROOT="${XDG_OPT_HOME}/stack"
+
+# -- Misc App Settings ---
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_AUTO_UPDATE=1
 
 # export BASH="/usr/local/bin/bash"
 # Setting the BROWSER env var can break fish's help command.
@@ -86,25 +91,20 @@ export LESS_TERMCAP_ue=$(printf "\033[0m")        # ends underline = NO_COLOR
 # export GREP_OPTIONS='--color=auto'
 
 
-# =========================================================================
-# PATH 
-# =========================================================================
-
+# --- PATH
+# Set this last to ensure values are not unintentionally overwritten.
 # Make sure usr/local/bin occurs before usr/bin.
 PATH="/usr/local/opt/bin:/usr/local/bin:/usr/local/sbin:$PATH"
 PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
 PATH="${HOME}/bin:${XDG_BIN_HOME}:${PATH}"
 PATH="${PYENV_ROOT}/bin:${PATH}"
 
-# =========================================================================
-# lang tools 
-# =========================================================================
-# Ruby
+# --- Ruby
 # if command -v rbenv >/dev/null 2>&1; then
 #   eval "$(rbenv init -)"
 # fi
 
-# Python
+# --- Python
 # pyenv init will use PYENV_ROOT or default to ~/.pyenv
 if [ -e "${PYENV_ROOT}/bin/pyenv" ]; then
   eval "$(pyenv init -)"
