@@ -64,17 +64,14 @@ Plug 'sonph/onehalf', { 'rtp': 'vim/' }
 Plug 'trevordmiller/nova-vim'
 Plug 'tyrannicaltoucan/vim-deep-space'
 
-" Language Server Protocol
+" Completion
 " As of 2018-03-21 vim-lsp is very immature.
 " Plug 'prabirshrestha/async.vim'
 " Plug 'prabirshrestha/vim-lsp'
-
-Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
-
-" Completion
 " TODO: Turn back on if needed.
 " Plug 'Shougo/neosnippet'
 " Plug 'Shougo/neosnippet-snippets'
+Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 
 " Search and replace
 Plug 'mileszs/ack.vim'  " Can support ag or rg too.
@@ -131,14 +128,6 @@ Plug 'JuliaLang/julia-vim'
 " Plug 'ensime/ensime-vim' " had issues getting ensime to work
 Plug 'rust-lang/rust.vim',   { 'for': 'rust' }
 Plug 'sheerun/vim-polyglot'
-
-" Completion
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
 
 " Neovim specific plugins
 " FIXME: find a better way to separate neovim/vim plugins.  Ideally we do not
