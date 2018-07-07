@@ -4,8 +4,10 @@ set -e
 
 # Default location for pyenv.  This is overriden by ~/.profile.
 PYENV_ROOT="${PYENV_ROOT:-${HOME}/.pyenv}"
-readonly versions=("3.6.5" "2.7.15")  
-readonly venvs=(neovim user)  # Venvs to install in each major version.
+# readonly versions=("3.7.0" "2.7.15")
+# readonly venvs=(neovim user)  # Venvs to install in each major version.
+readonly py2ver="2.7.15"
+readonly py3ver="3.7.0"
 
 install_pyenv() {
   if [ ! -e "${PYENV_ROOT}/bin/pyenv" ]; then
@@ -23,39 +25,36 @@ install_python() {
   fi
 }
 
-# Create a python $1 virtualenv $2.
-install_venv(){
+# Create a python $1 virtualenv named $2.
+virtualenv() {
   echo "Installing $1 $2"
+
   install_python $1
-  if [ ! -e "${PYENV_ROOT}/versions/$1/envs/$2/bin/python" ]; then
-    # Remove the eponymous venv that might have a different minor version.
+
+  local bin="${PYENV_ROOT}/versions/$1/envs/$2/bin"
+
+  # Remove the eponymous venv that might have a different minor version.
+  if [ ! -e "${bin}/python" ]; then
     pyenv uninstall --force $2
     pyenv virtualenv $1 $2
   fi
+
+  local requirements="${XDG_CONFIG_HOME}/python/requirements-$2.txt"
+  if [ -e "${requirements}" ]; then
+    "${bin}/pip" install -U -r "${requirements}"
+  fi
+
 }
 
-install_packages() {
-  local reqs="${XDG_CONFIG_HOME}/python/requirements"  # prefix
-  echo "Install user packages specified in: ${reqs}"
-  for ver in 2 3; do
-    "${PYENV_ROOT}/versions/neovim${ver}/bin/pip" install -U pip neovim 
-    "${PYENV_ROOT}/versions/user${ver}/bin/pip" install \
-      -U -r "${reqs}_py${ver}" \
-      -U -r "${reqs}_all" 
-  done
-}
+
 
 
 main() {
   install_pyenv
-  for ver in "${versions[@]}"; do
-    local major_ver="${ver:0:1}"
-    for venv in "${venvs[@]}"; do
-      install_venv "${ver}" "${venv}${major_ver}"
-    done
-  done
-
-  install_packages
+  virtualenv "${py2ver}" "user2"
+  virtualenv "${py2ver}" "neovim2"
+  virtualenv "${py3ver}" "user3"
+  virtualenv "${py3ver}" "neovim3"
   pyenv global "user3" "user2" "system"
 }
 
