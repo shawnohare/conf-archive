@@ -1,8 +1,3 @@
-" =========================================================================
-" .vimrc
-" Settings for VIM
-"==========================================================================
-
 "==========================================================================
 " Initialization
 "==========================================================================
@@ -177,10 +172,11 @@ let g:ale_linters = {
 let g:ale_sign_error = "✖" " ☓, ⚐
 let g:ale_sign_warning = "⚠"
 let g:ale_echo_msg_format = '[%linter%] [%severity%] %s'
-let g:ale_completion_enabled = 1
+" NOTE: ale_completion_enabled leads to hangups when inside python comments.
+" let g:ale_completion_enabled = 1
 let g:ale_open_list = 1
 let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 0
+let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 nmap <leader>lint <Plug>(ale_lint)
 nmap <leader>lj <Plug>(ale_next_wrap)
@@ -191,7 +187,7 @@ nmap <leader>lk <Plug>(ale_previous_wrap)
 " better-whitespace
 " --------------------------------------------------------------------------
 let b:better_whitespace_enabled=0
-" let g:strip_whitespace_on_save=1
+let g:strip_whitespace_on_save=1
 
 " --------------------------------------------------------------------------
 " lsp
@@ -291,7 +287,7 @@ let g:tagbar_type_go = {
 " vim-easy-align
 " --------------------------------------------------------------------------
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
-vmap <Enter> <Plug>(EasyAlign)
+vmap <Leader>a <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
 nmap <Leader>a <Plug>(EasyAlign)
 
@@ -360,8 +356,7 @@ endif
 " NOTE: The RFC 3339 format specifies that time-zones be of the form -09:37.
 " Some versions of strftime support the %:z format, but not on a
 " circa 2016-05-06 OS X machine.
-iabbrev <expr> dts strftime("%FT%T%z")
-
+nmap<leader>date :put=strftime('%FT%T%z')<return>
 " --------------------------------------------------------------------------
 " Buffers & Windows
 " --------------------------------------------------------------------------
@@ -496,7 +491,7 @@ endif
 " NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
 set termguicolors
 " colorscheme NeoSolarized
-" colorscheme NeoSolarized 
+" colorscheme NeoSolarized
 " colorscheme ayu
 " colorscheme dracula
 colorscheme base16-singularity-dark
