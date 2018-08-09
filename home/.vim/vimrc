@@ -34,12 +34,12 @@ Plug 'majutsushi/tagbar'  " display tags in a window
 
 " Colorscheme
 " Plug 'Erichain/vim-monokai-pro'
-" Plug 'rafi/awesome-vim-colorschemes'
+Plug 'rafi/awesome-vim-colorschemes'
 Plug 'arcticicestudio/nord-vim', { 'branch': 'develop' }
 Plug 'ayu-theme/ayu-vim'
 Plug 'KeitaNakamura/neodark.vim'
 Plug 'challenger-deep-theme/vim'
-Plug 'chriskempson/base16-vim'
+" Plug 'chriskempson/base16-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'icymind/NeoSolarized'
@@ -72,6 +72,7 @@ Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh
 Plug 'mileszs/ack.vim'  " Can support ag or rg too.
 Plug 'dyng/ctrlsf.vim'  " Allows in place editing like vim-ags
 Plug 'gabesoft/vim-ags' " Fast find/replace across all files.
+Plug 'eugen0329/vim-esearch'
 " The fzf binary is installed by nix.
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
@@ -109,7 +110,7 @@ Plug 'ntpeters/vim-better-whitespace'
 " Plug 'python-mode/python-mode', { 'for': 'python' }
 Plug 'JuliaLang/julia-vim'
 Plug 'LnL7/vim-nix',         { 'for': 'nix' }
-Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
+" Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
 Plug 'cespare/vim-toml',     { 'for': 'toml' }
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 Plug 'fatih/vim-go',         { 'for': 'go' }
@@ -122,6 +123,9 @@ Plug 'othree/html5.vim',     { 'for': 'html' }
 Plug 'plasticboy/vim-markdown'
 Plug 'rust-lang/rust.vim',   { 'for': 'rust' }
 Plug 'sheerun/vim-polyglot'
+" semshi is a semantic python syntax highlighter. But it slows things down.
+" In the future, the various language servers might provide this feature.
+" Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 
 " Neovim specific plugins
 " FIXME: find a better way to separate neovim/vim plugins.  Ideally we do not
@@ -208,7 +212,6 @@ let g:LanguageClient_serverCommands = {
     \ }
 
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>
 nnoremap <silent> <Leader>lsd :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> <Leader>lsr :call LanguageClient_textDocument_rename()<CR>
@@ -458,8 +461,6 @@ let g:nord_comment_brightness = 5
 
 " ---
 " let g:solarized_extra_hi_groups=1
-" hi StatusLine gui=None cterm=None term=None
-" hi Visual cterm=None ctermbg=black ctermfg=gray gui=None guibg=#003541 guifg=#93a1a1
 
 " - one
 " NOTE: (2017-06-05) Alacritty renders italics with a gray background.
@@ -490,10 +491,10 @@ endif
 " NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
 set termguicolors
 " colorscheme NeoSolarized
-" colorscheme NeoSolarized
 " colorscheme ayu
 " colorscheme dracula
-colorscheme base16-singularity-dark
+" colorscheme base16-singularity-dark
+colorscheme solarized8
 " colorscheme base16-solarized-dark
 " colorscheme gruvbox
 " colorscheme nord
@@ -502,6 +503,8 @@ colorscheme base16-singularity-dark
 " colorscheme palenight
 
 " Set solarized8 specific highlight overrides.
+" Solarized background always.
+" hi Normal guifg=#93a1a1 guibg=#002b36
 " hi StatusLine gui=None cterm=None term=None
 " hi Visual cterm=None ctermbg=black ctermfg=gray gui=None guibg=#003541 guifg=#93a1a1
 
