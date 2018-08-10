@@ -1,32 +1,36 @@
-"==========================================================================
+" =========================================================================
 " Initialization
-"==========================================================================
+" ==========================================================================
 let g:is_bash = 1
 " set shell=zsh
 let mapleader = "\<Space>"
-" Define plugin dir locations
-if has('nvim')
-  let vimplug = "$XDG_CONFIG_HOME/nvim/autoload/plug.vim"
-  let plugged = "$XDG_CONFIG_HOME/nvim/plugged"
-else
-  let vimplug = "~/.vim/autoload/plug.vim"
-  let plugged = "~/.vim/plugged"
-endif
 
 "==========================================================================
 " Plugins
 " Using vim-plug
+" NOTE: We do not really make use of too many features in vim-plug. The
+" async updating of packages is handy, but we could potentially replace a lot
+" this with a simple bash script and the native vim8/neovim package manager.
+" See :help packages
 "==========================================================================
+if has('nvim')
+  let vimplug = "$XDG_DATA_HOME/nvim/site/autoload/plug.vim"
+else
+  let vimplug = "~/.vim/autoload/plug.vim"
+endif
+
+" Store vim and nvim plugins in the same location. This works for dein too.
+" Consider using nvim/site/pack.
+let plugins = "$XDG_DATA_HOME/nvim/site/plugins"
 
 " Auto install vim-plug if it doesn't already exist.
 if empty(glob(vimplug))
-  execute '!curl -fLo ' . vimplug . ' --create-dirs '
-    \ . 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall
+  execute ' !curl -fLo ' . vimplug . ' --create-dirs ' .
+        \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync
 endif
 
-
-call plug#begin(plugged)
+call plug#begin(plugins)
 
 " Browsing
 Plug 'tpope/vim-vinegar'  " enhanced netrw file browser
@@ -133,7 +137,7 @@ Plug 'sheerun/vim-polyglot'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   " Plug 'Shougo/echodoc.vim' " Displaying preview-like info
-  " Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '$XDG_DATA_HOME/nvim/plugged/gocode/nvim/symlink.sh' }
+  " Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '$XDG_DATA_HOME/nvim/plugins/gocode/nvim/symlink.sh' }
   " Plug 'zchee/deoplete-go', { 'do': 'make' }
   " Plug 'zchee/deoplete-jedi'
   " Plug 'drinksober/nvim-yapf-formater' " 2016-08-10T13:08:28-0700 immature
@@ -425,13 +429,8 @@ set shortmess+=A       " don't show warning for existing swapfiles
 set termguicolors
 set background=dark
 
-" Attempt to get italics. Might be unncessary.
-" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-"
-" - ayu
+" --- ayu
 let ayucolor='mirage'
-
 
 " --- gruvbox
 let g:gruvbox_bold = 1
@@ -443,7 +442,7 @@ let g:gruvbox_underline = 1
 let g:gruvbox_invert_selection = 0
 let g:gruvbox_contrast_dark = 'soft'
 
-" - neosolarized
+" --- neosolarized
 " let g:neosolarized_visibility = 'high'
 let g:neosolarized_contrast = "normal"
 let g:neosolarized_bold = 1
@@ -452,22 +451,23 @@ let g:neosolarized_underline = 1
 let g:neosolarized_visibility = "normal"
 let g:neosolarized_vertSplitBgTrans = 1
 
-" ---
+" --- nofrills
+let g:nofrils_heavylinenumbers=1
+
+" --- nord
 " NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
 " Has poor syntax support for python.
 let g:nord_italic = 1
 let g:nord_italic_comments = 1
 let g:nord_comment_brightness = 5
 
-" ---
-" let g:solarized_extra_hi_groups=1
-
-" - one
+" --- one
 " NOTE: (2017-06-05) Alacritty renders italics with a gray background.
 let g:one_allow_italics = 1
 
-" - nofrills
-let g:nofrils_heavylinenumbers=1
+" --- solarized
+" let g:solarized_extra_hi_groups=1
+
 
 " FIXME: Delete this check for termguicolors as most versions of tmux and
 " we use in practice support true color.
@@ -501,28 +501,23 @@ colorscheme solarized8
 " colors one
 " colorscheme onedark
 " colorscheme palenight
+" colors space-vim-dark
 
-" Set solarized8 specific highlight overrides.
-" Solarized background always.
-" hi Normal guifg=#93a1a1 guibg=#002b36
-" hi StatusLine gui=None cterm=None term=None
-" hi Visual cterm=None ctermbg=black ctermfg=gray gui=None guibg=#003541 guifg=#93a1a1
 
-" One
-" NOTE: (2017-06-05) Alacritty renders italics with a gray background.
-" let g:one_allow_italics = 1
-" colorscheme challenger_deep
-" Make solarized8 colorscheme have appropriate colors. h: xterm-true-color
-" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-let g:solarized_extra_hi_groups=1
-" let g:nofrils_heavylinenumbers=1
 
 " Switch between light and dark backgrounds.
 " map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 nmap<leader>bgs :let &background = ( &background == "dark"? "light" : "dark")<CR>
 
 
+" --- colorscheme overrides ---
+" Solarized background always.
+" hi Normal guifg=#93a1a1 guibg=#002b36
+" hi StatusLine gui=None cterm=None term=None
+" hi Visual cterm=None ctermbg=black ctermfg=gray gui=None guibg=#003541 guifg=#93a1a1
+" NOTE: (2017-06-05) Alacritty renders italics with a gray background.
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 " hi clear SpellBad " if set, onedark would not highlight spelling errors
 " hi SpellBad cterm=underline,bold ctermfg=red
 " hi Comment cterm=italic
