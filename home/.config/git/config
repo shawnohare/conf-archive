@@ -1,5 +1,6 @@
 [alias]
   la = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  ls = log --decorate
   s = status
   sv = status --verbose
 [filter "media"]
