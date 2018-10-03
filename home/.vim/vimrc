@@ -1,6 +1,7 @@
 " =========================================================================
 " Initialization
 " ==========================================================================
+
 let g:is_bash = 1
 " set shell=zsh
 let mapleader = "\<Space>"
@@ -14,6 +15,7 @@ let mapleader = "\<Space>"
 " See :help packages
 "==========================================================================
 if has('nvim')
+  " NOTE: Some guis do not see the environment.
   let vimplug = "$XDG_DATA_HOME/nvim/site/autoload/plug.vim"
 else
   let vimplug = "~/.vim/autoload/plug.vim"
@@ -62,6 +64,8 @@ Plug 'shawnohare/singularity', { 'rtp': 'vim/' }
 Plug 'sonph/onehalf', { 'rtp': 'vim/' }
 Plug 'trevordmiller/nova-vim'
 Plug 'tyrannicaltoucan/vim-deep-space'
+Plug 'romainl/flattened'
+Plug 'agreco/vim-citylights'
 
 " Completion
 " As of 2018-03-21 vim-lsp is very immature.
@@ -89,7 +93,7 @@ Plug 'jiangmiao/auto-pairs'    " Automatic closing of parentheses etc.
 Plug 'junegunn/vim-easy-align' " Easy alignment of text blocks
 Plug 'tpope/vim-commentary'    " Easy toggling of comment markers
 Plug 'tpope/vim-repeat'        " Make vim-surround and vim-commentary repeatable
-Plug 'kshenoy/vim-signature'   " Make marks and navigate between.
+" Plug 'kshenoy/vim-signature'   " Make marks and navigate between.
 
 " Source Code Management Tools
 Plug 'tpope/vim-fugitive'      " git integration for VIM
@@ -466,8 +470,9 @@ let g:nord_comment_brightness = 5
 let g:one_allow_italics = 1
 
 " --- solarized
-" let g:solarized_extra_hi_groups=1
-
+let g:solarized_enable_extra_hi_groups = 1
+" let g:solarized_old_cursor_style = 0
+" let g:solarized_termtrans = 1
 
 " FIXME: Delete this check for termguicolors as most versions of tmux and
 " we use in practice support true color.
@@ -489,12 +494,12 @@ else
 endif
 
 " NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
-set termguicolors
+colorscheme flattened_dark
 " colorscheme NeoSolarized
 " colorscheme ayu
 " colorscheme dracula
 " colorscheme base16-singularity-dark
-colorscheme solarized8
+" colorscheme solarized8
 " colorscheme base16-solarized-dark
 " colorscheme gruvbox
 " colorscheme nord
@@ -510,7 +515,7 @@ colorscheme solarized8
 nmap<leader>bgs :let &background = ( &background == "dark"? "light" : "dark")<CR>
 
 
-" --- colorscheme overrides ---
+" --- colorscheme overrides
 " Solarized background always.
 " hi Normal guifg=#93a1a1 guibg=#002b36
 " hi StatusLine gui=None cterm=None term=None
@@ -572,6 +577,7 @@ filetype indent on
 " --------------------------------------------------------------------------
 set ignorecase
 set smartcase
+set inccommand=split
 
 " --------------------------------------------------------------------------
 " STATUSLINE
