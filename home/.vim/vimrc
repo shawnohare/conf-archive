@@ -444,7 +444,7 @@ let g:gruvbox_italicize_comments = 1
 let g:gruvbox_undercurl = 1
 let g:gruvbox_underline = 1
 let g:gruvbox_invert_selection = 0
-let g:gruvbox_contrast_dark = 'soft'
+let g:gruvbox_contrast_dark = 'medium'
 
 " --- neosolarized
 " let g:neosolarized_visibility = 'high'
@@ -494,14 +494,14 @@ else
 endif
 
 " NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
-colorscheme flattened_dark
+colorscheme gruvbox
+" colorscheme flattened_dark
 " colorscheme NeoSolarized
 " colorscheme ayu
 " colorscheme dracula
 " colorscheme base16-singularity-dark
 " colorscheme solarized8
 " colorscheme base16-solarized-dark
-" colorscheme gruvbox
 " colorscheme nord
 " colors one
 " colorscheme onedark
@@ -577,7 +577,7 @@ filetype indent on
 " --------------------------------------------------------------------------
 set ignorecase
 set smartcase
-set inccommand=split
+set inccommand=nosplit
 
 " --------------------------------------------------------------------------
 " STATUSLINE
