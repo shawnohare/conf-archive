@@ -2,7 +2,7 @@
 # Historically, processing heavy setup is performed here, while transient
 # settings that are not inherited are put in rc files so they can be re-read by
 # every new interactive shell invocation.
-# 
+#
 # This can contain environmental variables, PATH, and some plugin init scripts
 # (e.g., pyenv and nix).  It should be sourced by the shell's corresponding
 # file if it exists, (e.g., .bash_profile, .zprofile).
@@ -11,7 +11,7 @@
 # from the shell specific rc file (e.g., .bashrc, .zshrc)
 
 # --- XDG ---
-# - XDG_CONFIG_HOME application configuration and some state 
+# - XDG_CONFIG_HOME application configuration and some state
 # - XDG_DATA_HOME typically houses more static data files such as fonts.
 #   We store application data here for apps that typically dump everything into
 #   "~/.{app}", such as pyenv, go, etc. Another candidate location is ~/opt
@@ -19,8 +19,8 @@
 export XDG_BIN_HOME="${HOME}/.local/bin"
 export XDG_CACHE_HOME="${HOME}/.cache"  # application config and state
 export XDG_CONFIG_HOME="${HOME}/.config"  # application config and state
-export XDG_DATA_HOME="${HOME}/.local/share" 
-export XDG_OPT_HOME="${HOME}/.local/opt" 
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_OPT_HOME="${HOME}/.local/opt"
 
 # Misc vars forcing apps to adhere to the dir structure above.
 # NOTE: Some apps, like ansible, appear to not respect AWS vars.
@@ -40,6 +40,7 @@ export CARGO_HOME="${XDG_OPT_HOME}/cargo"
 # export CARGO_INSTALL_ROOT="${XDG_BIN_HOME}"
 export GOPATH="${XDG_OPT_HOME}/go"
 # export GOBIN="${XDG_BIN_HOME}"
+export PIPSI_HOME="${XDG_OPT_HOME}/pipsi"
 export PYENV_ROOT="${XDG_OPT_HOME}/pyenv"
 export RUSTUP_HOME="${XDG_OPT_HOME}/rustup" # Might be superfluous.
 # export SPARK_HOME="/opt/spark"

@@ -1,5 +1,3 @@
-ipython
-jedi
 pip
-pylint
+ipython
 python-language-server

@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
+# TODO:
+# - Can probably use pipsi instead of custom venvs.
 
 set -e
 
 # Default location for pyenv.  This is overriden by ~/.profile.
-PYENV_ROOT="${PYENV_ROOT:-${HOME}/.pyenv}"
+PYENV_ROOT="${PYENV_ROOT:-${XDG_OPT_HOME}/pyenv}"
 # readonly versions=("3.7.0" "2.7.15")
 # readonly venvs=(neovim user)  # Venvs to install in each major version.
-readonly py2ver="2.7.15"
-readonly py3ver="3.7.0"
+readonly ver2="2.7.15"
+readonly ver3="3.7.0"
+readonly python2="${PYENV_ROOT}/versions/${ver2}/bin/python"
+readonly python3="${PYENV_ROOT}/versions/${ver3}/bin/python"
 
 install_pyenv() {
   if [ ! -e "${PYENV_ROOT}/bin/pyenv" ]; then
@@ -18,18 +22,22 @@ install_pyenv() {
   pyenv update
 }
 
-# Install a particular version of python.
+# Install a particular version $1 of python.
 install_python() {
   if [ ! -e "${PYENV_ROOT}/versions/$1/bin/python" ]; then
     pyenv install $1
   fi
 }
 
+install_pipsi() {
+  if [ ! -e "${XDG_BIN_HOME}/pipsi" ]; then
+    curl https://raw.githubusercontent.com/mitsuhiko/pipsi/master/get-pipsi.py | "${python3}" - --no-modify-path
+  fi
+}
+
 # Create a python $1 virtualenv named $2.
 virtualenv() {
   echo "Installing $1 $2"
-
-  install_python $1
 
   local bin="${PYENV_ROOT}/versions/$1/envs/$2/bin"
 
@@ -51,10 +59,14 @@ virtualenv() {
 
 main() {
   install_pyenv
-  virtualenv "${py2ver}" "user2"
-  virtualenv "${py2ver}" "neovim2"
-  virtualenv "${py3ver}" "user3"
-  virtualenv "${py3ver}" "neovim3"
+
+  for ver in "${ver2}" "${ver3}"; do
+    install_python "${ver}"
+    virtualenv "${ver}" "user${ver:0:1}"
+    virtualenv "${ver}" "neovim${ver:0:1}"
+  done
+
+  install_pipsi
   pyenv global "user3" "user2" "system"
 }
 

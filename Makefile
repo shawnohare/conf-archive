@@ -14,7 +14,7 @@ XDG_OPT_HOME ?= "${HOME}/.local/opt"
 .PHONY: dirs link unlink brew go nix python rust stack toolchains install
 
 init: dirs stash link
-	$(info Please restart another shell session.) 
+	$(info Please restart another shell session.)
 
 stash:
 	$(info Updating stash symlink manager.)
@@ -22,10 +22,10 @@ stash:
 	make -f "$(XDG_OPT_HOME)/stash/Makefile" install
 
 link:
-	stash -v -f -t "${HOME}" home 
+	stash -v -f -t "${HOME}" home
 
 unlink:
-	stash -v -f -D -t "${HOME}" home 
+	stash -v -f -D -t "${HOME}" home
 
 dirs:
 	# sudo mkdir -p /usr/local/opt

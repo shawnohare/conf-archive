@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+curl https://raw.githubusercontent.com/mitsuhiko/pipsi/master/get-pipsi.py | python3 - --no-modify-path
