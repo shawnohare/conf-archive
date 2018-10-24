@@ -22,13 +22,13 @@ source ~/.vim/vimrc
 " ==========================================================================
 "
 "---------------------------------------------------------------------------
-" Deoplete 
+" Deoplete
 " NOTE: ALE provides completion via LSP, which potentially deprecates this.
 " Fri, 05 Feb 2016 10:52:51 -0800
 " https://github.com/Shougo/deoplete.nvim
 "---------------------------------------------------------------------------
-" let g:deoplete#enable_at_startup = 1
-" let g:deoplete#disable_auto_complete = 1
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#disable_auto_complete = 1
 " inoremap <silent><expr> <Tab>
 " \ pumvisible() ? "\<C-n>" :
 " \ deoplete#mappings#manual_complete()
