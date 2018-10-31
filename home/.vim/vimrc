@@ -451,7 +451,7 @@ set numberwidth=4            " always make room for 4-digit line numbers
 set colorcolumn=89           " show where lines should end
 set lazyredraw               " don't redraw unnecessarily during macros etc.
 " set tf                       " fast term connection.  Outdated?
-set nowrap                     " do not visually wrap long lines
+" set nowrap                     " do not visually wrap long lines
 set linebreak                " don't break words at wrap; disabled by list
 " set list                     " show whitespace
 set visualbell         " flash screen instead of audio bell for alert
