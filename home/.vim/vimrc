@@ -1,10 +1,5 @@
 " =========================================================================
 " Initialization
-" TODO:
-" - [ ] Remove plugins that have been unused for an extended period of time.
-" - [ ] Settle on a single LSP client. Ideally this is either ALE or
-"   LanguageClient. ALE appears sufficient for most things, but as of
-"   2018-10-22T17:13:27+0000 it's completion is buggy.
 " ==========================================================================
 
 let g:is_bash = 1
@@ -44,75 +39,46 @@ endif
 call plug#begin(plugins)
 
 " Browsing
-Plug 'tpope/vim-vinegar'  " enhanced netrw file browser
+" Plug 'tpope/vim-vinegar'  " enhanced netrw file browser
 Plug 'majutsushi/tagbar'  " display tags in a window
 
 " Colorscheme
-" Plug 'Erichain/vim-monokai-pro'
-Plug 'rafi/awesome-vim-colorschemes'
-Plug 'arcticicestudio/nord-vim', { 'branch': 'develop' }
-Plug 'ayu-theme/ayu-vim'
-Plug 'KeitaNakamura/neodark.vim'
-Plug 'challenger-deep-theme/vim'
+" Plug 'rafi/awesome-vim-colorschemes'
 " Plug 'chriskempson/base16-vim'
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'drewtempelmeyer/palenight.vim'
-Plug 'icymind/NeoSolarized'
 Plug 'igungor/schellar'
-Plug 'jacoborus/tender'
-Plug 'joshdick/onedark.vim'
 Plug 'lifepillar/vim-solarized8'
 Plug 'morhetz/gruvbox'
-" Plug 'phanviet/vim-monokai-pro'
-Plug 'plan9-for-vimspace/acme-colors'
 Plug 'rakr/vim-one'
-Plug 'rakr/vim-two-firewatch'
 Plug 'robertmeta/nofrils'
-Plug 'romainl/Apprentice'
-Plug 'shawnohare/singularity', { 'rtp': 'vim/' }
-Plug 'sonph/onehalf', { 'rtp': 'vim/' }
-Plug 'trevordmiller/nova-vim'
-Plug 'tyrannicaltoucan/vim-deep-space'
+" Plug 'romainl/Apprentice'
+" Plug 'shawnohare/singularity', { 'rtp': 'vim/' }
 Plug 'romainl/flattened'
-Plug 'agreco/vim-citylights'
 
 " Completion
-" As of 2018-03-21 vim-lsp is very immature.
-" Plug 'prabirshrestha/async.vim'
-" Plug 'prabirshrestha/vim-lsp'
-" TODO: Turn back on if needed.
-" Plug 'Shougo/neosnippet'
-" Plug 'Shougo/neosnippet-snippets'
-Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
+" Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 
 " Search and replace
 Plug 'mileszs/ack.vim'  " Can support ag or rg too.
 Plug 'dyng/ctrlsf.vim'  " Allows in place editing like vim-ags
 Plug 'gabesoft/vim-ags' " Fast find/replace across all files.
-Plug 'eugen0329/vim-esearch'
+" Plug 'eugen0329/vim-esearch'
 " The fzf binary is installed by nix.
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
 
 " Editing Enhancement
-" Plug 'mbbill/undotree'         " Visual navigation of VIM undotree
 Plug 'tpope/vim-surround'      " Easy handling of surrounding brackets etc.
-Plug 'jiangmiao/auto-pairs'    " Automatic closing of parentheses etc.
+" Plug 'jiangmiao/auto-pairs'    " Automatic closing of parentheses etc.
 Plug 'junegunn/vim-easy-align' " Easy alignment of text blocks
 Plug 'tpope/vim-commentary'    " Easy toggling of comment markers
 Plug 'tpope/vim-repeat'        " Make vim-surround and vim-commentary repeatable
 " Plug 'kshenoy/vim-signature'   " Make marks and navigate between.
+Plug 'w0rp/ale'                " buffer syntax checking, conflicts with neomake
 
 " Source Code Management Tools
 Plug 'tpope/vim-fugitive'      " git integration for VIM
 Plug 'airblade/vim-gitgutter'  " display git diffs in the gutter
-" Plug 'neomake/neomake'         " syntax checking + building
-Plug 'w0rp/ale'                " buffer syntax checking, conflicts with neomake
-" Plug 'sbdchd/neoformat'        " unified autofmt
-
-" Syntax Highlighting
-" Plug 'ntpeters/vim-better-whitespace'
 
 " Filetype Specific
 " One disadvantage of selective loading is that help files are unavailable
@@ -125,47 +91,31 @@ Plug 'w0rp/ale'                " buffer syntax checking, conflicts with neomake
 " Plug 'chrisbra/csv.vim',     { 'for': 'csv' }
 " Plug 'ensime/ensime-vim' " had issues getting ensime to work
 " Plug 'python-mode/python-mode', { 'for': 'python' }
-Plug 'JuliaLang/julia-vim'
-Plug 'LnL7/vim-nix',         { 'for': 'nix' }
+" Plug 'JuliaLang/julia-vim'
+" Plug 'LnL7/vim-nix',         { 'for': 'nix' }
 " Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
-Plug 'cespare/vim-toml',     { 'for': 'toml' }
-Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
-Plug 'fatih/vim-go',         { 'for': 'go' }
-Plug 'lervag/vimtex',        { 'for': 'tex' }
-Plug 'mattn/emmet-vim',      { 'for': 'html' }
-Plug 'mechatroner/rainbow_csv'
-Plug 'mindriot101/vim-yapf' " python autoformatter
-Plug 'neovimhaskell/haskell-vim',     { 'for': 'haskell' }
-Plug 'othree/html5.vim',     { 'for': 'html' }
-Plug 'plasticboy/vim-markdown'
-Plug 'rust-lang/rust.vim',   { 'for': 'rust' }
-Plug 'sheerun/vim-polyglot'
+" Plug 'cespare/vim-toml',     { 'for': 'toml' }
+" Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
+" Plug 'fatih/vim-go',         { 'for': 'go' }
+" Plug 'lervag/vimtex',        { 'for': 'tex' }
+" Plug 'mattn/emmet-vim',      { 'for': 'html' }
+" Plug 'mechatroner/rainbow_csv'
+" Plug 'neovimhaskell/haskell-vim',     { 'for': 'haskell' }
+" Plug 'othree/html5.vim',     { 'for': 'html' }
+" Plug 'plasticboy/vim-markdown'
+" Plug 'rust-lang/rust.vim',   { 'for': 'rust' }
 " semshi is a semantic python syntax highlighter. But it slows things down.
 " In the future, the various language servers might provide this feature.
 " Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+Plug 'sheerun/vim-polyglot'
 
 " Neovim specific plugins
-" FIXME: find a better way to separate neovim/vim plugins.  Ideally we do not
-" maintain separate files, either.
 if has('nvim')
-  " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  " Plug 'Shougo/echodoc.vim' " Displaying preview-like info
-  " Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '$XDG_DATA_HOME/nvim/plugins/gocode/nvim/symlink.sh' }
-  " Plug 'zchee/deoplete-go', { 'do': 'make' }
-  " Plug 'zchee/deoplete-jedi'
-  " Plug 'drinksober/nvim-yapf-formater' " 2016-08-10T13:08:28-0700 immature
+  " Plugins can go here.
 else
   " Plugins can go here.
 endif
 
-
-" Other
-" Plug 'Shougo/unite.vim'
-
-" Visual
-" lightline is a simpler version of airline, but both are likely superfluous.
-" Plug 'itchyny/lightline.vim'
-" Plug 'bling/vim-bufferline'
 
 call plug#end()
 
@@ -191,13 +141,14 @@ endif
 " --------------------------------------------------------------------------
 let g:ale_linters = {
       \ 'python': ['pyls', 'flake8'],
+      \ 'go': ['golangserver'],
       \ }
 let g:ale_fixers= {
       \ '*': ['remove_trailing_lines', 'trim_whitespace'],
       \ 'python': ['black'],
       \ }
 let g:ale_fix_on_save = 1
-let g:ale_completion_enabled = 0
+let g:ale_completion_enabled = 1
 let g:ale_completion_delay = 100
 let g:ale_echo_msg_format = '[%linter%]% code%: %s'
 let g:ale_lint_on_enter = 0
@@ -217,45 +168,28 @@ nmap <leader>gd <Plug>(ale_go_to_definition)
 nmap <leader>gh <Plug>(ale_hover)
 nmap <leader>info <Plug>(ale_hover)
 
-" --------------------------------------------------------------------------
-" better-whitespace
-" --------------------------------------------------------------------------
-let b:better_whitespace_enabled=0
-" let g:strip_whitespace_on_save=1
 
 " --------------------------------------------------------------------------
 " lsp
-" NOTE: As per the comments in the `ale` section, this might be deprecated.
+" ALE serves as a langauge server client. Neovim also will have builtin support
+" for
 " --------------------------------------------------------------------------
 "
-"  --- vim-lsp setup ---
-" if executable('pyls')
-"     " pip install python-language-server
-"     au User lsp_setup call lsp#register_server({
-"         \ 'name': 'pyls',
-"         \ 'cmd': {server_info->['pyls']},
-"         \ 'whitelist': ['python'],
-"         \ })
-" endif
-"
-" NOTE: Prefer LanguageClient
-" LanguageClient automatically displays diagnostics in gutter. For now, let
-" ALE handle linting.
-" TODO: When things mature, it would be nice to use only ALE or only
-" LanguageClient.
-" --- LanguageClient ---
-let g:LanguageClient_autoStart = 1
-let g:LanguageClient_diagnosticsEnable = 0
-let g:LanguageClient_serverCommands = {
-    \ 'sh': ['bash-language-server', 'start'],
-    \ 'python': ['pyls'],
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ }
+" --- LanguageClient-neovim ---
+" let g:LanguageClient_autoStart = 1
+" let g:LanguageClient_diagnosticsEnable = 0
+" let g:LanguageClient_serverCommands = {
+"     \ 'sh': ['bash-language-server', 'start'],
+"     \ 'python': ['pyls'],
+"     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+"     \ }
 
 " nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 " nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>
 " nnoremap <silent> <Leader>lsd :call LanguageClient_textDocument_hover()<CR>
 " nnoremap <silent> <Leader>lsr :call LanguageClient_textDocument_rename()<CR>
+
+
 
 " --------------------------------------------------------------------------
 " netrw (built-in)
@@ -275,56 +209,9 @@ set autochdir
 " map <silent> <C-E> :Lexplore <CR>
 
 " --------------------------------------------------------------------------
-" neosnippet
-" --------------------------------------------------------------------------
-"
-" Plugin key-mappings.
-" imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-" smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-" xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" --------------------------------------------------------------------------
 " polyglot
 " --------------------------------------------------------------------------
 let g:polyglot_disabled = ['latex']
-
-" --------------------------------------------------------------------------
-" tagbar
-" --------------------------------------------------------------------------
-
-" gotags
-let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constats',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-\ }
-
-" --------------------------------------------------------------------------
-" undotree
-" --------------------------------------------------------------------------
-" nnoremap <Leader>u :UndotreeToggle<cr>
 
 " --------------------------------------------------------------------------
 " vim-easy-align
@@ -357,11 +244,6 @@ let g:go_fmt_command                 = "goimports"
 " let g:go_term_enabled = 1 " tests open in a neovim terminal
 "
 "
-" --------------------------------------------------------------------------
-" neomake
-" --------------------------------------------------------------------------
-let g:neomake_open_list=2
-let g:neomake_shell_enable_makers = ['shellcheck']
 
 " --------------------------------------------------------------------------
 " tagbar
@@ -388,10 +270,6 @@ if has('vim')
   set nocompatible
   set smarttab
   set tabpagemax  = 50
-  " set tags=""./tags;,tags
-  set directory=/var/tmp//,/tmp//    "  swap
-  set backupdir=/var/tmp//,/tmp//    "  backup file directory
-  set undodir=/var/tmp//,/tmp//      "  undo file directory
 endif
 
 " --------------------------------------------------------------------------
@@ -442,15 +320,11 @@ set showcmd                  " show (partial) commands below statusline
 " set showmatch                " show matching delimiters
 set relativenumber           " show relative line numbers
 set number                   " show line number of cursor
-" au InsertEnter * :set number " absolute numbers in insert mode
-" au InsertLeave * :set rnu    " relative numbers when leaving insert mode
-" au FocusLost   * :set nu     " absolute numbers when focus lost
-" au FocusGained * :set rnu    " relative numbrers when focus gain
 set numberwidth=4            " always make room for 4-digit line numbers
-" set textwidth=88
-set colorcolumn=89           " show where lines should end
+set textwidth=79
+set colorcolumn=+1           " show where lines should end.
+set formatoptions-=tc         " do not auto-wrap text at textwidth columns.
 set lazyredraw               " don't redraw unnecessarily during macros etc.
-" set tf                       " fast term connection.  Outdated?
 " set nowrap                     " do not visually wrap long lines
 set linebreak                " don't break words at wrap; disabled by list
 " set list                     " show whitespace
@@ -465,12 +339,8 @@ set shortmess+=A       " don't show warning for existing swapfiles
 " Colorscheme
 " --------------------------------------------------------------------------
 
-
 set termguicolors
 set background=dark
-
-" --- ayu
-let ayucolor='mirage'
 
 " --- gruvbox
 let g:gruvbox_bold = 1
@@ -482,24 +352,6 @@ let g:gruvbox_underline = 1
 let g:gruvbox_invert_selection = 0
 let g:gruvbox_contrast_dark = 'medium'
 
-" --- neosolarized
-" let g:neosolarized_visibility = 'high'
-let g:neosolarized_contrast = "normal"
-let g:neosolarized_bold = 1
-let g:neosolarized_italic = 1
-let g:neosolarized_underline = 1
-let g:neosolarized_visibility = "normal"
-let g:neosolarized_vertSplitBgTrans = 1
-
-" --- nofrills
-let g:nofrils_heavylinenumbers=1
-
-" --- nord
-" NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
-" Has poor syntax support for python.
-let g:nord_italic = 1
-let g:nord_italic_comments = 1
-let g:nord_comment_brightness = 5
 
 " --- one
 " NOTE: (2017-06-05) Alacritty renders italics with a gray background.
@@ -510,59 +362,8 @@ let g:solarized_enable_extra_hi_groups = 1
 " let g:solarized_old_cursor_style = 0
 " let g:solarized_termtrans = 1
 
-" FIXME: Delete this check for termguicolors as most versions of tmux and
-" we use in practice support true color.
-" Full 24bit color support is still a bit dodgy as of 2018-01-11.
-" Issues ocurr when attemping to use this configuration in old environments
-" such as AWS EMR clusters that have versions of tmux or vim that do not
-" support truecolor. Moreover, TMUX does not set the COLORTERM variable
-" For Neovim > 0.1.5 and Vim > patch 7.4.1799
-" tmux does not set COLORTERM
-"  NOTE: This might not work. It's only an issue when working in very old
-"  environments like AWS EMR clusters, but we probably don't need to edit
-"  too much there.
-if (has("termguicolors")) && ($COLORTERM == "truecolor" || &term =~ "screen")
-  " set termguicolors
-  " colorscheme solarized8
-else
-  " let g:solarized_use16 = 1
-  " colorscheme solarized8
-endif
+colorscheme flattened_dark
 
-" NOTE: 16 mode looks ok in Terminal.app with the solarized color palette
-colorscheme gruvbox
-" colorscheme flattened_dark
-" colorscheme NeoSolarized
-" colorscheme ayu
-" colorscheme dracula
-" colorscheme base16-singularity-dark
-" colorscheme solarized8
-" colorscheme base16-solarized-dark
-" colorscheme nord
-" colors one
-" colorscheme onedark
-" colorscheme palenight
-" colors space-vim-dark
-
-
-
-" Switch between light and dark backgrounds.
-" map <F10> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
-nmap<leader>bgs :let &background = ( &background == "dark"? "light" : "dark")<CR>
-
-
-" --- colorscheme overrides
-" Solarized background always.
-" hi Normal guifg=#93a1a1 guibg=#002b36
-" hi StatusLine gui=None cterm=None term=None
-" hi Visual cterm=None ctermbg=black ctermfg=gray gui=None guibg=#003541 guifg=#93a1a1
-" NOTE: (2017-06-05) Alacritty renders italics with a gray background.
-" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-
-" hi clear SpellBad " if set, onedark would not highlight spelling errors
-" hi SpellBad cterm=underline,bold ctermfg=red
-" hi Comment cterm=italic
 
 " --------------------------------------------------------------------------
 " Editing
@@ -574,14 +375,11 @@ set clipboard+=unnamedplus     " make yanked text available in system clipboard
 set scrolloff=5                " always show n lines above or below cursor
 set scrolljump=1               " scroll n lines when the cursor leaves screen
 set mouse=a
-
-" File Handling
 set nomodeline         " modelines are a security risk
 set autowrite          " write when moving to other buffers/windows
 
 
 " --------------------------------------------------------------------------
-" Files (VIM)
 " Folding
 " --------------------------------------------------------------------------
 
@@ -596,18 +394,21 @@ set foldmethod=indent   " default folding method. syntax method is SLOW.
 " --------------------------------------------------------------------------
 inoremap <C-h> <BS>
 
+" Switch between light and dark backgrounds.
+nmap<leader>bgs :let &background = ( &background == "dark"? "light" : "dark")<CR>
+
 " Allow tab to conjure (or scroll) omnicomplete menu.
-inoremap <silent><expr> <Tab>
-\ pumvisible() ? "\<C-n>" :
-\ "\<C-x><C-o>"
+" inoremap <silent><expr> <Tab>
+" \ pumvisible() ? "\<C-n>" :
+" \ "\<C-x><C-o>"
 
 " --------------------------------------------------------------------------
 " Indentation
 " --------------------------------------------------------------------------
 set expandtab  " <Tab> converted to softtabstop # spaces
-set softtabstop=2 " number of spaces <Tab> converted to
-set tabstop=2  " number of visual spaces per <Tab> character
-set shiftwidth=2 " <Tab> converts to this # spaces at beginning of line
+set softtabstop=4 " number of spaces <Tab> converted to
+set tabstop=4  " number of visual spaces per <Tab> character
+set shiftwidth=4 " <Tab> converts to this # spaces at beginning of line
 " set smartindent " dumbindent?
 " set cindent " also dumb?
 filetype indent on
@@ -639,11 +440,3 @@ set statusline+=%y\ \|\          " filetype
 set statusline+=%p%%\ %l:%c " % through file : line num: column num
 set statusline+=%#warningmsg#
 set statusline+=%*
-
-
-" let g:lightline = {
-"     \ 'colorscheme': 'neodark',
-"     \ 'component': {
-"     \     'filename': '%n: %t'
-"     \ }
-"     \ }
