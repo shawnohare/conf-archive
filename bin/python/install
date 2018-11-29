@@ -14,60 +14,57 @@ readonly python2="${PYENV_ROOT}/versions/${ver2}/bin/python"
 readonly python3="${PYENV_ROOT}/versions/${ver3}/bin/python"
 
 install_pyenv() {
-  if [ ! -e "${PYENV_ROOT}/bin/pyenv" ]; then
-    echo "Installing pyenv."
-    curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
-  fi
-  echo "Updating pyenv."
-  pyenv update
+    if [ ! -e "${PYENV_ROOT}/bin/pyenv" ]; then
+        echo "Installing pyenv."
+        curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
+    fi
+    echo "Updating pyenv."
+    pyenv update
 }
 
 # Install a particular version $1 of python.
 install_python() {
-  if [ ! -e "${PYENV_ROOT}/versions/$1/bin/python" ]; then
-    pyenv install $1
-  fi
+    if [ ! -e "${PYENV_ROOT}/versions/$1/bin/python" ]; then
+        pyenv install "$1"
+    fi
 }
 
 install_pipsi() {
-  if [ ! -e "${XDG_BIN_HOME}/pipsi" ]; then
-    curl https://raw.githubusercontent.com/mitsuhiko/pipsi/master/get-pipsi.py | "${python3}" - --no-modify-path
-  fi
+    if [ ! -e "${XDG_BIN_HOME}/pipsi" ]; then
+        curl https://raw.githubusercontent.com/mitsuhiko/pipsi/master/get-pipsi.py | "${python3}" - --no-modify-path
+    fi
 }
 
 # Create a python $1 virtualenv named $2.
 virtualenv() {
-  echo "Installing $1 $2"
+    echo "Installing $1 $2"
 
-  local bin="${PYENV_ROOT}/versions/$1/envs/$2/bin"
+    local bin="${PYENV_ROOT}/versions/$1/envs/$2/bin"
 
-  # Remove the eponymous venv that might have a different minor version.
-  if [ ! -e "${bin}/python" ]; then
-    pyenv uninstall --force $2
-    pyenv virtualenv $1 $2
-  fi
+    # Remove the eponymous venv that might have a different minor version.
+    if [ ! -e "${bin}/python" ]; then
+        pyenv uninstall --force "$2"
+        pyenv virtualenv "$1" "$2"
+    fi
 
-  local requirements="${XDG_CONFIG_HOME}/python/requirements-$2.txt"
-  if [ -e "${requirements}" ]; then
-    "${bin}/pip" install -U -r "${requirements}"
-  fi
+    local requirements="${XDG_CONFIG_HOME}/python/requirements-$2.txt"
+    if [ -e "${requirements}" ]; then
+        "${bin}/pip" install -U -r "${requirements}"
+    fi
 
 }
-
-
-
 
 main() {
-  install_pyenv
+    install_pyenv
 
-  for ver in "${ver2}" "${ver3}"; do
-    install_python "${ver}"
-    virtualenv "${ver}" "user${ver:0:1}"
-    virtualenv "${ver}" "neovim${ver:0:1}"
-  done
+    for ver in "${ver2}" "${ver3}"; do
+        install_python "${ver}"
+        virtualenv "${ver}" "user${ver:0:1}"
+        virtualenv "${ver}" "neovim${ver:0:1}"
+    done
 
-  install_pipsi
-  pyenv global "user3" "user2" "system"
+    install_pipsi
+    pyenv global "user3" "user2" "system"
 }
 
-main $@
+main "$@"
