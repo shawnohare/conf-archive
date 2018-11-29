@@ -1,4 +1,3 @@
-
 " ==========================================================================
 " Python
 " As part of config install, venvs are created for neovim2 and neovim3.
@@ -15,7 +14,7 @@ let g:python_host_prog  = $PYENV_ROOT . '/versions/neovim2/bin/python'
 let g:python3_host_prog = $PYENV_ROOT . '/versions/neovim3/bin/python'
 
 
-source ~/.vim/vimrc
+source $XDG_CONFIG_HOME/vim/init.vim
 
 " ==========================================================================
 " PLUGIN CONFIG
@@ -27,8 +26,8 @@ source ~/.vim/vimrc
 " Fri, 05 Feb 2016 10:52:51 -0800
 " https://github.com/Shougo/deoplete.nvim
 "---------------------------------------------------------------------------
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#disable_auto_complete = 1
+" let g:deoplete#enable_at_startup = 1
+" let g:deoplete#disable_auto_complete = 1
 " inoremap <silent><expr> <Tab>
 " \ pumvisible() ? "\<C-n>" :
 " \ deoplete#mappings#manual_complete()
