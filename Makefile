@@ -52,7 +52,7 @@ pkgs:
 brew:
 	bin/brew/install
 	# bash -l brew bundle $(HOME)/etc/brew/Brewfile
-	brew bundle $(HOME)/etc/brew/Brewfile
+	brew bundle $(HOME)/conf/brew/Brewfile
 
 python:
 	# bash -l $(bin)/python/install
