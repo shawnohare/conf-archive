@@ -10,7 +10,7 @@ let mapleader = "\<Space>"
 " --------------------------------------------------------------------------
 "  ale init
 " --------------------------------------------------------------------------
-let g:ale_completion_enabled = 1
+let g:ale_completion_enabled = 0
 
 "==========================================================================
 " Plugins
@@ -60,7 +60,7 @@ Plug 'morhetz/gruvbox'
 Plug 'romainl/flattened'
 
 " Completion
-" Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
+Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 
 " Search and replace
 " Plug 'mileszs/ack.vim'  " Can support ag or rg too.
@@ -168,6 +168,7 @@ let g:ale_open_list = 1
 let g:ale_set_ballons = 1
 let g:ale_sign_error = "✖" " ☓, ⚐
 let g:ale_sign_warning = "⚠"
+let g:ale_python_black_options = "--py36"
 
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
@@ -192,8 +193,8 @@ let g:LanguageClient_serverCommands = {
 
 
 " Use <Tab> to call omnicomplete and scroll through results.
-" inoremap <silent><expr> <Tab>
-" \ pumvisible() ? "\<C-n>" : "\<C-x>\<C-o>"
+inoremap <silent><expr> <Tab>
+\ pumvisible() ? "\<C-n>" : "\<C-x>\<C-o>"
 
 " nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 " nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>
