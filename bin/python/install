@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
+#
 # TODO:
-# - Can probably use pipsi instead of custom venvs.
+# - [ ] Clone and run scripts rather than curl and pipe.
+# - [ ] Determine whether neovim really needs its own virtualenvs.
 
 set -e
 
@@ -12,14 +14,13 @@ readonly ver2="2.7.15"
 readonly ver3="3.7.0"
 readonly python2="${PYENV_ROOT}/versions/${ver2}/bin/python"
 readonly python3="${PYENV_ROOT}/versions/${ver3}/bin/python"
+readonly bins=("python-language-server" "black")
 
 install_pyenv() {
     if [ ! -e "${PYENV_ROOT}/bin/pyenv" ]; then
         echo "Installing pyenv."
         curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
     fi
-    echo "Updating pyenv."
-    pyenv update
 }
 
 # Install a particular version $1 of python.
@@ -29,10 +30,26 @@ install_python() {
     fi
 }
 
+# NOTE: pipsi is not really well maintained it seems. pipx is an alternative.
 install_pipsi() {
     if [ ! -e "${XDG_BIN_HOME}/pipsi" ]; then
         curl https://raw.githubusercontent.com/mitsuhiko/pipsi/master/get-pipsi.py | "${python3}" - --no-modify-path
     fi
+}
+
+install_pipx() {
+    if [ ! -e "${XDG_BIN_HOME}/pipx" ]; then
+        curl https://raw.githubusercontent.com/cs01/pipx/master/get-pipx.py | python - --no-modify-path --python="${PYENV_ROOT}/versions/user3/bin/python"
+    fi
+}
+
+# Install global python executables. Each in their own virtualenv.
+install_bins() {
+    install_pipx
+
+    for pkg in "${bins[@]}"; do
+        pipx install "${pkg}"
+    done
 }
 
 # Create a python $1 virtualenv named $2.
@@ -54,17 +71,21 @@ virtualenv() {
 
 }
 
+# Create virtualenvs for user-space and applications (e.g., neovim).
+setup_venvs() {
+    for ver in "${ver2}" "${ver3}"; do
+        local major="${ver:0:1}"
+        install_python "${ver}"
+        virtualenv "${ver}" "user${major}"
+        virtualenv "${ver}" "neovim${major}"
+    done
+}
+
 main() {
     install_pyenv
-
-    for ver in "${ver2}" "${ver3}"; do
-        install_python "${ver}"
-        virtualenv "${ver}" "user${ver:0:1}"
-        virtualenv "${ver}" "neovim${ver:0:1}"
-    done
-
-    install_pipsi
+    setup_venvs
     pyenv global "user3" "user2" "system"
+    install_bins
 }
 
 main "$@"

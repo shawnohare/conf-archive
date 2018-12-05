@@ -32,17 +32,12 @@ dirs:
 	# sudo mkdir -p /usr/local/share
 	# sudo mkdir -p /usr/local/bin
 	# sudo chmod 775 /usr/local/opt
-	mkdir -p "${HOME}/.local/bin"
-	mkdir -p "${HOME}/.local/share"
-	mkdir -p "${HOME}/.local/opt"
-	mkdir -p "${HOME}/.cache"
-	mkdir -p "${HOME}/.config"
 	mkdir -p "${XDG_BIN_HOME}"
 	mkdir -p "${XDG_CONFIG_HOME}"
 	mkdir -p "${XDG_CACHE_HOME}"
 	mkdir -p "${XDG_DATA_HOME}"
 	mkdir -p "${XDG_OPT_HOME}"
-	mkdir -p "${HOME}/bin"
+	mkdir -p "${XDG_LIB_HOME}"
 	mkdir -p "${HOME}/src"
 	mkdir -p "${HOME}/tmp"
 

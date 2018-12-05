@@ -11,15 +11,24 @@
 # from the shell specific rc file (e.g., .bashrc, .zshrc)
 
 # --- XDG ---
+# Most applications that utlize XDG respect these variables, but some
+# still utilize hard-coded values or do not have access to the user env
+# (e.g., some graphical applications).
 # - XDG_CONFIG_HOME application configuration and some state
 # - XDG_DATA_HOME typically houses more static data files such as fonts.
-#   We store application data here for apps that typically dump everything into
-#   "~/.{app}", such as pyenv, go, etc. Another candidate location is ~/opt
-#   or ~/.local/opt
+
+# Exit early unless the -f (--force) flag is passed in.
+if [ ! "$1" = "-f" ] && [ ! -z "${USER_PROFILE_SET}" ]; then
+    echo "${HOME}/.profile already sourced."
+    return 0
+fi
+
+export USER_PROFILE_SET=1
 export XDG_BIN_HOME="${HOME}/.local/bin"
-export XDG_CACHE_HOME="${HOME}/.cache"  # application config and state
-export XDG_CONFIG_HOME="${HOME}/.config"  # application config and state
+export XDG_CACHE_HOME="${HOME}/.cache"
+export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_LIB_HOME="${HOME}/.local/lib"
 export XDG_OPT_HOME="${HOME}/.local/opt"
 
 # Misc vars forcing apps to adhere to the dir structure above.
@@ -40,7 +49,8 @@ export CARGO_HOME="${XDG_OPT_HOME}/cargo"
 # export CARGO_INSTALL_ROOT="${XDG_BIN_HOME}"
 export GOPATH="${XDG_OPT_HOME}/go"
 # export GOBIN="${XDG_BIN_HOME}"
-export PIPSI_HOME="${XDG_OPT_HOME}/pipsi"
+export PIPX_HOME="${XDG_OPT_HOME}/pipx"
+
 export PYENV_ROOT="${XDG_OPT_HOME}/pyenv"
 export RUSTUP_HOME="${XDG_OPT_HOME}/rustup" # Might be superfluous.
 # export SPARK_HOME="/opt/spark"
@@ -53,6 +63,8 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # export BASH="/usr/local/bin/bash"
 # Setting the BROWSER env var can break fish's help command.
 # export BROWSER="safari"
+export PAGER="less"
+export MANPAGER="less"
 export EDITOR="nvim"
 export VISUAL="nvim"
 
@@ -63,8 +75,7 @@ export VISUAL="nvim"
 
 # Enable command line color
 export CLICOLOR=1
-# Define solarized colors for the 'ls' command on BSD/Darwin
-# Default linux LS
+# Default linux-like colors.
 export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
 # Solarized:
 # export LSCOLORS='ExfxcxdxbxGxDxabagacad'
@@ -81,27 +92,36 @@ export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
 # the following parameters provides for colored man-page display.
 export MANCOLOR=1
 export LESSHISTFILE="${XDG_CONFIG_HOME}/less/history"
-export LESS_TERMCAP_mb=$(printf "\033[01;31m")    # begins blinking = LIGHT_RED
-export LESS_TERMCAP_md=$(printf "\033[00;34m")     # begins bold = BLUE
-export LESS_TERMCAP_me=$(printf "\033[0m")        # ends mode = NO_COLOR
-export LESS_TERMCAP_so=$(printf "\033[00;47;30m") # begins standout-mode = REVERSE_WHITE
-export LESS_TERMCAP_se=$(printf "\033[0m")        # ends standout-mode = NO_COLOR
-export LESS_TERMCAP_us=$(printf "\033[00;32m")    # begins underline = LIGHT_GREEN
-export LESS_TERMCAP_ue=$(printf "\033[0m")        # ends underline = NO_COLOR
+LESS_TERMCAP_mb=$(printf "\\033[01;31m")    # begins blinking = LIGHT_RED
+LESS_TERMCAP_md=$(printf "\\033[00;34m")    # begins bold = BLUE
+LESS_TERMCAP_me=$(printf "\\033[0m")        # ends mode = NO_COLOR
+LESS_TERMCAP_so=$(printf "\\033[00;47;30m") # begins standout-mode = REVERSE_WHITE
+LESS_TERMCAP_se=$(printf "\\033[0m")        # ends standout-mode = NO_COLOR
+LESS_TERMCAP_us=$(printf "\\033[00;32m")    # begins underline = LIGHT_GREEN
+LESS_TERMCAP_ue=$(printf "\\033[0m")        # ends underline = NO_COLOR
+export LESS_TERMCAP_mb
+export LESS_TERMCAP_md
+export LESS_TERMCAP_me
+export LESS_TERMCAP_so
+export LESS_TERMCAP_se
+export LESS_TERMCAP_us
+export LESS_TERMCAP_ue
 
 # The following provide color highlighing by default for GREP
 # export GREP_COLOR='37;45'
 # NOTE: GREP_OPTIONS is deprecated.
 # export GREP_OPTIONS='--color=auto'
 
-
 # --- PATH
 # Set this last to ensure values are not unintentionally overwritten.
 # Make sure usr/local/bin occurs before usr/bin.
-PATH="/usr/local/opt/bin:/usr/local/bin:/usr/local/sbin:$PATH"
-PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
-PATH="${HOME}/bin:${XDG_BIN_HOME}:${PATH}"
-PATH="${PYENV_ROOT}/bin:${PATH}"
+if [ -z "${PATH_SET}" ]; then
+    PATH="/usr/local/opt/bin:/usr/local/bin:/usr/local/sbin:$PATH"
+    PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
+    PATH="${HOME}/bin:${XDG_BIN_HOME}:${PATH}"
+    PATH="${PYENV_ROOT}/bin:${PATH}"
+    export PATH_SET=1
+fi
 
 # --- Ruby
 # if command -v rbenv >/dev/null 2>&1; then
@@ -110,14 +130,15 @@ PATH="${PYENV_ROOT}/bin:${PATH}"
 
 # --- Python
 # pyenv init will use PYENV_ROOT or default to ~/.pyenv
-if [ -e "${PYENV_ROOT}/bin/pyenv" ]; then
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
+if [ -z "${PYENV_SET}" ] && [ -e "${PYENV_ROOT}/bin/pyenv" ]; then
+    eval "$("${PYENV_ROOT}/bin/pyenv" init -)"
+    eval "$("${PYENV_ROOT}/bin/pyenv" virtualenv-init -)"
+    export PYENV_SET=1
 fi
 
 # Multi-user installs source the nix-daemon.sh in /etc profiles but
 # single-user installs do not modify those files. Moreover, a multi-user
 # install does not appear to provide the nix.sh script in the user profile link
-if [ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]; then
-  . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
-fi
+# if [ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]; then
+#     . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
+# fi
