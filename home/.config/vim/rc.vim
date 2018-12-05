@@ -1,6 +1,8 @@
 " =========================================================================
 " Initialization
 " Packages load immediately after initialization.
+" TODO:
+" - [ ] Use native package manager or minpac wrapper.
 " ==========================================================================
 
 let g:is_bash = 1
@@ -10,7 +12,7 @@ let mapleader = "\<Space>"
 " --------------------------------------------------------------------------
 "  ale init
 " --------------------------------------------------------------------------
-let g:ale_completion_enabled = 0
+let g:ale_completion_enabled = 1
 
 "==========================================================================
 " Plugins
@@ -60,7 +62,7 @@ Plug 'morhetz/gruvbox'
 Plug 'romainl/flattened'
 
 " Completion
-Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
+" Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 
 " Search and replace
 " Plug 'mileszs/ack.vim'  " Can support ag or rg too.
