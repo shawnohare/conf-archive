@@ -1,1 +1,3 @@
-source $XDG_CONFIG_HOME/vim/rc.vim
+" NOTE: DEPRECATED in favor of setting MYVIMRC and VIMINIT in environment
+" and utilizing a common vimrc file.
+" source $XDG_CONFIG_HOME/vim/init.vim

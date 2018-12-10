@@ -1,3 +1,7 @@
+" NOTE: The use of ~/.config/nvim/init.vim is deprecated in favor of
+" setting MYVIMRC and VIMINIT and maintaining a single vimrc file with
+" branching logic for nvim vs vim
+
 " ==========================================================================
 " Python
 " As part of config install, venvs are created for neovim2 and neovim3.
@@ -8,13 +12,13 @@
 " # packages that provide cli programs that are used in Neovim.
 " pip install flake8
 " ln -s `pyenv which flake8` ~/bin/flake8  # Assumes that $HOME/bin is in $PATH
-" ==========================================================================
 
 let g:python_host_prog  = $PYENV_ROOT . '/versions/neovim2/bin/python'
 let g:python3_host_prog = $PYENV_ROOT . '/versions/neovim3/bin/python'
+" ==========================================================================
 
 
-source $XDG_CONFIG_HOME/vim/rc.vim
+source $MYVIMRC
 
 " ==========================================================================
 " PLUGIN CONFIG
@@ -22,7 +26,8 @@ source $XDG_CONFIG_HOME/vim/rc.vim
 "
 "---------------------------------------------------------------------------
 " Deoplete
-" NOTE: ALE provides completion via LSP, which potentially deprecates this.
+" NOTE: DEPRECATED
+" ALE provides completion via LSP, which potentially deprecates this.
 " Fri, 05 Feb 2016 10:52:51 -0800
 " https://github.com/Shougo/deoplete.nvim
 "---------------------------------------------------------------------------

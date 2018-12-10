@@ -1,133 +1,163 @@
-" =========================================================================
+" ============================================================================
 " Initialization
 " Packages load immediately after initialization.
 " TODO:
 " - [ ] Use native package manager or minpac wrapper.
-" ==========================================================================
+" - [ ] Further package audit.
+" - [ ] Explore whether using packadd with opt packages.
+" ============================================================================
+"
+" ============================================================================
+" Packages / Plugins
+" Loading handled by the builtin package loader, cf., :h packages
+" Management (install / update / clean) handled by minpac.
+" minpac is lazily loaded, since runtime path augmentation is handled natively.
+" To enable lazy loading, it is installed in minpac/opt/
+"
+" The main disadvantage of utilizing the native package loader and lazy
+" package management is that packages cannot be easily toggled on or off
+" within the rc file. This can probably be accomplished by simply calling
+" packadd directly and making all packages optionally loaded.
+" ----------------------------------------------------------------------------
+"
+" Update packpath to utilize same packages for vim8+/neovim.
+set packpath^=$XDG_DATA_HOME/vim/site
+let minpac_home = "$XDG_DATA_HOME/vim/site/pack/minpac/opt/minpac"
+
+function! PackInit() abort
+    packadd minpac
+    call minpac#init()
+    call minpac#add('k-takata/minpac', {'type': 'opt'})
+
+    " Additional plugins here.
+    call minpac#add('airblade/vim-gitgutter')
+    call minpac#add('dyng/ctrlsf.vim')
+    call minpac#add('jiangmiao/auto-pairs')
+    call minpac#add('lifepillar/vim-solarized8')
+    call minpac#add('morhetz/gruvbox')
+    call minpac#add('romainl/flattened')
+    call minpac#add('sheerun/vim-polyglot')
+    call minpac#add('tpope/vim-commentary')
+    call minpac#add('tpope/vim-repeat')
+    call minpac#add('tpope/vim-surround')
+    call minpac#add('w0rp/ale')
+
+endfunction
+
+" Define user commands for updating/cleaning the plugins.
+" Each of them calls PackInit() to load minpac and register
+" the information of plugins, then performs the task.
+command! PackUpdate call PackInit() | call minpac#update() | call minpac#status()
+command! PackClean  call PackInit() | call minpac#clean()
+command! PackStatus call PackInit() | call minpac#status()
+
+
+" Bootstrap minpac
+if empty(glob(minpac_home))
+    execute '!git clone https://github.com/k-takata/minpac.git ' . minpac_home
+    call PackInit()
+    call minpac#update()
+    " Assumes MYVIMRC is previously set.
+    autocmd VimEnter * packloadall | source $MYVIMRC
+endif
+" ============================================================================
+
+" python hosts are neovim specific.
+let g:python_host_prog  = $PYENV_ROOT . '/versions/neovim2/bin/python'
+let g:python3_host_prog = $PYENV_ROOT . '/versions/neovim3/bin/python'
 
 let g:is_bash = 1
 " set shell=zsh
 let mapleader = "\<Space>"
 
-" --------------------------------------------------------------------------
-"  ale init
-" --------------------------------------------------------------------------
-let g:ale_completion_enabled = 1
-
 "==========================================================================
-" Plugins
-" Using vim-plug
-" NOTE: We do not really make use of too many features in vim-plug. The
-" async updating of packages is handy, but we could potentially replace a lot
-" this with a simple bash script and the native vim8/neovim package manager.
-" See :help packages
-"==========================================================================
-if has('nvim')
-  " NOTE: Some guis do not see the environment, so we might want to
-  " hardcode XDG_DATA_HOME=~/.local/share, since we use default values anyway.
-  let vimplug = "$XDG_DATA_HOME/nvim/site/autoload/plug.vim"
-else
-  let vimplug = "~/.vim/autoload/plug.vim"
-endif
-
-
-" Store vim and nvim plugins in the same location. This works for dein too.
-" Consider using nvim/site/pack.
-let plugins = "$XDG_DATA_HOME/nvim/site/plugins"
-
-" Auto install vim-plug if it doesn't already exist.
-if empty(glob(vimplug))
-  execute ' !curl -fLo ' . vimplug . ' --create-dirs ' .
-        \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync
-endif
-
-call plug#begin(plugins)
+" TODO: Delete vim-plug config
 
 " Browsing
-" Plug 'tpope/vim-vinegar'  " enhanced netrw file browser
-" Plug 'majutsushi/tagbar'  " display tags in a window
-" Plug 'ludovicchabant/vim-gutentags'
+" call minpac#add('tpope/vim-vinegar'  " enhanced netrw file browser
+" call minpac#add('majutsushi/tagbar'  " display tags in a window
+" call minpac#add('ludovicchabant/vim-gutentags'
 
 " Colorscheme
-" Plug 'rafi/awesome-vim-colorschemes'
-" Plug 'chriskempson/base16-vim'
-" Plug 'igungor/schellar'
-Plug 'lifepillar/vim-solarized8'
-Plug 'morhetz/gruvbox'
-" Plug 'rakr/vim-one'
-" Plug 'robertmeta/nofrils'
-" Plug 'romainl/Apprentice'
-" Plug 'shawnohare/singularity', { 'rtp': 'vim/' }
-Plug 'romainl/flattened'
+" call minpac#add('rafi/awesome-vim-colorschemes'
+" call minpac#add('chriskempson/base16-vim'
+" call minpac#add('igungor/schellar'
+" call minpac#add('lifepillar/vim-solarized8'
+" call minpac#add('morhetz/gruvbox'
+" " call minpac#add('rakr/vim-one'
+" " call minpac#add('robertmeta/nofrils'
+" " call minpac#add('romainl/Apprentice'
+" " call minpac#add('shawnohare/singularity', { 'rtp': 'vim/' }
+" call minpac#add('romainl/flattened'
 
-" Completion
-" Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
+" " Completion
+" " call minpac#add('autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 
-" Search and replace
-" Plug 'mileszs/ack.vim'  " Can support ag or rg too.
-Plug 'dyng/ctrlsf.vim'  " Allows in place editing like vim-ags
-Plug 'gabesoft/vim-ags' " Fast find/replace across all files.
-" Plug 'eugen0329/vim-esearch'
-" The fzf binary is installed by nix.
-" Plug 'junegunn/fzf'
-" Plug 'junegunn/fzf.vim'
-
-
-" Editing Enhancement
-Plug 'tpope/vim-surround'      " Easy handling of surrounding brackets etc.
-Plug 'jiangmiao/auto-pairs'    " Automatic closing of parentheses etc.
-" Plug 'junegunn/vim-easy-align' " Easy alignment of text blocks
-Plug 'tpope/vim-commentary'    " Easy toggling of comment markers
-Plug 'tpope/vim-repeat'        " Make vim-surround and vim-commentary repeatable
-" Plug 'kshenoy/vim-signature'   " Make marks and navigate between.
-Plug 'w0rp/ale'                " buffer syntax checking, conflicts with neomake
-
-" Source Code Management Tools
-" Plug 'tpope/vim-fugitive'      " git integration for VIM
-Plug 'airblade/vim-gitgutter'  " display git diffs in the gutter
-
-" Filetype Specific
-" One disadvantage of selective loading is that help files are unavailable
-" when working on a different file-type.  This is an minor annoyance when
-" configuring a plugin while the init file is open. Most filetype specific
-" plugins tend to not load very much initially, so it could be
-" advantageous to load all plugins.
-" use vim-latex instead?
-" NOTE: lazy-loading the julia-vim plugin causes issues
-" Plug 'chrisbra/csv.vim',     { 'for': 'csv' }
-" Plug 'ensime/ensime-vim' " had issues getting ensime to work
-" Plug 'python-mode/python-mode', { 'for': 'python' }
-" Plug 'JuliaLang/julia-vim'
-" Plug 'LnL7/vim-nix',         { 'for': 'nix' }
-" Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
-" Plug 'cespare/vim-toml',     { 'for': 'toml' }
-" Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
-" Plug 'fatih/vim-go',         { 'for': 'go' }
-" Plug 'lervag/vimtex',        { 'for': 'tex' }
-" Plug 'mattn/emmet-vim',      { 'for': 'html' }
-" Plug 'mechatroner/rainbow_csv'
-" Plug 'neovimhaskell/haskell-vim',     { 'for': 'haskell' }
-" Plug 'othree/html5.vim',     { 'for': 'html' }
-" Plug 'plasticboy/vim-markdown'
-" Plug 'rust-lang/rust.vim',   { 'for': 'rust' }
-" semshi is a semantic python syntax highlighter. But it slows things down.
-" In the future, the various language servers might provide this feature.
-" Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-Plug 'sheerun/vim-polyglot'
-
-" Neovim specific plugins
-if has('nvim')
-  " Plugins can go here.
-else
-  " Plugins can go here.
-endif
+" " Search and replace
+" " call minpac#add('mileszs/ack.vim'  " Can support ag or rg too.
+" call minpac#add('dyng/ctrlsf.vim'  " Allows in place editing like vim-ags
+" call minpac#add('gabesoft/vim-ags' " Fast find/replace across all files.
+" " call minpac#add('eugen0329/vim-esearch'
+" " The fzf binary is installed by nix.
+" " call minpac#add('junegunn/fzf'
+" " call minpac#add('junegunn/fzf.vim'
 
 
-call plug#end()
+" " Editing Enhancement
+" call minpac#add('tpope/vim-surround'      " Easy handling of surrounding brackets etc.
+" call minpac#add('jiangmiao/auto-pairs'    " Automatic closing of parentheses etc.
+" " call minpac#add('junegunn/vim-easy-align' " Easy alignment of text blocks
+" call minpac#add('tpope/vim-commentary'    " Easy toggling of comment markers
+" call minpac#add('tpope/vim-repeat')        " Make vim-surround and vim-commentary repeatable
+" " call minpac#add('kshenoy/vim-signature'   " Make marks and navigate between.
+" call minpac#add('w0rp/ale'                " buffer syntax checking, conflicts with neomake
+
+" " Source Code Management Tools
+" " call minpac#add('tpope/vim-fugitive'      " git integration for VIM
+" call minpac#add('airblade/vim-gitgutter'  " display git diffs in the gutter
+
+" " Filetype Specific
+" " One disadvantage of selective loading is that help files are unavailable
+" " when working on a different file-type.  This is an minor annoyance when
+" " configuring a plugin while the init file is open. Most filetype specific
+" " plugins tend to not load very much initially, so it could be
+" " advantageous to load all plugins.
+" " use vim-latex instead?
+" " NOTE: lazy-loading the julia-vim plugin causes issues
+" " call minpac#add('chrisbra/csv.vim',     { 'for': 'csv' }
+" " call minpac#add('ensime/ensime-vim' " had issues getting ensime to work
+" " call minpac#add('python-mode/python-mode', { 'for': 'python' }
+" " call minpac#add('JuliaLang/julia-vim'
+" " call minpac#add('LnL7/vim-nix',         { 'for': 'nix' }
+" " call minpac#add('Vimjas/vim-python-pep8-indent', { 'for': 'python' }
+" " call minpac#add('cespare/vim-toml',     { 'for': 'toml' }
+" " call minpac#add('derekwyatt/vim-scala', { 'for': 'scala' }
+" " call minpac#add('fatih/vim-go',         { 'for': 'go' }
+" " call minpac#add('lervag/vimtex',        { 'for': 'tex' }
+" " call minpac#add('mattn/emmet-vim',      { 'for': 'html' }
+" " call minpac#add('mechatroner/rainbow_csv'
+" " call minpac#add('neovimhaskell/haskell-vim',     { 'for': 'haskell' }
+" " call minpac#add('othree/html5.vim',     { 'for': 'html' }
+" " call minpac#add('plasticboy/vim-markdown'
+" " call minpac#add('rust-lang/rust.vim',   { 'for': 'rust' }
+" " semshi is a semantic python syntax highlighter. But it slows things down.
+" " In the future, the various language servers might provide this feature.
+" " call minpac#add('numirias/semshi', {'do': ':UpdateRemotePlugins'}
+" call minpac#add('sheerun/vim-polyglot'
+
+" " Neovim specific plugins
+" if has('nvim')
+"   " Plugins can go here.
+" else
+"   " Plugins can go here.
+" endif
+
+
+" call plug#end()
+"==========================================================================
 
 " ==========================================================================
-" PLUGIN CONFIG
+" PACKAGE / PLUGIN CONFIG
 " ==========================================================================
 "
 " --------------------------------------------------------------------------
@@ -161,6 +191,7 @@ let g:ale_fixers= {
       \ 'python': ['black'],
       \ }
 let g:ale_fix_on_save = 1
+let g:ale_completion_enabled = 1
 let g:ale_completion_delay = 100
 let g:ale_echo_msg_format = '[%linter%]% code%: %s'
 let g:ale_lint_on_enter = 0
@@ -240,6 +271,7 @@ nmap <Leader>a <Plug>(EasyAlign)
 " tagbar
 " --------------------------------------------------------------------------
 nmap <Leader>tag :TagbarToggle<CR>
+
 
 " =========================================================================
 " SETTINGS
@@ -357,7 +389,12 @@ let g:solarized_enable_extra_hi_groups = 1
 " let g:solarized_old_cursor_style = 0
 " let g:solarized_termtrans = 1
 
-colorscheme flattened_dark
+try
+    colorscheme flattened_dark
+catch /^Vim\%((\a\+)\)\=:E185/
+    set notermguicolors
+    colorscheme desert
+endtry
 
 
 " --------------------------------------------------------------------------
