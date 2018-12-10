@@ -42,12 +42,13 @@ function! PackInit() abort
     call minpac#add('tpope/vim-surround')
     call minpac#add('w0rp/ale')
 
+    " call minpac#add('autozimu/LanguageClient-neovim', {'branch': 'next', 'do': {-> system('bash install.sh')}})
 endfunction
 
 " Define user commands for updating/cleaning the plugins.
 " Each of them calls PackInit() to load minpac and register
 " the information of plugins, then performs the task.
-command! PackUpdate call PackInit() | call minpac#update() | call minpac#status()
+command! PackUpdate call PackInit() | call minpac#clean() | call minpac#update() | call minpac#status()
 command! PackClean  call PackInit() | call minpac#clean()
 command! PackStatus call PackInit() | call minpac#status()
 
