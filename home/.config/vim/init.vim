@@ -1,5 +1,11 @@
 " ============================================================================
 " Initialization
+" TODO:
+" - Use a mix of minpac with builtin package manager to optionally install
+"   all packages, and selectively load them so it's easy to toggle them on
+"   and off. This is really only useful for debugging though.
+" - Consider co-opting vim-lsc's mappings, since they override builtin vim
+"   ones.
 
 " python hosts are neovim specific.
 let g:python_host_prog  = $PYENV_ROOT . '/versions/neovim2/bin/python'
@@ -43,16 +49,17 @@ function! PkgInit() abort
     call minpac#add('w0rp/ale')
     call minpac#add('wellle/targets.vim')
     call minpac#add('lervag/vimtex')
+    " call minpac#add('natebosch/vim-lsc')
 
     " call minpac#add('autozimu/LanguageClient-neovim', {'branch': 'next', 'do': {-> system('bash install.sh')}})
 endfunction
 
 " Define user commands for updating/cleaning the plugins.
-" Each of them calls PackInit() to load minpac and register
+" Each of them calls PkgInit() to load minpac and register
 " the information of plugins, then performs the task.
-command! PkgUpdate call PackInit() | call minpac#clean() | call minpac#update() | call minpac#status()
-command! PkgClean  call PackInit() | call minpac#clean()
-command! PkgStatus call PackInit() | call minpac#status()
+command! PkgUpdate call PkgInit() | call minpac#clean() | call minpac#update() | call minpac#status()
+command! PkgClean  call PkgInit() | call minpac#clean()
+command! PkgStatus call PkgInit() | call minpac#status()
 
 
 " Bootstrap minpac
@@ -74,6 +81,22 @@ if executable('rg')
   let g:ackprg = 'rg --vimgrep --no-heading -uu'
 endif
 
+" --------------------------------------------------------------------------
+" vim-lsc 
+" NOTE: 2019-01-06T15:01:47-0800 
+" Completion works for class attributes, but type info not provided.
+" This appears to be true also for LanguageClient-Neovim.
+" The default invokations mimic vim commands, which is a plus.
+let g:lsc_enable_autocomplete = v:true
+" let g:lsc_auto_map = v:true " Use defaults
+let g:lsc_auto_map = {
+    \ 'defaults': v:true,
+    \ 'Completion': 'omnifunc',
+    \}
+let g:lsc_server_commands = {
+        \ 'dart': 'dart_language_server',
+        \ 'python': 'pyls',
+        \ }
 
 " --------------------------------------------------------------------------
 " ale
@@ -94,7 +117,7 @@ let g:ale_fixers= {
       \ 'python': ['black'],
       \ }
 let g:ale_fix_on_save = 1
-let g:ale_completion_enabled = 1
+let g:ale_completion_enabled = 1 
 let g:ale_completion_delay = 100
 let g:ale_echo_msg_format = '[%linter%]% code%: %s'
 let g:ale_lint_on_enter = 0
@@ -106,30 +129,31 @@ let g:ale_sign_error = "✖" " ☓, ⚐
 let g:ale_sign_warning = "⚠"
 let g:ale_python_black_options = "--py36"
 
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
-nmap <leader>fix <Plug>(ale_fix)
-nmap <leader>lint <Plug>(ale_lint)
-nmap <leader>find <Plug>(ale_find_references)
-nmap <leader>gd <Plug>(ale_go_to_definition)
-nmap <leader>gh <Plug>(ale_hover)
-nmap <leader>info <Plug>(ale_hover)
+" nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+" nmap <silent> <C-j> <Plug>(ale_next_wrap)
+" nmap <leader>fix <Plug>(ale_fix)
+" nmap <leader>lint <Plug>(ale_lint)
+" nmap <leader>find <Plug>(ale_find_references)
+" nmap <leader>gd <Plug>(ale_go_to_definition)
+" nmap <leader>gh <Plug>(ale_hover)
+" nmap <leader>info <Plug>(ale_hover)
 
 
 " --------------------------------------------------------------------------
 " LanguageClient-neovim
 let g:LanguageClient_autoStart = 1
-let g:LanguageClient_diagnosticsEnable = 0
+let g:LanguageClient_diagnosticsEnable = 1
 let g:LanguageClient_serverCommands = {
     \ 'sh': ['bash-language-server', 'start'],
     \ 'python': ['pyls'],
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
     \ }
 
+" set completefunc=LanguageClient#complete
 
 " Use <Tab> to call omnicomplete and scroll through results.
-inoremap <silent><expr> <Tab>
-\ pumvisible() ? "\<C-n>" : "\<C-x>\<C-o>"
+" inoremap <silent><expr> <Tab>
+" \ pumvisible() ? "\<C-n>" : "\<C-x>\<C-o>"
 
 " nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 " nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>
