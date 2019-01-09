@@ -1,8 +1,11 @@
 #! /usr/bin/env bash
 
-if [ ! -d "${CARGO_HOME}" ]; then
-    curl https://sh.rustup.rs -sSf | bash -s -- --no-modify-path
-fi
+install_rust() {
+    if [ ! -d "${CARGO_HOME}" ]; then
+        curl https://sh.rustup.rs -sSf | bash -s -- --no-modify-path
+    fi
+    # To uninstall, just do rustup self uninstall
+}
 
 # export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig
 

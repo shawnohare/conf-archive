@@ -15,5 +15,6 @@
 # sourced if we are a login shell).  if [[ $SHLVL == 1 && ! -o LOGIN ]]; then
 # source ~/.zpath fi
 
+#
 export ZDOTDIR="${XDG_CONFIG_HOME:-${HOME}/.config}/zsh"
 # export ZSH_AUTOSUGGEST_USE_ASYNC=1

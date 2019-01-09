@@ -40,7 +40,9 @@ function! PackInit() abort
     call minpac#add('tpope/vim-commentary')
     call minpac#add('tpope/vim-repeat')
     call minpac#add('tpope/vim-surround')
+    " call minpac#add('vim-airline/vim-airline')
     call minpac#add('w0rp/ale')
+    call minpac#add('Vimjas/vim-python-pep8-indent')
 
     " call minpac#add('autozimu/LanguageClient-neovim', {'branch': 'next', 'do': {-> system('bash install.sh')}})
 endfunction
@@ -58,7 +60,9 @@ if empty(glob(minpac_home))
     execute '!git clone https://github.com/k-takata/minpac.git ' . minpac_home
     call PackInit()
     call minpac#update()
-    " Assumes MYVIMRC is previously set.
+    if !empty($MYVIMRC)
+        let $MYVIMRC = "$XDG_CONFIG_HOME/vim/init.vim"
+    endif
     autocmd VimEnter * packloadall | source $MYVIMRC
 endif
 " ============================================================================
@@ -191,18 +195,22 @@ let g:ale_fixers= {
       \ 'sh': ['shfmt'],
       \ 'python': ['black'],
       \ }
-let g:ale_fix_on_save = 1
-let g:ale_completion_enabled = 1
+" let g:airline#extensions#ale#enabled = 1
 let g:ale_completion_delay = 100
+let g:ale_completion_enabled = 1
+let g:ale_cursor_detail = 0
 let g:ale_echo_msg_format = '[%linter%]% code%: %s'
+let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_save = 0
-let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_text_changed = 0
 let g:ale_open_list = 1
+let g:ale_python_black_options = "--py36"
 let g:ale_set_ballons = 1
+let g:ale_virtualtext_cursor= 0
+let g:ale_set_highlights = 0
 let g:ale_sign_error = "✖" " ☓, ⚐
 let g:ale_sign_warning = "⚠"
-let g:ale_python_black_options = "--py36"
 
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
@@ -218,7 +226,7 @@ nmap <leader>info <Plug>(ale_hover)
 " LanguageClient-neovim
 " --------------------------------------------------------------------------
 let g:LanguageClient_autoStart = 1
-let g:LanguageClient_diagnosticsEnable = 0
+let g:LanguageClient_diagnosticsEnable = 1
 let g:LanguageClient_serverCommands = {
     \ 'sh': ['bash-language-server', 'start'],
     \ 'python': ['pyls'],
@@ -227,13 +235,14 @@ let g:LanguageClient_serverCommands = {
 
 
 " Use <Tab> to call omnicomplete and scroll through results.
-inoremap <silent><expr> <Tab>
-\ pumvisible() ? "\<C-n>" : "\<C-x>\<C-o>"
+" inoremap <silent><expr> <Tab>
+" \ pumvisible() ? "\<C-n>" : "\<C-x>\<C-o>"
 
-" nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-" nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>
-" nnoremap <silent> <Leader>lsd :call LanguageClient_textDocument_hover()<CR>
-" nnoremap <silent> <Leader>lsr :call LanguageClient_textDocument_rename()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>
+nnoremap <silent> <Leader>lsd :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> <Leader>lsr :call LanguageClient_textDocument_rename()<CR>
+nnoremap <silent> <Leader>fmt :call LanguageClient_textDocument_formatting()<CR>
 
 
 
@@ -292,7 +301,7 @@ if has('vim')
   set incsearch
   set listchars   = tab:>-,trail:.,extends:#,nbsp:. ",tab:>-,eol:¶ " customize whitespace look
   set nocompatible
-  set smarttab
+  " set smarttab
   set tabpagemax  = 50
 endif
 
@@ -434,13 +443,14 @@ nmap<leader>bgs :let &background = ( &background == "dark"? "light" : "dark")<CR
 " --------------------------------------------------------------------------
 " Indentation
 " --------------------------------------------------------------------------
-set expandtab  " <Tab> converted to softtabstop # spaces
+filetype indent on
+set smarttab
 set softtabstop=4 " number of spaces <Tab> converted to
 set tabstop=4  " number of visual spaces per <Tab> character
 set shiftwidth=4 " <Tab> converts to this # spaces at beginning of line
+set expandtab  " <Tab> converted to softtabstop # spaces
 " set smartindent " dumbindent?
 " set cindent " also dumb?
-filetype indent on
 
 " --------------------------------------------------------------------------
 " Search
@@ -451,19 +461,18 @@ set smartcase
 " --------------------------------------------------------------------------
 " STATUSLINE
 " --------------------------------------------------------------------------
-set laststatus=2        " Always display statusline.
-set statusline+=%n\ \|\  " Buffer number.
-set statusline+=%f\ \|\  "tail of the filename if f or full path if F
-set statusline+=%{mode()}  " Current mode.
+set laststatus=2
+set statusline+=%{mode()}
+set statusline+=\ \|\ Buf:%n
+" filname (f = tail, F = full), modified flag, readonly flag
+set statusline+=\ \|\ %f%m%r
 " set statusline+=%{fugitive#statusline()}  " git branch
 set statusline+=%(\ %)%#ModeMsg#%{&paste?'\ PASTE\ ':''}%*  " paste mode
 set statusline+=%=              " left/right separator
-set statusline+=%{&fenc}\ \|\        " file encoding
-set statusline+=%{&ff}\ \|\           "file format
+set statusline+=[%{(&fileencoding!=''?&fileencoding:&encoding)}]
+set statusline+=[%{&fileformat}]
 set statusline+=%h              " help file flag
-set statusline+=%m              " modified flag
 set statusline+=%w              " preview windowflag: [Preview]
-set statusline+=%r              " read only flag
 set statusline+=%y\ \|\          " filetype
 set statusline+=%p%%\ %l:%c " % through file : line num: column num
 set statusline+=%#warningmsg#

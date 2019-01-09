@@ -23,6 +23,10 @@ if [ ! "$1" = "-f" ] && [ ! -z "${USER_PROFILE_SET}" ]; then
     return 0
 fi
 
+# TODO: Consider setting BASH_ENV and ENV to a minimal ~/.env that mirrors
+# .zshenv. The .env file would be sourced whenever bash or sh is run for
+# e.g., for the purpose of executing a script (non-interactive, non-login)
+
 export USER_PROFILE_SET=1
 export XDG_BIN_HOME="${HOME}/.local/bin"
 export XDG_CACHE_HOME="${HOME}/.cache"
@@ -47,6 +51,7 @@ export PYSPARK_DRIVER_PYTHON="ipython"
 export SCREENRC="${XDG_CONFIG_HOME}/screen/screenrc"
 export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
 export STASH_TARGET="${HOME}"
+export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 
 # Optional packages that tend to utilize a single dir.
 # export PYTHONUSERBASE="${XDG_OPT_HOME}"
@@ -66,7 +71,6 @@ export STACK_ROOT="${XDG_OPT_HOME}/stack"
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_AUTO_UPDATE=1
 
-# export BASH="/usr/local/bin/bash"
 # Setting the BROWSER env var can break fish's help command.
 # export BROWSER="safari"
 export PAGER="less"
@@ -97,7 +101,7 @@ export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
 # the terminfo termcap interface for color capabilities. Exporting
 # the following parameters provides for colored man-page display.
 export MANCOLOR=1
-export LESSHISTFILE="${XDG_CONFIG_HOME}/less/history"
+export LESSHISTFILE="${XDG_DATA_HOME}/less/history"
 LESS_TERMCAP_mb=$(printf "\\033[01;31m")    # begins blinking = LIGHT_RED
 LESS_TERMCAP_md=$(printf "\\033[00;34m")    # begins bold = BLUE
 LESS_TERMCAP_me=$(printf "\\033[0m")        # ends mode = NO_COLOR
@@ -118,7 +122,31 @@ export LESS_TERMCAP_ue
 # NOTE: GREP_OPTIONS is deprecated.
 # export GREP_OPTIONS='--color=auto'
 
-# --- PATH
+# =============================================================================
+# aliases
+case "${OSTYPE}" in
+linux*)
+    alias la="ls --color -Flash"
+    alias ll="ls --color -Flsh"
+    alias ls="ls --color -F"
+    ;;
+    # darwin*) source "${XDG_CONFIG_HOME}/macos";;
+    # *bsd*) source "${XDG_CONFIG_HOME}/bsd";;
+**)
+    alias ls="ls -GF"
+    alias la="ls -GFlash"
+    alias ll="ls -GFlsh"
+    ;;
+esac
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias emc="emacsclient"
+# =============================================================================
+
+# =============================================================================
+# PATH
 # Set this last to ensure values are not unintentionally overwritten.
 # Make sure usr/local/bin occurs before usr/bin.
 if [ -z "${PATH_SET}" ]; then
@@ -135,7 +163,8 @@ fi
 # fi
 
 # --- Python
-# pyenv init will use PYENV_ROOT or default to ~/.pyenv
+# pyenv init will use PYENV_ROOT or default to ~/.pyenylvanwenches101!@#$
+
 if [ -z "${PYENV_SET}" ] && [ -e "${PYENV_ROOT}/bin/pyenv" ]; then
     eval "$("${PYENV_ROOT}/bin/pyenv" init -)"
     eval "$("${PYENV_ROOT}/bin/pyenv" virtualenv-init -)"
@@ -148,3 +177,4 @@ fi
 # if [ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]; then
 #     . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
 # fi
+# =============================================================================

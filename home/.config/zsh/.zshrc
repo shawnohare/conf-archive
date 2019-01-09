@@ -1,17 +1,16 @@
-# .zshrc is sourced by interactive shells.
-# PATH is set in .zprofile, which is a proxy for ~/.profile.
+# zshrc is sourced by interactive shells.
+# /etc/zprofile and ~/.profile are sourced before.
 
-# Set shell independent settings.
-source "${XDG_CONFIG_HOME}/sh/rc.sh" > /dev/null 2>&1
-fpath=(${ZDOTDIR}/plugins/zsh-users/zsh-completions $fpath)
+source "${HOME}/.profile" > /dev/null 2>&1
+fpath=(${ZDOTDIR}/completions ${ZDOTDIR}/plugins/zsh-users/zsh-completions $fpath)
 autoload -U compinit && compinit
-
+# ----------------------------------------------------------------------------
 # Load plugins.
 # We have some basic custom logic for managing plugins. Basic profiling
 # suggests its only about 100-200ms faster loading than zplug.
 
-# zplug(plugin_repo, relative_path_to_source)
-function zplug() {
+# plug(plugin_repo, relative_path_to_source)
+function plug() {
   local plugin="${ZDOTDIR}/plugins/$1/$2"
   if [[ ! -e "${plugin}" ]]; then
       git clone --recursive "https://$1" "${ZDOTDIR}/plugins/$1"
@@ -19,16 +18,14 @@ function zplug() {
   source "${plugin}"
 }
 
-zplug "github.com/junegunn/fzf" "shell/completion.zsh"
-zplug "github.com/junegunn/fzf" "shell/key-bindings.zsh"
-zplug "github.com/rupa/z" "z.sh"
-zplug "github.com/zsh-users/zsh-completions" "zsh-completions.plugin.zsh"
-zplug "github.com/zsh-users/zsh-autosuggestions" "zsh-autosuggestions.zsh"
-zplug "github.com/hlissner/zsh-autopair" "autopair.zsh"
-zplug "github.com/zsh-users/zsh-syntax-highlighting" "zsh-syntax-highlighting.zsh"
-zplug "github.com/zsh-users/zsh-history-substring-search" "zsh-history-substring-search.zsh"
-
-
+plug "github.com/junegunn/fzf" "shell/completion.zsh"
+plug "github.com/junegunn/fzf" "shell/key-bindings.zsh"
+plug "github.com/rupa/z" "z.sh"
+plug "github.com/zsh-users/zsh-completions" "zsh-completions.plugin.zsh"
+plug "github.com/zsh-users/zsh-autosuggestions" "zsh-autosuggestions.zsh"
+plug "github.com/hlissner/zsh-autopair" "autopair.zsh"
+plug "github.com/zsh-users/zsh-syntax-highlighting" "zsh-syntax-highlighting.zsh"
+plug "github.com/zsh-users/zsh-history-substring-search" "zsh-history-substring-search.zsh"
 # NOTE: iterm shell integration messes with the prompt and causes
 # emacs tramp mode to hang indefinitely.
 # if [[ $TERM == "dumb" ]]; then
@@ -48,7 +45,7 @@ autoload -U chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
 autoload -U zmv
 
-
+# ----------------------------------------------------------------------------
 # Completion (derived from http://dustri.org/b/my-zsh-configuration.html)
 # Some of these might be taken care of by oh-my-zsh/lib/completion
 zmodload -i zsh/complist
@@ -85,6 +82,7 @@ zstyle ':completion:*' users $users
 compdef _gnu_generic gcc
 compdef _gnu_generic gdb
 
+# ----------------------------------------------------------------------------
 # help
 autoload -Uz run-help
 autoload -Uz run-help-git
@@ -92,9 +90,10 @@ autoload -Uz run-help-svn
 autoload -Uz run-help-svk
 unalias run-help &> /dev/null
 # alias help=run-help
-
+#
+# ----------------------------------------------------------------------------
 # history
-HISTFILE="${ZDOTDIR}/history"
+HISTFILE="${XDG_DATA_HOME}/zsh/history"
 HISTSIZE=2048                    # lines to maintain in memory
 SAVEHIST=100000                  # lines to maintain in history file
 setopt extended_history          # include timestamps
@@ -107,7 +106,7 @@ setopt inc_append_history        # add commands as they are typed,
 setopt share_history             # share hist between sessions
 setopt bang_hist                 # !keyword
 
-
+# ----------------------------------------------------------------------------
 # zsh-autosuggestions
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=244
 bindkey '^L' autosuggest-accept
@@ -161,13 +160,14 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=red,fg=black,bold'
 # HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=''
 # HISTORY_SUBSTRING_SEARCH_FUZZY=''
 
+# ----------------------------------------------------------------------------
 # options
 setopt autocd
 setopt extendedglob
 setopt nomatch
 setopt notify
 
-
+# ----------------------------------------------------------------------------
 # prompt
 autoload -Uz vcs_info
 # autoload -U colors && colors

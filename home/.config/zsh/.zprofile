@@ -3,5 +3,5 @@
 # Typically used to do any configuration to establish a work-environment.
 # An session of zsh used by a terminal emulator is typically both login and
 # interactive, whereas an invocation of zsh is purely interactive.
-source "${HOME}/.profile" > /dev/null 2>&1
 
+# source "${HOME}/.profile" > /dev/null 2>&1
