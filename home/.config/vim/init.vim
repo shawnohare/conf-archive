@@ -1,6 +1,4 @@
-" ============================================================================
-" Initialization
-" TODO:
+" ============================================================================ Initialization
 " - Use a mix of minpac with builtin package manager to optionally install
 "   all packages, and selectively load them so it's easy to toggle them on
 "   and off. This is really only useful for debugging though.
@@ -19,7 +17,6 @@ let mapleader = "\<Space>"
 " Loading handled by the builtin package loader, cf., :h packages
 " Management (install / update / clean) handled by minpac.
 " minpac is lazily loaded, since runtime path augmentation is handled natively.
-" To enable lazy loading, it is installed in minpac/opt/
 "
 " The main disadvantage of utilizing the native package loader and lazy
 " package management is that packages cannot be easily toggled on or off
@@ -27,8 +24,78 @@ let mapleader = "\<Space>"
 " packadd directly and making all packages optionally loaded.
 "
 " Update packpath to utilize same packages for vim8+/neovim.
+" As of 2019-01-17 there are a few competing Language Server Client 
+" implementations. The main ones:
+" 1. vim-lsp (pure vimscript, integrates with ncm2)
+" 2. vim-lsc (pure vimscript)
+" 3. ale (linting / formatting engine that can provide completion via lang
+"    servers.
+" 4. LanguageClient-neovim (written in Rust, integrates with ncm2).
+" 5. coc (Conquer of Completion). Tries to emulate vscode more fully, and
+"    claims to support snippets and the like out of the box.
+" 6. Native neovim (slated for version 0.5). Probably would be low level
+"    and utilized by one of the above plugins.
 set packpath^=$XDG_DATA_HOME/vim/site
 let minpac_home = "$XDG_DATA_HOME/vim/site/pack/minpac/opt/minpac"
+
+function! s:coc_install_extensions() abort
+    " This could also be controlled via specifying 
+    " $XDG_DATA_HOME/coc/extensions/package.json
+    packadd coc.nvim
+    call coc#add_extension(
+                \ 'coc-json',
+                \ 'coc-pairs',
+                \ 'coc-snippets',
+                \ 'coc-pyls',
+                \ 'coc-html',
+                \ 'coc-css',
+                \ 'coc-yaml',
+                \ 'coc-emmet',
+                \ 'coc-dictionary',
+                \)
+endfunction
+
+" minpac post-update hook for coc
+" The coc#util#install command fetches a prebuilt binary.
+" Alternatively, `yarn install`` can called the post_update hook.
+" Extensions rely on yarn being installed. 
+" Extensions defined in $XDG_DATA_HOME/coc/extensions/package.json 
+" are fetched by :CocUpdate, if yarn is installed.
+" Since extensions and coc config are external files, it makes sense to
+" version them for the time being. 
+" yarn itself can be installed via npm. The architecture independent 
+" yarn install script unfortunately dumps it into ~/.yarn, 
+" Can install node via nvm or brew or pkgsrc. 
+" For now, it's probably easiest to just install node manually since
+" we do not develope javascript.
+function! s:coc_init(hooktype, name) abort
+    " echom a:hooktype
+    " echom 'Dir:' minpac#getpluginfo(a:name).dir
+    if !executable('yarn') 
+        execute '!npm install --global yarn'
+    endif
+
+    " Get prebuilt binary for macOS or Linux or build from source via yarn.
+    try
+        call coc#util#install()
+    catch
+        execute '!yarn install'
+    endtry
+
+    call s:coc_install_extensions()
+endfunction
+
+
+" function! s:coc_finish_update_hook(hooktype, updated, installed)
+"     echom a:hooktype
+"     echom a:updated
+"     echom 'Dir:' minpac#getpluginfo('coc.nvim').dir
+"     echom a:updated
+"     echom a:installed
+"     " packadd coc.nvim
+"     " :CocInstall "coc-json"
+"     " call CocInstallExtensions()
+" endfunction
 
 function! PackInit() abort
     packadd minpac
@@ -36,34 +103,33 @@ function! PackInit() abort
     call minpac#add('k-takata/minpac', {'type': 'opt'})
 
     " Additional plugins here.
-    call minpac#add('airblade/vim-gitgutter')
-    call minpac#add('dyng/ctrlsf.vim')
-    call minpac#add('jiangmiao/auto-pairs')
-    call minpac#add('lifepillar/vim-solarized8')
-    call minpac#add('morhetz/gruvbox')
-    call minpac#add('romainl/flattened')
-    call minpac#add('sheerun/vim-polyglot')
-    call minpac#add('tpope/vim-commentary')
-    call minpac#add('tpope/vim-dadbod')
-    call minpac#add('tpope/vim-fugitive')
-    call minpac#add('tpope/vim-repeat')
-    call minpac#add('tpope/vim-surround')
-    " call minpac#add('vim-airline/vim-airline')
-    call minpac#add('wellle/targets.vim')
-    call minpac#add('lervag/vimtex')
+    call minpac#add('airblade/vim-gitgutter', {'type': 'start'})
+    call minpac#add('dyng/ctrlsf.vim', {'type': 'start'})
+    " call minpac#add('jiangmiao/auto-pairs', {'type': 'start'})
+    call minpac#add('morhetz/gruvbox', {'type': 'start'})
+    call minpac#add('romainl/flattened', {'type': 'start'})
+    call minpac#add('sheerun/vim-polyglot', {'type': 'start'})
+    call minpac#add('tpope/vim-commentary', {'type': 'start'})
+    call minpac#add('tpope/vim-dadbod', {'type': 'start'})
+    call minpac#add('tpope/vim-dispatch', {'type': 'start'})
+    call minpac#add('tpope/vim-endwise', {'type': 'start'})
+    call minpac#add('tpope/vim-fugitive', {'type': 'start'})
+    call minpac#add('tpope/vim-repeat', {'type': 'start'})
+    call minpac#add('tpope/vim-surround', {'type': 'start'})
+    " call minpac#add('vim-airline/vim-airline', {'type': 'start'})
+    call minpac#add('wellle/targets.vim', {'type': 'start'})
+    call minpac#add('lervag/vimtex', {'type': 'start'})
 
     " Experiment with ncm2.
     " NOTE: ncm2 suffers from requiring multiple dependencies.
-    " call minpac#add('ncm2/ncm2')
-    " call minpac#add('roxma/nvim-yarp')
+    " call minpac#add('ncm2/ncm2') | call minpac#add('roxma/nvim-yarp')
     " call minpac#add('ncm2/ncm2-path')
     " call minpac#add('ncm2/ncm2-bufword')
-    " " ncm2-vim depends on another plugin.
-    " " call minpac#add('ncm2/ncm2-vim') | call minpac#add('Shougo/neco-vim')
-    " call minpac#add('ncm2/ncm2-ultisnips')
-    " call minpac#add('SirVer/ultisnips')
+    " call minpac#add('ncm2/ncm2-pyclang')
+    " "  " call minpac#add('ncm2/ncm2-ultisnips') | call minpac#add('SirVer/ultisnips')
+    " call minpac#add('ncm2/ncm2-vim') | call minpac#add('Shougo/neco-vim')
 
-    " Optional packages here.
+    " Optional packages here. Useful when experimenting.
     call minpac#add('w0rp/ale', {'type': 'opt'})
     call minpac#add('autozimu/LanguageClient-neovim', {
                 \ 'branch': 'next',
@@ -73,7 +139,18 @@ function! PackInit() abort
     call minpac#add('natebosch/vim-lsc', {'type': 'opt'})
     call minpac#add('prabirshrestha/vim-lsp', {'type': 'opt'})
     call minpac#add('prabirshrestha/async.vim', {'type': 'opt'})
-    call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': { -> coc#util#install()}})
+
+    " CoC (node based LSC)
+    " NOTE:
+    " - Installation requires yarn.
+    " - Some extensions are installed via coc commands.
+    " - coc utilizes its own config. Can extensions be listed there?
+    "   - :CocInstall is basically same as yarn add extension.
+    "   - So could version manage the extensions explicitly in git by
+    "     defining the package.json file
+    
+    call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': function('s:coc_init')})
+    " call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': 'call coc#util#install()'})
 endfunction
 
 " Define user commands for updating/cleaning the plugins.
@@ -81,6 +158,7 @@ endfunction
 " the information of plugins, then performs the task.
 command! PackUpdate call PackInit() | call minpac#clean() | call minpac#update()
 command! PackClean  call PackInit() | call minpac#clean()
+command! CocInstallExtensions call PackInit() | call s:coc_install_extensions()
 
 
 " Bootstrap minpac
@@ -89,12 +167,15 @@ if empty(glob(minpac_home))
     call PackInit()
     call minpac#update()
     " Assumes MYVIMRC is previously set.
-    autocmd VimEnter * packloadall | source $MYVIMRC
+    " autocmd VimEnter * packloadall | source $MYVIMRC
+    autocmd VimEnter * source $MYVIMRC
 endif
 
 " Load optional packages.
 " packadd ale
-packadd coc
+packadd coc.nvim
+" packadd LanguageClient-neovim
+" packadd vim-lsc
 
 
 
@@ -113,27 +194,53 @@ endif
 " Completion works for class attributes, but type info not provided.
 " This appears to be true also for LanguageClient-Neovim.
 " The default invokations mimic vim commands, which is a plus.
+" Seems to call python3complete?
+" set completefunc=lsc#complete#complete
 let g:lsc_enable_autocomplete = v:true
 " let g:lsc_auto_map = v:true " Use defaults
 let g:lsc_auto_map = {
     \ 'defaults': v:true,
-    \ 'Completion': 'omnifunc',
+    \ 'GoToDefinition': '<C-]>',
+    \ 'FindReferences': 'gr',
+    \ 'NextReference': '<C-n>',
+    \ 'PreviousReference': '<C-p>',
+    \ 'FindImplementations': 'gI',
+    \ 'FindCodeActions': 'ga',
+    \ 'DocumentSymbol': 'go',
+    \ 'WorkspaceSymbol': 'gS',
+    \ 'ShowHover': 'v:true',
+    \ 'SignatureHelp': '<C-m>',
+    \ 'Completion': 'completefunc',
     \}
+
+" Default mappings.
+" <C-]>                   |:LSClientGoToDefinition|
+" gr                      |:LSClientFindReferences|
+" <C-n>                   |:LSClientNextReference|
+" <C-p>                   |:LSClientPreviousReference|
+" gI                      |:LSClientFindImplementations|
+" go                      |:LSClientDocumentSymbol|
+" gS                      |:LSClientWorkspaceSymbol|
+" ga                      |:LSClientFindCodeActions|
+" gR                      |:LSClientRename|
+" |K| (via |keywordprg|)  |:LSClientShowHover|
+"
 let g:lsc_server_commands = {
-        \ 'dart': 'dart_language_server',
         \ 'python': 'pyls',
         \ }
-
-
 " --------------------------------------------------------------------------
 "  ncm2
 "  is enable autocomplete?
-autocmd BufEnter * call ncm2#enable_for_buffer()
+"  Disable autocmd when not using ncm2.
 set completeopt=noinsert,menuone,noselect
-let g:ncm2#auto_popup = 1 
-" NOTE: Could not get manual completion working.
-" let g:ncm2#complete_length=[[1,1],[7,2]] 
-" imap <C-Space> <Plug>(ncm2_manual_trigger)
+let g:ncm2#auto_popup = 0
+let g:ncm2#manual_complete_length=[[1,3],[7,1]]
+" Comment below to disable "
+" autocmd BufEnter * call ncm2#enable_for_buffer()
+" imap <C-x><C-o> <Plug>(ncm2_manual_trigger)
+
+let g:ncm2_pyclang#library_path = '/usr/local/opt/llvm/lib'
+
 " --------------------------------------------------------------------------
 " ale
 " 2018-10-18T17:24:26+0000: ALE now serves as a (limited) LSP client, and
@@ -176,15 +283,34 @@ let g:ale_python_black_options = "--py36"
 
 
 " --------------------------------------------------------------------------
+" coc config
+" Accept completion snippets with <CR> instead of standard <C-y>.
+" But, need to have autoselect enabled.
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
+" let g:coc_snippet_next = '<TAB>'
+" let g:coc_snippet_prev = '<S-TAB>'
+inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <c-x><c-o> coc#refresh()
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Remap for format selected region
+vmap <leader>fmt  <Plug>(coc-format-selected)
+" nmap <leader>fmt  <Plug>(coc-format-selected)
+" --------------------------------------------------------------------------
 " LanguageClient-neovim
 let g:LanguageClient_autoStart = 1
 let g:LanguageClient_diagnosticsEnable = 1
 let g:LanguageClient_serverCommands = {
-    \ 'sh': ['bash-language-server', 'start'],
-    \ 'python': ['pyls'],
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ }
-
+            \ 'cpp': ['clangd'],
+            \ 'sh': ['bash-language-server', 'start'],
+            \ 'python': ['pyls'],
+            \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+            \ }
 " set completefunc=LanguageClient#complete
 
 " Use <Tab> to call omnicomplete and scroll through results.
@@ -195,6 +321,7 @@ let g:LanguageClient_serverCommands = {
 " nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>
 " nnoremap <silent> <Leader>lsd :call LanguageClient_textDocument_hover()<CR>
 " nnoremap <silent> <Leader>lsr :call LanguageClient_textDocument_rename()<CR>
+
 
 " --------------------------------------------------------------------------
 " netrw (built-in)
@@ -250,7 +377,7 @@ if has('vim')
 endif
 
 if has('nvim')
-    set inccommand=nosplit
+  set inccommand=nosplit
 endif
 
 " --------------------------------------------------------------------------
@@ -370,6 +497,9 @@ set foldmethod=indent   " default folding method. syntax method is SLOW.
 " --------------------------------------------------------------------------
 " Key mapping
 inoremap <C-h> <BS>
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " --------------------------------------------------------------------------
 " Indentation
