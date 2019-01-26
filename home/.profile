@@ -17,17 +17,10 @@
 # - XDG_CONFIG_HOME application configuration and some state
 # - XDG_DATA_HOME typically houses more static data files such as fonts.
 
-# Exit early unless the -f (--force) flag is passed in.
-if [ ! "$1" = "-f" ] && [ ! -z "${USER_PROFILE_SET}" ]; then
-    echo "${HOME}/.profile already sourced."
-    return 0
-fi
-
 # TODO: Consider setting BASH_ENV and ENV to a minimal ~/.env that mirrors
 # .zshenv. The .env file would be sourced whenever bash or sh is run for
 # e.g., for the purpose of executing a script (non-interactive, non-login)
 
-export USER_PROFILE_SET=1
 export XDG_BIN_HOME="${HOME}/.local/bin"
 export XDG_CACHE_HOME="${HOME}/.cache"
 export XDG_CONFIG_HOME="${HOME}/.config"
@@ -52,7 +45,7 @@ export SCREENRC="${XDG_CONFIG_HOME}/screen/screenrc"
 export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
 export STASH_TARGET="${HOME}"
 export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
-
+export WEECHAT_HOME="$XDG_CONFIG_HOME"/weechat
 # Optional packages that tend to utilize a single dir.
 # export PYTHONUSERBASE="${XDG_OPT_HOME}"
 export CARGO_HOME="${XDG_OPT_HOME}/cargo"
@@ -122,6 +115,12 @@ export LESS_TERMCAP_ue
 # NOTE: GREP_OPTIONS is deprecated.
 # export GREP_OPTIONS='--color=auto'
 
+if [ "${ENV}" = 1 ]; then
+    echo "Only setting global variables."
+    return 0
+fi
+
+
 # =============================================================================
 # aliases
 case "${OSTYPE}" in
@@ -149,12 +148,11 @@ alias emc="emacsclient"
 # PATH
 # Set this last to ensure values are not unintentionally overwritten.
 # Make sure usr/local/bin occurs before usr/bin.
-if [ -z "${PATH_SET}" ]; then
-    PATH="/usr/local/opt/bin:/usr/local/bin:/usr/local/sbin:$PATH"
+if [ ! "${USER_PROFILE_SET}" = 1 ]; then
+    PATH="/usr/local/opt/bin:/usr/local/opt/llvm/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
     PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
     PATH="${HOME}/bin:${XDG_BIN_HOME}:${PATH}"
     PATH="${PYENV_ROOT}/bin:${PATH}"
-    export PATH_SET=1
 fi
 
 # --- Ruby
@@ -178,3 +176,4 @@ fi
 #     . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
 # fi
 # =============================================================================
+export USER_PROFILE_SET=1

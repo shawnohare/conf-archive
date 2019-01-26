@@ -1,4 +1,5 @@
-" ============================================================================ Initialization
+" ============================================================================ 
+" Initialization
 " - Use a mix of minpac with builtin package manager to optionally install
 "   all packages, and selectively load them so it's easy to toggle them on
 "   and off. This is really only useful for debugging though.
@@ -11,6 +12,8 @@ let g:python3_host_prog = $PYENV_ROOT . '/versions/neovim3/bin/python'
 let g:is_bash = 1
 " set shell=zsh
 let mapleader = "\<Space>"
+
+let g:initialized = get(g:, 'initialized', 0)
 
 " ============================================================================
 " Packages / Plugins
@@ -26,11 +29,13 @@ let mapleader = "\<Space>"
 " Update packpath to utilize same packages for vim8+/neovim.
 " As of 2019-01-17 there are a few competing Language Server Client 
 " implementations. The main ones:
-" 1. vim-lsp (pure vimscript, integrates with ncm2)
-" 2. vim-lsc (pure vimscript)
-" 3. ale (linting / formatting engine that can provide completion via lang
-"    servers.
-" 4. LanguageClient-neovim (written in Rust, integrates with ncm2).
+"
+" 1. vim-lsp. Pure vimscript, integrates with ncm2. Incremental updates.
+"    Barebones config.
+" 2. vim-lsc. Pure vimscript. Highlights errors. Incremental updates.
+" 3. ale. Linting / formatting engine that can provide completion from
+"    language servers. 
+" 4. LanguageClient-neovim. Rust, ncm2 integration, no incremental update.
 " 5. coc (Conquer of Completion). Tries to emulate vscode more fully, and
 "    claims to support snippets and the like out of the box.
 " 6. Native neovim (slated for version 0.5). Probably would be low level
@@ -85,49 +90,53 @@ function! s:coc_init(hooktype, name) abort
     call s:coc_install_extensions()
 endfunction
 
-
-" function! s:coc_finish_update_hook(hooktype, updated, installed)
-"     echom a:hooktype
-"     echom a:updated
-"     echom 'Dir:' minpac#getpluginfo('coc.nvim').dir
-"     echom a:updated
-"     echom a:installed
-"     " packadd coc.nvim
-"     " :CocInstall "coc-json"
-"     " call CocInstallExtensions()
-" endfunction
-
 function! PackInit() abort
     packadd minpac
     call minpac#init()
     call minpac#add('k-takata/minpac', {'type': 'opt'})
 
     " Additional plugins here.
-    call minpac#add('airblade/vim-gitgutter', {'type': 'start'})
-    call minpac#add('dyng/ctrlsf.vim', {'type': 'start'})
+    " call minpac#add('airblade/vim-gitgutter', {'type': 'start'})
+    " call minpac#add('dyng/ctrlsf.vim', {'type': 'start'})
     " call minpac#add('jiangmiao/auto-pairs', {'type': 'start'})
+    
+    " Colorscheme plugins
+    call minpac#add('jeffkreeftmeijer/vim-dim', {'type': 'opt'})
+    call minpac#add('icymind/NeoSolarized', {'type': 'opt'})
+    " call minpac#add('dracula/vim', {'name': 'dracula', 'type': 'opt'})
     call minpac#add('morhetz/gruvbox', {'type': 'start'})
+    call minpac#add('challenger-deep-theme/vim', {'name': 'challenger_deep', 'type': 'opt'})
     call minpac#add('romainl/flattened', {'type': 'start'})
+    call minpac#add('lifepillar/vim-solarized8', {'type': 'opt'})
+    call minpac#add('mhinz/vim-janah', {'type': 'opt'})
+    call minpac#add('chriskempson/base16-vim', {'type': 'opt'})
+
+
+
+    call minpac#add('brooth/far.vim', {'type': 'start'})
+    call minpac#add('SidOfc/mkdx', {'type': 'start'})
     call minpac#add('sheerun/vim-polyglot', {'type': 'start'})
     call minpac#add('tpope/vim-commentary', {'type': 'start'})
     call minpac#add('tpope/vim-dadbod', {'type': 'start'})
     call minpac#add('tpope/vim-dispatch', {'type': 'start'})
     call minpac#add('tpope/vim-endwise', {'type': 'start'})
-    call minpac#add('tpope/vim-fugitive', {'type': 'start'})
+    " call minpac#add('tpope/vim-fugitive', {'type': 'start'})
     call minpac#add('tpope/vim-repeat', {'type': 'start'})
     call minpac#add('tpope/vim-surround', {'type': 'start'})
     " call minpac#add('vim-airline/vim-airline', {'type': 'start'})
     call minpac#add('wellle/targets.vim', {'type': 'start'})
     call minpac#add('lervag/vimtex', {'type': 'start'})
+    call minpac#add('mhinz/vim-signify')
 
     " Experiment with ncm2.
     " NOTE: ncm2 suffers from requiring multiple dependencies.
-    " call minpac#add('ncm2/ncm2') | call minpac#add('roxma/nvim-yarp')
-    " call minpac#add('ncm2/ncm2-path')
-    " call minpac#add('ncm2/ncm2-bufword')
-    " call minpac#add('ncm2/ncm2-pyclang')
-    " "  " call minpac#add('ncm2/ncm2-ultisnips') | call minpac#add('SirVer/ultisnips')
-    " call minpac#add('ncm2/ncm2-vim') | call minpac#add('Shougo/neco-vim')
+    call minpac#add('ncm2/ncm2') | call minpac#add('roxma/nvim-yarp')
+    call minpac#add('ncm2/ncm2-path')
+    call minpac#add('ncm2/ncm2-bufword')
+    call minpac#add('ncm2/ncm2-pyclang')
+    "  " call minpac#add('ncm2/ncm2-ultisnips') | call minpac#add('SirVer/ultisnips')
+    call minpac#add('ncm2/ncm2-vim') | call minpac#add('Shougo/neco-vim')
+    call minpac#add('ncm2/ncm2-vim-lsp')
 
     " Optional packages here. Useful when experimenting.
     call minpac#add('w0rp/ale', {'type': 'opt'})
@@ -159,6 +168,8 @@ endfunction
 command! PackUpdate call PackInit() | call minpac#clean() | call minpac#update()
 command! PackClean  call PackInit() | call minpac#clean()
 command! CocInstallExtensions call PackInit() | call s:coc_install_extensions()
+command! ConfEdit :vs $MYVIMRC 
+command! ConfLoad :source $MYVIMRC 
 
 
 " Bootstrap minpac
@@ -173,9 +184,10 @@ endif
 
 " Load optional packages.
 " packadd ale
-packadd coc.nvim
+" packadd coc.nvim
 " packadd LanguageClient-neovim
 " packadd vim-lsc
+packadd vim-lsp | packadd async.vim
 
 
 
@@ -189,7 +201,7 @@ if executable('rg')
 endif
 
 " --------------------------------------------------------------------------
-" vim-lsc
+" vim-lsc config
 " NOTE: 2019-01-06T15:01:47-0800
 " Completion works for class attributes, but type info not provided.
 " This appears to be true also for LanguageClient-Neovim.
@@ -228,18 +240,19 @@ let g:lsc_auto_map = {
 let g:lsc_server_commands = {
         \ 'python': 'pyls',
         \ }
+
 " --------------------------------------------------------------------------
-"  ncm2
-"  is enable autocomplete?
+"  ncm2 config
 "  Disable autocmd when not using ncm2.
-set completeopt=noinsert,menuone,noselect
 let g:ncm2#auto_popup = 0
 let g:ncm2#manual_complete_length=[[1,3],[7,1]]
-" Comment below to disable "
-" autocmd BufEnter * call ncm2#enable_for_buffer()
-" imap <C-x><C-o> <Plug>(ncm2_manual_trigger)
-
 let g:ncm2_pyclang#library_path = '/usr/local/opt/llvm/lib'
+
+" Comment below to disable ncm2"
+autocmd BufEnter * call ncm2#enable_for_buffer()
+imap <C-x><C-o> <Plug>(ncm2_manual_trigger)
+imap <C-SPACE> <Plug>(ncm2_manual_trigger)
+
 
 " --------------------------------------------------------------------------
 " ale
@@ -289,22 +302,22 @@ let g:ale_python_black_options = "--py36"
 " inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
 " let g:coc_snippet_next = '<TAB>'
 " let g:coc_snippet_prev = '<S-TAB>'
-inoremap <silent><expr> <c-space> coc#refresh()
-inoremap <silent><expr> <c-x><c-o> coc#refresh()
+" inoremap <silent><expr> <c-space> coc#refresh()
+" inoremap <silent><expr> <c-x><c-o> coc#refresh()
 
 " Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)
 
 " Remap for format selected region
-vmap <leader>fmt  <Plug>(coc-format-selected)
+" vmap <leader>fmt  <Plug>(coc-format-selected)
 " nmap <leader>fmt  <Plug>(coc-format-selected)
 " --------------------------------------------------------------------------
-" LanguageClient-neovim
-let g:LanguageClient_autoStart = 1
-let g:LanguageClient_diagnosticsEnable = 1
+" LanguageClient config
+" let g:LanguageClient_autoStart = 1
+" let g:LanguageClient_diagnosticsEnable = 1
 let g:LanguageClient_serverCommands = {
             \ 'cpp': ['clangd'],
             \ 'sh': ['bash-language-server', 'start'],
@@ -313,6 +326,8 @@ let g:LanguageClient_serverCommands = {
             \ }
 " set completefunc=LanguageClient#complete
 
+" Let gq invoke LSC formatter.
+" set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
 " Use <Tab> to call omnicomplete and scroll through results.
 " inoremap <silent><expr> <Tab>
 " \ pumvisible() ? "\<C-n>" : "\<C-x>\<C-o>"
@@ -322,6 +337,37 @@ let g:LanguageClient_serverCommands = {
 " nnoremap <silent> <Leader>lsd :call LanguageClient_textDocument_hover()<CR>
 " nnoremap <silent> <Leader>lsr :call LanguageClient_textDocument_rename()<CR>
 
+" --------------------------------------------------------------------------
+" vim-lsp config
+
+" NOTE: buggy, a:args can't be passed to lsp#register_server
+" function! s:register_language_server(args) abort
+"     if executable(a:args["name"])
+"         echo a:args
+"         autocmd User lsp_setup call lsp#register_server(a:args)
+"     endif
+" endfunction
+"
+" call s:register_language_server({
+"        \ 'name': 'pyls',
+"        \ 'cmd': {server_info->['pyls']},
+"        \ 'whitelist': ['python'],
+"        \ })
+
+if executable('pyls')
+    " pip install python-language-server
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'whitelist': ['python'],
+        \ })
+endif
+
+let g:lsp_signs_enabled = 1         " enable signs
+let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+let g:lsp_signs_error = {'text': '✖'}
+let g:lsp_signs_warning = {'text': '⚠'}
+let g:lsp_signs_hint = {'text': '•'}
 
 " --------------------------------------------------------------------------
 " netrw (built-in)
@@ -340,21 +386,14 @@ set autochdir
 " map <silent> <C-E> :Lexplore <CR>
 
 " --------------------------------------------------------------------------
-" polyglot
+" polyglot config
 " polyglot includes LaTeX-box, which is incompatible with vimtex.
 let g:polyglot_disabled = ['latex']
 
 " --------------------------------------------------------------------------
-" vim-easy-align
-" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
-vmap <Leader>a <Plug>(EasyAlign)
-" Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
-nmap <Leader>a <Plug>(EasyAlign)
-
-" --------------------------------------------------------------------------
-" tagbar
-nmap <Leader>tag :TagbarToggle<CR>
-
+" signify config 
+" Can set guibg colors for Diff* to make the sign column more colorful. 
+"
 
 " =========================================================================
 " SETTINGS
@@ -380,6 +419,7 @@ if has('nvim')
   set inccommand=nosplit
 endif
 
+
 " --------------------------------------------------------------------------
 " Abbreviations
 " Abbreviation for date and time stamp in RFC822 format
@@ -391,18 +431,20 @@ endif
 nmap<leader>dts :put=strftime('%FT%T%z')<return>
 
 " --------------------------------------------------------------------------
-" Buffers & Windows
+" Buffers & Windows config
 set hidden      " don't close windowless buffers
 set confirm     " get confirmation to discard unwritten buffers
 set splitbelow  " open new buffers below
 set splitright  " and to the right of the current.  Default is opposite.
 
 " --------------------------------------------------------------------------
-" Completion
-"  FIXME Fri, 12 Feb 2016 09:40:54 -0800
-"  The preview option for completeopt worked weird with neovim and deoplete.
-" See https://github.com/zchee/deoplete-go/issues/40
-" set completeopt=longest,menuone,preview,noselect,noinsert
+" generic completion config 
+set completeopt=noinsert,menuone,noselect,preview
+" Close preview window after selection.
+autocmd CompleteDone * pclose
+
+" --------------------------------------------------------------------------
+" wildmenu config 
 set wildmenu                             " command-line completion
 set wildmode=list:longest,full           " shell-style completion behavior
 " File types to ignore for command-line completion
@@ -417,12 +459,11 @@ set wildignore+=*.class                  " java/scala class files
 set wildignore+=*/target/*               " sbt target directory
 
 " --------------------------------------------------------------------------
-" Display
+" Display config
 syntax on                    " enable syntax highlighting
 " set cursorline               " highlight current line, but slow
 set showmode                 " show current mode at bottom of screen
 set showcmd                  " show (partial) commands below statusline
-" set showmatch                " show matching delimiters
 set relativenumber           " show relative line numbers
 set number                   " show line number of cursor
 set numberwidth=4            " always make room for 4-digit line numbers
@@ -436,8 +477,8 @@ set linebreak                " don't break words at wrap; disabled by list
 set visualbell         " flash screen instead of audio bell for alert
 " set visualbell t_vb=         " turn off visualbell effect
 set title                    " update terminal window title
-" set guifont=SFMono
 set shortmess+=A       " don't show warning for existing swapfiles
+set signcolumn="yes"
 
 
 " --------------------------------------------------------------------------
@@ -445,6 +486,11 @@ set shortmess+=A       " don't show warning for existing swapfiles
 
 set termguicolors
 set background=dark
+if has('nvim')
+    set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+              \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+              \,sm:block-blinkwait175-blinkoff150-blinkon175
+endif
 
 " --- gruvbox
 let g:gruvbox_bold = 1
@@ -467,9 +513,13 @@ let g:solarized_enable_extra_hi_groups = 1
 " let g:solarized_termtrans = 1
 
 try
-    colorscheme flattened_dark
+    " colorscheme solarized8 
+    colorscheme NeoSolarized 
+    " colorscheme janah 
 catch /^Vim\%((\a\+)\)\=:E185/
+    echom "Could not find colorscheme."
     set notermguicolors
+    " set noguicursor
     colorscheme desert
 endtry
 
@@ -518,20 +568,25 @@ set smartcase
 
 " --------------------------------------------------------------------------
 " STATUSLINE
-set laststatus=2        " Always display statusline.
-set statusline+=%n\ \|\  " Buffer number.
-set statusline+=%f\ \|\  "tail of the filename if f or full path if F
-set statusline+=%{mode()}  " Current mode.
-" set statusline+=%{fugitive#statusline()}  " git branch
-set statusline+=%(\ %)%#ModeMsg#%{&paste?'\ PASTE\ ':''}%*  " paste mode
-set statusline+=%=              " left/right separator
-set statusline+=%{&fenc}\ \|\        " file encoding
-set statusline+=%{&ff}\ \|\           "file format
-set statusline+=%h              " help file flag
-set statusline+=%m              " modified flag
-set statusline+=%w              " preview windowflag: [Preview]
-set statusline+=%r              " read only flag
-set statusline+=%y\ \|\          " filetype
-set statusline+=%p%%\ %l:%c " % through file : line num: column num
-set statusline+=%#warningmsg#
-set statusline+=%*
+if !g:initialized
+    set laststatus=2        " Always display statusline.
+    " set paste is obsolete in neovim
+    " set statusline+=%(%)%#ModeMsg#%{&paste?'\ PASTE\ ':''}%*  " paste mode
+    set statusline+=%{mode()}\ \| " Current mode.
+    set statusline+=\ b%n\ \| " Buffer number.
+    set statusline+=\ %f\ \| "tail of the filename if f or full path if F
+    " set statusline+=%{fugitive#statusline()}  " git branch
+    set statusline+=%=              " left/right separator
+    set statusline+=%{&fenc}\ \|\        " file encoding
+    set statusline+=%{&ff}\ \|\           "file format
+    set statusline+=%h              " help file flag
+    set statusline+=%m              " modified flag
+    set statusline+=%w              " preview windowflag: [Preview]
+    set statusline+=%r              " read only flag
+    set statusline+=%y\ \|\          " filetype
+    set statusline+=%p%%\ %l:%c " % through file : line num: column num
+    set statusline+=%#warningmsg#
+    set statusline+=%*
+endif
+
+let g:initialized = 1 
