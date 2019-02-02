@@ -12,9 +12,7 @@ let g:python3_host_prog = $PYENV_ROOT . '/versions/neovim3/bin/python'
 let g:is_bash = 1
 " set shell=zsh
 let mapleader = "\<Space>"
-
 let g:initialized = get(g:, 'initialized', 0)
-
 " ============================================================================
 " Packages / Plugins
 " Loading handled by the builtin package loader, cf., :h packages
@@ -110,8 +108,8 @@ function! PackInit() abort
     call minpac#add('lifepillar/vim-solarized8', {'type': 'opt'})
     call minpac#add('mhinz/vim-janah', {'type': 'opt'})
     call minpac#add('chriskempson/base16-vim', {'type': 'opt'})
-
-
+    call minpac#add('drewtempelmeyer/palenight.vim', {'type': 'opt'})
+    call minpac#add('KeitaNakamura/neodark.vim', {'type': 'opt'})
 
     call minpac#add('brooth/far.vim', {'type': 'start'})
     call minpac#add('SidOfc/mkdx', {'type': 'start'})
@@ -249,9 +247,13 @@ let g:ncm2#manual_complete_length=[[1,3],[7,1]]
 let g:ncm2_pyclang#library_path = '/usr/local/opt/llvm/lib'
 
 " Comment below to disable ncm2"
-autocmd BufEnter * call ncm2#enable_for_buffer()
-imap <C-x><C-o> <Plug>(ncm2_manual_trigger)
-imap <C-SPACE> <Plug>(ncm2_manual_trigger)
+try
+    autocmd BufEnter * call ncm2#enable_for_buffer()
+    imap <C-x><C-o> <Plug>(ncm2_manual_trigger)
+    imap <C-SPACE> <Plug>(ncm2_manual_trigger)
+catch 
+    echo "Could not load NCM2"
+endtry
 
 
 " --------------------------------------------------------------------------
@@ -339,7 +341,6 @@ let g:LanguageClient_serverCommands = {
 
 " --------------------------------------------------------------------------
 " vim-lsp config
-
 " NOTE: buggy, a:args can't be passed to lsp#register_server
 " function! s:register_language_server(args) abort
 "     if executable(a:args["name"])
@@ -353,7 +354,6 @@ let g:LanguageClient_serverCommands = {
 "        \ 'cmd': {server_info->['pyls']},
 "        \ 'whitelist': ['python'],
 "        \ })
-
 if executable('pyls')
     " pip install python-language-server
     au User lsp_setup call lsp#register_server({
@@ -513,9 +513,7 @@ let g:solarized_enable_extra_hi_groups = 1
 " let g:solarized_termtrans = 1
 
 try
-    " colorscheme solarized8 
-    colorscheme NeoSolarized 
-    " colorscheme janah 
+    colorscheme sim 
 catch /^Vim\%((\a\+)\)\=:E185/
     echom "Could not find colorscheme."
     set notermguicolors
