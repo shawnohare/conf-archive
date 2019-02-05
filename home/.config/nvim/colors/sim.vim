@@ -91,6 +91,20 @@ let s:magenta1 = ["#6c71c4", 13]
 let s:cyan1    = ["#2aa198", 14] 
 let s:white1   = s:bases[6]
 
+let s:black = s:black0
+let s:red = s:red0
+let s:green = s:green0
+let s:yellow = s:yellow0
+let s:blue = s:blue0
+let s:magenta = s:magenta0
+let s:cyan = s:cyan0
+let s:lightgray = s:white0
+let s:darkgray = s:black1
+let s:orange = s:red1
+let s:violet = s:magenta1
+let s:white = s:white1
+
+
 " Swap dark and light colors if light mode is explicitly set.
 if &background == "light"
     let s:bases = reverse(s:bases)
