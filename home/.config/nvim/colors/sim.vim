@@ -378,8 +378,8 @@ hi! link Todo SimBoldMagenta
 " Extended highlighting 
 call s:hi('SpecialKey',      s:bold, s:base00, s:base02) 
 call s:hi("NonText",         s:bold, s:base00, s:none)
-call s:hi("StatusLine",      s:reverse,  s:none, s:base02)
-call s:hi("StatusLineNC",    s:none,     s:none, s:base02)
+call s:hi("StatusLine",      s:reverse,  s:none, s:none)
+call s:hi("StatusLineNC",    s:reverse,  s:base01, s:none)
 " TODO: Figure out visual.
 call s:hi("Visual",          s:none,   s:none, s:base02)
 " call s:hi("Visual",          s:reverse,   s:base01, s:base03)
@@ -391,7 +391,7 @@ call s:hi("MoreMsg",        s:none,   s:blue0,   s:none)
 call s:hi("ModeMsg",        s:none,   s:blue0,   s:none)
 call s:hi("LineNr",         s:none,    s:base01, s:base02)
 call s:hi("Question",       s:bold,   s:cyan0,   s:none)
-call s:hi("VertSplit",       s:none,   s:base00, s:none)
+call s:hi("VertSplit",      s:none,   s:base00, s:none)
 hi! link Title SimBoldOrange
 "call s:hi("VisualNOS"      ,s:fmt_stnd   s:none   s:base02 ,s:fmt_revbb)
 "call s:hi("WarningMsg"     ,s:bold,   ,s:red0    s:none)

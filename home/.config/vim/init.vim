@@ -157,7 +157,6 @@ function! PackInit() abort
     "     defining the package.json file
     
     call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': function('s:coc_init')})
-    " call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': 'call coc#util#install()'})
 endfunction
 
 " Define user commands for updating/cleaning the plugins.
@@ -167,7 +166,7 @@ command! PackUpdate call PackInit() | call minpac#clean() | call minpac#update()
 command! PackClean  call PackInit() | call minpac#clean()
 command! CocInstallExtensions call PackInit() | call s:coc_install_extensions()
 command! ConfEdit :vs $MYVIMRC 
-command! ConfLoad :source $MYVIMRC 
+command! ConfRefresh :source $MYVIMRC 
 
 
 " Bootstrap minpac
