@@ -1,0 +1,62 @@
+#! /usr/bin/env bash
+# ----------------------------------------------------------------------------
+# upkg - User package installer.
+# 
+# Goals:
+# - Dependency free, if possible.
+# - Allow Simple installs of the form:
+#       upkg install Homebrew/install Homebrew/install install.sh
+#   This would fetch from the repo $1, put it in opt/$2 and eval $3
+# - Allow installs of the form:
+#       upkg install <pkg>
+#   This would just proxy to some special script in ~/.config/upkg/packages/<pkg>.sh and pass install or remove
+# Types of installation are typically:
+# - Just get a package from github, source it somewhere else.
+# - wget or curl for package get, followed by complicated installation, typically a bash script.
+# 
+# Invocation like:
+# upkg install <pkg>
+# upkg uninstall <pkg>
+# 
+# Define sources.
+# 1. 
+
+set -e
+
+readonly opt="${XDG_OPT_HOME:-${HOME}/.local/opt}"
+readonly conf_home="${XDG_CONFIG_HOME:-${HOME}/.config}/upkg"
+readonly conf="${conf}/conf.sh"
+# readonly user_lib="${conf}/lib
+readonly lib="${HOME}/conf/bin/upkg/lib"
+
+
+# [ -e "${conf}" ] && source "${conf}"
+
+libupkg::get_github() {
+    local src="$1"
+    local repo="$2"
+    if [ ! -e "${pkg}" ]; then
+        git clone --depth 1 "https://www.github.com/$1" "${OPT}/"
+    fi
+}
+
+
+libupkg::hello() {
+    echo "in hello"
+    echo $@
+}    
+
+call() {
+    # Call out to another package script.
+    # Since the main upkg script sources the package script, the funcs
+    # defined above are available to the sourced script.
+    source "${lib}/$1.sh"
+    get
+    unset get
+    get
+}
+
+call example 
+
+
+
