@@ -40,6 +40,9 @@ dirs:
 	mkdir -p "${XDG_LIB_HOME}"
 	mkdir -p "${HOME}/src"
 	mkdir -p "${HOME}/tmp"
+	# bash and zsh seem to not be able create dirs for history files.
+	mkdir -p "${XDG_DATA_HOME}/bash"
+	mkdir -p "${XDG_DATA_HOME}/zsh"
 
 pkgs:
 	$(bin)/pkgs

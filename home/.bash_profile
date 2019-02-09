@@ -1,3 +1,2 @@
 # source the appropriate files
-source "${HOME}/.profile"
-# [ -f ~/.bashrc ] && source ~/.bashrc
+source "${HOME}/.profile" > /dev/null 2>&1

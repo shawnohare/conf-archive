@@ -2,7 +2,7 @@
 # /etc/zprofile and ~/.profile are sourced before.
 
 source "${HOME}/.profile" > /dev/null 2>&1
-fpath=(${ZDOTDIR}/completions ${ZDOTDIR}/plugins/zsh-users/zsh-completions $fpath)
+fpath=(${SHDATA}/completions ${SHDATA}/plugins/zsh-users/zsh-completions $fpath)
 autoload -U compinit && compinit
 # ----------------------------------------------------------------------------
 # Load plugins.
@@ -11,9 +11,9 @@ autoload -U compinit && compinit
 
 # plug(plugin_repo, relative_path_to_source)
 function plug() {
-  local plugin="${ZDOTDIR}/plugins/$1/$2"
+  local plugin="${SHDATA}/plugins/$1/$2"
   if [[ ! -e "${plugin}" ]]; then
-      git clone --recursive "https://$1" "${ZDOTDIR}/plugins/$1"
+      git clone --recursive --depth 1 "https://$1" "${SHDATA}/plugins/$1"
   fi
   source "${plugin}"
 }
@@ -26,6 +26,7 @@ plug "github.com/zsh-users/zsh-autosuggestions" "zsh-autosuggestions.zsh"
 plug "github.com/hlissner/zsh-autopair" "autopair.zsh"
 plug "github.com/zsh-users/zsh-syntax-highlighting" "zsh-syntax-highlighting.zsh"
 plug "github.com/zsh-users/zsh-history-substring-search" "zsh-history-substring-search.zsh"
+
 # NOTE: iterm shell integration messes with the prompt and causes
 # emacs tramp mode to hang indefinitely.
 # if [[ $TERM == "dumb" ]]; then
@@ -57,7 +58,7 @@ setopt correct
 setopt list_ambiguous
 
 zstyle ':completion::complete:*' use-cache on               # completion caching, use rehash to clear
-zstyle ':completion:*' cache-path "${XDG_CACHE_DIR}/zsh"     # cache path
+zstyle ':completion:*' cache-path "${SHDATA}/zsh"     # cache path
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'   # ignore case
 zstyle ':completion:*' menu select=2                        # menu if nb items > 2
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}       # colorz !
@@ -93,22 +94,21 @@ unalias run-help &> /dev/null
 #
 # ----------------------------------------------------------------------------
 # history
-HISTFILE="${XDG_DATA_HOME}/zsh/history"
+HISTFILE="${SHDATA}/history"
 HISTSIZE=2048                    # lines to maintain in memory
 SAVEHIST=100000                  # lines to maintain in history file
+setopt share_history             # share hist between sessions
 setopt extended_history          # include timestamps
-setopt append_history            # append
-setopt hist_ignore_all_dups      # no duplicate
+# setopt inc_append_history_time   # add commands as they are typed,
+# setopt hist_ignore_all_dups      # no duplicate
 unsetopt hist_ignore_space       # ignore space prefixed commands
 setopt hist_reduce_blanks        # trim blanks
 setopt hist_verify               # show before executing history commands
-setopt inc_append_history        # add commands as they are typed,
-setopt share_history             # share hist between sessions
 setopt bang_hist                 # !keyword
 
 # ----------------------------------------------------------------------------
 # zsh-autosuggestions
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=244
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=008
 bindkey '^L' autosuggest-accept
 # NOTE: Accepting an autosuggestion leads to weird highlighting.
 
@@ -155,6 +155,7 @@ bindkey '^J' history-substring-search-down
 bindkey '^[[B' history-substring-search-down
 
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=red,bold'
+# HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=yellow,fg=black'
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=red,fg=black,bold'
 # HISTORY_SUBSTRING_SEARCH_GLOBBING_FLAGS='i'
 # HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=''
@@ -208,3 +209,7 @@ PROMPT='${user}@${machine} ${dir} ${vcs_info_msg_0_}
 # ● ✺ ✴
 # ⇨ → 🐉 ➤ ⛩️
 # ⥲
+
+# All the fzf script does is update path to include fzf bin and source
+# completions / keybindings.
+# source "${XDG_CONFIG_HOME}/fzf/fzf.zsh" > /dev/null 2>&1

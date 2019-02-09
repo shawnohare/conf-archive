@@ -115,12 +115,6 @@ export LESS_TERMCAP_ue
 # NOTE: GREP_OPTIONS is deprecated.
 # export GREP_OPTIONS='--color=auto'
 
-if [ "${ENV}" = 1 ]; then
-    echo "Only setting global variables."
-    return 0
-fi
-
-
 # =============================================================================
 # aliases
 case "${OSTYPE}" in
@@ -148,7 +142,7 @@ alias emc="emacsclient"
 # PATH
 # Set this last to ensure values are not unintentionally overwritten.
 # Make sure usr/local/bin occurs before usr/bin.
-if [ ! "${USER_PROFILE_SET}" = 1 ]; then
+if [ ! "${SET_PATH}" = 0 ]; then
     PATH="/usr/local/opt/bin:/usr/local/opt/llvm/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
     PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
     PATH="${HOME}/bin:${XDG_BIN_HOME}:${PATH}"
@@ -163,10 +157,9 @@ fi
 # --- Python
 # pyenv init will use PYENV_ROOT or default to ~/.pyenylvanwenches101!@#$
 
-if [ -z "${PYENV_SET}" ] && [ -e "${PYENV_ROOT}/bin/pyenv" ]; then
+if [ -e "${PYENV_ROOT}/bin/pyenv" ]; then
     eval "$("${PYENV_ROOT}/bin/pyenv" init -)"
     eval "$("${PYENV_ROOT}/bin/pyenv" virtualenv-init -)"
-    export PYENV_SET=1
 fi
 
 # Multi-user installs source the nix-daemon.sh in /etc profiles but
@@ -176,4 +169,3 @@ fi
 #     . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
 # fi
 # =============================================================================
-export USER_PROFILE_SET=1
