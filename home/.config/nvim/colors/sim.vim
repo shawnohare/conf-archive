@@ -1,7 +1,8 @@
 " 'sim.vim' -- Vim color scheme.
 " Maintainer:   Shawn O'Hare (shawn@shawnohare.com)
-" Description:  S(olarized) Im(proved) via use of emphasis and terminal
-" fallbacks that should look readable with non-Solarized terminal themes.
+" Description:  S(olarized) Im(proved) via use of emphasis, more colors, and 
+" terminal fallbacks that should look readable with non-Solarized terminal
+" themes.
 "               
 "
 " NOTE: hi clear + syntax reset seem to obliterate filetype specific
@@ -10,7 +11,7 @@ highlight clear
 
 if exists('syntax_on')
   syntax reset
-  " syntax sync fromstart
+  syntax sync fromstart
 endif
 
 
@@ -57,16 +58,17 @@ let colors_name = 'sim'
 " 6  bg2  base_2   base02  ? 
 " 7  bg3  base_3   base03  Unused(?) (except in contrast shifts).   
 
-" Define the 8 base colors.
+" Define the 8 base colors. Foreground and background colors default to NONE
+" so that the terminal emulator color scheme can be used instead.
 let s:bases = [
-            \ ['#002b36', 'None'],
+            \ ['#002b36', 'NONE'],
             \ ['#073642', 0],
             \ ['#586e75', 8],
-            \ ['#657b83', 'None'],
-            \ ["#839496", 'None'],
+            \ ['#657b83', 'NONE'],
+            \ ["#839496", 'NONE'],
             \ ["#93a1a1", 7],
             \ ["#eee8d5", 15],
-            \ ["#fdf6e3", 'None'],
+            \ ["#fdf6e3", 'NONE'],
             \ ]
 
 
@@ -74,40 +76,116 @@ let s:bases = [
 " - black / white (Bright white) are secondary background colors.
 " - light / dark gray are secondary emphasis foreground colors. 
 " - Main foreground and background colors use terminal defaults.
-let s:black0   = s:bases[1]
-let s:red0     = ["#dc322f",  1]
-let s:green0   = ["#859900",  2]
-let s:yellow0  = ["#b58900",  3]
-let s:blue0    = ["#268bd2",  4]
-let s:magenta0 = ["#d33682",  5]
-let s:cyan0    = ["#2aa198",  6]
-let s:white0   = s:bases[5]
-let s:black1   = s:bases[2]
-let s:red1     = ["#cb4b16",  9]
-let s:green1   = ['#96ad00', 10]
-let s:yellow1  = ['#e2ab00', 11]
-let s:blue1    = ["#268bd2", 12]
-let s:magenta1 = ["#6c71c4", 13]
-let s:cyan1    = ["#2aa198", 14] 
-let s:white1   = s:bases[6]
+let s:black0    = s:bases[1]
+let s:red0      = ["#dc322f",  1]
+let s:green0    = ["#859900",  2]
+let s:yellow0   = ["#b58900",  3]
+let s:blue0     = ["#268bd2",  4]
+let s:magenta0  = ["#d33682",  5]
+let s:cyan0     = ["#2aa198",  6]
+let s:white0    = s:bases[5]
+let s:black1    = s:bases[2]
+let s:red1      = ["#cb4b16",  9]
+let s:green1    = ['#96ad00', 10]
+let s:yellow1   = ['#e2ab00', 11]
+let s:blue1     = ["#268bd2", 12]
+let s:magenta1  = ["#6c71c4", 13]
+let s:cyan1     = ["#2aa198", 14]
+let s:white1    = s:bases[6]
 
-let s:black = s:black0
-let s:red = s:red0
-let s:green = s:green0
-let s:yellow = s:yellow0
-let s:blue = s:blue0
-let s:magenta = s:magenta0
-let s:cyan = s:cyan0
+let s:black     = s:black0
+let s:red       = s:red0
+let s:green     = s:green0
+let s:yellow    = s:yellow0
+let s:blue      = s:blue0
+let s:magenta   = s:magenta0
+let s:cyan      = s:cyan0
 let s:lightgray = s:white0
-let s:darkgray = s:black1
-let s:orange = s:red1
-let s:violet = s:magenta1
-let s:white = s:white1
+let s:darkgray  = s:black1
+let s:orange    = s:red1
+let s:violet    = s:magenta1
+let s:white     = s:white1
 
+" Additional Gruvbox colors.
+" Dark uses neutral for lower ANSI colors and bright for bright.
+" Light uses neutral for lower ANSI colors and faded for bright.
+" color2,3 or names?
+let s:gb_dark0          = ['#282828', 235]     " 40-40-40
+let s:gb_dark1          = ['#3c3836', 237]     " 60-56-54
+let s:gb_dark2          = ['#504945', 239]     " 80-73-69
+let s:gb_dark3          = ['#665c54', 241]     " 102-92-84
+let s:gb_dark4          = ['#7c6f64', 243]     " 124-111-100
+
+let s:gb_gray           = ['#928374', 245]     " 146-131-116
+
+let s:gb_light0         = ['#fbf1c7', 229]     " 253-244-193
+let s:gb_light1         = ['#ebdbb2', 223]     " 235-219-178
+let s:gb_light2         = ['#d5c4a1', 250]     " 213-196-161
+let s:gb_light3         = ['#bdae93', 248]     " 189-174-147
+let s:gb_light4         = ['#a89984', 246]     " 168-153-132
+
+let s:gb_bright_red     = ['#fb4934', 167]     " 251-73-52
+let s:gb_bright_green   = ['#b8bb26', 142]     " 184-187-38
+let s:gb_bright_yellow  = ['#fabd2f', 214]     " 250-189-47
+let s:gb_bright_blue    = ['#83a598', 109]     " 131-165-152
+let s:gb_bright_purple  = ['#d3869b', 175]     " 211-134-155
+let s:gb_bright_aqua    = ['#8ec07c', 108]     " 142-192-124
+let s:gb_bright_orange  = ['#fe8019', 208]     " 254-128-25
+
+let s:gb_neutral_red    = ['#cc241d', 124]     " 204-36-29
+let s:gb_neutral_green  = ['#98971a', 106]     " 152-151-26
+let s:gb_neutral_yellow = ['#d79921', 172]     " 215-153-33
+let s:gb_neutral_blue   = ['#458588', 66]      " 69-133-136
+let s:gb_neutral_purple = ['#b16286', 132]     " 177-98-134
+let s:gb_neutral_aqua   = ['#689d6a', 72]      " 104-157-106
+let s:gb_neutral_orange = ['#d65d0e', 166]     " 214-93-14
+
+let s:gb_faded_red      = ['#9d0006', 88]      " 157-0-6
+let s:gb_faded_green    = ['#79740e', 100]     " 121-116-14
+let s:gb_faded_yellow   = ['#b57614', 136]     " 181-118-20
+let s:gb_faded_blue     = ['#076678', 24]      " 7-102-120
+let s:gb_faded_purple   = ['#8f3f71', 96]      " 143-63-113
+let s:gb_faded_aqua     = ['#427b58', 66]      " 66-123-88
+let s:gb_faded_orange   = ['#af3a03', 130]     " 175-58-3
+
+let s:gb_bright_red     = ['#fb4934', 167]     " 251-73-52
+let s:gb_bright_green   = ['#b8bb26', 142]     " 184-187-38
+let s:gb_bright_yellow  = ['#fabd2f', 214]     " 250-189-47
+let s:gb_bright_blue    = ['#83a598', 109]     " 131-165-152
+let s:gb_bright_purple  = ['#d3869b', 175]     " 211-134-155
+let s:gb_bright_aqua    = ['#8ec07c', 108]     " 142-192-124
+let s:gb_bright_orange  = ['#fe8019', 208]     " 254-128-25
+
+" Dark and light mode neutral palette for ANSI 0-8
+let s:gruvy_red0    = s:gb_neutral_red
+let s:gruvy_green0  = s:gb_neutral_green
+let s:gruvy_yellow0 = s:gb_neutral_yellow
+let s:gruvy_blue0   = s:gb_neutral_blue
+let s:gruvy_purple0 = s:gb_neutral_purple
+let s:gruvy_aqua0   = s:gb_neutral_aqua
+let s:gruvy_orange0 = s:gb_neutral_orange
+
+let s:gruvy_red1    = s:gb_bright_red
+let s:gruvy_green1  = s:gb_bright_green
+let s:gruvy_yellow1 = s:gb_bright_yellow
+let s:gruvy_blue1   = s:gb_bright_blue
+let s:gruvy_purple1 = s:gb_bright_purple
+let s:gruvy_aqua1   = s:gb_bright_aqua
+let s:gruvy_orange1 = s:gb_bright_orange
 
 " Swap dark and light colors if light mode is explicitly set.
 if &background == "light"
     let s:bases = reverse(s:bases)
+    " Light mode bright GB colors.
+    let s:gruvy_red1    = s:gb_faded_red
+    let s:gruvy_green1  = s:gb_faded_green
+    let s:gruvy_yellow1 = s:gb_faded_yellow
+    let s:gruvy_blue1   = s:gb_faded_blue
+    let s:gruvy_purple1 = s:gb_faded_purple
+    let s:gruvy_aqua1   = s:gb_faded_aqua
+    let s:gruvy_orange1 = s:gb_faded_orange
+else
+
 endif
 
 let s:base03 = s:bases[0]
@@ -121,18 +199,18 @@ let s:base_3 = s:bases[7]
 
 " -----------------------------------------------------------------------------
 " Emphasis values. Elements are gui/cterm, guisp
-let s:none  = ['None', 'None']
-let s:reverse = ['reverse ', 'None']
+let s:none  = ['NONE', 'NONE']
+let s:reverse = ['reverse ', 'NONE']
 
 if get(g:, 'sim#emphasis', 1)
-    let s:italic = ['italic', 'None']
-    let s:bold = ['bold', 'None']
-    let s:underline = ['underline', 'None']
+    let s:italic = ['italic', 'NONE']
+    let s:bold = ['bold', 'NONE']
+    let s:underline = ['underline', 'NONE']
     let s:undercurl = ['undercurl', 'undercurl']
-    let s:bold_italic = ['bold,italic', 'None']
-    let s:bold_italic_underline = ['bold,italic,underline', 'None']
-    let s:bold_underline = ['bold,underline', 'None']
-    let s:italic_underline = ['italic,underline', 'None']
+    let s:bold_italic = ['bold,italic', 'NONE']
+    let s:bold_italic_underline = ['bold,italic,underline', 'NONE']
+    let s:bold_underline = ['bold,underline', 'NONE']
+    let s:italic_underline = ['italic,underline', 'NONE']
 else
     let s:italic = s:none
     let s:bold = s:none
@@ -198,46 +276,14 @@ if has('nvim')
     let g:terminal_color_15 = g:terminal_ansi_colors[15]
 endif
 
-" Define a map of special characters. Can recent if no special
-" let s:special['italic'] = 'italic'
-" let s:special['bold'] = 'bold'
-
 " -----------------------------------------------------------------------------
 "  Predefined groups to link to.
 function! s:hi(group, emph, fg, bg)
     " Arguments: group: str, emphasis: array, foreground: array, background: array.
-      " let histring = [
-      "       \ 'hi! ',    . a:group,
-      "       \ 'guifg='   . a:fg[0],
-      "       \ 'ctermfg=' . a:fg[1],
-      "       \ 'guibg='   . a:bg[0],
-      "       \ 'ctermbg=' . a:bg[1],
-      "       \ 'gui='     . a:emph[0],
-      "       \ 'cterm='   . a:emph[1]
-      "       \ ]
-      " execute join(histring, ' ')
-      " if empty(a:fg)
-      "     let fg = ['None', 'None']
-      " elseif len(a:fg) == 1
-      "     let fg = add(a:fg, 'None')
-      " endif
-
-      " if empty(a:bg)
-      "     let bg = ['None', 'None']
-      " elseif len(a:bg) == 1
-      "     let bg = add(a:bg, 'None')
-      " endif
-
-      " if empty(a:emph)
-      "     let emph = ['None', 'None']
-      " elseif len(a:em) == 1
-      "     let emph = add(a:emph, 'None')
-      " endif
-
-      execute 'hi '  . a:group
+      execute 'hi! '  . a:group
                   \  . ' gui='     . a:emph[0]
-                  \  . ' guisp='   . a:emph[1]
                   \  . ' cterm='   . a:emph[0]
+                  \  . ' guisp='   . a:emph[1]
                   \  . ' guifg='   . a:fg[0]
                   \  . ' ctermfg=' . a:fg[1]
                   \  . ' guibg='   . a:bg[0]
@@ -245,46 +291,59 @@ function! s:hi(group, emph, fg, bg)
 endfunction
 
 " Memoize certain common groups
-call s:hi('SimBlack', s:none, s:black0, s:none)
-call s:hi('SimRed', s:none, s:red0, s:none)
-call s:hi('SimBoldRed', s:bold, s:red0, s:none)
-call s:hi('SimItalicRed', s:italic, s:red0, s:none)
-call s:hi('SimOrange', s:none, s:red1, s:none)
-call s:hi('SimBoldOrange', s:bold, s:red1, s:none)
-call s:hi('SimItalicOrange', s:italic, s:red1, s:none)
-call s:hi('SimYellow', s:none, s:yellow0, s:none)
-call s:hi('SimBoldYellow', s:bold, s:yellow0, s:none)
-call s:hi('SimItalicYellow', s:italic, s:yellow0, s:none)
-call s:hi('SimBrightYellow', s:none, s:yellow1, s:none)
-call s:hi('SimBlue', s:none, s:blue0, s:none)
-call s:hi('SimBoldBlue', s:bold, s:blue0, s:none)
-call s:hi('SimItalicBlue', s:italic, s:blue0, s:none)
-call s:hi('SimBrightBlue', s:none, s:blue1, s:none)
-call s:hi('SimGreen', s:none, s:green0, s:none)
-call s:hi('SimBoldGreen', s:bold, s:green0, s:none)
-call s:hi('SimItalicGreen', s:italic, s:green0, s:none)
-call s:hi('SimBrightGreen', s:none, s:green1, s:none)
-call s:hi('SimCyan', s:none, s:cyan0, s:none)
-call s:hi('SimBoldCyan', s:bold, s:cyan0, s:none)
-call s:hi('SimItalicCyan', s:italic, s:cyan0, s:none)
-call s:hi('SimBrightCyan', s:none, s:cyan1, s:none)
-call s:hi('SimMagenta', s:none, s:magenta0, s:none)
-call s:hi('SimBoldMagenta', s:bold, s:magenta0, s:none)
-call s:hi('SimItalicMagenta', s:italic, s:magenta0, s:none)
-call s:hi('SimViolet', s:none, s:magenta1, s:none)
-call s:hi('SimBoldViolet', s:bold, s:magenta1, s:none)
-call s:hi('SimItalicViolet', s:italic, s:magenta1, s:none)
-call s:hi('SimLightGray', s:none, s:white0, s:none)
-call s:hi('SimBoldLightGray', s:bold, s:white0, s:none)
-call s:hi('SimItalicLightGray', s:italic, s:white0, s:none)
-call s:hi('SimDarkGray', s:none, s:black1, s:none)
-call s:hi('SimBoldDarkGray', s:bold, s:black1, s:none)
-call s:hi('SimItalicDarkGray', s:italic, s:black1, s:none)
-call s:hi('SimWhite', s:none, s:white1, s:none)
-call s:hi('SimBoldWhite', s:bold, s:white1, s:none)
-call s:hi('SimItalicWhite', s:italic, s:white1, s:none)
-
-call s:hi('SimBackgroundHi', s:none, s:none, s:base02)
+call s:hi('SimBlack',             s:none,   s:black0,        s:none)
+call s:hi('SimRed',               s:none,   s:red,           s:none)
+call s:hi('SimBoldRed',           s:bold,   s:red,           s:none)
+call s:hi('SimItalicRed',         s:italic, s:red,           s:none)
+call s:hi('SimOrange',            s:none,   s:red1,          s:none)
+call s:hi('SimBoldOrange',        s:bold,   s:red1,          s:none)
+call s:hi('SimItalicOrange',      s:italic, s:red1,          s:none)
+call s:hi('SimYellow',            s:none,   s:yellow0,       s:none)
+call s:hi('SimBoldYellow',        s:bold,   s:yellow0,       s:none)
+call s:hi('SimItalicYellow',      s:italic, s:yellow0,       s:none)
+call s:hi('SimBrightYellow',      s:none,   s:yellow1,       s:none)
+call s:hi('SimBlue',              s:none,   s:blue0,         s:none)
+call s:hi('SimBoldBlue',          s:bold,   s:blue0,         s:none)
+call s:hi('SimItalicBlue',        s:italic, s:blue0,         s:none)
+call s:hi('SimBrightBlue',        s:none,   s:blue1,         s:none)
+call s:hi('SimGreen',             s:none,   s:green0,        s:none)
+call s:hi('SimBoldGreen',         s:bold,   s:green0,        s:none)
+call s:hi('SimItalicGreen',       s:italic, s:green0,        s:none)
+call s:hi('SimBrightGreen',       s:none,   s:green1,        s:none)
+call s:hi('SimCyan',              s:none,   s:cyan0,         s:none)
+call s:hi('SimBoldCyan',          s:bold,   s:cyan0,         s:none)
+call s:hi('SimItalicCyan',        s:italic, s:cyan0,         s:none)
+call s:hi('SimBrightCyan',        s:none,   s:cyan1,         s:none)
+call s:hi('SimMagenta',           s:none,   s:magenta0,      s:none)
+call s:hi('SimBoldMagenta',       s:bold,   s:magenta0,      s:none)
+call s:hi('SimItalicMagenta',     s:italic, s:magenta0,      s:none)
+call s:hi('SimViolet',            s:none,   s:magenta1,      s:none)
+call s:hi('SimBoldViolet',        s:bold,   s:magenta1,      s:none)
+call s:hi('SimItalicViolet',      s:italic, s:magenta1,      s:none)
+call s:hi('SimLightGray',         s:none,   s:white0,        s:none)
+call s:hi('SimBoldLightGray',     s:bold,   s:white0,        s:none)
+call s:hi('SimItalicLightGray',   s:italic, s:white0,        s:none)
+call s:hi('SimDarkGray',          s:none,   s:black1,        s:none)
+call s:hi('SimBoldDarkGray',      s:bold,   s:black1,        s:none)
+call s:hi('SimItalicDarkGray',    s:italic, s:black1,        s:none)
+call s:hi('SimWhite',             s:none,   s:white1,        s:none)
+call s:hi('SimBoldWhite',         s:bold,   s:white1,        s:none)
+call s:hi('SimItalicWhite',       s:italic, s:white1,        s:none)
+call s:hi('SimGruvyOrange',       s:none,   s:gruvy_orange0, s:none)
+call s:hi('SimGruvyBrightOrange', s:none,   s:gruvy_orange1, s:none)
+call s:hi('SimGruvyYellow',       s:none,   s:gruvy_yellow0, s:none)
+call s:hi('SimGruvyBrightYellow', s:none,   s:gruvy_yellow1, s:none)
+call s:hi('SimGruvyGreen',        s:none,   s:gruvy_green0,  s:none)
+call s:hi('SimGruvyBrightGreen',  s:none,   s:gruvy_green1,  s:none)
+call s:hi('SimGruvyRed',          s:none,   s:gruvy_red0,    s:none)
+call s:hi('SimGruvyBrightRed',    s:none,   s:gruvy_red1,    s:none)
+call s:hi('SimGruvyBlue',         s:none,   s:gruvy_blue0,   s:none)
+call s:hi('SimGruvyBrightBlue',   s:none,   s:gruvy_blue1,   s:none)
+call s:hi('SimGruvyAqua',         s:none,   s:gruvy_yellow0, s:none)
+call s:hi('SimGruvyBrightAqua',   s:none,   s:gruvy_yellow1, s:none)
+call s:hi('SimGruvyPurple',       s:none,   s:gruvy_purple0, s:none)
+call s:hi('SimGruvyBrightPurple', s:none,   s:gruvy_purple1, s:none)
+call s:hi('SimBackgroundHi',      s:none,   s:none,          s:base02)
 
 
 " -----------------------------------------------------------------------------
@@ -296,10 +355,12 @@ call s:hi('Normal',  s:none,   s:base_0, s:base03)
 call s:hi('Comment', s:italic, s:base01, s:none)
 ""       *Comment         any comment
 
-hi! link Constant SimCyan
+hi! link Constant SimBrightCyan
+hi! link String SimCyan
+hi! link Character SimBoldCyan
 hi! link Number SimViolet 
-hi! link Boolean SimOrange
-hi! link Float SimWhite
+hi! link Float SimViolet
+hi! link Boolean SimBoldYellow
 ""       *Constant        any constant
 ""        String          a string constant: "this is a string"
 ""        Character       a character constant: 'c', '\n'
@@ -307,20 +368,21 @@ hi! link Float SimWhite
 ""        Boolean         a boolean constant: TRUE, false
 ""        Float           a floating point constant: 2.3e10
 
-hi! link Identifier SimBlue
-" hi! link Function SimBoldBlue
+hi! link Identifier SimGreen
+hi! link Function SimBlue
 " call s:hi("Identifier"     ,s:none,   s:blue   s:none
 ""       *Identifier      any variable name
 ""        Function        function name (also: methods for classes)
 
-" TODO: Square these away.
 hi! link Statement SimGreen
-" hi! link Keyword SimMagenta 
-" hi! link Conditional SimYellow
-" hi! link Repeat SimOrange 
-" hi! link Label SimCyan
-" hi! link Operator SimYellow
-" hi! link Exception SimOrange 
+hi! link Keyword SimViolet
+hi! link Conditional SimYellow
+hi! link Repeat SimOrange 
+hi! link Label SimBlue
+hi! link Operator SimMagenta
+" call s:hi('Operator', s:none, s:base_2, s:none)
+call s:hi('Operator', s:none, s:gruvy_purple0, s:none)
+hi! link Exception SimRed
 "call s:hi("Statement"      ,s:none,   s:green  s:none
 ""       *Statement       any statement
 ""        Conditional     if, then, else, endif, switch, etc.
@@ -330,7 +392,10 @@ hi! link Statement SimGreen
 ""        Keyword         any other keyword
 ""        Exception       try, catch, throw
 
-hi! link PreProc SimBoldOrange
+hi! link PreProc   SimOrange
+hi! link Include   SimBoldOrange
+hi! link Define    Function 
+hi! link PreCondit Conditional 
 "call s:hi("PreProc"        ,s:none,   s:orange s:none
 ""       *PreProc         generic Preprocessor
 ""        Include         preprocessor #include
@@ -338,9 +403,11 @@ hi! link PreProc SimBoldOrange
 ""        Macro           same as Define
 ""        PreCondit       preprocessor #if, #else, #endif, etc.
 
+"" TODO: Add emphasis?
 hi! link Type SimYellow
-hi! link StorageClass SimYellow
+hi! link StorageClass SimGreen
 hi! link Structure SimOrange 
+hi! link typedef SimRed
 "call s:hi("Type"           ,s:none,   s:yellow s:none
 ""       *Type            int, long, char, etc.
 ""        StorageClass    static, register, volatile, etc.
@@ -348,9 +415,12 @@ hi! link Structure SimOrange
 ""        Typedef         A typedef
 
 hi! link Special SimRed 
+hi! link SpecialChar SimRed 
+hi! link Tag SimBlue
 hi! link Delimiter SimOrange
-hi! link Debug SimBoldRed
-"call s:hi("Special"        ,s:none,   ,s:red0    s:none
+hi! link SpecialComment SimItalicRed
+hi! link Debug SimItalicRed
+"call s:hi("Special"        ,s:none,   ,s:red    s:none
 ""       *Special         any special symbol
 ""        SpecialChar     special character in a constant
 ""        Tag             you can use CTRL-] on this
@@ -358,7 +428,7 @@ hi! link Debug SimBoldRed
 ""        SpecialComment  special things inside a comment
 ""        Debug           debugging statements
 
-call s:hi('Underlined', s:underline, s:magenta1, s:none)
+call s:hi('Underlined', s:underline, s:violet, s:none)
 "call s:hi("Underlined"     ,s:none,   s:violet s:none
 ""       *Underlined      text that stands out, HTML links
 
@@ -367,9 +437,9 @@ call s:hi('Ignore', s:none, s:none, s:none)
 ""       *Ignore          left blank, hidden  |hl-Ignore|
 
 hi! link Error SimBoldRed
-"call s:hi("Error"          ,s:bold,   ,s:red0    s:none
+"call s:hi("Error"          ,s:bold,   ,s:red    s:none
 ""       *Error           any erroneous construct
-
+   
 hi! link Todo SimBoldMagenta
 ""       *Todo            anything that needs extra attention; mostly the
 ""                        keywords TODO FIXME and XXX
@@ -378,42 +448,38 @@ hi! link Todo SimBoldMagenta
 " Extended highlighting 
 call s:hi('SpecialKey',      s:bold, s:base00, s:base02) 
 call s:hi("NonText",         s:bold, s:base00, s:none)
+call s:hi("Whitespace",      s:none, s:red, s:none)
 call s:hi("StatusLine",      s:reverse,  s:none, s:none)
 call s:hi("StatusLineNC",    s:reverse,  s:base01, s:none)
 " TODO: Figure out visual.
 call s:hi("Visual",          s:none,   s:none, s:base02)
 " call s:hi("Visual",          s:reverse,   s:base01, s:base03)
-call s:hi("Directory",       s:none,   s:blue0,   s:none)
-call s:hi("ErrorMsg",        s:bold, s:red0,   s:none)
-call s:hi("IncSearch",       s:reverse, s:red1,   s:none)
-call s:hi("Search",          s:reverse,  s:yellow0, s:none)
-call s:hi("MoreMsg",        s:none,   s:blue0,   s:none)
-call s:hi("ModeMsg",        s:none,   s:blue0,   s:none)
+hi! link Directory SimBoldBlue
+hi! link ErrorMsg SimBoldRed
+call s:hi("IncSearch",       s:reverse, s:red,   s:none)
+call s:hi("Search",          s:reverse,  s:yellow, s:none)
+call s:hi("MoreMsg",        s:none,   s:blue,   s:none)
+call s:hi("ModeMsg",        s:none,   s:blue,   s:none)
 call s:hi("LineNr",         s:none,    s:base01, s:base02)
-call s:hi("Question",       s:bold,   s:cyan0,   s:none)
+call s:hi("Question",       s:bold,   s:cyan,   s:none)
 call s:hi("VertSplit",      s:none,   s:base00, s:none)
 hi! link Title SimBoldOrange
 "call s:hi("VisualNOS"      ,s:fmt_stnd   s:none   s:base02 ,s:fmt_revbb)
-"call s:hi("WarningMsg"     ,s:bold,   ,s:red0    s:none)
+hi! link WarningMsg SimBoldOrange
 call s:hi("WildMenu",       s:reverse,   s:base_2,  s:base02)
 " call s:hi("Folded"         ,s:bold,   s:base_0  s:base02  ,s:sp_base03)
 "call s:hi("FoldColumn"     ,s:none,   s:base_0  s:base02)
 
-" call s:hi("DiffAdd"        ,s:bold,   s:green  s:base02 ,s:sp_green)
-" call s:hi("DiffChange"     ,s:bold,   s:yellow s:base02 ,s:sp_yellow)
-" call s:hi("DiffDelete"     ,s:bold,   ,s:red0    s:base02)
-" call s:hi("DiffText"       ,s:bold,   s:blue   s:base02 ,s:sp_blue)
-call s:hi('DiffAdd', s:bold, s:green0, s:base02)
-call s:hi('DiffChange', s:bold, s:yellow0, s:base02)
-call s:hi('DiffDelete', s:bold, s:red0, s:base02)
-call s:hi('DiffText', s:bold, s:red0, s:base02)
+call s:hi('DiffAdd', s:bold, s:green, s:base02)
+call s:hi('DiffChange', s:bold, s:yellow, s:base02)
+call s:hi('DiffDelete', s:bold, s:red, s:base02)
+call s:hi('DiffText', s:bold, s:red, s:base02)
 
-call s:hi("SignColumn",     s:none,   s:none,  s:none)
-"call s:hi("Conceal"        ,s:none,   s:blue   s:none)
-"call s:hi("SpellBad"       ,s:fmt_curl   s:none   s:none    ,s:sp_red)
-"call s:hi("SpellCap"       ,s:fmt_curl   s:none   s:none    ,s:sp_violet)
-"call s:hi("SpellRare",     s:fmt_curl   s:none   s:none    ,s:sp_cyan)
-"call s:hi("SpellLocal",    s:fmt_curl   s:none   s:none    ,s:sp_yellow)
+call s:hi("Conceal",       s:none,   s:blue,   s:none)
+call s:hi("SpellBad",      s:undercurl,   s:red, s:none)
+call s:hi("SpellCap",      s:undercurl,   s:violet, s:none)
+call s:hi("SpellRare",     s:undercurl,   s:cyan, s:none)
+call s:hi("SpellLocal",    s:undercurl,   s:yellow, s:none)
 "
 " TODO: These might look better without reverse.
 " call s:hi("Pmenu",          s:reverse,   s:base_0,  s:base02)
@@ -432,10 +498,11 @@ call s:hi("TabLineSel",     s:reverse,   s:base01,  s:base_2)
 hi! link CursorLine SimBackgroundHi
 hi! link CursorColumn SimBackgroundHi
 hi! link ColorColumn SimBackgroundHi
+hi! link SignColumn SimBackgroundHi
 call s:hi("CursorLineNr",   s:bold, s:none,  s:base02)
 call s:hi("Cursor",         s:none,   s:base03, s:base_0)
 hi! link lCursor Cursor
-call s:hi("MatchParen", s:bold, s:none, s:base_3)
+call s:hi("MatchParen", s:none, s:none, s:base_2)
 
 "" -----------------------------------------------------------------------------
 "" vim syntax highlighting "{{{
@@ -469,7 +536,12 @@ call s:hi("MatchParen", s:bold, s:none, s:base_3)
 "" ---------------------------------------------------------------------
 " hi! link diffAdded Statement
 " hi! link diffLine Identifier
+hi! link diffAdded DiffAdd
+call s:hi('diffLine', s:none, s:none, s:base02)
 ""}}}
+
+"" FIXME: Delete syntax related highlighting as these should be more properly
+"" handled by syntax files.
 
 "" git & gitcommit highlighting "{{{
 ""git
@@ -760,14 +832,10 @@ call s:hi("MatchParen", s:bold, s:none, s:base_3)
 
 "" signify highlighting "{{{
 "" ---------------------------------------------------------------------
-call s:hi('SignifySignAdd', s:reverse, s:green0, s:none)
-call s:hi('SignifySignChange', s:reverse, s:yellow0, s:none)
-call s:hi('SignifySignDelete', s:reverse, s:red0, s:none)
-call s:hi('SignifySignChangeDelete', s:reverse, s:red0, s:none)
-"exe "hi! SignifySignAdd"            . s:fg_green    .s:bg_none  .s:fmt_none
-"exe "hi! SignifySignChange"         . s:fg_yellow   .s:bg_none  .s:fmt_none
-"exe "hi! SignifySignDelete"         . s:fg_red      .s:bg_none  .s:fmt_none
-"exe "hi! SignifySignChangeDelete"   . s:fg_red      .s:bg_none  .s:fmt_none
+" call s:hi('SignifySignAdd', s:reverse, s:green0, s:none)
+" call s:hi('SignifySignChange', s:reverse, s:yellow0, s:none)
+" call s:hi('SignifySignDelete', s:reverse, s:red, s:none)
+" call s:hi('SignifySignChangeDelete', s:reverse, s:red, s:none)
 "" }}}"
 
 "" ALE highlighting "{{{

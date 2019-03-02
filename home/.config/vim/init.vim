@@ -1,10 +1,5 @@
 " ============================================================================ 
 " Initialization
-" - Use a mix of minpac with builtin package manager to optionally install
-"   all packages, and selectively load them so it's easy to toggle them on
-"   and off. This is really only useful for debugging though.
-" - Consider co-opting vim-lsc's mappings, since they override builtin vim
-"   ones.
 
 " python hosts are neovim specific.
 let g:python_host_prog  = $PYENV_ROOT . '/versions/neovim2/bin/python'
@@ -13,6 +8,36 @@ let g:is_bash = 1
 " set shell=zsh
 let mapleader = "\<Space>"
 let g:initialized = get(g:, 'initialized', 0)
+
+" --------------------------------------------------------------------------
+" align vim and nvim: settings that nvim toggles / removes by deafult.
+if !has('nvim')
+    syntax on
+    set termguicolors
+    set autoindent
+    set autoread           " reread files that have been changed while open
+    set backspace=indent,eol,start " backspace over line breaks, insertion, start
+    set display+=lastline        " display as much as possible of the last line
+    set encoding=utf-8
+    set history=10000
+    set hlsearch
+    set incsearch
+    set listchars   =tab:>-,trail:.,extends:#,nbsp:. ",tab:>-,eol:¶ " customize whitespace look
+    set nocompatible
+    set smarttab
+    set tabpagemax=50
+
+    " italics
+    let &t_ZH="\e[3m"
+    let &t_ZR="\e[23m"
+
+    set runtimepath ^=$XDG_CONFIG_HOME/vim
+    set runtimepath +=$XDG_CONFIG_HOME/vim/after
+    set packpath    ^=$XDG_DATA_HOME/vim/site
+    set packpath    +=$XDG_DATA_HOME/vim/site/after
+endif
+
+
 " ============================================================================
 " Packages / Plugins
 " Loading handled by the builtin package loader, cf., :h packages
@@ -38,8 +63,19 @@ let g:initialized = get(g:, 'initialized', 0)
 "    claims to support snippets and the like out of the box.
 " 6. Native neovim (slated for version 0.5). Probably would be low level
 "    and utilized by one of the above plugins.
-set packpath^=$XDG_DATA_HOME/vim/site
-let minpac_home = "$XDG_DATA_HOME/vim/site/pack/minpac/opt/minpac"
+
+" FIXME: Updating the packpath to share packages between vim and nvim
+" leads to some runtimepath issues. These can likely be resolved, e.g.,
+" see h: nvim-from-vim, but it's easy to just duplicate the package code.
+if has('nvim')
+    let s:pack_home = $XDG_DATA_HOME . '/nvim/site'
+    " let s:minpac_home = "$XDG_DATA_HOME/nvim/site/pack/minpac/opt/minpac"
+    " set packpath^=$XDG_DATA_HOME/nvim/site/
+else
+    let s:pack_home = $XDG_DATA_HOME . '/vim/site'
+    " let s:minpac_home = "$XDG_DATA_HOME/vim/site/pack/minpac/opt/minpac"
+    " set packpath^=$XDG_DATA_HOME/vim/site
+endif
 
 function! s:coc_install_extensions() abort
     " This could also be controlled via specifying 
@@ -72,8 +108,7 @@ endfunction
 " For now, it's probably easiest to just install node manually since
 " we do not develope javascript.
 function! s:coc_init(hooktype, name) abort
-    " echom a:hooktype
-    " echom 'Dir:' minpac#getpluginfo(a:name).dir
+    " Ensure yarn package manager is installed.
     if !executable('yarn') 
         execute '!npm install --global yarn'
     endif
@@ -90,51 +125,50 @@ endfunction
 
 function! PackInit() abort
     packadd minpac
-    call minpac#init()
+    " minpac uses the first dir of packpath unless configured by `dir`.
+    call minpac#init({'dir': s:pack_home})
     call minpac#add('k-takata/minpac', {'type': 'opt'})
 
     " Additional plugins here.
-    " call minpac#add('airblade/vim-gitgutter', {'type': 'start'})
-    " call minpac#add('dyng/ctrlsf.vim', {'type': 'start'})
-    " call minpac#add('jiangmiao/auto-pairs', {'type': 'start'})
+    " call minpac#add('airblade/vim-gitgutter')
+    " call minpac#add('dyng/ctrlsf.vim')
+    " call minpac#add('jiangmiao/auto-pairs')
     
     " Colorscheme plugins
-    call minpac#add('jeffkreeftmeijer/vim-dim', {'type': 'opt'})
     call minpac#add('icymind/NeoSolarized', {'type': 'opt'})
     " call minpac#add('dracula/vim', {'name': 'dracula', 'type': 'opt'})
-    call minpac#add('morhetz/gruvbox', {'type': 'start'})
-    call minpac#add('challenger-deep-theme/vim', {'name': 'challenger_deep', 'type': 'opt'})
-    call minpac#add('romainl/flattened', {'type': 'start'})
+    call minpac#add('morhetz/gruvbox')
+    call minpac#add('romainl/flattened')
     call minpac#add('lifepillar/vim-solarized8', {'type': 'opt'})
-    call minpac#add('mhinz/vim-janah', {'type': 'opt'})
-    call minpac#add('chriskempson/base16-vim', {'type': 'opt'})
-    call minpac#add('drewtempelmeyer/palenight.vim', {'type': 'opt'})
-    call minpac#add('KeitaNakamura/neodark.vim', {'type': 'opt'})
 
-    call minpac#add('brooth/far.vim', {'type': 'start'})
-    call minpac#add('SidOfc/mkdx', {'type': 'start'})
-    call minpac#add('sheerun/vim-polyglot', {'type': 'start'})
-    call minpac#add('tpope/vim-commentary', {'type': 'start'})
-    call minpac#add('tpope/vim-dadbod', {'type': 'start'})
-    call minpac#add('tpope/vim-dispatch', {'type': 'start'})
-    call minpac#add('tpope/vim-endwise', {'type': 'start'})
-    " call minpac#add('tpope/vim-fugitive', {'type': 'start'})
-    call minpac#add('tpope/vim-repeat', {'type': 'start'})
-    call minpac#add('tpope/vim-surround', {'type': 'start'})
-    " call minpac#add('vim-airline/vim-airline', {'type': 'start'})
-    call minpac#add('wellle/targets.vim', {'type': 'start'})
-    call minpac#add('lervag/vimtex', {'type': 'start'})
+    call minpac#add('brooth/far.vim')
+    call minpac#add('SidOfc/mkdx')
+    " Using builtin package manager seems to call polyglot to not load.
+    call minpac#add('sheerun/vim-polyglot')
+    " call minpac#add('vim-python/python-syntax')
+    call minpac#add('tpope/vim-commentary')
+    call minpac#add('tpope/vim-dadbod')
+    call minpac#add('tpope/vim-dispatch')
+    call minpac#add('tpope/vim-endwise')
+    " call minpac#add('tpope/vim-fugitive')
+    call minpac#add('tpope/vim-repeat')
+    call minpac#add('tpope/vim-surround')
+    " call minpac#add('vim-airline/vim-airline')
+    call minpac#add('wellle/targets.vim')
+    call minpac#add('lervag/vimtex')
     call minpac#add('mhinz/vim-signify')
 
     " Experiment with ncm2.
     " NOTE: ncm2 suffers from requiring multiple dependencies.
-    call minpac#add('ncm2/ncm2') | call minpac#add('roxma/nvim-yarp')
-    call minpac#add('ncm2/ncm2-path')
-    call minpac#add('ncm2/ncm2-bufword')
-    call minpac#add('ncm2/ncm2-pyclang')
-    "  " call minpac#add('ncm2/ncm2-ultisnips') | call minpac#add('SirVer/ultisnips')
-    call minpac#add('ncm2/ncm2-vim') | call minpac#add('Shougo/neco-vim')
-    call minpac#add('ncm2/ncm2-vim-lsp')
+    if has('nvim')
+        call minpac#add('ncm2/ncm2') | call minpac#add('roxma/nvim-yarp')
+        call minpac#add('ncm2/ncm2-path')
+        call minpac#add('ncm2/ncm2-bufword')
+        call minpac#add('ncm2/ncm2-pyclang')
+        "  " call minpac#add('ncm2/ncm2-ultisnips') | call minpac#add('SirVer/ultisnips')
+        call minpac#add('ncm2/ncm2-vim') | call minpac#add('Shougo/neco-vim')
+        call minpac#add('ncm2/ncm2-vim-lsp')
+    endif
 
     " Optional packages here. Useful when experimenting.
     call minpac#add('w0rp/ale', {'type': 'opt'})
@@ -156,7 +190,7 @@ function! PackInit() abort
     "   - So could version manage the extensions explicitly in git by
     "     defining the package.json file
     
-    call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': function('s:coc_init')})
+    " call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': function('s:coc_init')})
 endfunction
 
 " Define user commands for updating/cleaning the plugins.
@@ -170,8 +204,9 @@ command! ConfRefresh :source $MYVIMRC
 
 
 " Bootstrap minpac
-if empty(glob(minpac_home))
-    execute '!git clone https://github.com/k-takata/minpac.git ' . minpac_home
+let s:minpac_home = s:pack_home . '/pack/minpac/opt/minpac'
+if empty(glob(s:minpac_home))
+    execute '!git clone https://github.com/k-takata/minpac.git ' . s:minpac_home
     call PackInit()
     call minpac#update()
     " Assumes MYVIMRC is previously set.
@@ -184,7 +219,7 @@ endif
 " packadd coc.nvim
 " packadd LanguageClient-neovim
 " packadd vim-lsc
-packadd vim-lsp | packadd async.vim
+" packadd vim-lsp | packadd async.vim
 
 
 
@@ -240,19 +275,16 @@ let g:lsc_server_commands = {
 
 " --------------------------------------------------------------------------
 "  ncm2 config
-"  Disable autocmd when not using ncm2.
 let g:ncm2#auto_popup = 0
 let g:ncm2#manual_complete_length=[[1,3],[7,1]]
 let g:ncm2_pyclang#library_path = '/usr/local/opt/llvm/lib'
 
 " Comment below to disable ncm2"
-try
+if has('nvim')
     autocmd BufEnter * call ncm2#enable_for_buffer()
     imap <C-x><C-o> <Plug>(ncm2_manual_trigger)
     imap <C-SPACE> <Plug>(ncm2_manual_trigger)
-catch 
-    echo "Could not load NCM2"
-endtry
+endif
 
 
 " --------------------------------------------------------------------------
@@ -397,27 +429,9 @@ let g:polyglot_disabled = ['latex']
 " =========================================================================
 " SETTINGS
 
-" --------------------------------------------------------------------------
-" align vim and nvim: settings that nvim toggles / removes by deafult.
-if has('vim')
-  set autoindent
-  set autoread           " reread files that have been changed while open
-  set backspace   = indent,eol,start " backspace over line breaks, insertion, start
-  set display    += lastline        " display as much as possible of the last line
-  set encoding    = utf-8
-  set history     = 10000
-  set hlsearch
-  set incsearch
-  set listchars   = tab:>-,trail:.,extends:#,nbsp:. ",tab:>-,eol:¶ " customize whitespace look
-  set nocompatible
-  set smarttab
-  set tabpagemax  = 50
-endif
-
 if has('nvim')
   set inccommand=nosplit
 endif
-
 
 " --------------------------------------------------------------------------
 " Abbreviations
@@ -459,7 +473,6 @@ set wildignore+=*/target/*               " sbt target directory
 
 " --------------------------------------------------------------------------
 " Display config
-syntax on                    " enable syntax highlighting
 " set cursorline               " highlight current line, but slow
 set showmode                 " show current mode at bottom of screen
 set showcmd                  " show (partial) commands below statusline

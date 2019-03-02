@@ -2,8 +2,7 @@
 # /etc/zprofile and ~/.profile are sourced before.
 
 source "${HOME}/.profile" > /dev/null 2>&1
-fpath=(${SHDATA}/completions ${SHDATA}/plugins/zsh-users/zsh-completions $fpath)
-autoload -U compinit && compinit
+
 # ----------------------------------------------------------------------------
 # Load plugins.
 # We have some basic custom logic for managing plugins. Basic profiling
@@ -11,22 +10,29 @@ autoload -U compinit && compinit
 
 # plug(plugin_repo, relative_path_to_source)
 function plug() {
-  local plugin="${SHDATA}/plugins/$1/$2"
-  if [[ ! -e "${plugin}" ]]; then
-      git clone --recursive --depth 1 "https://$1" "${SHDATA}/plugins/$1"
-  fi
-  source "${plugin}"
+    # Get everything after last slash.
+    local pkg="${SHDATA}/plugins/${1##*/}"
+    local src="${pkg}/$2"
+    if [[ ! -e "${src}" ]]; then
+        git clone --recursive --depth 1 "https://github.com/$1" "${pkg}" 
+    fi
+    source "${src}"
 }
 
-plug "github.com/junegunn/fzf" "shell/completion.zsh"
-plug "github.com/junegunn/fzf" "shell/key-bindings.zsh"
-plug "github.com/rupa/z" "z.sh"
-plug "github.com/zsh-users/zsh-completions" "zsh-completions.plugin.zsh"
-plug "github.com/zsh-users/zsh-autosuggestions" "zsh-autosuggestions.zsh"
-plug "github.com/hlissner/zsh-autopair" "autopair.zsh"
-plug "github.com/zsh-users/zsh-syntax-highlighting" "zsh-syntax-highlighting.zsh"
-plug "github.com/zsh-users/zsh-history-substring-search" "zsh-history-substring-search.zsh"
+plug "junegunn/fzf" "shell/completion.zsh"
+plug "junegunn/fzf" "shell/key-bindings.zsh"
+plug "rupa/z" "z.sh"
+plug "zsh-users/zsh-completions" "zsh-completions.plugin.zsh"
+plug "zsh-users/zsh-autosuggestions" "zsh-autosuggestions.zsh"
+plug "hlissner/zsh-autopair" "autopair.zsh"
+plug "zsh-users/zsh-syntax-highlighting" "zsh-syntax-highlighting.zsh"
+plug "zsh-users/zsh-history-substring-search" "zsh-history-substring-search.zsh"
 
+# ----------------------------------------------------------------------------
+fpath=(${SHDATA}/completions ${SHDATA}/plugins/zsh-completions $fpath)
+autoload -U compinit && compinit
+
+# ----------------------------------------------------------------------------
 # NOTE: iterm shell integration messes with the prompt and causes
 # emacs tramp mode to hang indefinitely.
 # if [[ $TERM == "dumb" ]]; then

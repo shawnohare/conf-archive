@@ -35,9 +35,10 @@ export XDG_OPT_HOME="${HOME}/.local/opt"
 export IPYTHONDIR="${XDG_CONFIG_HOME}/ipython"
 
 # Let vim/neovim use same init file. It seems using custom VIM init does not
-# automatically set MYVIMRC
-export MYVIMRC="${XDG_CONFIG_HOME}/vim/init.vim"
-export VIMINIT="source ${MYVIMRC}"
+# automatically set MYVIMRC. It could make more sense to just symlink
+# the to the standard locations.
+# export MYVIMRC="${XDG_CONFIG_HOME}/vim/init.vim"
+# export VIMINIT="source ${MYVIMRC}"
 
 export NIXPKGS_CONFIG="${XDG_CONFIG_HOME}/nixpkgs/config.nix"
 export PYSPARK_DRIVER_PYTHON="ipython"
