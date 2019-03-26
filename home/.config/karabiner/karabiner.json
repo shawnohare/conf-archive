@@ -15,11 +15,11 @@
                 },
                 "rules": [
                     {
-                        "description": "Post escape if left_control is pressed alone.",
+                        "description": "Post cap_slock if left_shift is pressed alone.",
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "left_control",
+                                    "key_code": "left_shift",
                                     "modifiers": {
                                         "optional": [
                                             "any"
@@ -28,12 +28,17 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "left_control"
+                                        "key_code": "left_shift"
                                     }
                                 ],
                                 "to_if_alone": [
                                     {
-                                        "key_code": "escape"
+                                        "key_code": "caps_lock",
+                                        "modifiers": {
+                                            "optional": [
+                                                "any"
+                                            ]
+                                        }
                                     }
                                 ],
                                 "type": "basic"

@@ -411,7 +411,8 @@ set splitright  " and to the right of the current.  Default is opposite.
 
 " --------------------------------------------------------------------------
 " generic completion config 
-set completeopt=noinsert,menuone,noselect,preview
+" set completeopt=noinsert,menuone,noselect,preview
+set completeopt=menuone,preview,noinsert
 " Close preview window after selection.
 autocmd CompleteDone * pclose
 
@@ -462,6 +463,10 @@ set background=dark
 "               \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
 "               \,sm:block-blinkwait175-blinkoff150-blinkon175
 " endif
+
+" Attempt to get italics to work in various emulators. vim specific:
+" let &t_ZH = "\e[3m"
+" let &t_ZR = "\e[23m"
 
 " --- gruvbox
 let g:gruvbox_bold = 1
@@ -516,7 +521,7 @@ set foldmethod=indent   " default folding method. syntax method is SLOW.
 " --------------------------------------------------------------------------
 " Key mapping
 inoremap <C-h> <BS>
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " --------------------------------------------------------------------------
 " Indentation
 set expandtab  " <Tab> converted to softtabstop # spaces

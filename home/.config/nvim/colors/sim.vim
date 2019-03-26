@@ -26,7 +26,7 @@ let colors_name = 'sim'
 " base02    #073642 0      0/4 black    235 #262626 20 -12 -12   7  54  66 192  90  26 dark bg highlights
 " base01    #586e75 8      10/7 brgreen  240 #4e4e4e 45 -07 -07  88 110 117 194  25  46 dark comments / light emphasis 
 " base00    #657b83 none   11/7 bryellow 241 #585858 50 -07 -07 101 123 131 195  23  51 light fg
-" base_0     #839496 none   12/6 brblue   244 #808080 60 -06 -03 131 148 150 186  13  59 dark fg
+" base_0    #839496 none   12/6 brblue   244 #808080 60 -06 -03 131 148 150 186  13  59 dark fg
 " base1     #93a1a1 7      4/4 brcyan   245 #8a8a8a 65 -05 -02 147 161 161 180   9  63 dark emphasis / light comments
 " base2     #eee8d5 15     7/7 white    254 #d7d7af 92 -00  10 238 232 213  44  11  93 light bg highlights
 " base3     #fdf6e3 none   15/7 brwhite  230 #ffffd7 97  00  10 253 246 227  44  10  99 light bg
@@ -47,16 +47,16 @@ let colors_name = 'sim'
 " 
 " Rather than permuate the Solarized names, we introduce background mode
 " independent scheme.
-" i  name dark     light   DESC
-" -  ---- -------- ------- ----------------
-" 0  bg0  base03   base_3  main bg 
+" i  name    dark     light   DESC
+" -  ----    -------- ------- ----------------
+" 0  bg0     base03   base_3  main bg 
 " 1  base02  base02   base_2  bg highlights
 " 2  base01  base01   base_1  fg comments
 " 3  base00  base00   base_0  Inactive statusline bg. 
 " 4  base_0  base_0   base00  fg
 " 5  base_1  base_1   base01  fg emphasis, active statusline bg (reversed!)  
-" 6  bg2  base_2   base02  ? 
-" 7  bg3  base_3   base03  Unused(?) (except in contrast shifts).   
+" 6  bg2     base_2   base02  ? 
+" 7  bg3     base_3   base03  Unused(?) (except in contrast shifts).   
 
 " Define the 8 base colors. Foreground and background colors default to NONE
 " so that the terminal emulator color scheme can be used instead.

@@ -62,6 +62,21 @@ curl https://raw.githubusercontent.com/shawnohare/conf/master/bin/install | bash
 - Allow macos admin users to use sudo without passwords: `sudo visudo` and
   edit `%admin ALL=(ALL) ALL` to `%admin ALL=(ALL) NOPASSWD:ALL`.
 
+## Terminal Emulation Font Emphasis
+
+Depending on the emulator, it might be necessary to update the compiled
+terminfo files.
+
+```bash
+# 1. Output details of current terminal.
+infocmp -L $TERM > ~/$TERM.terminfo
+# Add codes for italics and underline.
+echo '\tritm=\E[23m, sitm=\,' >> ~/$TERM.info
+# Recompile new terminfo. This could be put in the home dir on some systems.
+tic -o /usr/share/terminfo ~/$TERM.info
+
+```
+
 
 # Development
 
