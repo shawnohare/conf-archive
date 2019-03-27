@@ -242,9 +242,10 @@ let g:ncm2_pyclang#library_path = '/usr/local/opt/llvm/lib'
 
 " Comment below to disable ncm2"
 autocmd BufEnter * call ncm2#enable_for_buffer()
-imap <C-x><C-o> <Plug>(ncm2_manual_trigger)
-imap <C-SPACE> <Plug>(ncm2_manual_trigger)
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<c-r>=ncm2#force_trigger()<cr>"
+" imap <C-x><C-o> <Plug>(ncm2_manual_trigger)
+inoremap <C-space> <c-r>=ncm2#force_trigger()<cr>
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<c-r>=ncm2#force_trigger()<cr>"
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
  
 " --------------------------------------------------------------------------
 " ale
@@ -521,6 +522,8 @@ set foldmethod=indent   " default folding method. syntax method is SLOW.
 " --------------------------------------------------------------------------
 " Key mapping
 inoremap <C-h> <BS>
+" The snippet below should let CR behave intelligently, but some plugin screws
+" it up. ncm2 maybe?
 " inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " --------------------------------------------------------------------------
 " Indentation
