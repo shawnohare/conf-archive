@@ -1,4 +1,4 @@
-" ============================================================================ 
+" ============================================================================
 " Initialization
 
 " python hosts are neovim specific.
@@ -19,14 +19,14 @@ let g:initialized = get(g:, 'initialized', 0)
 " packadd directly and making all packages optionally loaded.
 "
 " Update packpath to utilize same packages for vim8+/neovim.
-" As of 2019-01-17 there are a few competing Language Server Client 
+" As of 2019-01-17 there are a few competing Language Server Client
 " implementations. The main ones:
 "
 " 1. vim-lsp. Pure vimscript, integrates with ncm2. Incremental updates.
 "    Barebones config.
 " 2. vim-lsc. Pure vimscript. Highlights errors. Incremental updates.
 " 3. ale. Linting / formatting engine that can provide completion from
-"    language servers. 
+"    language servers.
 " 4. LanguageClient-neovim. Rust, ncm2 integration, no incremental update.
 " 5. coc (Conquer of Completion). Tries to emulate vscode more fully, and
 "    claims to support snippets and the like out of the box.
@@ -39,7 +39,7 @@ let g:initialized = get(g:, 'initialized', 0)
 let s:minpac_home = "$XDG_DATA_HOME/nvim/site/pack/minpac/opt/minpac"
 
 function! s:coc_install_extensions() abort
-    " This could also be controlled via specifying 
+    " This could also be controlled via specifying
     " $XDG_DATA_HOME/coc/extensions/package.json
     packadd coc.nvim
     call coc#add_extension(
@@ -58,19 +58,19 @@ endfunction
 " minpac post-update hook for coc
 " The coc#util#install command fetches a prebuilt binary.
 " Alternatively, `yarn install`` can called the post_update hook.
-" Extensions rely on yarn being installed. 
-" Extensions defined in $XDG_DATA_HOME/coc/extensions/package.json 
+" Extensions rely on yarn being installed.
+" Extensions defined in $XDG_DATA_HOME/coc/extensions/package.json
 " are fetched by :CocUpdate, if yarn is installed.
 " Since extensions and coc config are external files, it makes sense to
-" version them for the time being. 
-" yarn itself can be installed via npm. The architecture independent 
-" yarn install script unfortunately dumps it into ~/.yarn, 
-" Can install node via nvm or brew or pkgsrc. 
+" version them for the time being.
+" yarn itself can be installed via npm. The architecture independent
+" yarn install script unfortunately dumps it into ~/.yarn,
+" Can install node via nvm or brew or pkgsrc.
 " For now, it's probably easiest to just install node manually since
 " we do not develope javascript.
 function! s:coc_init(hooktype, name) abort
     " Ensure yarn package manager is installed.
-    if !executable('yarn') 
+    if !executable('yarn')
         execute '!npm install --global yarn'
     endif
 
@@ -90,14 +90,14 @@ function! s:pack_init() abort
     call minpac#init()
     call minpac#add('k-takata/minpac', {'type': 'opt'})
 
+
     " Additional plugins here.
-    " call minpac#add('airblade/vim-gitgutter')
     " call minpac#add('dyng/ctrlsf.vim')
     " call minpac#add('jiangmiao/auto-pairs')
-    
+    call minpac#add('ntpeters/vim-better-whitespace')
+
     " Colorscheme plugins
     call minpac#add('icymind/NeoSolarized', {'type': 'opt'})
-    " call minpac#add('dracula/vim', {'name': 'dracula', 'type': 'opt'})
     call minpac#add('morhetz/gruvbox')
     call minpac#add('romainl/flattened')
     call minpac#add('lifepillar/vim-solarized8', {'type': 'opt'})
@@ -105,17 +105,16 @@ function! s:pack_init() abort
     call minpac#add('junegunn/vim-easy-align')
     call minpac#add('brooth/far.vim')
     call minpac#add('SidOfc/mkdx')
-    " Using builtin package manager seems to call polyglot to not load.
     call minpac#add('sheerun/vim-polyglot')
     call minpac#add('tpope/vim-commentary')
     call minpac#add('tpope/vim-dadbod')
     call minpac#add('tpope/vim-dispatch')
     call minpac#add('tpope/vim-endwise')
-    " call minpac#add('tpope/vim-fugitive')
+    call minpac#add('tpope/vim-fugitive')
     call minpac#add('tpope/vim-repeat')
     call minpac#add('tpope/vim-surround')
     " call minpac#add('vim-airline/vim-airline')
-    call minpac#add('wellle/targets.vim')
+    " call minpac#add('wellle/targets.vim')
     call minpac#add('lervag/vimtex')
     call minpac#add('mhinz/vim-signify')
 
@@ -148,7 +147,7 @@ function! s:pack_init() abort
     "   - :CocInstall is basically same as yarn add extension.
     "   - So could version manage the extensions explicitly in git by
     "     defining the package.json file
-    
+
     " call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': function('s:coc_init')})
 endfunction
 
@@ -158,8 +157,8 @@ endfunction
 command! PackUpdate call s:pack_init() | call minpac#clean() | call minpac#update()
 command! PackClean  call s:pack_init() | call minpac#clean()
 command! CocInstallExtensions call s:pack_init() | call s:coc_install_extensions()
-command! ConfEdit :vs $MYVIMRC 
-command! ConfRefresh :source $MYVIMRC 
+command! ViewConfig :e $MYVIMRC
+command! RefreshConfig :source $MYVIMRC
 
 
 " Bootstrap minpac
@@ -189,9 +188,20 @@ if executable('rg')
 endif
 
 " --------------------------------------------------------------------------
-" easy align 
+" easy align
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+
+" --------------------------------------------------------------------------
+"  better whitespace
+let g:better_whitespace_enabled     = 1
+let g:better_whitespace_verbosity   = 1
+let g:show_spaces_that_precede_tabs = 1
+let g:strip_max_file_size           = 10000
+let g:strip_whitespace_confirm      = 0
+let g:strip_whitespace_on_save      = 1
+
+
 
 " --------------------------------------------------------------------------
 " vim-lsc config
@@ -246,7 +256,7 @@ autocmd BufEnter * call ncm2#enable_for_buffer()
 inoremap <C-space> <c-r>=ncm2#force_trigger()<cr>
 " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<c-r>=ncm2#force_trigger()<cr>"
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
- 
+
 " --------------------------------------------------------------------------
 " ale
 " 2018-10-18T17:24:26+0000: ALE now serves as a (limited) LSP client, and
@@ -382,8 +392,8 @@ set autochdir
 let g:polyglot_disabled = ['latex']
 
 " --------------------------------------------------------------------------
-" signify config 
-" Can set guibg colors for Diff* to make the sign column more colorful. 
+" signify config
+" Can set guibg colors for Diff* to make the sign column more colorful.
 "
 
 " =========================================================================
@@ -411,14 +421,14 @@ set splitbelow  " open new buffers below
 set splitright  " and to the right of the current.  Default is opposite.
 
 " --------------------------------------------------------------------------
-" generic completion config 
+" generic completion config
 " set completeopt=noinsert,menuone,noselect,preview
 set completeopt=menuone,preview,noinsert
 " Close preview window after selection.
 autocmd CompleteDone * pclose
 
 " --------------------------------------------------------------------------
-" wildmenu config 
+" wildmenu config
 set wildmenu                             " command-line completion
 set wildmode=list:longest,full           " shell-style completion behavior
 " File types to ignore for command-line completion
@@ -490,7 +500,7 @@ let g:solarized_enable_extra_hi_groups = 1
 " let g:solarized_termtrans = 1
 
 try
-    colorscheme sim 
+    colorscheme sim
 catch /^Vim\%((\a\+)\)\=:E185/
     echom "Could not find colorscheme."
     set notermguicolors
@@ -563,4 +573,4 @@ if !g:initialized
     set statusline+=%*
 endif
 
-let g:initialized = 1 
+let g:initialized = 1
