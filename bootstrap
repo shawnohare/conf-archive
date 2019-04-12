@@ -3,9 +3,19 @@
 
 set -e
 
-echo "Sourcing profile and rc files.f"
-source "home/.profile"
-source "home/.config/sh/rc.sh"
+# 1. Install initial deps (git and curl). This might just be xcode-select install in macos.
+# 2.
 
-make 
+source "home/.profile"
+
+make
 make install
+
+## copy file with wheel (admin group w/o password requirement) to /etc/sudoers.d/wheel
+## For debian: it is /etc/sudoers.d/wheel, for macos it's /private/etc/sudoers.d
+# sudo groupadd wheel
+# sudo echo '%wheel   ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/wheel
+# sudo usermod -a -G wheel $(whoami)
+## For macos:
+# sudo echo '%wheel   ALL=(ALL) NOPASSWD: ALL' >> /private/etc/sudoers.d/wheel
+# sudo dseditgroup -o edit -a $(whoami) -t user wheel
