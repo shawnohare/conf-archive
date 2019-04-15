@@ -44,8 +44,8 @@ export NIXPKGS_CONFIG="${XDG_CONFIG_HOME}/nixpkgs/config.nix"
 export PYSPARK_DRIVER_PYTHON="ipython"
 export SCREENRC="${XDG_CONFIG_HOME}/screen/screenrc"
 export SPACEMACSDIR="${XDG_CONFIG_HOME}/spacemacs"
+export SQITCH_USER_CONFIG="${XDG_CONFIG_HOME}/sqitch/config"
 export STASH_TARGET="${HOME}"
-export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 export WEECHAT_HOME="$XDG_CONFIG_HOME"/weechat
 # Optional packages that tend to utilize a single dir.
 # export PYTHONUSERBASE="${XDG_OPT_HOME}"

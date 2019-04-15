@@ -14,7 +14,7 @@ function plug() {
     local pkg="${SHDATA}/plugins/${1##*/}"
     local src="${pkg}/$2"
     if [[ ! -e "${src}" ]]; then
-        git clone --recursive --depth 1 "https://github.com/$1" "${pkg}" 
+        git clone --recursive --depth 1 "https://github.com/$1" "${pkg}"
     fi
     source "${src}"
 }

@@ -29,7 +29,7 @@ GLOBIGNORE='.DS_Store:*.o:*.pyc'
 # Do not exit an interactive shell upon reading EOF.
 set -o ignoreeof
 
-# Report the status of terminated background jobs immediately, 
+# Report the status of terminated background jobs immediately,
 # rather than before printing the next primary prompt.
 set -o notify
 
@@ -77,5 +77,5 @@ shopt -s nocaseglob
 # Make echo builtin expand backslash-escape-sequence.
 shopt -s xpg_echo
 
-source "${XDG_CONFIG_HOME}/fzf/fzf.bash" > /dev/null 2>&1
-source "/usr/local/etc/profile.d/bash_completion.sh" > /dev/null 2>&1
+# source "${XDG_CONFIG_HOME}/fzf/fzf.bash" > /dev/null 2>&1
+# source "/usr/local/etc/profile.d/bash_completion.sh" > /dev/null 2>&1
