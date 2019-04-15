@@ -1,5 +1,9 @@
 " ============================================================================
 " Initialization
+" ISSUES:
+" - [ ] polyglot is a nice conglomeration of syntax files, but it tends to
+"   conflict with language-specific packages. See issues below with latex and
+"   pgsql.
 
 " python hosts are neovim specific.
 let g:python_host_prog  = $PYENV_ROOT . '/versions/neovim2/bin/python'
@@ -33,10 +37,15 @@ let g:initialized = get(g:, 'initialized', 0)
 " 6. Native neovim (slated for version 0.5). Probably would be low level
 "    and utilized by one of the above plugins.
 
-" FIXME: Updating the packpath to share packages between vim and nvim
+" NOTE: Updating the packpath to share packages between vim and nvim
 " leads to some runtimepath issues. These can likely be resolved, e.g.,
 " see h: nvim-from-vim, but it's easy to just duplicate the package code.
-let s:minpac_home = "$XDG_DATA_HOME/nvim/site/pack/minpac/opt/minpac"
+" See h:packpath and :set packpath? for more. We choose to install packages
+" in outside of the main ~/.config dir.
+" set packpath      ^=$XDG_DATA_HOME/nvim/site/
+" set packpath      +=$XDG_DATA_HOME/nvim/site/after/
+let s:pack_home = $XDG_DATA_HOME . '/nvim/site'
+let s:minpac_home = s:pack_home . '/pack/minpac/opt/minpac/'
 
 function! s:coc_install_extensions() abort
     " This could also be controlled via specifying
@@ -87,12 +96,11 @@ endfunction
 function! s:pack_init() abort
     packadd minpac
     " minpac uses the first dir of packpath unless configured by `dir`.
-    call minpac#init()
+    call minpac#init({'dir': s:pack_home })
     call minpac#add('k-takata/minpac', {'type': 'opt'})
 
 
-    " Additional plugins here.
-    " call minpac#add('dyng/ctrlsf.vim')
+    call minpac#add('dyng/ctrlsf.vim')
     " call minpac#add('jiangmiao/auto-pairs')
     call minpac#add('ntpeters/vim-better-whitespace')
 
@@ -102,10 +110,15 @@ function! s:pack_init() abort
     call minpac#add('romainl/flattened')
     call minpac#add('lifepillar/vim-solarized8', {'type': 'opt'})
 
-    call minpac#add('junegunn/vim-easy-align')
-    call minpac#add('brooth/far.vim')
+    " call minpac#add('vim-airline/vim-airline')
+    " call minpac#add('wellle/targets.vim')
     call minpac#add('SidOfc/mkdx')
-    call minpac#add('sheerun/vim-polyglot')
+    call minpac#add('brooth/far.vim')
+    call minpac#add('junegunn/vim-easy-align')
+    call minpac#add('lervag/vimtex')
+    call minpac#add('lifepillar/pgsql.vim')
+    call minpac#add('mhinz/vim-signify')
+    call minpac#add('sheerun/vim-polyglot', {'type': 'opt'})
     call minpac#add('tpope/vim-commentary')
     call minpac#add('tpope/vim-dadbod')
     call minpac#add('tpope/vim-dispatch')
@@ -113,10 +126,6 @@ function! s:pack_init() abort
     call minpac#add('tpope/vim-fugitive')
     call minpac#add('tpope/vim-repeat')
     call minpac#add('tpope/vim-surround')
-    " call minpac#add('vim-airline/vim-airline')
-    " call minpac#add('wellle/targets.vim')
-    call minpac#add('lervag/vimtex')
-    call minpac#add('mhinz/vim-signify')
 
     " Experiment with ncm2.
     " NOTE: ncm2 suffers from requiring multiple dependencies.
@@ -157,8 +166,8 @@ endfunction
 command! PackUpdate call s:pack_init() | call minpac#clean() | call minpac#update()
 command! PackClean  call s:pack_init() | call minpac#clean()
 command! CocInstallExtensions call s:pack_init() | call s:coc_install_extensions()
-command! ViewConfig :e $MYVIMRC
-command! RefreshConfig :source $MYVIMRC
+command! Config :e $MYVIMRC
+command! Refresh :source $MYVIMRC
 
 
 " Bootstrap minpac
@@ -388,9 +397,23 @@ set autochdir
 
 " --------------------------------------------------------------------------
 " polyglot config
-" polyglot includes LaTeX-box, which is incompatible with vimtex.
-let g:polyglot_disabled = ['latex']
+" - polyglot includes LaTeX-box, which is incompatible with vimtex.
+" - 2109-04-05: polyglot includes old pgsql syntax, use lifepillar's.
+"   Confer https://github.com/sheerun/vim-polyglot/issues/391
+"   But, using polyglot with pgsql leads to no highlighting. Removing polyglot
+"   from the packpath solves this.
+let g:polyglot_disabled = ['latex', 'pgsql']
 
+" Can use autocmd in your ~/.config/nvim/filetype.vim
+" to enable pgsql filetype for all it for all .sql files or some finer pattern:
+" autocmd BufNewFile,BufRead *.sql setf pgsql
+let g:sql_type_default = 'pgsql'
+
+" --------------------------------------------------------------------------
+" commentary config
+autocmd FileType cfg setlocal commentstring=# %s
+autocmd FileType sql setlocal commentstring=--\ %s
+autocmd FileType pgsql setlocal commentstring=--\ %s
 " --------------------------------------------------------------------------
 " signify config
 " Can set guibg colors for Diff* to make the sign column more colorful.
@@ -398,10 +421,17 @@ let g:polyglot_disabled = ['latex']
 
 " =========================================================================
 " SETTINGS
+"
+" --------------------------------------------------------------------------
+" filetype settings
+let g:markdown_fenced_languages = [
+            \ 'html',
+            \ 'python',
+            \ 'bash=sh',
+            \ 'sql']
 
-if has('nvim')
-  set inccommand=nosplit
-endif
+
+set inccommand=nosplit
 
 " --------------------------------------------------------------------------
 " Abbreviations
@@ -557,8 +587,8 @@ if !g:initialized
     " set paste is obsolete in neovim
     " set statusline+=%(%)%#ModeMsg#%{&paste?'\ PASTE\ ':''}%*  " paste mode
     set statusline+=%{mode()}\ \| " Current mode.
-    set statusline+=\ b%n\ \| " Buffer number.
-    set statusline+=\ %f\ \| "tail of the filename if f or full path if F
+    set statusline+=\ b:\%n\ \| " Buffer number.
+    set statusline+=\ %F\ \| "tail of the filename if f or full path if F
     " set statusline+=%{fugitive#statusline()}  " git branch
     set statusline+=%=              " left/right separator
     set statusline+=%{&fenc}\ \|\        " file encoding

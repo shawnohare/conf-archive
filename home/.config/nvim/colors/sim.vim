@@ -1,12 +1,14 @@
 " 'sim.vim' -- Vim color scheme.
 " Maintainer:   Shawn O'Hare (shawn@shawnohare.com)
-" Description:  S(olarized) Im(proved) via use of emphasis, more colors, and 
+" Description:  S(olarized) Im(proved) via use of emphasis, more colors, and
 " terminal fallbacks that should look readable with non-Solarized terminal
 " themes.
-"               
+"
 "
 " NOTE: hi clear + syntax reset seem to obliterate filetype specific
 " definitions. At least, they do not appear as autocompletion suggestions.
+"
+" FIXME: syntax file issues?
 highlight clear
 
 if exists('syntax_on')
@@ -15,16 +17,16 @@ if exists('syntax_on')
 endif
 
 
-" Use only 16 ANSI colors, no background. 
+" Use only 16 ANSI colors, no background.
 
 let colors_name = 'sim'
 
 
 " SOLARIZED HEX     SIM 16 16/8 TERMCOL  XTERM/HEX   L*A*B      sRGB        HSB         DESC
 " --------- ------- ------ ----------- ---------- ----------- ----------- ----------------
-" base03    #002b36 none   8/4 brblack  234 #1c1c1c 15 -12 -12   0  43  54 193 100  21 dark bg 
+" base03    #002b36 none   8/4 brblack  234 #1c1c1c 15 -12 -12   0  43  54 193 100  21 dark bg
 " base02    #073642 0      0/4 black    235 #262626 20 -12 -12   7  54  66 192  90  26 dark bg highlights
-" base01    #586e75 8      10/7 brgreen  240 #4e4e4e 45 -07 -07  88 110 117 194  25  46 dark comments / light emphasis 
+" base01    #586e75 8      10/7 brgreen  240 #4e4e4e 45 -07 -07  88 110 117 194  25  46 dark comments / light emphasis
 " base00    #657b83 none   11/7 bryellow 241 #585858 50 -07 -07 101 123 131 195  23  51 light fg
 " base_0    #839496 none   12/6 brblue   244 #808080 60 -06 -03 131 148 150 186  13  59 dark fg
 " base1     #93a1a1 7      4/4 brcyan   245 #8a8a8a 65 -05 -02 147 161 161 180   9  63 dark emphasis / light comments
@@ -36,7 +38,7 @@ let colors_name = 'sim'
 " magenta   #d33682 5      5/5 magenta  125 #af005f 50  65 -05 211  54 130 331  74  83
 " violet    #6c71c4 13     13/5 brmagenta 61 #5f5faf 50  15 -45 108 113 196 237  45  77
 " blue      #267bd2 4      4/4 blue      33 #0087ff 55 -10 -45  38 139 210 205  82  82
-" cyan      #2aa198 6      6/6 cyan      37 #00afaf 60 -35 -05  42 161 152 175  74  
+" cyan      #2aa198 6      6/6 cyan      37 #00afaf 60 -35 -05  42 161 152 175  74
 " green     #859900 2      2/2 green     64 #5f8700 60 -20  65 133 153   0  68 100  60
 "
 
@@ -44,19 +46,19 @@ let colors_name = 'sim'
 " Solarized bases. Used for various bg / fg elements. They are grouped
 " as follows: base*{3, 2} for backgrounds and base*{0, 1} for content.
 " The values are permutead via 0x <-> _x upon background mode switch.
-" 
+"
 " Rather than permuate the Solarized names, we introduce background mode
 " independent scheme.
 " i  name    dark     light   DESC
 " -  ----    -------- ------- ----------------
-" 0  bg0     base03   base_3  main bg 
+" 0  bg0     base03   base_3  main bg
 " 1  base02  base02   base_2  bg highlights
 " 2  base01  base01   base_1  fg comments
-" 3  base00  base00   base_0  Inactive statusline bg. 
+" 3  base00  base00   base_0  Inactive statusline bg.
 " 4  base_0  base_0   base00  fg
-" 5  base_1  base_1   base01  fg emphasis, active statusline bg (reversed!)  
-" 6  bg2     base_2   base02  ? 
-" 7  bg3     base_3   base03  Unused(?) (except in contrast shifts).   
+" 5  base_1  base_1   base01  fg emphasis, active statusline bg (reversed!)
+" 6  bg2     base_2   base02  ?
+" 7  bg3     base_3   base03  Unused(?) (except in contrast shifts).
 
 " Define the 8 base colors. Foreground and background colors default to NONE
 " so that the terminal emulator color scheme can be used instead.
@@ -74,7 +76,7 @@ let s:bases = [
 
 " Define canonical colors.
 " - black / white (Bright white) are secondary background colors.
-" - light / dark gray are secondary emphasis foreground colors. 
+" - light / dark gray are secondary emphasis foreground colors.
 " - Main foreground and background colors use terminal defaults.
 let s:black0    = s:bases[1]
 let s:red0      = ["#dc322f",  1]
@@ -216,10 +218,10 @@ else
     let s:bold = s:none
     let s:underline = s:none
     let s:undercurl = s:none
-    let s:italic = s:none 
-    let s:bold_italic = s:none 
-    let s:bold_underline = s:none 
-    let s:italic_underline = s:none 
+    let s:italic = s:none
+    let s:bold_italic = s:none
+    let s:bold_underline = s:none
+    let s:italic_underline = s:none
 endif
 
 " -----------------------------------------------------------------------------
@@ -349,7 +351,7 @@ call s:hi('SimBackgroundHi',      s:none,   s:none,          s:base02)
 " -----------------------------------------------------------------------------
 " Basic highlighting"{{{
 "
-" Normal text uses no foreground / background in terminal mode when  
+" Normal text uses no foreground / background in terminal mode when
 " termguicolors is not set.
 call s:hi('Normal',  s:none,   s:base_0, s:base03)
 call s:hi('Comment', s:italic, s:base01, s:none)
@@ -358,7 +360,7 @@ call s:hi('Comment', s:italic, s:base01, s:none)
 hi! link Constant SimBrightCyan
 hi! link String SimCyan
 hi! link Character SimBoldCyan
-hi! link Number SimViolet 
+hi! link Number SimViolet
 hi! link Float SimViolet
 hi! link Boolean SimBoldYellow
 ""       *Constant        any constant
@@ -377,7 +379,7 @@ hi! link Function SimBlue
 hi! link Statement SimGreen
 hi! link Keyword SimViolet
 hi! link Conditional SimYellow
-hi! link Repeat SimOrange 
+hi! link Repeat SimOrange
 hi! link Label SimBlue
 hi! link Operator SimMagenta
 " call s:hi('Operator', s:none, s:base_2, s:none)
@@ -394,8 +396,8 @@ hi! link Exception SimRed
 
 hi! link PreProc   SimOrange
 hi! link Include   SimBoldOrange
-hi! link Define    Function 
-hi! link PreCondit Conditional 
+hi! link Define    Function
+hi! link PreCondit Conditional
 "call s:hi("PreProc"        ,s:none,   s:orange s:none
 ""       *PreProc         generic Preprocessor
 ""        Include         preprocessor #include
@@ -406,7 +408,7 @@ hi! link PreCondit Conditional
 "" TODO: Add emphasis?
 hi! link Type SimYellow
 hi! link StorageClass SimGreen
-hi! link Structure SimOrange 
+hi! link Structure SimOrange
 hi! link typedef SimRed
 "call s:hi("Type"           ,s:none,   s:yellow s:none
 ""       *Type            int, long, char, etc.
@@ -414,8 +416,8 @@ hi! link typedef SimRed
 ""        Structure       struct, union, enum, etc.
 ""        Typedef         A typedef
 
-hi! link Special SimRed 
-hi! link SpecialChar SimRed 
+hi! link Special SimRed
+hi! link SpecialChar SimRed
 hi! link Tag SimBlue
 hi! link Delimiter SimOrange
 hi! link SpecialComment SimItalicRed
@@ -439,14 +441,14 @@ call s:hi('Ignore', s:none, s:none, s:none)
 hi! link Error SimBoldRed
 "call s:hi("Error"          ,s:bold,   ,s:red    s:none
 ""       *Error           any erroneous construct
-   
+
 hi! link Todo SimBoldMagenta
 ""       *Todo            anything that needs extra attention; mostly the
 ""                        keywords TODO FIXME and XXX
 ""
 " -----------------------------------------------------------------------------
-" Extended highlighting 
-call s:hi('SpecialKey',      s:bold, s:base00, s:base02) 
+" Extended highlighting
+call s:hi('SpecialKey',      s:bold, s:base00, s:base02)
 call s:hi("NonText",         s:bold, s:base00, s:none)
 call s:hi("Whitespace",      s:none, s:red, s:none)
 call s:hi("StatusLine",      s:reverse,  s:none, s:none)
