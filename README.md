@@ -15,7 +15,7 @@ Generally, the file organization is inspired by BSD and the XDG spec.
 # Manual Initialization
 
 Some basic system tools are necessary before running the config install script.
-These are: `curl`, `git`, `bzip`.  
+These are: `curl`, `git`, `bzip`.
 
 ## macOS
 
@@ -29,14 +29,19 @@ xcode-select --install
 ## Debian-based
 
 ```bash
-sudo apt-get update
-sudo apt-get -y upgrade
-sudo apt-get install -y curl git bzip zsh
+sudo apt update
+sudo apt -y upgrade
+sudo apt install -y curl git bzip zsh
+# copy file with wheel (admin group w/o password requirement) to /etc/sudoers.d/wheel
+## optional:
+# sudo echo '%wheel   ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/wheel
+# sudo usermod -a -G wheel $whoami
+
 ```
 
 # Install script
 
-Next, the config install script must be run. 
+Next, the config install script must be run.
 
 The preferred method is:
 
@@ -80,5 +85,5 @@ tic -o /usr/share/terminfo ~/$TERM.info
 
 # Development
 
-1. Install `golang` via `sudo bin/init/golang`. 
+1. Install `golang` via `sudo bin/init/golang`.
 1. Install `rust` via `bin/init/rust` or `curl https://sh.rustup.rs -sSf | sh`
