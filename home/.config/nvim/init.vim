@@ -411,7 +411,7 @@ let g:sql_type_default = 'pgsql'
 
 " --------------------------------------------------------------------------
 " commentary config
-autocmd FileType cfg setlocal commentstring=# %s
+autocmd FileType cfg setlocal commentstring=#\ %s
 autocmd FileType sql setlocal commentstring=--\ %s
 autocmd FileType pgsql setlocal commentstring=--\ %s
 " --------------------------------------------------------------------------
