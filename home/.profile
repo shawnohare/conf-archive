@@ -142,12 +142,12 @@ alias emc="emacsclient"
 # =============================================================================
 # PATH
 # Set this last to ensure values are not unintentionally overwritten.
-# Make sure usr/local/bin occurs before usr/bin.
 if [ ! "${SET_PATH}" = 0 ]; then
     PATH="/usr/local/opt/bin:/usr/local/opt/llvm/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
     PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
     PATH="${HOME}/bin:${XDG_BIN_HOME}:${PATH}"
     PATH="${PYENV_ROOT}/bin:${PATH}"
+    PATH="bin:${PATH}"
 fi
 
 # --- Ruby
