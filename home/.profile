@@ -167,6 +167,7 @@ fi
 # single-user installs do not modify those files. Moreover, a multi-user
 # install does not appear to provide the nix.sh script in the user profile link
 # if [ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]; then
-#     . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
+#     source "${HOME}/.nix-profile/etc/profile.d/nix.sh" &>2 /dev/null
 # fi
+source "${HOME}/.nix-profile/etc/profile.d/nix.sh" 2> /dev/null
 # =============================================================================

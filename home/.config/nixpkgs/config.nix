@@ -52,7 +52,6 @@
         # python35Packages.pylint # errored on os x
         # python35Packages.pew # virtualenv tool, but venv path below nix's
         # pew
-        pipenv
         openssl
         # ripgrep
         # source-code-pro # font
