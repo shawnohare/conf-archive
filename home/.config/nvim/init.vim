@@ -119,7 +119,7 @@ function! s:pack_init() abort
     call minpac#add('lifepillar/pgsql.vim')
     call minpac#add('mhinz/vim-signify')
     call minpac#add('sheerun/vim-polyglot')
-    call minpac#add('vim-pandoc/vim-pandoc')
+    " call minpac#add('vim-pandoc/vim-pandoc')
     call minpac#add('vim-pandoc/vim-pandoc-syntax')
     call minpac#add('tpope/vim-commentary')
     call minpac#add('tpope/vim-dadbod')
@@ -286,17 +286,17 @@ let g:ale_fixers= {
       \ 'sh': ['shfmt'],
       \ 'python': ['black'],
       \ }
-let g:ale_fix_on_save = 1
-let g:ale_completion_enabled = 1
-let g:ale_completion_delay = 100
-let g:ale_echo_msg_format = '[%linter%]% code%: %s'
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_save = 0
+let g:ale_fix_on_save          = 1
+let g:ale_completion_enabled   = 1
+let g:ale_completion_delay     = 100
+let g:ale_echo_msg_format      = '[%linter%]% code%: %s'
+let g:ale_lint_on_enter        = 0
+let g:ale_lint_on_save         = 0
 let g:ale_lint_on_text_changed = 'never'
-let g:ale_open_list = 1
-let g:ale_set_ballons = 1
-let g:ale_sign_error = "✖" " ☓, ⚐
-let g:ale_sign_warning = "⚠"
+let g:ale_open_list            = 1
+let g:ale_set_ballons          = 1
+let g:ale_sign_error           = "✖" " ☓, ⚐
+let g:ale_sign_warning         = "⚠"
 let g:ale_python_black_options = "--py36"
 
 " nmap <silent> <C-k> <Plug>(ale_previous_wrap)
@@ -375,11 +375,11 @@ if executable('pyls')
         \ })
 endif
 
-let g:lsp_signs_enabled = 1         " enable signs
+let g:lsp_signs_enabled           = 1         " enable signs
 let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-let g:lsp_signs_error = {'text': '✖'}
-let g:lsp_signs_warning = {'text': '⚠'}
-let g:lsp_signs_hint = {'text': '•'}
+let g:lsp_signs_error             = {'text': '✖'}
+let g:lsp_signs_warning           = {'text': '⚠'}
+let g:lsp_signs_hint              = {'text': '•'}
 
 " --------------------------------------------------------------------------
 " netrw (built-in)
@@ -398,7 +398,7 @@ set autochdir
 " map <silent> <C-E> :Lexplore <CR>
 
 " --------------------------------------------------------------------------
-" polyglot config
+" syntax / polyglot config
 " - polyglot includes LaTeX-box, which is incompatible with vimtex.
 " - 2109-04-05: polyglot includes old pgsql syntax, use lifepillar's.
 "   Confer https://github.com/sheerun/vim-polyglot/issues/391
@@ -410,7 +410,9 @@ let g:polyglot_disabled = ['latex', 'pgsql']
 " to enable pgsql filetype for all it for all .sql files or some finer pattern:
 " autocmd BufNewFile,BufRead *.sql setf pgsql
 let g:sql_type_default = 'pgsql'
-
+let g:pandoc#syntax#conceal#use = 0
+let g:pandoc#syntax#codeblocks#embeds#use = 1
+let g:pandoc#syntax#codeblocks#embeds#langs = ['python', 'bash=sh']
 " --------------------------------------------------------------------------
 " commentary config
 autocmd FileType cfg setlocal commentstring=#\ %s
