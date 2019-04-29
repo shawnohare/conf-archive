@@ -4,6 +4,7 @@
 " - [ ] polyglot is a nice conglomeration of syntax files, but it tends to
 "   conflict with language-specific packages. See issues below with latex and
 "   pgsql.
+" - [ ] vim-pandoc is very opinionated.
 
 " python hosts are neovim specific.
 let g:python_host_prog  = $PYENV_ROOT . '/versions/neovim2/bin/python'
@@ -240,9 +241,21 @@ let g:polyglot_disabled = ['latex', 'pgsql']
 " to enable pgsql filetype for all it for all .sql files or some finer pattern:
 " autocmd BufNewFile,BufRead *.sql setf pgsql
 let g:sql_type_default = 'pgsql'
-let g:pandoc#syntax#conceal#use = 0
-let g:pandoc#syntax#codeblocks#embeds#use = 1
-let g:pandoc#syntax#codeblocks#embeds#langs = ['python', 'bash=sh']
+
+" --------------------------------------------------------------------------
+"  pandoc config
+let g:pandoc#syntax#conceal#use             = 0
+let g:pandoc#syntax#codeblocks#embeds#use   = 1
+let g:pandoc#modules#disabled               = ["folding"]
+let g:pandoc#spell#enabled                  = 0
+let g:pandoc#syntax#codeblocks#embeds#langs = [
+    \ 'python',
+    \ 'bash=sh',
+    \ 'sh',
+    \ 'html',
+    \ 'sql',
+    \ ]
+
 " --------------------------------------------------------------------------
 " commentary config
 autocmd FileType cfg setlocal commentstring=#\ %s
@@ -259,10 +272,11 @@ autocmd FileType pgsql setlocal commentstring=--\ %s
 " --------------------------------------------------------------------------
 " filetype settings
 let g:markdown_fenced_languages = [
-            \ 'html',
-            \ 'python',
-            \ 'bash=sh',
-            \ 'sql']
+    \ 'html',
+    \ 'python',
+    \ 'bash=sh',
+    \ 'sql',
+    \ ]
 
 
 set inccommand=nosplit
