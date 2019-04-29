@@ -22,8 +22,13 @@ These are: `curl`, `git`, `bzip`.
 Note that macOS comes with a copy of `zsh` pre-installed, so all
 dependencies can be installed via
 
-```bash
+```sh
 xcode-select --install
+```
+
+For `macos >= 10.14`, some additional header files might need to be installed:
+```sh
+sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
 ```
 
 ## Debian-based

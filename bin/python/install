@@ -2,19 +2,26 @@
 #
 # TODO:
 # - [ ] Clone and run scripts rather than curl and pipe.
-# - [ ] Determine whether neovim really needs its own virtualenvs.
-
-set -e
+# - [ ] Try and put more of this into the main Makefile.
 
 # Default location for pyenv.  This is overriden by ~/.profile.
 PYENV_ROOT="${PYENV_ROOT:-${XDG_OPT_HOME}/pyenv}"
 # readonly versions=("3.7.0" "2.7.15")
 # readonly venvs=(neovim user)  # Venvs to install in each major version.
 readonly ver2="2.7.15"
-readonly ver3="3.7.0"
+readonly ver3="3.7.3"
 readonly python2="${PYENV_ROOT}/versions/${ver2}/bin/python"
 readonly python3="${PYENV_ROOT}/versions/${ver3}/bin/python"
+
+# Binaries to install in isolated environments:
 readonly bins=("python-language-server" "black")
+
+# Define python virtualenv requirements. The base requirements in `requirements_common` are installed in every environment.
+readonly requirements_common=("pip" "setuptools")
+readonly requirements_user2=("ipython")
+readonly requirements_user3=("ipython")
+readonly requirements_neovim2=("pynvim")
+readonly requirements_neovim3=("pynvim")
 
 install_pyenv() {
     if [ ! -e "${PYENV_ROOT}/bin/pyenv" ]; then
@@ -64,10 +71,8 @@ virtualenv() {
         pyenv virtualenv "$1" "$2"
     fi
 
-    local requirements="${XDG_CONFIG_HOME}/python/requirements-$2.txt"
-    if [ -e "${requirements}" ]; then
-        "${bin}/pip" install -U -r "${requirements}"
-    fi
+    local requirements="requirements_${2}[@]"
+    "${bin}/pip" install -U "${requirements_common[@]}" "${!requirements}"
 
 }
 

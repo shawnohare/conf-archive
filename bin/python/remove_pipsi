@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-set -ex
-rm -rf "${PIPSI_HOME:-${XDG_OPT_HOME}/pipsi}"
-rm  -f "${XDG_BIN_HOME}/pipsi"
