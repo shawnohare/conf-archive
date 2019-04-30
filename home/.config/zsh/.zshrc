@@ -124,7 +124,7 @@ ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=white,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=yellow,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=green,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=magenta,bold'
-# ZSH_HIGHLIGHT_STYLES[cursor]='bg=black'
+ZSH_HIGHLIGHT_STYLES[cursor]='bg=white' # Not setting can cause invisible cursor in vi mode.
 ZSH_HIGHLIGHT_STYLES[default]=none
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
 ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=magenta,bold'

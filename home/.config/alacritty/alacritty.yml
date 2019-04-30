@@ -44,7 +44,7 @@ window:
   decorations: full
 
   # When true, alacritty starts maximized.
-  start_maximized: false
+  startup_mode: Maximized
 
 scrolling:
   # Maximum number of lines in the scrollback buffer.
@@ -89,7 +89,7 @@ font:
     family: "SF Mono"
 
     # The `style` can be specified to pick a specific face.
-    style: Light
+    #style: Light
 
   # Bold font face
   bold:
@@ -100,6 +100,7 @@ font:
     family: "SF Mono"
 
     # The `style` can be specified to pick a specific face.
+    # style: bold
     style: Semibold
 
   # Italic font face
@@ -172,7 +173,7 @@ colors:
   #
   # Colors which should be used to draw the terminal cursor. If these are unset,
   # the cursor color will be the inverse of the cell color.
-  #cursor:
+  # cursor:
   #  text: '0x000000'
   #  cursor: '0xffffff'
 
