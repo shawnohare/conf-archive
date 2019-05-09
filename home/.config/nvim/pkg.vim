@@ -1,4 +1,3 @@
-
 " Packages / Plugins
 " Loading handled by the builtin package loader, cf., :h packages
 " Management (install / update / clean) handled by minpac.
@@ -42,7 +41,7 @@ function! s:coc_install_extensions() abort
                 \ 'coc-json',
                 \ 'coc-pairs',
                 \ 'coc-snippets',
-                \ 'coc-pyls',
+                \ 'coc-python',
                 \ 'coc-html',
                 \ 'coc-css',
                 \ 'coc-yaml',
@@ -87,15 +86,15 @@ function! s:pack_init() abort
     call minpac#add('k-takata/minpac', {'type': 'opt'})
 
 
-    call minpac#add('dyng/ctrlsf.vim')
+    " call minpac#add('dyng/ctrlsf.vim')
     " call minpac#add('jiangmiao/auto-pairs')
     call minpac#add('ntpeters/vim-better-whitespace')
 
     " Colorscheme plugins
-    call minpac#add('icymind/NeoSolarized', {'type': 'opt'})
-    call minpac#add('morhetz/gruvbox')
-    call minpac#add('romainl/flattened')
-    call minpac#add('lifepillar/vim-solarized8', {'type': 'opt'})
+    " call minpac#add('icymind/NeoSolarized', {'type': 'opt'})
+    " call minpac#add('morhetz/gruvbox')
+    " call minpac#add('romainl/flattened')
+    " call minpac#add('lifepillar/vim-solarized8', {'type': 'opt'})
 
     " call minpac#add('vim-airline/vim-airline')
     " call minpac#add('wellle/targets.vim')
@@ -109,7 +108,7 @@ function! s:pack_init() abort
     " call minpac#add('vim-pandoc/vim-pandoc')
     call minpac#add('vim-pandoc/vim-pandoc-syntax')
     call minpac#add('tpope/vim-commentary')
-    call minpac#add('tpope/vim-dadbod')
+    " call minpac#add('tpope/vim-dadbod')
     call minpac#add('tpope/vim-dispatch')
     call minpac#add('tpope/vim-endwise')
     call minpac#add('tpope/vim-fugitive')
@@ -118,13 +117,13 @@ function! s:pack_init() abort
 
     " Experiment with ncm2.
     " NOTE: ncm2 suffers from requiring multiple dependencies.
-    call minpac#add('ncm2/ncm2') | call minpac#add('roxma/nvim-yarp')
-    call minpac#add('ncm2/ncm2-path')
-    call minpac#add('ncm2/ncm2-bufword')
-    call minpac#add('ncm2/ncm2-pyclang')
-    " call minpac#add('ncm2/ncm2-ultisnips') | call minpac#add('SirVer/ultisnips')
-    call minpac#add('ncm2/ncm2-vim') | call minpac#add('Shougo/neco-vim')
-    call minpac#add('ncm2/ncm2-vim-lsp')
+    " call minpac#add('ncm2/ncm2') | call minpac#add('roxma/nvim-yarp')
+    " call minpac#add('ncm2/ncm2-path')
+    " call minpac#add('ncm2/ncm2-bufword')
+    " call minpac#add('ncm2/ncm2-pyclang')
+    " " call minpac#add('ncm2/ncm2-ultisnips') | call minpac#add('SirVer/ultisnips')
+    " call minpac#add('ncm2/ncm2-vim') | call minpac#add('Shougo/neco-vim')
+    " call minpac#add('ncm2/ncm2-vim-lsp')
 
     " Optional packages here. Useful when experimenting.
     call minpac#add('w0rp/ale', {'type': 'opt'})
@@ -146,7 +145,7 @@ function! s:pack_init() abort
     "   - So could version manage the extensions explicitly in git by
     "     defining the package.json file
 
-    " call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': function('s:coc_init')})
+    call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': function('s:coc_init')})
 endfunction
 
 " Define user commands for updating/cleaning the plugins.
@@ -169,7 +168,7 @@ endif
 
 " Load optional packages.
 " packadd ale
-" packadd coc.nvim
-packadd LanguageClient-neovim
+packadd coc.nvim
+" packadd LanguageClient-neovim
 " packadd vim-lsc
 " packadd vim-lsp | packadd async.vim

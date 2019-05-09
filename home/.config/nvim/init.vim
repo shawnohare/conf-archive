@@ -4,7 +4,7 @@
 " - [ ] polyglot is a nice conglomeration of syntax files, but it tends to
 "   conflict with language-specific packages. See issues below with latex and
 "   pgsql.
-" - [ ] vim-pandoc is very opinionated.
+" - [ ] Consider extracting out LSP configs until we settle on one.
 
 " python hosts are neovim specific.
 let g:python_host_prog  = $PYENV_ROOT . '/versions/neovim2/bin/python'
@@ -14,8 +14,9 @@ let g:is_bash = 1
 let g:initialized = get(g:, 'initialized', 0)
 
 command! Conf :e $MYVIMRC
-command! ConfRefresh :source $MYVIMRC
+command! Reload :source $MYVIMRC
 
+" Lazily load package management functions.
 :source $XDG_CONFIG_HOME/nvim/pkg.vim
 
 
@@ -41,8 +42,6 @@ let g:show_spaces_that_precede_tabs = 1
 let g:strip_max_file_size           = 10000
 let g:strip_whitespace_confirm      = 0
 let g:strip_whitespace_on_save      = 1
-
-
 
 " --------------------------------------------------------------------------
 " vim-lsc config
@@ -87,16 +86,17 @@ let g:lsc_server_commands = {
 
 " --------------------------------------------------------------------------
 "  ncm2 config
-let g:ncm2#auto_popup = 0
-let g:ncm2#manual_complete_length=[[1,3],[7,1]]
-let g:ncm2_pyclang#library_path = '/usr/local/opt/llvm/lib'
+" let g:ncm2#auto_popup = 0
+" let g:ncm2#manual_complete_length=[[1,3],[7,1]]
+" let g:ncm2_pyclang#library_path = '/usr/local/opt/llvm/lib'
 
 " Comment below to disable ncm2"
-autocmd BufEnter * call ncm2#enable_for_buffer()
-" imap <C-x><C-o> <Plug>(ncm2_manual_trigger)
-inoremap <C-space> <c-r>=ncm2#force_trigger()<cr>
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<c-r>=ncm2#force_trigger()<cr>"
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" autocmd BufEnter * call ncm2#enable_for_buffer()
+" " imap <C-x><C-o> <Plug>(ncm2_manual_trigger)
+" inoremap <C-space> <c-r>=ncm2#force_trigger()<cr>
+" " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<c-r>=ncm2#force_trigger()<cr>"
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+
 
 " --------------------------------------------------------------------------
 " ale
@@ -143,44 +143,42 @@ let g:ale_python_black_options = "--py36"
 " coc config
 " Accept completion snippets with <CR> instead of standard <C-y>.
 " But, need to have autoselect enabled.
-" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<CR>"
-" let g:coc_snippet_next = '<TAB>'
-" let g:coc_snippet_prev = '<S-TAB>'
-" inoremap <silent><expr> <c-space> coc#refresh()
-" inoremap <silent><expr> <c-x><c-o> coc#refresh()
+let g:coc_snippet_next = '<TAB>'
+let g:coc_snippet_prev = '<S-TAB>'
+
+inoremap <silent><expr> <c-space> coc#refresh()
 
 " Remap keys for gotos
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " Remap for format selected region
-" vmap <leader>fmt  <Plug>(coc-format-selected)
-" nmap <leader>fmt  <Plug>(coc-format-selected)
+vmap <leader>fmt  <Plug>(coc-format-selected)
+nmap <leader>fmt  <Plug>(coc-format-selected)
 " --------------------------------------------------------------------------
 " LanguageClient config
+"
 " let g:LanguageClient_autoStart = 1
 " let g:LanguageClient_diagnosticsEnable = 1
 let g:LanguageClient_useFloatingHover = 1
+let g:LanguageClient_useVirtualText = 0
 let g:LanguageClient_serverCommands = {
             \ 'cpp': ['clangd'],
             \ 'sh': ['bash-language-server', 'start'],
             \ 'python': ['pyls'],
             \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
             \ }
-" set completefunc=LanguageClient#complete
 
-" Let gq invoke LSC formatter.
-" set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
-" Use <Tab> to call omnicomplete and scroll through results.
-" inoremap <silent><expr> <Tab>
-" \ pumvisible() ? "\<C-n>" : "\<C-x>\<C-o>"
+" " Let gq invoke LSC formatter.
+" " set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
 
 " nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-" nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>
-" nnoremap <silent> <Leader>lsd :call LanguageClient_textDocument_hover()<CR>
-" nnoremap <silent> <Leader>lsr :call LanguageClient_textDocument_rename()<CR>
+" nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
+" " nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>
+" " nnoremap <silent> <Leader>lsd :call LanguageClient_textDocument_hover()<CR>
+" " nnoremap <silent> <Leader>lsr :call LanguageClient_textDocument_rename()<CR>
 
 " --------------------------------------------------------------------------
 " vim-lsp config
@@ -199,7 +197,7 @@ let g:LanguageClient_serverCommands = {
 "        \ })
 if executable('pyls')
     " pip install python-language-server
-    au User lsp_setup call lsp#register_server({
+    autocmd User lsp_setup call lsp#register_server({
         \ 'name': 'pyls',
         \ 'cmd': {server_info->['pyls']},
         \ 'whitelist': ['python'],
@@ -253,14 +251,16 @@ let g:pandoc#syntax#codeblocks#embeds#langs = [
     \ 'bash=sh',
     \ 'sh',
     \ 'html',
+    \ 'xml',
     \ 'sql',
     \ ]
 
 " --------------------------------------------------------------------------
-" commentary config
+" comment config
 autocmd FileType cfg setlocal commentstring=#\ %s
 autocmd FileType sql setlocal commentstring=--\ %s
 autocmd FileType pgsql setlocal commentstring=--\ %s
+
 " --------------------------------------------------------------------------
 " signify config
 " Can set guibg colors for Diff* to make the sign column more colorful.
@@ -283,12 +283,6 @@ set inccommand=nosplit
 
 " --------------------------------------------------------------------------
 " Abbreviations
-" Abbreviation for date and time stamp in RFC822 format
-" iabbrev <expr> dts strftime("%a, %d %b %Y %H:%M:%S %z")
-" Abbreviation for ISO 8061 format.
-" NOTE: The RFC 3339 format specifies that time-zones be of the form -09:37.
-" Some versions of strftime support the %:z format, but not on a
-" circa 2016-05-06 OS X machine.
 nmap<leader>dts :put=strftime('%FT%T%z')<return>
 
 " --------------------------------------------------------------------------
@@ -303,13 +297,17 @@ set splitright  " and to the right of the current.  Default is opposite.
 " set completeopt=noinsert,menuone,noselect,preview
 set completeopt=menuone,preview,noinsert
 " Close preview window after selection.
-autocmd CompleteDone * pclose
-
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" FIXME: inserts textpumvisible() ? "\-" : "\\
+" #inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 " --------------------------------------------------------------------------
 " wildmenu config
-set wildmenu               " command-line completion
-set wildmode    =longest,full " shell-style completion behavior
-set wildoptions =pum       " Show completions in popup-menu
+set wildmenu     " command-line completion
+" set wildmode    =longest,full " shell-style completion behavior
+set wildoptions=pum       " Show completions in popup-menu, uses completeopt
+set pumblend=10
 
 " File types to ignore for command-line completion
 set wildignore+=*.DS_Store               " OSX folder meta-data file
@@ -327,7 +325,7 @@ set wildignore+=*/target/*               " sbt target directory
 " set cursorline               " highlight current line, but slow
 set showmode                 " show current mode at bottom of screen
 set showcmd                  " show (partial) commands below statusline
-set relativenumber           " show relative line numbers
+" set relativenumber           " show relative line numbers
 set number                   " show line number of cursor
 set numberwidth=4            " always make room for 4-digit line numbers
 set textwidth=79
@@ -345,19 +343,9 @@ set signcolumn="yes"
 
 
 " --------------------------------------------------------------------------
-" Colorscheme
-
+" Colorschemes
 set termguicolors
 set background=dark
-" if has('nvim')
-"     set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
-"               \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
-"               \,sm:block-blinkwait175-blinkoff150-blinkon175
-" endif
-
-" Attempt to get italics to work in various emulators. vim specific:
-" let &t_ZH = "\e[3m"
-" let &t_ZR = "\e[23m"
 
 " --- gruvbox
 let g:gruvbox_bold = 1
@@ -371,23 +359,16 @@ let g:gruvbox_contrast_dark = 'medium'
 
 
 " --- one
-" NOTE: (2017-06-05) Alacritty renders italics with a gray background.
 let g:one_allow_italics = 1
-
-" --- solarized
-let g:solarized_enable_extra_hi_groups = 1
-" let g:solarized_old_cursor_style = 0
-" let g:solarized_termtrans = 1
 
 try
     colorscheme sim
 catch /^Vim\%((\a\+)\)\=:E185/
     echom "Could not find colorscheme."
     set notermguicolors
-    " set noguicursor
+    set noguicursor
     colorscheme desert
 endtry
-
 
 " --------------------------------------------------------------------------
 " Editing
