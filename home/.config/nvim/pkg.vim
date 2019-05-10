@@ -38,16 +38,15 @@ function! s:coc_install_extensions() abort
     " $XDG_DATA_HOME/coc/extensions/package.json
     packadd coc.nvim
     call coc#add_extension(
-                \ 'coc-json',
-                \ 'coc-pairs',
-                \ 'coc-snippets',
-                \ 'coc-python',
-                \ 'coc-html',
-                \ 'coc-css',
-                \ 'coc-yaml',
-                \ 'coc-emmet',
-                \ 'coc-dictionary',
-                \)
+        \ 'coc-json',
+        \ 'coc-snippets',
+        \ 'coc-python',
+        \ 'coc-html',
+        \ 'coc-css',
+        \ 'coc-yaml',
+        \ 'coc-emmet',
+        \ 'coc-dictionary',
+        \)
 endfunction
 
 " minpac post-update hook for coc

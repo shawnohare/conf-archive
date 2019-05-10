@@ -17,7 +17,10 @@ command! Conf :e $MYVIMRC
 command! Reload :source $MYVIMRC
 
 " Lazily load package management functions.
-:source $XDG_CONFIG_HOME/nvim/pkg.vim
+try
+    :source $XDG_CONFIG_HOME/nvim/pkg.vim
+catch
+endtry
 
 
 " ==========================================================================
@@ -253,6 +256,8 @@ let g:pandoc#syntax#codeblocks#embeds#langs = [
     \ 'html',
     \ 'xml',
     \ 'sql',
+    \ 'ini=dosini',
+    \ 'cfg',
     \ ]
 
 " --------------------------------------------------------------------------
