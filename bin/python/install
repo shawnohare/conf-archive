@@ -44,15 +44,9 @@ install_pipsi() {
     fi
 }
 
-install_pipx() {
-    if [ ! -e "${XDG_BIN_HOME}/pipx" ]; then
-        curl https://raw.githubusercontent.com/cs01/pipx/master/get-pipx.py | python - --no-modify-path --python="${PYENV_ROOT}/versions/user3/bin/python"
-    fi
-}
-
 # Install global python executables. Each in their own virtualenv.
 install_bins() {
-    install_pipx
+    "${PYENV_ROOT}/versions/${ver3}/envs/user3/bin/pip" install -U pipx
 
     for pkg in "${bins[@]}"; do
         pipx install "${pkg}"

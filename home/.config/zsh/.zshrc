@@ -118,39 +118,129 @@ setopt bang_hist                 # !keyword
 bindkey '^L' autosuggest-accept
 # NOTE: Accepting an autosuggestion leads to weird highlighting.
 
+# ----------------------------------------------------------------------------
 # highlights
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
+
+# Set which highlighters to use.
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor root)
+
+# Bracket highlights
+ZSH_HIGHLIGHT_STYLES[cursor-matchingbracket]='fg=black,bg=yellow'
+ZSH_HIGHLIGHT_STYLES[bracket-error]='fg=red,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=white,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=yellow,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=green,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=magenta,bold'
-ZSH_HIGHLIGHT_STYLES[cursor]='bg=white' # Not setting can cause invisible cursor in vi mode.
-ZSH_HIGHLIGHT_STYLES[default]=none
-ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
-ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=magenta,bold'
-ZSH_HIGHLIGHT_STYLES[alias]='fg=yellow'
-ZSH_HIGHLIGHT_STYLES[builtin]='fg=magenta,bold'
-ZSH_HIGHLIGHT_STYLES[command]='fg=magenta'
-ZSH_HIGHLIGHT_STYLES[precommand]='fg=magenta,bold'
-ZSH_HIGHLIGHT_STYLES[function]='fg=blue'
-ZSH_HIGHLIGHT_STYLES[commandseparator]='bold'
-ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=blue'
-ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=yellow'
-ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=yellow'
-ZSH_HIGHLIGHT_STYLES[path]='fg=blue,bold'
-ZSH_HIGHLIGHT_STYLES[path_pathseparator]='fg=blue,bold'
-ZSH_HIGHLIGHT_STYLES[path_prefix]='fg=61,bold'
-ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]='bold'
-ZSH_HIGHLIGHT_STYLES[path_approx]='fg=magenta'
-ZSH_HIGHLIGHT_STYLES[globbing]='fg=166'
-ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=bold'
-ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=cyan'
-ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=009
-ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=009
-ZSH_HIGHLIGHT_STYLES[assign]='fg=magenta'
-ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=cyan'
-ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=green'
 
+# Cursor highlights.  Not setting can cause invisible cursor in vi mode.
+ZSH_HIGHLIGHT_STYLES[cursor]='bg=black'
+
+# Main highlights
+ZSH_HIGHLIGHT_STYLES[unknown-token]='none'
+ZSH_HIGHLIGHT_STYLES[reserved-word]='none'
+ZSH_HIGHLIGHT_STYLES[alias]='none'
+ZSH_HIGHLIGHT_STYLES[suffix-alias]='none'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=magenta,bold'
+ZSH_HIGHLIGHT_STYLES[function]='fg=blue'
+ZSH_HIGHLIGHT_STYLES[command]='fg=magenta'
+ZSH_HIGHLIGHT_STYLES[precommand]='none'
+ZSH_HIGHLIGHT_STYLES[commandseparator]='none'
+ZSH_HIGHLIGHT_STYLES[hashed-command]='none'
+ZSH_HIGHLIGHT_STYLES[path]='none'
+ZSH_HIGHLIGHT_STYLES[path_pathseparator]='none'
+
+# ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
+# ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=magenta,bold'
+# ZSH_HIGHLIGHT_STYLES[alias]='fg=yellow'
+# ZSH_HIGHLIGHT_STYLES[builtin]='fg=magenta,bold'
+# ZSH_HIGHLIGHT_STYLES[command]='fg=magenta'
+# ZSH_HIGHLIGHT_STYLES[precommand]='fg=magenta,bold'
+# ZSH_HIGHLIGHT_STYLES[function]='fg=blue'
+# ZSH_HIGHLIGHT_STYLES[commandseparator]='bold'
+# ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=blue'
+# ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=yellow'
+# ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=yellow'
+# ZSH_HIGHLIGHT_STYLES[path]='fg=blue,bold'
+# ZSH_HIGHLIGHT_STYLES[path_pathseparator]='fg=blue,bold'
+# ZSH_HIGHLIGHT_STYLES[path_prefix]='fg=61,bold'
+# ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]='bold'
+# ZSH_HIGHLIGHT_STYLES[path_approx]='fg=magenta'
+# ZSH_HIGHLIGHT_STYLES[globbing]='fg=166'
+# ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=bold'
+# ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=cyan'
+# ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=009
+# ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=009
+# ZSH_HIGHLIGHT_STYLES[assign]='fg=magenta'
+# ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=cyan'
+# ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=green'
+
+# prefixes of existing filenames
+ZSH_HIGHLIGHT_STYLES[path_prefix]='none'
+# path separators in prefixes of existing filenames (/); if unset, path_prefix is used (default)
+ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]='none'
+# globbing expressions (*.txt)
+ZSH_HIGHLIGHT_STYLES[globbing]='none'
+# history expansion expressions (!foo and ^foo^bar)
+ZSH_HIGHLIGHT_STYLES[history-expansion]='none'
+# command substitutions ($(echo foo))
+ZSH_HIGHLIGHT_STYLES[command-substitution]='none'
+# an unquoted command substitution ($(echo foo))
+ZSH_HIGHLIGHT_STYLES[command-substitution-unquoted]='none'
+# a quoted command substitution ("$(echo foo)")
+ZSH_HIGHLIGHT_STYLES[command-substitution-quoted]='none'
+# command substitution delimiters ($( and ))
+ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]='none'
+# an unquoted command substitution delimiters ($( and ))
+ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter-unquoted]='none'
+# a quoted command substitution delimiters ("$( and )")
+ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter-quoted]='none'
+# process substitutions (<(echo foo))
+ZSH_HIGHLIGHT_STYLES[process-substitution]='none'
+# process substitution delimiters (<( and ))
+ZSH_HIGHLIGHT_STYLES[process-substitution-delimiter]='none'
+# single-hyphen options (-o)
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='none'
+# double-hyphen options (--option)
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='none'
+# backtick command substitution (`foo`)
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='none'
+# unclosed backtick command substitution (`foo)
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument-unclosed]='none'
+# backtick command substitution delimiters (`)
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument-delimiter]='none'
+# single-quoted arguments ('foo')
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=14'
+# unclosed single-quoted arguments ('foo)
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument-unclosed]='fg=red'
+# double-quoted arguments ("foo")
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=cyan'
+# unclosed double-quoted arguments ("foo)
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument-unclosed]='fg=red'
+# dollar-quoted arguments ($'foo')
+ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='none'
+# unclosed dollar-quoted arguments ($'foo)
+ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument-unclosed]='none'
+# two single quotes inside single quotes when the RC_QUOTES option is set ('foo''bar')
+ZSH_HIGHLIGHT_STYLES[rc-quote]='none'
+# parameter expansion inside double quotes ($foo inside "")
+ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]='none'
+# backslash escape sequences inside double-quoted arguments (\" in "foo\"bar")
+ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]='none'
+# backslash escape sequences inside dollar-quoted arguments (\x in $'\x48')
+ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]='none'
+# parameter assignments (x=foo and x=( ))
+ZSH_HIGHLIGHT_STYLES[assign]='none'
+# redirection operators (<, >, etc)
+ZSH_HIGHLIGHT_STYLES[redirection]='none'
+# comments, when setopt INTERACTIVE_COMMENTS is in effect (echo # foo)
+ZSH_HIGHLIGHT_STYLES[comment]='none'
+# named file descriptor
+ZSH_HIGHLIGHT_STYLES[named-fd]='none'
+# a command word other than one of those enumerated above (other than a command, precommand, alias, function, or shell builtin command).
+ZSH_HIGHLIGHT_STYLES[arg0]='none'
+ZSH_HIGHLIGHT_STYLES[default]='none'
+
+# ----------------------------------------------------------------------------
 
 # zsh-completions
 # zsh-history-substring-search
@@ -219,3 +309,4 @@ PROMPT='${user}@${machine} ${dir} ${vcs_info_msg_0_}
 # All the fzf script does is update path to include fzf bin and source
 # completions / keybindings.
 # source "${XDG_CONFIG_HOME}/fzf/fzf.zsh" > /dev/null 2>&1
+export ZSHRC_SET=1

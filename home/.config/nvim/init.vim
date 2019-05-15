@@ -141,7 +141,6 @@ let g:ale_python_black_options = "--py36"
 " nmap <leader>gh <Plug>(ale_hover)
 " nmap <leader>info <Plug>(ale_hover)
 
-
 " --------------------------------------------------------------------------
 " coc config
 " Accept completion snippets with <CR> instead of standard <C-y>.
