@@ -329,7 +329,7 @@ set wildignore+=*/target/*               " sbt target directory
 " set cursorline               " highlight current line, but slow
 set showmode                 " show current mode at bottom of screen
 set showcmd                  " show (partial) commands below statusline
-" set relativenumber           " show relative line numbers
+set relativenumber           " show relative line numbers
 set number                   " show line number of cursor
 set numberwidth=4            " always make room for 4-digit line numbers
 set textwidth=79

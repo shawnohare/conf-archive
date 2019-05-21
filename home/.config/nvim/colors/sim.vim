@@ -491,7 +491,7 @@ call s:hi('SimOneMagenta',           s:none,   s:one_magenta,      s:none)
 " Basic highlighting
 "
 call s:hi('Normal',  s:none,   s:base_0, s:base03)
-call s:hi('Comment', s:italic, s:base01, s:none)
+call s:hi('Comment', s:none, s:base01, s:none)
 
 " Constant
 hi! link Constant SimBrightCyan
