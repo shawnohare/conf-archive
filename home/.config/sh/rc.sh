@@ -1,23 +1,24 @@
 # Source for purely interactive shells, i.e., shells invoked after login.
+# Most configuration here is for bash-style shells (e.g., zsh)
 
 # =========================================================================
 # aliases
 # =========================================================================
 case "${OSTYPE}" in
-  (linux*)
-    alias la="ls --color -Flash"
-    alias ll="ls --color -Flsh"
-    alias ls="ls --color -F"
-    ;;
-  # darwin*) source "${XDG_CONFIG_HOME}/macos";;
-  # *bsd*) source "${XDG_CONFIG_HOME}/bsd";;
-  (**)
-    alias ls="ls -GF"
-    alias la="ls -GFlash"
-    alias ll="ls -GFlsh"
-    ;;
+    linux*)
+        alias ls="ls --color -GFi"
+        ;;
+    **)
+        if [ $(command -v gls) 1> /dev/null ]; then
+            alias ls="gls --color -GF"
+        else
+            alias ls="ls -GF"
+        fi
+        ;;
 esac
 
+alias la="ls -GFlashi"
+alias ll="ls -GFlshi"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."

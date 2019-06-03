@@ -12,41 +12,22 @@
 
 source "${HOME}/.env" 2&> /dev/null
 
-# ----------------------------------------------------------------------------
-# aliases
-
-case "${OSTYPE}" in
-    linux*)
-        alias ls="ls --color -GFi"
-        ;;
-    **)
-        if [ $(command -v gls) 1> /dev/null ]; then
-            alias ls="gls --color -GF"
-        else
-            alias ls="ls -GF"
-        fi
-        ;;
-esac
-
-alias la="ls -GFlashi"
-alias ll="ls -GFlshi"
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias emc="emacsclient"
 
 # ----------------------------------------------------------------------------
 # PATH
 # Set this last to ensure values are not unintentionally overwritten.
-if [ ! "${PATH_SET}" = true ]; then
-    echo "Setting up path."
-    PATH="/usr/local/opt/bin:/usr/local/opt/llvm/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
-    PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
-    PATH="${HOME}/bin:${XDG_BIN_HOME}:${PATH}"
-    PATH="${PYENV_ROOT}/bin:${PATH}"
-    PATH="bin:${PATH}"
-    export PATH_SET=true
+# NOTE: Tmux runs as login shell and in macos wants to run path_helper always.
+
+if [ -f /etc/profile ]; then
+    PATH=""
+    source /etc/profile
 fi
+
+PATH="/usr/local/opt/bin:/usr/local/opt/llvm/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
+PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
+PATH="${HOME}/bin:${XDG_BIN_HOME}:${PATH}"
+PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"
+PATH="bin:${PATH}"
 
 # ----------------------------------------------------------------------------
 # rbenv
@@ -57,12 +38,25 @@ fi
 # ----------------------------------------------------------------------------
 # pyenv
 # ----------------------------------------------------------------------------
-if [ -e "${PYENV_ROOT}/bin/pyenv" ] && [ ! "${PYENV_SET}" = true ]; then
-    echo "Setting up pyenv."
-    eval "$("${PYENV_ROOT}/bin/pyenv" init -)"
-    eval "$("${PYENV_ROOT}/bin/pyenv" virtualenv-init -)"
-    export PYENV_SET=true
-fi
+# Normal one runs: eval "$("${PYENV_ROOT}/bin/pyenv" init -)"
+# But this does a command rehash, which is painfully slow.
+pyenv() {
+  local command
+  command="${1:-}"
+  if [ "$#" -gt 0 ]; then
+    shift
+  fi
+
+  case "$command" in
+  activate|deactivate|rehash|shell)
+    eval "$(pyenv "sh-$command" "$@")";;
+  *)
+    command pyenv "$command" "$@";;
+  esac
+}
+
+export -f pyenv
+eval "$("${PYENV_ROOT}/bin/pyenv" virtualenv-init -)"
 
 # Multi-user installs source the nix-daemon.sh in /etc profiles but
 # single-user installs do not modify those files. Moreover, a multi-user

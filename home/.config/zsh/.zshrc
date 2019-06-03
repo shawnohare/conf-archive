@@ -1,7 +1,7 @@
 # zshrc is sourced by interactive shells.
 # /etc/zprofile and ~/.profile are sourced before.
 
-source "${HOME}/.profile" > /dev/null 2>&1
+source "${XDG_CONFIG_HOME}/sh/rc.sh" 2&> /dev/null
 
 # ----------------------------------------------------------------------------
 # Load plugins.
@@ -28,8 +28,9 @@ plug "hlissner/zsh-autopair" "autopair.zsh"
 plug "zsh-users/zsh-syntax-highlighting" "zsh-syntax-highlighting.zsh"
 plug "zsh-users/zsh-history-substring-search" "zsh-history-substring-search.zsh"
 
+# source "${PYENV_ROOT}/completions/pyenv.zsh"
 # ----------------------------------------------------------------------------
-fpath=(${SHDATA}/completions ${SHDATA}/plugins/zsh-completions $fpath)
+fpath=(${SHDATA}/completions ${SHDATA}/plugins/zsh-completions ${PYENV_ROOT}/completions $fpath)
 autoload -U compinit && compinit
 
 # ----------------------------------------------------------------------------

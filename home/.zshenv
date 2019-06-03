@@ -18,3 +18,4 @@ source "${HOME}/.env" 2&> /dev/null
 export ZDOTDIR="${XDG_CONFIG_HOME:-${HOME}/.config}/zsh"
 export SHDATA="${XDG_DATA_HOME:-${HOME}/.local/share}/zsh"
 # export ZSH_AUTOSUGGEST_USE_ASYNC=1
+export PYENV_SHELL=zsh  # Normally set by pyenv init -

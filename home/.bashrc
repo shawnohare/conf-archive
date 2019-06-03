@@ -6,11 +6,11 @@
 
 # interactive, login shell will source ~/.bash_profile, then ~/.bash_login, then ~/.profile
 # interactive, non-login will source ~/.bashrc
-# It probably makes sense to have ~/.bash_profile source ~/.bashrc
-# and put most interactive logic in ~/.bashrc
 
 # ----------------------------------------------------------------------------
 source "${HOME}/.profile" > /dev/null 2>&1
+source "$XDG_CONFIG_HOME}/sh/rc.sh" > /dev/null 2>&1
+export PYENV_SHELL=bash
 export SHDATA="${XDG_DATA_HOME:-${HOME}/.local/share}/bash"
 
 # env vars
