@@ -10,24 +10,24 @@
 # Non-inheritted settings, like aliases our custom ~/.config/rc.sh and sourced
 # from the shell specific rc file (e.g., .bashrc, .zshrc)
 
-source "${HOME}/.env" 2&> /dev/null
 
+if [ ! "${ENV_SET}" = true ]; then
+    source "${HOME}/.env" 2&> /dev/null
+fi
 
 # ----------------------------------------------------------------------------
 # PATH
 # Set this last to ensure values are not unintentionally overwritten.
 # NOTE: Tmux runs as login shell and in macos wants to run path_helper always.
+# if [ -f /etc/profile ]; then
+#    PATH=""
+#    source /etc/profile
+#fi
 
-if [ -f /etc/profile ]; then
-    PATH=""
-    source /etc/profile
-fi
-
-PATH="/usr/local/opt/bin:/usr/local/opt/llvm/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
 PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
-PATH="${HOME}/bin:${XDG_BIN_HOME}:${PATH}"
+PATH="${XDG_BIN_HOME}:/usr/local/opt/bin:/opt/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
 PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"
-PATH="bin:${PATH}"
+export path
 
 # ----------------------------------------------------------------------------
 # rbenv
@@ -38,25 +38,27 @@ PATH="bin:${PATH}"
 # ----------------------------------------------------------------------------
 # pyenv
 # ----------------------------------------------------------------------------
-# Normal one runs: eval "$("${PYENV_ROOT}/bin/pyenv" init -)"
+# Normally one runs: eval "$("${PYENV_ROOT}/bin/pyenv" init -)"
 # But this does a command rehash, which is painfully slow.
-pyenv() {
-  local command
-  command="${1:-}"
-  if [ "$#" -gt 0 ]; then
-    shift
-  fi
+if [ -e "${PYENV_ROOT}/bin/pyenv" ]; then
+	pyenv() {
+	  local command
+	  command="${1:-}"
+	  if [ "$#" -gt 0 ]; then
+	    shift
+	  fi
 
-  case "$command" in
-  activate|deactivate|rehash|shell)
-    eval "$(pyenv "sh-$command" "$@")";;
-  *)
-    command pyenv "$command" "$@";;
-  esac
-}
+	  case "$command" in
+	  activate|deactivate|rehash|shell)
+	    eval "$(pyenv "sh-$command" "$@")";;
+	  *)
+	    command pyenv "$command" "$@";;
+	  esac
+	}
 
-export -f pyenv
-eval "$("${PYENV_ROOT}/bin/pyenv" virtualenv-init -)"
+	export -f pyenv
+	eval "$("${PYENV_ROOT}/bin/pyenv" virtualenv-init -)"
+fi
 
 # Multi-user installs source the nix-daemon.sh in /etc profiles but
 # single-user installs do not modify those files. Moreover, a multi-user

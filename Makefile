@@ -5,24 +5,28 @@
 # root:= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 # home:=$(root)home
 # bin:= $(root)bin
+stash_src := /usr/local/src/stash/
 XDG_CACHE_HOME ?= "${HOME}/.cache"
 XDG_CONFIG_HOME ?= "${HOME}/.config"
 XDG_BIN_HOME ?= "${HOME}/.local/bin"
 XDG_DATA_HOME ?= "${HOME}/.local/share"
 XDG_OPT_HOME ?= "${HOME}/.local/opt"
+XDG_SRC_HOME ?= "${HOME}/.local/src"
 
 .PHONY: dirs link unlink brew go nix python rust stack toolchains install
 
-init: dirs stash link
+init: dirs stash link 
 	$(info Please restart another shell session.)
 
-stash:
-	$(info Updating stash symlink manager.)
-	[ -d "$(XDG_OPT_HOME)/stash" ] || git clone https://github.com/shawnohare/stash "$(XDG_OPT_HOME)/stash"
-	make -f "$(XDG_OPT_HOME)/stash/Makefile" install
+$(stash_src):
+	sudo git clone https://github.com/shawnohare/stash $@ 
+
+stash: $(stash_src) 
+	make -C "$(stash_src)" install
 
 link:
 	stash -v -f -t "${HOME}" home
+	# stash -v -f -t "${XDG_CONFIG_HOME}/zsh" home/.config/zsh
 
 unlink:
 	stash -v -f -D -t "${HOME}" home
@@ -33,14 +37,29 @@ dirs:
 	# sudo mkdir -p /usr/local/bin
 	# sudo chmod 775 /usr/local/opt
 	mkdir -p "${XDG_BIN_HOME}"
+	ln -s -f "${XDG_BIN_HOME}" "${HOME}/bin"
 	mkdir -p "${XDG_CONFIG_HOME}"
+	ln -s -f "${XDG_CONFIG_HOME}" "${HOME}/etc"
 	mkdir -p "${XDG_CACHE_HOME}"
 	mkdir -p "${XDG_DATA_HOME}"
+	ln -s -f "${XDG_DATA_HOME}" "${HOME}/share"
 	mkdir -p "${XDG_OPT_HOME}"
-	mkdir -p "${XDG_LIB_HOME}"
-	mkdir -p "${HOME}/src"
+	ln -s -f "${XDG_OPT_HOME}" "${HOME}/opt"
+	mkdir -p "${XDG_SRC_HOME}"
+	ln -s -f "${XDG_SRC_HOME}" "${HOME}/src"
 	mkdir -p "${HOME}/tmp"
-	# bash and zsh seem to not be able create dirs for history files.
+	mkdir -p "${XDG_DATA_HOME}/man/man1"
+	mkdir -p "${XDG_DATA_HOME}/man/man2"
+	mkdir -p "${XDG_DATA_HOME}/man/man4"
+	mkdir -p "${XDG_DATA_HOME}/man/man4"
+	mkdir -p "${XDG_DATA_HOME}/man/man5"
+	mkdir -p "${XDG_DATA_HOME}/man/man6"
+	mkdir -p "${XDG_DATA_HOME}/man/man7"
+	mkdir -p "${XDG_DATA_HOME}/man/man8"
+	mkdir -p "${XDG_DATA_HOME}/man/man8"
+	# sudo mkdir -p /usr/local/share/man/man1
+	# sudo mkdir -p /usr/local/share/man/man2
+	# bash and zsh cannot create dirs for history files.
 	mkdir -p "${XDG_DATA_HOME}/bash"
 	mkdir -p "${XDG_DATA_HOME}/zsh"
 
