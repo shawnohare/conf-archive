@@ -15,13 +15,26 @@ XDG_SRC_HOME ?= "${HOME}/.local/src"
 
 .PHONY: dirs link unlink brew go nix python rust stack toolchains install
 
-init: dirs stash link 
+init: dirs stash link
 	$(info Please restart another shell session.)
 
-$(stash_src):
-	sudo git clone https://github.com/shawnohare/stash $@ 
+ubuntu-init:
+	$(info Installing common apps)
+	sudo apt -y install git zsh curl wget
+	sudo apt -y install software-properties-common
+	sudo apt -y install i3
+	sudo apt -y install tmux
+	chsh -s $$(which zsh)
+	$(info Installing neovim dev)
+	sudo apt -y install npm
+	sudo add-apt-repository ppa:neovim-ppa/unstable
+	sudo apt update
+	sudo apt -y install neovim
 
-stash: $(stash_src) 
+$(stash_src):
+	sudo git clone https://github.com/shawnohare/stash $@
+
+stash: $(stash_src)
 	make -C "$(stash_src)" install
 
 link:

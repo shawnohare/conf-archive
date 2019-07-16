@@ -65,7 +65,7 @@ endfunction
 function! s:coc_init(hooktype, name) abort
     " Ensure yarn package manager is installed.
     if !executable('yarn')
-        execute '!npm install --global yarn'
+        execute '!sudo npm install --user yarn'
     endif
 
     " Get prebuilt binary for macOS or Linux or build from source via yarn.
@@ -150,8 +150,8 @@ endfunction
 " Define user commands for updating/cleaning the plugins.
 " Each of them calls s:pack_init() to load minpac and register
 " the information of plugins, then performs the task.
-command! PkgUpdate call s:pack_init() | call minpac#clean() | call minpac#update()
-command! PkgClean  call s:pack_init() | call minpac#clean()
+command! PackUpdate call s:pack_init() | call minpac#clean() | call minpac#update()
+command! PackClean  call s:pack_init() | call minpac#clean()
 command! CocInstallExtensions call s:pack_init() | call s:coc_install_extensions()
 
 
