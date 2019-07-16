@@ -15,6 +15,7 @@ pkgs=(
    # ripgrep
 )
 
+install_rust
 for pkg in "${pkgs[@]}"; do
   cargo install --force "${pkg}"
 done

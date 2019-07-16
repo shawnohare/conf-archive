@@ -6,7 +6,7 @@
 # =========================================================================
 case "${OSTYPE}" in
     linux*)
-        alias ls="ls --color -GFi"
+        alias ls="ls --color -GF"
         ;;
     **)
         if [ $(command -v gls) 1> /dev/null ]; then

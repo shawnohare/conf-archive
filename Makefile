@@ -25,11 +25,23 @@ ubuntu-init:
 	sudo apt -y install i3
 	sudo apt -y install tmux
 	chsh -s $$(which zsh)
+
+ubuntu-nvim:
 	$(info Installing neovim dev)
 	sudo apt -y install npm
 	sudo add-apt-repository ppa:neovim-ppa/unstable
 	sudo apt update
 	sudo apt -y install neovim
+
+$(XDG_OPT_HOME)/alacritty/:
+	git clone https://jwilm/alacritty $@
+
+ubuntu-alacritty: $(XDG_OPT_HOME)/alacritty/
+	$(info Installing alacritty)
+	sudo apt -y install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev python3
+	bin/rust/install
+	cargo install --force cargo-deb
+	cargo deb --install --manifest-path $(XDG_OPT_HOME)/alacritty/alacritty/Cargo.toml
 
 $(stash_src):
 	sudo git clone https://github.com/shawnohare/stash $@
