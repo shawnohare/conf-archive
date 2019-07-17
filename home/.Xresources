@@ -21,3 +21,8 @@
 #define COLOR13 #6c71c4
 #define COLOR14 #2aa198
 #define COLOR15 #eee8d5
+
+Xft.antialias: true
+Xft.hinting: true
+xft.hintstyle: hintfull
+Xft.dpi: 220

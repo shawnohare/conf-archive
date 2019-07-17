@@ -5,6 +5,8 @@
 # root:= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 # home:=$(root)home
 # bin:= $(root)bin
+# TODO: Some parts should probably be split into a separate distro specific
+# Makefile, e.g., ~/conf/$distro/Makefile
 stash_src := /usr/local/src/stash/
 XDG_CACHE_HOME ?= "${HOME}/.cache"
 XDG_CONFIG_HOME ?= "${HOME}/.config"
@@ -16,38 +18,57 @@ XDG_SRC_HOME ?= "${HOME}/.local/src"
 .PHONY: dirs link unlink brew go nix python rust stack toolchains install
 
 init: dirs stash link
-	$(info Please restart another shell session.)
+	$(info Please restart another shell session to ensure proper env.)
 
-ubuntu-init:
+ubuntu-init: init
 	$(info Installing common apps)
-	sudo apt -y install git zsh curl wget
+	sudo apt -y install git curl wget
 	sudo apt -y install software-properties-common
-	sudo apt -y install i3
-	sudo apt -y install tmux
+
+ubuntu-server: ubuntu-init /usr/bin/nvim
+	sudo apt -y install zsh tmux
 	chsh -s $$(which zsh)
 
-ubuntu-nvim:
+ubuntu-desktop: ubuntu-server /usr/bin/alacritty
+	sudo apt -y install i3
+
+/usr/bin/nvim:
 	$(info Installing neovim dev)
 	sudo apt -y install npm
 	sudo add-apt-repository ppa:neovim-ppa/unstable
 	sudo apt update
 	sudo apt -y install neovim
 
-$(XDG_OPT_HOME)/alacritty/:
-	git clone https://jwilm/alacritty $@
+$(RUSTUP_HOME):
+	curl https://sh.rustup.rs -sSf | bash -s -- --no-modify-path -y
+	# bin/rust/install
 
-ubuntu-alacritty: $(XDG_OPT_HOME)/alacritty/
+$(CARGO_HOME)/bin/cargo-deb:
+	cargo install cargo-deb
+
+$(XDG_OPT_HOME)/xst:
+	git clone https://github.com/gnotclub/xst $@
+
+/usr/local/bin/xst: $(XDG_OPT_HOME)/xst
+	sudo make -C $< install
+
+rust: $(RUSTUP_HOME)
+
+$(XDG_OPT_HOME)/alacritty:
+	git clone https://github.com/jwilm/alacritty $@
+
+/usr/bin/alacritty: $(XDG_OPT_HOME)/alacritty $(RUSTUP_HOME) $(CARGO_HOME)/bin/cargo-deb
 	$(info Installing alacritty)
 	sudo apt -y install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev python3
-	bin/rust/install
-	cargo install --force cargo-deb
 	cargo deb --install --manifest-path $(XDG_OPT_HOME)/alacritty/alacritty/Cargo.toml
+
+ubuntu-alacritty: /usr/bin/alacritty
 
 $(stash_src):
 	sudo git clone https://github.com/shawnohare/stash $@
 
 stash: $(stash_src)
-	make -C "$(stash_src)" install
+	make -C $< install
 
 link:
 	stash -v -f -t "${HOME}" home
@@ -100,11 +121,11 @@ python:
 	# bash -l $(bin)/python/install
 	bin/python/install
 
-rust:
-	bin/rust/install
+# rust:
+# 	bin/rust/install
 
-go:
-	bin/go/install
+# go:
+# 	bin/go/install
 
 nix:
 	# bash -l $(bin)/nix/install
