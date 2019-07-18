@@ -30,7 +30,7 @@ ubuntu-server: ubuntu-init /usr/bin/nvim
 	chsh -s $$(which zsh)
 
 ubuntu-desktop: ubuntu-server /usr/bin/alacritty
-	sudo apt -y install i3
+	sudo apt -y install i3 rofi
 
 /usr/bin/nvim:
 	$(info Installing neovim dev)

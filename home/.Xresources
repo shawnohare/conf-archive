@@ -1,8 +1,6 @@
-# Ported from sim.vim colorscheme.
 #define FOREGROUND #839496
 #define BACKGROUND #002b36
 
-# Normal colors
 #define COLOR0  #073642
 #define COLOR1  #dc322f
 #define COLOR2  #859900
@@ -11,9 +9,8 @@
 #define COLOR5  #d33682
 #define COLOR6  #2aa198
 #define COLOR7  #93a1a1
-#define COLOR8  #586e75
 
-# Bright Colors
+#define COLOR8  #586e75
 #define COLOR9  #cb4b16
 #define COLOR10 #96ad00
 #define COLOR11 #e2ab00
@@ -22,7 +19,36 @@
 #define COLOR14 #2aa198
 #define COLOR15 #eee8d5
 
+*.foreground:  FOREGROUND
+*.background:  BACKGROUND
+*.cursorColor: FOREGROUND
+
+*.color0:  COLOR0
+*.color1:  COLOR1
+*.color2:  COLOR2
+*.color3:  COLOR3
+*.color4:  COLOR4
+*.color5:  COLOR5
+*.color6:  COLOR6
+*.color7:  COLOR7
+*.color8:  COLOR8
+*.color9:  COLOR9
+*.color10: COLOR10
+*.color11: COLOR11
+*.color12: COLOR12
+*.color13: COLOR13
+*.color14: COLOR14
+*.color15: COLOR15
+
+*.dpi: 220
+
 Xft.antialias: true
 Xft.hinting: true
 xft.hintstyle: hintfull
 Xft.dpi: 220
+
+rofi.combi-modi: window,drun,ssh
+rofi.theme: solarized
+rofi.font: monospace 10
+rofi.modi: combi
+rofi.dpi: 220
