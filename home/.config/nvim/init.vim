@@ -148,22 +148,19 @@ let g:ale_python_black_options = "--py36"
 let g:coc_snippet_next = '<TAB>'
 let g:coc_snippet_prev = '<S-TAB>'
 
-inoremap <silent><expr> <c-space> coc#refresh()
+" inoremap <silent><expr> <c-space> coc#refresh()
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gh <Plug>(coc-action-doHover)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)
+" vmap <leader>fmt  <Plug>(coc-format-selected)
+" nmap <leader>fmt  <Plug>(coc-format-selected)
 
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Remap for format selected region
-vmap <leader>fmt  <Plug>(coc-format-selected)
-nmap <leader>fmt  <Plug>(coc-format-selected)
 " --------------------------------------------------------------------------
 " LanguageClient config
-"
-" let g:LanguageClient_autoStart = 1
-" let g:LanguageClient_diagnosticsEnable = 1
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_diagnosticsEnable = 1
 let g:LanguageClient_useFloatingHover = 1
 let g:LanguageClient_useVirtualText = 0
 let g:LanguageClient_serverCommands = {
@@ -173,14 +170,13 @@ let g:LanguageClient_serverCommands = {
             \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
             \ }
 
-" " Let gq invoke LSC formatter.
-" " set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
-
-" nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-" nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
-" " nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>
-" " nnoremap <silent> <Leader>lsd :call LanguageClient_textDocument_hover()<CR>
-" " nnoremap <silent> <Leader>lsr :call LanguageClient_textDocument_rename()<CR>
+" Let gq invoke LSC formatter.
+set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
+" nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>
+" nnoremap <silent> <Leader>lsd :call LanguageClient_textDocument_hover()<CR>
+" nnoremap <silent> <Leader>lsr :call LanguageClient_textDocument_rename()<CR>
 
 " --------------------------------------------------------------------------
 " vim-lsp config

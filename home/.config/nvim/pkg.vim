@@ -167,7 +167,7 @@ endif
 
 " Load optional packages.
 " packadd ale
-packadd coc.nvim
-" packadd LanguageClient-neovim
+" packadd coc.nvim
+packadd LanguageClient-neovim
 " packadd vim-lsc
 " packadd vim-lsp | packadd async.vim
