@@ -260,6 +260,7 @@ let g:pandoc#syntax#codeblocks#embeds#langs = [
 autocmd FileType cfg setlocal commentstring=#\ %s
 autocmd FileType sql setlocal commentstring=--\ %s
 autocmd FileType pgsql setlocal commentstring=--\ %s
+autocmd FileType xdefaults setlocal commentstring=!\ %s
 
 " --------------------------------------------------------------------------
 " signify config
