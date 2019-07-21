@@ -1,44 +1,81 @@
-#define FOREGROUND #839496
-#define BACKGROUND #002b36
+/* Bases */
+/* ------------------------------------------------------------------------ */
+/* i | dark   | light  | canonical | description */
+/* ------------------------------------------------------------------------ */
+/* 0 | base03 | base_3 | base_l3   | main bg */
+/* 1 | base02 | base_2 | base_l2   | bg highlights */
+/* 2 | base01 | base_1 | base_l1   | fg comments */
+/* 3 | base00 | base_0 | base_l0   | Inactive statusline bg. */
+/* 4 | base_0 | base00 | base_r0   | fg */
+/* 5 | base_1 | base01 | base_r1   | fg emphasis, active statusline, bg reversed */
+/* 6 | base_2 | base02 | base_r2   | ? */
+/* 7 | base_3 | base03 | base_r3   | Unused(?) (except in contrast shifts). */
+/* ------------------------------------------------------------------------ */
 
-#define COLOR0  #073642
-#define COLOR1  #dc322f
-#define COLOR2  #859900
-#define COLOR3  #b58900
-#define COLOR4  #268bd2
-#define COLOR5  #d33682
-#define COLOR6  #2aa198
-#define COLOR7  #93a1a1
+#define BASE_L3 #002b36
+#define BASE_L2 #073642
+#define BASE_L1 #586e75
+#define BASE_L0 #657b83
+#define BASE_R0 #839496
+#define BASE_R1 #93a1a1
+#define BASE_R2 #eee8d5
+#define BASE_R3 #fdf6e3
 
-#define COLOR8  #586e75
-#define COLOR9  #cb4b16
-#define COLOR10 #96ad00
-#define COLOR11 #e2ab00
-#define COLOR12 #268bd2
-#define COLOR13 #6c71c4
-#define COLOR14 #2aa198
-#define COLOR15 #eee8d5
+#define BLACK0  #073642
+#define RED0  #dc322f
+#define GREEN0  #859900
+#define YELLOW0  #b58900
+#define BLUE0  #268bd2
+#define PURPLE0  #d33682
+#define CYAN0  #2aa198
+#define WHITE0  #93a1a1
 
-*.foreground:  FOREGROUND
-*.background:  BACKGROUND
-*.cursorColor: FOREGROUND
+#define BLACK1  #586e75
+#define RED1  #cb4b16
+#define GREEN1 #96ad00
+#define YELLOW1 #e2ab00
+#define BLUE1 #268bd2
+#define PURPLE1 #6c71c4
+#define CYAN1 #2aa198
+#define WHITE1 #eee8d5
 
-*.color0:  COLOR0
-*.color1:  COLOR1
-*.color2:  COLOR2
-*.color3:  COLOR3
-*.color4:  COLOR4
-*.color5:  COLOR5
-*.color6:  COLOR6
-*.color7:  COLOR7
-*.color8:  COLOR8
-*.color9:  COLOR9
-*.color10: COLOR10
-*.color11: COLOR11
-*.color12: COLOR12
-*.color13: COLOR13
-*.color14: COLOR14
-*.color15: COLOR15
+*.foreground:  BASE_R0
+*.background:  BASE_L3
+*.cursorColor: BASE_R0
+
+*.color0:  BLACK0
+*.color1:  RED0
+*.color2:  GREEN0
+*.color3:  YELLOW0
+*.color4:  BLUE0
+*.color5:  PURPLE0
+*.color6:  CYAN0
+*.color7:  WHITE0
+*.color8:  BLACK1
+*.color9:  RED1
+*.color10: GREEN1
+*.color11: YELLOW1
+*.color12: BLUE1
+*.color13: PURPLE1
+*.color14: CYAN1
+*.color15: WHITE1
+
+*.black0: BLACK0
+*.red0: RED0
+*.green0: GREEN0
+*.yellow0: YELLOW0
+*.blue0: BLUE0
+*.purple0: PURPLE0
+*.cyan0: CYAN0
+*.white0: WHITE0
+*.black1: BLACK1
+*.red1: RED1
+*.green1: GREEN1
+*.yellow1: YELLOW1
+*.blue1: BLUE1
+*.purple1: PURPLE1
+*.cyan1: CYAN1
+*.white1: WHITE1
 
 *.dpi: 220
 
@@ -52,3 +89,7 @@ rofi.theme: solarized
 rofi.font: monospace 10
 rofi.modi: combi
 rofi.dpi: 220
+
+i3.bg: BASE_L3
+i3.bg2: BASE_L2
+i3.fg: BASE_R0

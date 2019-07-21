@@ -41,9 +41,9 @@ let colors_name = 'sim'
 " base01    #586e75 8      10/7 brgreen		240 #4e4e4e  45 -07 -07    88 110  117   194  25  46
 " base00    #657b83 none   11/7 bryellow	241 #585858  50 -07 -07   101 123  131   195  23  51
 " base_0    #839496 none   12/6 brblue		244 #808080  60 -06 -03   131 148  150   186  13  59
-" base1     #93a1a1 7      4/4 brcyan		245 #8a8a8a  65 -05 -02   147 161  161   180   9  63
-" base2     #eee8d5 15     7/7 white		254 #d7d7af  92 -00  10   238 232  213    44  11  93
-" base3     #fdf6e3 none   15/7 brwhite		230 #ffffd7  97  00  10   253 246  227    44  10  99
+" base_1    #93a1a1 7      4/4 brcyan		245 #8a8a8a  65 -05 -02   147 161  161   180   9  63
+" base_2    #eee8d5 15     7/7 white		254 #d7d7af  92 -00  10   238 232  213    44  11  93
+" base_3    #fdf6e3 none   15/7 brwhite		230 #ffffd7  97  00  10   253 246  227    44  10  99
 " yellow    #b58900 3      3/3 yellow		136 #af8700  60  10  65   181 137    0    45 100  71
 " orange    #cb4b16 9      9/3 brred		166 #d75f00  50  50  55   203  75   22    18  89  80
 " red       #dc322f 1      1/1 red		    160 #d70000  50  65  45   220  50   47     1  79  86
@@ -91,16 +91,16 @@ let s:darkgray  = s:brblack
 
 " Bases
 " ----------------------------------------------------------------------------
-" i | dark   | light   | description
+" i | dark   | light  | canonical | description
 " ----------------------------------------------------------------------------
-" 0 | base03 | base_3 | main bg
-" 1 | base02 | base_2 | bg highlights
-" 2 | base01 | base_1 | fg comments
-" 3 | base00 | base_0 | Inactive statusline bg.
-" 4 | base_0 | base00 | fg
-" 5 | base_1 | base01 | fg emphasis, active statusline, bg (reversed!)
-" 6 | base_2 | base02 | ?
-" 7 | base_3 | base03 | Unused(?) (except in contrast shifts).
+" 0 | base03 | base_3 | base_l3   | main bg
+" 1 | base02 | base_2 | base_l2   | bg highlights
+" 2 | base01 | base_1 | base_l1   | fg comments
+" 3 | base00 | base_0 | base_l0   | Inactive statusline bg.
+" 4 | base_0 | base00 | base_r0   | fg
+" 5 | base_1 | base01 | base_r1   | fg emphasis, active statusline, bg reversed
+" 6 | base_2 | base02 | base_r2   | ?
+" 7 | base_3 | base03 | base_r3   | Unused(?) (except in contrast shifts).
 " ---------------------------------------------------------------------------
 
 let s:bases = [

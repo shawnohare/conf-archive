@@ -14,6 +14,8 @@ XDG_BIN_HOME ?= "${HOME}/.local/bin"
 XDG_DATA_HOME ?= "${HOME}/.local/share"
 XDG_OPT_HOME ?= "${HOME}/.local/opt"
 XDG_SRC_HOME ?= "${HOME}/.local/src"
+op_pkg := "op_linux_amd64_v0.5.7.zip"
+albert_pkg := "albert_0.16.1_amd64.deb"
 
 .PHONY: dirs link unlink brew go nix python rust stack toolchains install
 
@@ -22,19 +24,30 @@ init: dirs stash link
 
 ubuntu-init: init
 	$(info Installing common apps)
-	sudo apt -y install git curl wget
-	sudo apt -y install software-properties-common
+	sudo apt -y install git curl wget jq software-properties-common
 
 ubuntu-server: ubuntu-init /usr/bin/nvim
 	sudo apt -y install zsh tmux
 	chsh -s $$(which zsh)
 
-ubuntu-desktop: ubuntu-server /usr/bin/alacritty
+ubuntu-desktop: ubuntu-server /usr/bin/alacritty /usr/bin/albert
 	sudo apt -y install i3 rofi
+
+$(XDG_BIN_HOME)/op:
+	mkdir -p $(XDG_OPT_HOME)/op
+	cd $(XDG_OPT_HOME)/op && wget https://cache.agilebits.com/dist/1P/op/pkg/v0.5.7/$(op_pkg)
+	unzip $(XDG_OPT_HOME)/op/$(op_pkg)
+	ln -s $(XDG_OPT_HOME)/op/op $(XDG_BIN_HOME)/op
+
+/usr/local/src/$(albert_pkg):
+	cd /usr/local/src && sudo wget https://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_19.04/amd64/$(albert_pkg)
+
+/usr/bin/albert: /usr/local/src/$(albert_pkg)
+	sudo apt -y install $<
 
 /usr/bin/nvim:
 	$(info Installing neovim dev)
-	sudo apt -y install npm
+	# sudo apt -y install npm
 	sudo add-apt-repository ppa:neovim-ppa/unstable
 	sudo apt update
 	sudo apt -y install neovim
