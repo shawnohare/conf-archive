@@ -171,7 +171,7 @@ let g:LanguageClient_serverCommands = {
             \ }
 
 " Let gq invoke LSC formatter.
-set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
+" set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
 " nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>

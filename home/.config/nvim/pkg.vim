@@ -143,8 +143,8 @@ function! s:pack_init() abort
     "   - :CocInstall is basically same as yarn add extension.
     "   - So could version manage the extensions explicitly in git by
     "     defining the package.json file
-
-    call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': function('s:coc_init')})
+    "
+    " call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': function('s:coc_init')})
 endfunction
 
 " Define user commands for updating/cleaning the plugins.

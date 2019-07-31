@@ -8,29 +8,29 @@ source "${XDG_CONFIG_HOME}/sh/rc.sh" 2&> /dev/null
 # We have some basic custom logic for managing plugins. Basic profiling
 # suggests its only about 100-200ms faster loading than zplug.
 
-# plug(plugin_repo, relative_path_to_source)
+# plug(github_repo, relative_path_to_source)
 function plug() {
     # Get everything after last slash.
-    local pkg="${SHDATA}/plugins/${1##*/}"
-    local src="${pkg}/$2"
-    if [[ ! -e "${src}" ]]; then
+    # local pkg="${ZSHPLUGINS}/${1##*/}"
+    local pkg="${ZSHPLUGINS}/$1"
+    if [[ ! -e "${pkg}" ]]; then
         git clone --recursive --depth 1 "https://github.com/$1" "${pkg}"
     fi
-    source "${src}"
+    source "${pkg}/$2"
 }
 
-plug "junegunn/fzf" "shell/completion.zsh"
-plug "junegunn/fzf" "shell/key-bindings.zsh"
-plug "rupa/z" "z.sh"
-plug "zsh-users/zsh-completions" "zsh-completions.plugin.zsh"
-plug "zsh-users/zsh-autosuggestions" "zsh-autosuggestions.zsh"
-plug "hlissner/zsh-autopair" "autopair.zsh"
-plug "zsh-users/zsh-syntax-highlighting" "zsh-syntax-highlighting.zsh"
+plug "junegunn/fzf"                           "shell/completion.zsh"
+plug "junegunn/fzf"                           "shell/key-bindings.zsh"
+plug "rupa/z"                                 "z.sh"
+plug "zsh-users/zsh-completions"              "zsh-completions.plugin.zsh"
+plug "zsh-users/zsh-autosuggestions"          "zsh-autosuggestions.zsh"
+plug "hlissner/zsh-autopair"                  "autopair.zsh"
+plug "zsh-users/zsh-syntax-highlighting"      "zsh-syntax-highlighting.zsh"
 plug "zsh-users/zsh-history-substring-search" "zsh-history-substring-search.zsh"
 
 # source "${PYENV_ROOT}/completions/pyenv.zsh"
 # ----------------------------------------------------------------------------
-fpath=(${SHDATA}/completions ${SHDATA}/plugins/zsh-completions ${PYENV_ROOT}/completions $fpath)
+fpath=(${ZSHDATA}/completions ${ZSHPLUGINS}/zsh-users/zsh-completions ${PYENV_ROOT}/completions $fpath)
 autoload -U compinit && compinit
 
 # ----------------------------------------------------------------------------
@@ -65,7 +65,7 @@ setopt correct
 setopt list_ambiguous
 
 zstyle ':completion::complete:*' use-cache on               # completion caching, use rehash to clear
-zstyle ':completion:*' cache-path "${SHDATA}/zsh"     # cache path
+zstyle ':completion:*' cache-path "${ZSHDATA}/zsh"     # cache path
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'   # ignore case
 zstyle ':completion:*' menu select=2                        # menu if nb items > 2
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}       # colorz !
@@ -101,7 +101,7 @@ unalias run-help &> /dev/null
 #
 # ----------------------------------------------------------------------------
 # history
-HISTFILE="${SHDATA}/history"
+HISTFILE="${ZSHDATA}/history"
 HISTSIZE=2048                    # lines to maintain in memory
 SAVEHIST=100000                  # lines to maintain in history file
 setopt share_history             # share hist between sessions

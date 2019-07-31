@@ -68,8 +68,3 @@ colors:
   #   `- { index: 16, color: '0xff00ff' }`
   #
   indexed_colors: []
-
-font:
-
-  # Point size
-  size: 11.0
