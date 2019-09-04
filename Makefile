@@ -125,22 +125,22 @@ dirs:
 pkgs:
 	$(bin)/pkgs
 
-brew:
-	bin/brew/install
-	# bash -l brew bundle $(HOME)/etc/brew/Brewfile
-	# brew bundle $(HOME)/conf/brew/Brewfile
+/usr/local/bin/brew:
+	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+brew: /usr/local/bin/brew
 
 python:
 	# bash -l $(bin)/python/install
 	bin/python/install
 
 # rust:
-# 	bin/rust/install
+#	bin/rust/install
 
 # go:
-# 	bin/go/install
+#	bin/go/install
 
-nix:
+# nix:
 	# bash -l $(bin)/nix/install
 	# bash -l $(bin)/nix/pkgs
 
@@ -150,8 +150,3 @@ stack :
 	$(info Installing the Haskell build tool stack.)
 	test -e "/usr/local/bin/stack" || curl -sSL "https://get.haskellstack.org/"
 	/usr/local/bin/stack setup
-
-
-toolchains: python go rust stack
-
-install: python

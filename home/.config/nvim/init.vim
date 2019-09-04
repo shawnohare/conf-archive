@@ -94,11 +94,11 @@ let g:lsc_server_commands = {
 " let g:ncm2_pyclang#library_path = '/usr/local/opt/llvm/lib'
 
 " Comment below to disable ncm2"
-" autocmd BufEnter * call ncm2#enable_for_buffer()
-" " imap <C-x><C-o> <Plug>(ncm2_manual_trigger)
-" inoremap <C-space> <c-r>=ncm2#force_trigger()<cr>
-" " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<c-r>=ncm2#force_trigger()<cr>"
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+autocmd BufEnter * call ncm2#enable_for_buffer()
+inoremap <c-space> <c-r>=ncm2#force_trigger()<cr>
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" imap <C-x><C-o> <Plug>(ncm2_manual_trigger)
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<c-r>=ncm2#force_trigger()<cr>"
 
 
 " --------------------------------------------------------------------------
@@ -170,13 +170,14 @@ let g:LanguageClient_serverCommands = {
             \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
             \ }
 
-" Let gq invoke LSC formatter.
 " set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
 " nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>
 " nnoremap <silent> <Leader>lsd :call LanguageClient_textDocument_hover()<CR>
 " nnoremap <silent> <Leader>lsr :call LanguageClient_textDocument_rename()<CR>
+" set completefunc=LanguageClient#complete
+" inoremap <silent> <c-space> <c-x><c-o>
 
 " --------------------------------------------------------------------------
 " vim-lsp config
@@ -295,8 +296,7 @@ set splitright  " and to the right of the current.  Default is opposite.
 
 " --------------------------------------------------------------------------
 " generic completion config
-" set completeopt=noinsert,menuone,noselect,preview
-set completeopt=menuone,preview,noinsert
+set completeopt=noinsert,menuone,noselect
 " Close preview window after selection.
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"

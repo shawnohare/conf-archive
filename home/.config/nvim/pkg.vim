@@ -19,7 +19,8 @@
 "    language servers.
 " 4. LanguageClient-neovim. Rust, ncm2 integration, no incremental update.
 " 5. coc (Conquer of Completion). Tries to emulate vscode more fully, and
-"    claims to support snippets and the like out of the box.
+"    claims to support snippets and the like out of the box. Looks nice, but
+"    FIXME: cannot seem to find pyenv interpreter.
 " 6. Native neovim (slated for version 0.5). Probably would be low level
 "    and utilized by one of the above plugins.
 
@@ -45,6 +46,7 @@ function! s:coc_install_extensions() abort
         \ 'coc-css',
         \ 'coc-yaml',
         \ 'coc-emmet',
+        \ 'coc-vimlsp',
         \ 'coc-dictionary',
         \)
 endfunction
@@ -64,8 +66,12 @@ endfunction
 " we do not develope javascript.
 function! s:coc_init(hooktype, name) abort
     " Ensure yarn package manager is installed.
+    "
+    if !executable('npm')
+        execute '!curl -sL install-node.now.sh/lts | bash'
+    endif
     if !executable('yarn')
-        execute '!sudo npm install --user yarn'
+        execute '!npm install --user yarn'
     endif
 
     " Get prebuilt binary for macOS or Linux or build from source via yarn.
@@ -97,7 +103,7 @@ function! s:pack_init() abort
 
     " call minpac#add('vim-airline/vim-airline')
     " call minpac#add('wellle/targets.vim')
-    call minpac#add('SidOfc/mkdx')
+    " call minpac#add('SidOfc/mkdx')
     call minpac#add('brooth/far.vim')
     call minpac#add('junegunn/vim-easy-align')
     call minpac#add('lervag/vimtex')
@@ -116,13 +122,14 @@ function! s:pack_init() abort
 
     " Experiment with ncm2.
     " NOTE: ncm2 suffers from requiring multiple dependencies.
-    " call minpac#add('ncm2/ncm2') | call minpac#add('roxma/nvim-yarp')
-    " call minpac#add('ncm2/ncm2-path')
-    " call minpac#add('ncm2/ncm2-bufword')
-    " call minpac#add('ncm2/ncm2-pyclang')
-    " " call minpac#add('ncm2/ncm2-ultisnips') | call minpac#add('SirVer/ultisnips')
-    " call minpac#add('ncm2/ncm2-vim') | call minpac#add('Shougo/neco-vim')
-    " call minpac#add('ncm2/ncm2-vim-lsp')
+    call minpac#add('ncm2/ncm2') | call minpac#add('roxma/nvim-yarp')
+    call minpac#add('ncm2/ncm2-path')
+    call minpac#add('ncm2/ncm2-bufword')
+    call minpac#add('ncm2/ncm2-pyclang')
+    call minpac#add('ncm2/float-preview.nvim')
+    " call minpac#add('ncm2/ncm2-ultisnips') | call minpac#add('SirVer/ultisnips')
+    call minpac#add('ncm2/ncm2-vim') | call minpac#add('Shougo/neco-vim')
+    call minpac#add('ncm2/ncm2-vim-lsp')
 
     " Optional packages here. Useful when experimenting.
     call minpac#add('w0rp/ale', {'type': 'opt'})
@@ -131,6 +138,7 @@ function! s:pack_init() abort
                 \ 'do': {-> system('bash install.sh')},
                 \ 'type': 'opt'
                 \ })
+    call minpac#add('junegunn/fzf', { 'do': {-> system('bash install --all')}})
     call minpac#add('natebosch/vim-lsc', {'type': 'opt'})
     call minpac#add('prabirshrestha/vim-lsp', {'type': 'opt'})
     call minpac#add('prabirshrestha/async.vim', {'type': 'opt'})

@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": "~/.local/opt/pyenv/shims/python",
+    "python.venvPath": "~/.local/opt/pyenv"
+
+}
