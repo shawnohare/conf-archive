@@ -65,7 +65,7 @@ fi
 if [ -d ~/.linuxbrew ]; then
     eval $(~/.linuxbrew/bin/brew shellenv)
 elif [ -d /home/linuxbrew ]; then
-    eval $(/home/linuxbrew/.linxbrew/bin/brew shellenv)
+    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 fi
 
 
