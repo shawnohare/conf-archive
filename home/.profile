@@ -36,8 +36,25 @@ export path
 # fi
 
 # ----------------------------------------------------------------------------
-# pyenv
+# Linuxbrew
+# On linux systems with Linuxbrew installed, augment path and set env.
+# Linuxbrew is used primarily to get newer versions of software.
+if [ -d ~/.linuxbrew ]; then
+    eval $(~/.linuxbrew/bin/brew shellenv)
+elif [ -d /home/linuxbrew ]; then
+    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+fi
+
+
 # ----------------------------------------------------------------------------
+# Nix
+# Multi-user installs source the nix-daemon.sh in /etc profiles but
+# single-user installs do not modify those files. Moreover, a multi-user
+# install does not appear to provide the nix.sh script in the user profile link
+source "${HOME}/.nix-profile/etc/profile.d/nix.sh" 2> /dev/null
+
+# ----------------------------------------------------------------------------
+# pyenv
 # Normally one runs: eval "$("${PYENV_ROOT}/bin/pyenv" init -)"
 # But this does a command rehash, which is painfully slow.
 if [ -e "${PYENV_ROOT}/bin/pyenv" ]; then
@@ -59,17 +76,3 @@ if [ -e "${PYENV_ROOT}/bin/pyenv" ]; then
 	export -f pyenv
 	eval "$("${PYENV_ROOT}/bin/pyenv" virtualenv-init -)"
 fi
-
-# On linux systems with Linuxbrew installed, augment path and set env.
-# Linuxbrew is used primarily to get newer versions of software.
-if [ -d ~/.linuxbrew ]; then
-    eval $(~/.linuxbrew/bin/brew shellenv)
-elif [ -d /home/linuxbrew ]; then
-    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-fi
-
-
-# Multi-user installs source the nix-daemon.sh in /etc profiles but
-# single-user installs do not modify those files. Moreover, a multi-user
-# install does not appear to provide the nix.sh script in the user profile link
-source "${HOME}/.nix-profile/etc/profile.d/nix.sh" 2> /dev/null
