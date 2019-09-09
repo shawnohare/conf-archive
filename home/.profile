@@ -27,6 +27,7 @@ fi
 PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
 PATH="${XDG_BIN_HOME}:/usr/local/opt/bin:/opt/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
 PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"
+PATH="${HOME}/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/bin:${PATH}"
 export path
 
 # ----------------------------------------------------------------------------
@@ -39,11 +40,11 @@ export path
 # Linuxbrew
 # On linux systems with Linuxbrew installed, augment path and set env.
 # Linuxbrew is used primarily to get newer versions of software.
-if [ -d ~/.linuxbrew ]; then
-    eval $(~/.linuxbrew/bin/brew shellenv)
-elif [ -d /home/linuxbrew ]; then
-    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-fi
+# if [ -d ~/.linuxbrew ]; then
+#     eval $(~/.linuxbrew/bin/brew shellenv)
+# elif [ -d /home/linuxbrew ]; then
+#     eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+# fi
 
 
 # ----------------------------------------------------------------------------
