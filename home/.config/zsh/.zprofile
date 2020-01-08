@@ -6,20 +6,4 @@
 
 source "${HOME}/.profile" > /dev/null 2>&1
 
-pyenv() {
-  local command
-  command="${1:-}"
-  if [ "$#" -gt 0 ]; then
-    shift
-  fi
-
-  case "$command" in
-  activate|deactivate|rehash|shell)
-    eval "$(pyenv "sh-$command" "$@")";;
-  *)
-    command pyenv "$command" "$@";;
-  esac
-}
-
-# export -f pyenv
-eval "$("${PYENV_ROOT}/bin/pyenv" virtualenv-init -)"
+# eval "$(direnv hook zsh)"

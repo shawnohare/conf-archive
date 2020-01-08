@@ -10,7 +10,6 @@
 # Non-inheritted settings, like aliases our custom ~/.config/rc.sh and sourced
 # from the shell specific rc file (e.g., .bashrc, .zshrc)
 
-
 if [ ! "${ENV_SET}" = true ]; then
     source "${HOME}/.env" 2&> /dev/null
 fi
@@ -26,7 +25,7 @@ fi
 
 PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
 PATH="${XDG_BIN_HOME}:/usr/local/opt/bin:/opt/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
-PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"
+PATH="${PYENV_ROOT}/bin:${PATH}"
 PATH="${HOME}/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/bin:${PATH}"
 export PATH
 
@@ -56,24 +55,11 @@ source "${HOME}/.nix-profile/etc/profile.d/nix.sh" 2> /dev/null
 
 # ----------------------------------------------------------------------------
 # pyenv
-# Normally one runs: eval "$("${PYENV_ROOT}/bin/pyenv" init -)"
-# But this does a command rehash, which is painfully slow.
-if [ -e "${PYENV_ROOT}/bin/pyenv" ]; then
-	pyenv() {
-	  local command
-	  command="${1:-}"
-	  if [ "$#" -gt 0 ]; then
-	    shift
-	  fi
 
-	  case "$command" in
-	  activate|deactivate|rehash|shell)
-	    eval "$(pyenv "sh-$command" "$@")";;
-	  *)
-	    command pyenv "$command" "$@";;
-	  esac
-	}
-
-	export -f pyenv
-	eval "$("${PYENV_ROOT}/bin/pyenv" virtualenv-init -)"
+# Somehow, running pyenv init with --no-rehash seems
+# considerably faster than manually updating path, completions, etc.
+# But auto-changing virtualenvs is extremely slow.
+if [ -e "${PYENV}" ]; then
+    eval "$(${PYENV} init - --no-rehash)"
+    # eval "$(${PYENV} virtualenv-init -)"
 fi

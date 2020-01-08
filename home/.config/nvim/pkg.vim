@@ -84,6 +84,18 @@ function! s:coc_init(hooktype, name) abort
     call s:coc_install_extensions()
 endfunction
 
+
+function! s:firenvim_install(hooktype, name) abort
+    call firenvim#install(0)
+endfunction
+
+function! s:ghost_install(hooktype, name) abort
+    " FIXME: https://github.com/raghur/vim-ghost/issues/35
+    " TODO: Install the vim-ghost python deps in the neovim3 virtualenv?
+    " :GhostInstall
+endfunction
+
+
 function! s:pack_init() abort
     packadd minpac
     " minpac uses the first dir of packpath unless configured by `dir`.
@@ -139,6 +151,8 @@ function! s:pack_init() abort
                 \ 'type': 'opt'
                 \ })
     call minpac#add('junegunn/fzf', { 'do': {-> system('bash install --all')}})
+    call minpac#add('glacambre/firenvim', { 'do': {-> function('s:firenvim_install')}})
+    " call minpac#add('raghur/vim-ghost', { 'do': {-> function('s:ghost_install'}})
     call minpac#add('natebosch/vim-lsc', {'type': 'opt'})
     call minpac#add('prabirshrestha/vim-lsp', {'type': 'opt'})
     call minpac#add('prabirshrestha/async.vim', {'type': 'opt'})

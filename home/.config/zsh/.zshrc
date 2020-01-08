@@ -274,13 +274,19 @@ setopt PROMPT_SUBST
 
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:git:*' formats "(%%F{magenta}%b%f%u%c)"
+zstyle ':vcs_info:git:*' formats "git:%%F{magenta}%b%f%u%c"
 # zstyle ':vcs_info:git:*' formats "(%b%u%c)"
 zstyle ':vcs_info:git:*' stagedstr '%F{yellow}+%f'
 zstyle ':vcs_info:git:*' unstagedstr '%F{red}✴%f'
+
 precmd() {
   vcs_info
 }
+
+function python_venv() {
+    echo `basename ${VIRTUAL_ENV} 2> /dev/null`
+}
+
 
 
 
@@ -290,17 +296,12 @@ precmd() {
 # machine="%B%m%b"
 user="%F{green}%B%n%b%f"
 machine="%m"
-dir="%F{blue}%B%3~%f%b"
+dir="%F{blue}%B%4~%f%b"
 date="%F{cyan}%D{%Y-%m-%dT%T}%f"
 indicator="❯"
-PROMPT='${user}@${machine} ${dir} ${vcs_info_msg_0_}
+PROMPT='
+${user}@${machine} ${dir} ${vcs_info_msg_0_} %F{green}$(python_venv)%f
 %(?.%F{blue}.%F{red})${indicator}%f '
-# %(?.%F{green}.%F{red}%? )${indicator}%f ' the %? yields output of last cmd
-
-
-# Simplified prompt
-# indicator="⛩️"
-# PROMPT='${user}@${machine}: ${dir} ${indicator}  '
 
 # Fun unicode we can interpolate
 # ● ✺ ✴
@@ -311,3 +312,5 @@ PROMPT='${user}@${machine} ${dir} ${vcs_info_msg_0_}
 # completions / keybindings.
 # source "${XDG_CONFIG_HOME}/fzf/fzf.zsh" > /dev/null 2>&1
 export ZSHRC_SET=1
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -10,9 +10,14 @@
 [push]
   default = simple
 [include]
-  path = ~/etc/git/config.local
+  path = ~/.config/git/config.local
 [user]
   name = Shawn M. O'Hare
   email = shawn@shawnohare.com
 [credential]
   helper = cache --timeout 604800
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

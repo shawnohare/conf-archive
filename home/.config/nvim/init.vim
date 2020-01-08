@@ -11,6 +11,7 @@ let g:python_host_prog  = $PYENV_ROOT . '/versions/neovim2/bin/python'
 let g:python3_host_prog = $PYENV_ROOT . '/versions/neovim3/bin/python'
 let g:is_bash = 1
 " set shell=zsh
+let mapleader = "\<Space>"
 let g:initialized = get(g:, 'initialized', 0)
 
 command! Conf :e $MYVIMRC
@@ -173,6 +174,7 @@ let g:LanguageClient_serverCommands = {
 " set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 " nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>
 " nnoremap <silent> <Leader>lsd :call LanguageClient_textDocument_hover()<CR>
 " nnoremap <silent> <Leader>lsr :call LanguageClient_textDocument_rename()<CR>
@@ -333,7 +335,7 @@ set textwidth=79
 set colorcolumn=+1           " show where lines should end.
 set formatoptions-=tc         " do not auto-wrap text at textwidth columns.
 set lazyredraw               " don't redraw unnecessarily during macros etc.
-" set nowrap                     " do not visually wrap long lines
+set nowrap                     " do not visually wrap long lines
 set linebreak                " don't break words at wrap; disabled by list
 " set list                     " show whitespace
 set visualbell         " flash screen instead of audio bell for alert

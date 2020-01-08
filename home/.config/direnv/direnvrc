@@ -1,0 +1,7 @@
+# Autoactivate a pyenv virtualenv when a .python-version file is present.
+layout_activate() {
+    if [ -f ".pyenv-version" ]; then
+        local venv=$(head .python-version)
+        source "${PYENV_ROOT}/versions/${venv}/bin/activate"
+    fi
+}
