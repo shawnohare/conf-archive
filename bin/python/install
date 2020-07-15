@@ -37,15 +37,9 @@ install_python() {
     fi
 }
 
-# NOTE: pipsi is not really well maintained it seems. pipx is an alternative.
-install_pipsi() {
-    if [ ! -e "${XDG_BIN_HOME}/pipsi" ]; then
-        curl https://raw.githubusercontent.com/mitsuhiko/pipsi/master/get-pipsi.py | "${python3}" - --no-modify-path
-    fi
-}
-
 # Install global python executables. Each in their own virtualenv.
 install_bins() {
+    # FIXME: This appears buggy. pipx not found.
     "${PYENV_ROOT}/versions/${ver3}/envs/user3/bin/pip" install -U pipx
 
     for pkg in "${bins[@]}"; do
@@ -84,7 +78,7 @@ main() {
     install_pyenv
     setup_venvs
     pyenv global "user3" "user2" "system"
-    install_bins
+    # install_bins
 }
 
 main "$@"
