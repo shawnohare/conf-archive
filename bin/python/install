@@ -8,8 +8,8 @@
 PYENV_ROOT="${PYENV_ROOT:-${XDG_OPT_HOME}/pyenv}"
 # readonly versions=("3.7.0" "2.7.15")
 # readonly venvs=(neovim user)  # Venvs to install in each major version.
-readonly ver2="2.7.15"
-readonly ver3="3.7.4"
+readonly ver2="2.7.19"
+readonly ver3="3.8.3"
 readonly python2="${PYENV_ROOT}/versions/${ver2}/bin/python"
 readonly python3="${PYENV_ROOT}/versions/${ver3}/bin/python"
 
