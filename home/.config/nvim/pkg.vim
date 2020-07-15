@@ -151,7 +151,7 @@ function! s:pack_init() abort
                 \ 'type': 'opt'
                 \ })
     call minpac#add('junegunn/fzf', { 'do': {-> system('bash install --all')}})
-    call minpac#add('glacambre/firenvim', { 'do': {-> function('s:firenvim_install')}})
+    " call minpac#add('glacambre/firenvim', { 'do': {-> function('s:firenvim_install')}})
     " call minpac#add('raghur/vim-ghost', { 'do': {-> function('s:ghost_install'}})
     call minpac#add('natebosch/vim-lsc', {'type': 'opt'})
     call minpac#add('prabirshrestha/vim-lsp', {'type': 'opt'})
