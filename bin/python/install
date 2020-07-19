@@ -3,15 +3,28 @@
 # TODO:
 # - [ ] Clone and run scripts rather than curl and pipe.
 # - [ ] Try and put more of this into the main Makefile.
+# = [ ] Might only need to install one python provider for neovim
+# = [ ] Consider only installing version 3 for user / python. Python 2
+#       versions required for old codebases can be installed manually.
 
 # Default location for pyenv.  This is overriden by ~/.profile.
-PYENV_ROOT="${PYENV_ROOT:-${XDG_OPT_HOME}/pyenv}"
+PYENV_ROOT="${PYENV_ROOT:-${HOME}/.pyenv}"
+readonly versions="${PYENV_ROOT}/versions"
 # readonly versions=("3.7.0" "2.7.15")
 # readonly venvs=(neovim user)  # Venvs to install in each major version.
+# python was sunset in 2020-01-01, and  2.7.18 is the last release.
 readonly ver2="2.7.18"
 readonly ver3="3.8.3"
-readonly python2="${PYENV_ROOT}/versions/${ver2}/bin/python"
-readonly python3="${PYENV_ROOT}/versions/${ver3}/bin/python"
+readonly python2_root="${versions}/${ver2}"
+readonly python3_root="${versions}/${ver3}"
+readonly python2_venvs="${python2_root}/envs"
+readonly python3_venvs="${python3_root}/envs"
+readonly user2_root="${python2_venvs}/user2"
+readonly user3_root="${python3_venvs}/user3"
+readonly neovim2_root="${python2_venvs}/neovim2"
+readonly neovim3_root="${python3_venvs}/neovim3"
+readonly python2="${python2_root}/bin/python"
+readonly python3="${python3_root}/bin/python"
 
 # Binaries to install in isolated environments:
 readonly bins=("python-language-server" "black")
@@ -19,9 +32,10 @@ readonly bins=("python-language-server" "black")
 # Define python virtualenv requirements. The base requirements in `requirements_common` are installed in every environment.
 readonly requirements_common=("pip" "setuptools")
 readonly requirements_user2=("ipython")
-readonly requirements_user3=("ipython")
+readonly requirements_user3=("ipython" "pipx")
 readonly requirements_neovim2=("pynvim")
 readonly requirements_neovim3=("pynvim")
+
 
 install_pyenv() {
     if [ ! -e "${PYENV_ROOT}/bin/pyenv" ]; then
@@ -32,7 +46,7 @@ install_pyenv() {
 
 # Install a particular version $1 of python.
 install_python() {
-    if [ ! -e "${PYENV_ROOT}/versions/$1/bin/python" ]; then
+    if [ ! -e "${versions}/$1/bin/python" ]; then
         pyenv install "$1"
     fi
 }
@@ -40,7 +54,7 @@ install_python() {
 # Install global python executables. Each in their own virtualenv.
 install_bins() {
     # FIXME: This appears buggy. pipx not found.
-    "${PYENV_ROOT}/versions/${ver3}/envs/user3/bin/pip" install -U pipx
+    "${versions}/${ver3}/envs/user3/bin/pip" install -U pipx
 
     for pkg in "${bins[@]}"; do
         pipx install "${pkg}"
@@ -51,7 +65,7 @@ install_bins() {
 virtualenv() {
     echo "Installing $1 $2"
 
-    local bin="${PYENV_ROOT}/versions/$1/envs/$2/bin"
+    local bin="${versions}/$1/envs/$2/bin"
 
     # Remove the eponymous venv that might have a different minor version.
     if [ ! -e "${bin}/python" ]; then
@@ -63,6 +77,7 @@ virtualenv() {
     "${bin}/pip" install -U "${requirements_common[@]}" "${!requirements}"
 
 }
+
 
 # Create virtualenvs for user-space and applications (e.g., neovim).
 setup_venvs() {

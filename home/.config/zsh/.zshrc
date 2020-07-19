@@ -274,8 +274,8 @@ setopt PROMPT_SUBST
 
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:git:*' formats "git:%%F{magenta}%b%f%u%c"
-# zstyle ':vcs_info:git:*' formats "(%b%u%c)"
+# zstyle ':vcs_info:git:*' formats "%F{magenta}git%f:%%F{magenta}%b%f%u%c"
+zstyle ':vcs_info:git:*' formats "%F{magenta}git%f:%b%u%c"
 zstyle ':vcs_info:git:*' stagedstr '%F{yellow}+%f'
 zstyle ':vcs_info:git:*' unstagedstr '%F{red}✴%f'
 
@@ -284,7 +284,7 @@ precmd() {
 }
 
 function python_venv() {
-    echo `basename ${VIRTUAL_ENV} 2> /dev/null`
+    echo "%F{green}py%f:$(basename ${VIRTUAL_ENV} 2> /dev/null)"
 }
 
 
@@ -292,15 +292,13 @@ function python_venv() {
 
 # The %{...%} delimiters tells zsh the text has zero width. Since v 4.3 it's
 # probably better to use the %F{color}...%f syntax.
-# user="%F{yellow}%B%n%b%f"
-# machine="%B%m%b"
 user="%F{green}%B%n%b%f"
 machine="%m"
 dir="%F{blue}%B%4~%f%b"
 date="%F{cyan}%D{%Y-%m-%dT%T}%f"
 indicator="❯"
 PROMPT='
-${user}@${machine} ${dir} ${vcs_info_msg_0_} %F{green}$(python_venv)%f
+${user}@${machine} ${dir} ${date} ${vcs_info_msg_0_} $(python_venv)
 %(?.%F{blue}.%F{red})${indicator}%f '
 
 # Fun unicode we can interpolate
@@ -308,9 +306,9 @@ ${user}@${machine} ${dir} ${vcs_info_msg_0_} %F{green}$(python_venv)%f
 # ⇨ → 🐉 ➤ ⛩️
 # ⥲
 
+export ZSHRC_SET=1
+
 # All the fzf script does is update path to include fzf bin and source
 # completions / keybindings.
 # source "${XDG_CONFIG_HOME}/fzf/fzf.zsh" > /dev/null 2>&1
-export ZSHRC_SET=1
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
