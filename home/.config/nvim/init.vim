@@ -8,6 +8,7 @@
 
 " python hosts are neovim specific.
 let g:python_host_prog  = $PYENV_ROOT . '/versions/neovim2/bin/python'
+let g:loaded_python_provider = 0
 let g:python3_host_prog = $PYENV_ROOT . '/versions/neovim3/bin/python'
 let g:is_bash = 1
 " set shell=zsh
