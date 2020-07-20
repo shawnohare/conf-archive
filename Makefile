@@ -7,7 +7,6 @@
 # bin:= $(root)bin
 # TODO: Some parts should probably be split into a separate distro specific
 # Makefile, e.g., ~/conf/$distro/Makefile
-stash_src := /usr/local/src/stash/
 XDG_CACHE_HOME ?= "${HOME}/.cache"
 XDG_CONFIG_HOME ?= "${HOME}/.config"
 XDG_BIN_HOME ?= "${HOME}/.local/bin"
@@ -77,10 +76,10 @@ $(XDG_OPT_HOME)/alacritty:
 
 ubuntu-alacritty: /usr/bin/alacritty
 
-$(stash_src):
-	sudo git clone https://github.com/shawnohare/stash $@
+$(XDG_OPT_HOME)/stash:
+	git clone https://github.com/shawnohare/stash $@
 
-stash: $(stash_src)
+stash: $(XDG_OPT_HOME)/stash
 	make -C $< install
 
 link:
