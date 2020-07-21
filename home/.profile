@@ -25,6 +25,7 @@ fi
 
 PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
 PATH="${XDG_BIN_HOME}:/usr/local/opt/bin:/opt/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
+PATH="${MINICONDA_HOME}/bin:${MINICONDA_HOME}/condabin:${PATH}"
 PATH="${PYENV_ROOT}/bin:${PATH}"
 PATH="${HOME}/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/bin:${PATH}"
 export PATH
@@ -63,3 +64,5 @@ if [ -e "${PYENV}" ]; then
     eval "$(${PYENV} init - --no-rehash)"
     # eval "$(${PYENV} virtualenv-init -)"
 fi
+
+export PROFILE_SOURCED=1

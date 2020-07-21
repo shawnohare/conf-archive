@@ -6,6 +6,9 @@
 
 # Default location for pyenv.  This is overriden by ~/.profile.
 PYENV_ROOT="${PYENV_ROOT:-${HOME}/.pyenv}"
+
+MINICONDA_VER="${MINICONDA_VER:-miniconda-latest}"
+MINICONDA_HOME="${MINICONDA_HOME:-${PYENV_ROOT}/versions/${MINICONDA_VER}}"
 export PATH="${PYENV_ROOT}/bin:${PATH}"
 
 # python was sunset in 2020-01-01, and  2.7.18 is the last release.
@@ -73,6 +76,10 @@ main() {
     virtualenv "${ver3}" "user"
     virtualenv "${ver3}" "neovim3"
     pyenv global "user" "system"
+
+    install_python "${MINICONDA_VER}"
+    conda install -y conda-forge::ncurses
+    # conda install -y conda-forge tmux
 }
 
 main "$@"
