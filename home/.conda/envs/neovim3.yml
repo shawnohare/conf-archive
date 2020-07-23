@@ -1,0 +1,9 @@
+# Environment file specifying optional conda-forge packages such as dev tools.
+name: neovim3
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8.3
+  - pip
+  - setuptools
+  - pynvim

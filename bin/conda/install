@@ -1,23 +1,51 @@
 #! /usr/bin/env bash
-# It's not clear if we should use conda. There's no BSD installer?
 
+install_miniforge() {
+    if [ -e "${CONDA_ROOT}/condabin/conda" ]; then
+        echo "conda already installed in ${CONDA_ROOT}"
+        return 0
+    fi
 
-case "$(uname -a)" in
-  Darwin*)
-    echo "Conda init detected macos."
-    conda_osname="MacOSX"
-    ;;
-  Linux*)
-    echo "Conda init detected Linux."
-    conda_osname="Linux"
-    ;;
-  *)
-    echo "Unsupported OS. Exiting."
-    exit 1
-    ;;
-esac
+    local os="UNKNOWN"
+    case "$(uname -s)" in
+        "Darwin" ) os="MacOSX";;
+        "Linux" ) os="Linux";;
+    esac
 
-readonly installer="Miniconda3-latest-${conda_osname}-x86_64.sh"
-wget "https://repo.continuum.io/miniconda/${installer}"
-bash "${installer}" -b -p "${HOME}/local/conda"
-# rm "${installer}"
+    local arch=$(uname -m)
+    local installer_name="Miniforge3-${os}-${arch}.sh"
+    local installer="${installer_name}"
+    local prefix="https://github.com/conda-forge/miniforge/releases/latest/downloads"
+
+    if [ ! -e "${installer}" ]; then
+        # curl -L "${prefix}/${installer_name}" -o "${installer}"
+        curl -LO "${prefix}/${installer_name}"
+    fi
+
+    if [ ! -e "${installer}" ]; then
+        echo "Unable to install miniforge3."
+        exit 1
+    fi
+
+    bash "${installer}" -b -p "${CONDA_ROOT}"
+    rm -f "${installer}"
+}
+
+# Create environments from an environment file.
+install_venvs() {
+    for path in ~/.conda/envs/*.yml; do
+        conda env update --file "${path}"
+    done
+}
+
+main() {
+    if [ ! "${PROFILE_SET}" = 1 ]; then
+        echo "Please source ${HOME}/.profile."
+        exit 1
+    fi
+
+    install_miniforge
+    install_venvs
+}
+
+main "$@"

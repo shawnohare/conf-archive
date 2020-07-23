@@ -1,0 +1,12 @@
+# Environment file specifying optional conda-forge packages such as dev tools.
+name: opt
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8.3
+  - pip
+  - setuptools
+  - ipython
+  - ncurses
+  - tmux=3.1
+  - htop

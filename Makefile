@@ -131,7 +131,8 @@ brew: /usr/local/bin/brew
 
 python:
 	# bash -l $(bin)/python/install
-	bin/python/install
+	bin/pyenv/install
+	bin/conda/install
 
 # rust:
 #	bin/rust/install

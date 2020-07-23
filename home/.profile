@@ -10,7 +10,7 @@
 # Non-inheritted settings, like aliases our custom ~/.config/rc.sh and sourced
 # from the shell specific rc file (e.g., .bashrc, .zshrc)
 
-if [ ! "${ENV_SET}" = true ]; then
+if [ ! "${ENV_SET}" = 1 ]; then
     source "${HOME}/.env" 2&> /dev/null
 fi
 
@@ -25,8 +25,7 @@ fi
 
 PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
 PATH="${XDG_BIN_HOME}:/usr/local/opt/bin:/opt/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
-PATH="${MINICONDA_HOME}/bin:${MINICONDA_HOME}/condabin:${PATH}"
-PATH="${PYENV_ROOT}/bin:${PATH}"
+PATH="${CONDA_OPT_HOME}/bin:${CONDA_ROOT}/bin:${PYENV_ROOT}/bin:${PATH}"
 PATH="${HOME}/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/bin:${PATH}"
 export PATH
 
@@ -55,14 +54,27 @@ export PATH
 source "${HOME}/.nix-profile/etc/profile.d/nix.sh" 2> /dev/null
 
 # ----------------------------------------------------------------------------
-# pyenv
+# python
 
 # Somehow, running pyenv init with --no-rehash seems
 # considerably faster than manually updating path, completions, etc.
-# But auto-changing virtualenvs is extremely slow.
+# But auto-changing virtualenvs is extremely slow on some machines.
 if [ -e "${PYENV}" ]; then
     eval "$(${PYENV} init - --no-rehash)"
     # eval "$(${PYENV} virtualenv-init -)"
 fi
 
-export PROFILE_SOURCED=1
+if [ -e "${CONDA_ROOT}/bin/conda" ]; then
+    source "${CONDA_ROOT}/etc/profile.d/conda.sh"
+fi
+
+# A more zsh-specific version of the above:
+# __conda_setup="$("${CONDA_ROOT}/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     source "${CONDA_ROOT}/etc/profile.d/conda.sh" 2> /dev/null
+# fi
+# unset __conda_setup
+
+export PROFILE_SET=1

@@ -27,10 +27,12 @@ plug "zsh-users/zsh-autosuggestions"          "zsh-autosuggestions.zsh"
 plug "hlissner/zsh-autopair"                  "autopair.zsh"
 plug "zsh-users/zsh-syntax-highlighting"      "zsh-syntax-highlighting.zsh"
 plug "zsh-users/zsh-history-substring-search" "zsh-history-substring-search.zsh"
+plug "esc/conda-zsh-completion"               "conda-zsh-completion.plugin.zsh"
 
 # source "${PYENV_ROOT}/completions/pyenv.zsh"
 # ----------------------------------------------------------------------------
 fpath=(${ZSHDATA}/completions ${ZSHPLUGINS}/zsh-users/zsh-completions ${PYENV_ROOT}/completions $fpath)
+fpath+=${ZSHDATA}/conda-zsh-completion
 autoload -U compinit && compinit
 
 # ----------------------------------------------------------------------------
@@ -284,7 +286,14 @@ precmd() {
 }
 
 function python_venv() {
-    echo "%F{green}py%f:$(basename ${VIRTUAL_ENV} 2> /dev/null)"
+    if [ ! -z "${VIRTUAL_ENV}" ]; then
+        out="%F{green}pyenv%f:$(basename ${VIRTUAL_ENV} 2> /dev/null)"
+    elif [ ! -z "${CONDA_PREFIX}" ] && [ "${CONDA_PREFIX}" != "${CONDA_ROOT}" ]; then
+        out="%F{green}conda%f:$(basename ${CONDA_PREFIX} 2> /dev/null)"
+    else
+        out=""
+    fi
+    echo "${out}"
 }
 
 

@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# ~/.profile must be sourced to ensure env vars are set up.
+#
+# TODO:
+# - [ ] Clone and run scripts rather than curl and pipe?
+
+# python was sunset in 2020-01-01, and  2.7.18 is the last release.
+# readonly DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+readonly python3_ver="3.8.3"
+readonly versions="${PYENV_ROOT}/versions"
+
+# Define python virtualenv requirements. The base requirements in `requirements_common` are installed in every environment.
+readonly requirements_common=("pip" "setuptools")
+readonly requirements_user=("ipython" "pipx")
+readonly requirements_neovim3=("pynvim")
+
+install_pyenv() {
+    if [ -e "${PYENV_ROOT}/bin/pyenv" ]; then
+        return 0
+    fi
+    echo "Installing pyenv."
+    curl -L "https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer" | bash
+}
+
+# Install a particular version $1 of python via pyenv
+install_python() {
+    install_pyenv
+    if [ ! -e "${versions}/$1/bin/python" ]; then
+        pyenv install "$1"
+    fi
+}
+
+# Create a python $1 virtualenv named $2.
+virtualenv() {
+    local venv="${versions}/$1/envs/$2"
+
+    if [ ! -e "${venv}/bin/python" ]; then
+        echo "Uninstalling previous virtualenv with different minor version."
+        pyenv uninstall --force "$2"
+        pyenv virtualenv "$1" "$2"
+    fi
+
+    # Update requirements.
+    echo "Updating requirements for ${venv}"
+    local requirements="requirements_${2}[@]"
+    "${venv}/bin/pip" install -U "${requirements_common[@]}" "${!requirements}"
+
+}
+
+
+main() {
+    if [ ! "${PROFILE_SET}" = 1 ]; then
+        echo "Please source ${HOME}/.profile."
+        exit 1
+    fi
+
+    install_pyenv
+    install_python "${python3_ver}"
+    virtualenv "${python3_ver}" "user"
+    # virtualenv "${python3_ver}" "neovim3"
+
+}
+
+main "$@"

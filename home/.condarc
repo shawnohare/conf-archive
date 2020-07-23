@@ -1,0 +1,7 @@
+# vim: ft=yaml
+channels:
+  - defaults
+  - conda-forge
+changeps1: False
+add_pip_as_python_dependency: True
+use_pip: True

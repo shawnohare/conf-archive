@@ -7,9 +7,19 @@
 " - [ ] Consider extracting out LSP configs until we settle on one.
 
 " python hosts are neovim specific.
-let g:python_host_prog  = $PYENV_ROOT . '/versions/neovim2/bin/python'
+
+if executable('conda')
+    let s:python_host_prefix = $CONDA_ROOT . '/envs'
+else
+    let s:python_host_prefix = $PYENV_ROOT . '/versions'
+endif
+
+
+let g:python_host_prog  = s:python_host_prefix . '/neovim2/bin/python'
+let g:python3_host_prog  = s:python_host_prefix . '/neovim3/bin/python'
 let g:loaded_python_provider = 0
-let g:python3_host_prog = $PYENV_ROOT . '/versions/neovim3/bin/python'
+
+
 let g:is_bash = 1
 " set shell=zsh
 let mapleader = "\<Space>"
