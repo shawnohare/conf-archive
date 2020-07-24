@@ -15,14 +15,14 @@ install_miniforge() {
     local arch=$(uname -m)
     local installer_name="Miniforge3-${os}-${arch}.sh"
     local installer="${installer_name}"
-    local prefix="https://github.com/conda-forge/miniforge/releases/latest/downloads"
+    local prefix="https://github.com/conda-forge/miniforge/releases/latest/download"
 
     if [ ! -e "${installer}" ]; then
         # curl -L "${prefix}/${installer_name}" -o "${installer}"
         curl -LO "${prefix}/${installer_name}"
     fi
 
-    if [ ! -e "${installer}" ]; then
+    if [ ! -e "${installer}" ] || [ "$(head -n 1 ${installer})" = "Not Found" ]; then
         echo "Unable to install miniforge3."
         exit 1
     fi
