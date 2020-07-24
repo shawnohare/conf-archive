@@ -1,7 +1,8 @@
-# vim: ft=yaml
+# vim: ft=yml
+auto_activate_base: false
 channels:
   - defaults
   - conda-forge
 changeps1: False
-add_pip_as_python_dependency: True
-use_pip: True
+add_pip_as_python_dependency: true
+use_pip: true
