@@ -286,12 +286,12 @@ precmd() {
 }
 
 function python_venv() {
+    local out=""
     if [ ! -z "${VIRTUAL_ENV}" ]; then
-        out="%F{green}pyenv%f:$(basename ${VIRTUAL_ENV} 2> /dev/null)"
-    elif [ ! -z "${CONDA_PREFIX}" ] && [ "${CONDA_PREFIX}" != "${CONDA_ROOT}" ]; then
-        out="%F{green}conda%f:$(basename ${CONDA_PREFIX} 2> /dev/null)"
-    else
-        out=""
+        out="%F{green}pyenv%f:$(basename ${VIRTUAL_ENV} 2> /dev/null) "
+    fi
+    if [ ! -z "${CONDA_PREFIX}" ]; then
+        out="${out}%F{green}conda%f:$(basename ${CONDA_PREFIX} 2> /dev/null)"
     fi
     echo "${out}"
 }
