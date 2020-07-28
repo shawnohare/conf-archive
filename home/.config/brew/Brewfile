@@ -4,6 +4,7 @@ tap 'homebrew/core'
 cask '1password'
 cask 'iterm2'
 cask 'jetbrains-toolbox'
+cask font-jetbrainsmono-nerd-font
 cask 'little-snitch'
 cask 'micro-snitch'
 cask 'skim'

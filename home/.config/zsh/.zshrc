@@ -1,5 +1,5 @@
 # zshrc is sourced by interactive shells.
-# /etc/zprofile and ~/.profile are sourced before.
+# /etc/zprofile and ~/.zprofile are sourced before.
 
 source "${XDG_CONFIG_HOME}/sh/rc.sh" 2&> /dev/null
 
@@ -103,7 +103,7 @@ unalias run-help &> /dev/null
 #
 # ----------------------------------------------------------------------------
 # history
-HISTFILE="${ZSHDATA}/history"
+HISTFILE="${ZDOTDIR}/history"
 HISTSIZE=2048                    # lines to maintain in memory
 SAVEHIST=100000                  # lines to maintain in history file
 setopt share_history             # share hist between sessions
@@ -269,55 +269,13 @@ setopt notify
 
 # ----------------------------------------------------------------------------
 # prompt
-autoload -Uz vcs_info
-# autoload -U colors && colors
-setopt PROMPT_SUBST
-# setopt TRANSIENT_RPROMPT
+[ -f "${ZDOTDIR}/prompt.zsh" ] && source "${ZDOTDIR}/prompt.zsh"
 
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' check-for-changes true
-# zstyle ':vcs_info:git:*' formats "%F{magenta}git%f:%%F{magenta}%b%f%u%c"
-zstyle ':vcs_info:git:*' formats "%F{magenta}git%f:%b%u%c"
-zstyle ':vcs_info:git:*' stagedstr '%F{yellow}+%f'
-zstyle ':vcs_info:git:*' unstagedstr '%F{red}✴%f'
-
-precmd() {
-  vcs_info
-}
-
-function python_venv() {
-    local out=""
-    if [ ! -z "${VIRTUAL_ENV}" ]; then
-        out="%F{green}pyenv%f:$(basename ${VIRTUAL_ENV} 2> /dev/null) "
-    fi
-    if [ ! -z "${CONDA_PREFIX}" ]; then
-        out="${out}%F{green}conda%f:$(basename ${CONDA_PREFIX} 2> /dev/null)"
-    fi
-    echo "${out}"
-}
-
-
-
-
-# The %{...%} delimiters tells zsh the text has zero width. Since v 4.3 it's
-# probably better to use the %F{color}...%f syntax.
-user="%F{green}%B%n%b%f"
-machine="%m"
-dir="%F{blue}%B%4~%f%b"
-date="%F{cyan}%D{%Y-%m-%dT%T}%f"
-indicator="❯"
-PROMPT='
-${user}@${machine} ${dir} ${date} ${vcs_info_msg_0_} $(python_venv)
-%(?.%F{blue}.%F{red})${indicator}%f '
-
-# Fun unicode we can interpolate
-# ● ✺ ✴
-# ⇨ → 🐉 ➤ ⛩️
-# ⥲
-
+# ----------------------------------------------------------------------------
+# finish
 export ZSHRC_SET=1
 
 # All the fzf script does is update path to include fzf bin and source
 # completions / keybindings.
 # source "${XDG_CONFIG_HOME}/fzf/fzf.zsh" > /dev/null 2>&1
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

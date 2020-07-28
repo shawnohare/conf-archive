@@ -12,7 +12,7 @@ XDG_CONFIG_HOME ?= "${HOME}/.config"
 XDG_BIN_HOME ?= "${HOME}/.local/bin"
 XDG_DATA_HOME ?= "${HOME}/.local/share"
 XDG_OPT_HOME ?= "${HOME}/.local/opt"
-XDG_SRC_HOME ?= "${HOME}/.local/src"
+XDG_SRC_HOME ?= "${HOME}/.local/src
 op_pkg := "op_linux_amd64_v0.5.7.zip"
 albert_pkg := "albert_0.16.1_amd64.deb"
 
@@ -120,6 +120,7 @@ dirs:
 	# bash and zsh cannot create dirs for history files.
 	mkdir -p "${XDG_DATA_HOME}/bash"
 	mkdir -p "${XDG_DATA_HOME}/zsh"
+	mkdir -p "${XDG_DATA_HOME}/starship"
 
 pkgs:
 	$(bin)/pkgs
@@ -150,3 +151,10 @@ stack :
 	$(info Installing the Haskell build tool stack.)
 	test -e "/usr/local/bin/stack" || curl -sSL "https://get.haskellstack.org/"
 	/usr/local/bin/stack setup
+
+starship:
+	# Create init files
+	starship init zsh --print-full-init > "${XDG_DATA_HOME}/starship/init.zsh"
+	starship init bash --print-full-init > "${XDG_DATA_HOME}/starship/init.sh"
+	starship init fish --print-full-init > "${XDG_DATA_HOME}/starship/init.fish"
+
