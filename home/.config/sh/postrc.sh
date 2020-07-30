@@ -27,7 +27,7 @@ source "${XDG_DATA_HOME}/starship/init.${ISHELL}" 2&> /dev/null
 # pyenv init script always prepends shims to path.
 # conda init does not seem to do this if an env is already activated.
 if [ ! -z "${CONDA_PREFIX}" ]; then
-    export PATH="${CONDA_PREFIX}:$PATH"
+    export PATH="${CONDA_PREFIX}/bin:$PATH"
 fi
 
 # creating the init scripts via program invokation.
