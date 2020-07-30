@@ -15,6 +15,7 @@ XDG_OPT_HOME ?= "${HOME}/.local/opt"
 XDG_SRC_HOME ?= "${HOME}/.local/src"
 op_pkg := "op_linux_amd64_v0.5.7.zip"
 albert_pkg := "albert_0.16.1_amd64.deb"
+conda := "$(CONDA_ROOT)/condabin/conda"
 
 .PHONY: dirs link unlink brew go nix python rust stack toolchains install
 
@@ -158,16 +159,16 @@ stack :
 conda-init:
 	# bash -l $(bin)/conda/install
 	mkdir -p "${XDG_DATA_HOME}/conda"
-	conda shell.zsh hook > "${XDG_DATA_HOME}/conda/init.zsh"
-	conda shell.bash hook > "${XDG_DATA_HOME}/conda/init.bash"
-	conda shell.xonsh hook > "${XDG_DATA_HOME}/conda/init.xonsh"
-	conda shell.fish hook > "${XDG_DATA_HOME}/conda/init.fish"
+	$(conda) shell.zsh hook > "${XDG_DATA_HOME}/conda/init.zsh"
+	$(conda) shell.bash hook > "${XDG_DATA_HOME}/conda/init.bash"
+	$(conda) shell.xonsh hook > "${XDG_DATA_HOME}/conda/init.xonsh"
+	$(conda) shell.fish hook > "${XDG_DATA_HOME}/conda/init.fish"
 
 pyenv-init:
 	mkdir -p "${XDG_DATA_HOME}/pyenv"
-	pyenv init - --no-rehash bash > "${XDG_DATA_HOME}/pyenv/init.bash"
-	pyenv init - --no-rehash zsh > "${XDG_DATA_HOME}/pyenv/init.zsh"
-	pyenv init - --no-rehash fish > "${XDG_DATA_HOME}/pyenv/init.fish"
+	$(PYENV) init - --no-rehash bash > "${XDG_DATA_HOME}/pyenv/init.bash"
+	$(PYENV) init - --no-rehash zsh > "${XDG_DATA_HOME}/pyenv/init.zsh"
+	$(PYENV) init - --no-rehash fish > "${XDG_DATA_HOME}/pyenv/init.fish"
 
 starship-init:
 	# Create init files
