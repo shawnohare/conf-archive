@@ -155,7 +155,7 @@ stack :
 # FIXME: There might be an issue with sourcing these init files instead of
 # evaluating from the appropriate rc. It might not be possible to have the
 # appropriate script sourced from subshells.
-conda:
+conda-init:
 	# bash -l $(bin)/conda/install
 	mkdir -p "${XDG_DATA_HOME}/conda"
 	conda shell.zsh hook > "${XDG_DATA_HOME}/conda/init.zsh"
@@ -163,14 +163,13 @@ conda:
 	conda shell.xonsh hook > "${XDG_DATA_HOME}/conda/init.xonsh"
 	conda shell.fish hook > "${XDG_DATA_HOME}/conda/init.fish"
 
-
-pyenv:
+pyenv-init:
 	mkdir -p "${XDG_DATA_HOME}/pyenv"
 	pyenv init - --no-rehash bash > "${XDG_DATA_HOME}/pyenv/init.bash"
 	pyenv init - --no-rehash zsh > "${XDG_DATA_HOME}/pyenv/init.zsh"
 	pyenv init - --no-rehash fish > "${XDG_DATA_HOME}/pyenv/init.fish"
 
-starship:
+starship-init:
 	# Create init files
 	mkdir -p "${XDG_DATA_HOME}/starship"
 	starship init zsh --print-full-init > "${XDG_DATA_HOME}/starship/init.zsh"
