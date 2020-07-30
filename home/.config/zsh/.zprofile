@@ -4,6 +4,20 @@
 # An session of zsh used by a terminal emulator is typically both login and
 # interactive, whereas an invocation of zsh is purely interactive.
 
-source "${HOME}/.profile" > /dev/null 2>&1
+# FIXME: Since tmux runs as a login shell, not re-sourcing the local overrides
+# can be problematic.
+# if [ -z "${PROFILE_SET}" ]; then
+#     source "${HOME}/.profile" > /dev/null 2>&1
+# fi
+
+
+[ -e "${HOME}/.profile" ] && source "${HOME}/.profile"
+source "${XDG_DATA_HOME}/conda/init.zsh" > /dev/null 2>&1
+
+# Remove duplicate path entries. Order can get wonky though. Avoid!
+# typeset -aU path
+# path=($path)
+# export PATH
+
 
 # eval "$(direnv hook zsh)"

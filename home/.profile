@@ -10,7 +10,7 @@
 # Non-inheritted settings, like aliases our custom ~/.config/rc.sh and sourced
 # from the shell specific rc file (e.g., .bashrc, .zshrc)
 
-if [ ! "${ENV_SET}" = 1 ]; then
+if [ -z "${ENV_SET+x}" ]; then
     source "${HOME}/.env" 2&> /dev/null
 fi
 
@@ -24,16 +24,12 @@ fi
 #fi
 
 PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
-PATH="${XDG_BIN_HOME}:/usr/local/opt/bin:/opt/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
-PATH="${CONDA_OPT_HOME}/bin:${CONDA_ROOT}/bin:${PYENV_ROOT}/bin:${PATH}"
+PATH="/usr/local/opt/bin:/opt/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
 PATH="${HOME}/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/bin:${PATH}"
+PATH="${CONDA_OPT_HOME}/bin:${CONDA_ROOT}/bin:${PYENV_ROOT}/bin:${PATH}"
+PATH="${XDG_BIN_HOME}:${PATH}"
 export PATH
 
-# ----------------------------------------------------------------------------
-# rbenv
-# if command -v rbenv >/dev/null 2>&1; then
-#   eval "$(rbenv init -)"
-# fi
 
 # ----------------------------------------------------------------------------
 # Linuxbrew
@@ -45,36 +41,6 @@ export PATH
 #     eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 # fi
 
-
-# ----------------------------------------------------------------------------
-# Nix
-# Multi-user installs source the nix-daemon.sh in /etc profiles but
-# single-user installs do not modify those files. Moreover, a multi-user
-# install does not appear to provide the nix.sh script in the user profile link
-source "${HOME}/.nix-profile/etc/profile.d/nix.sh" 2> /dev/null
-
-# ----------------------------------------------------------------------------
-# python
-
-# Somehow, running pyenv init with --no-rehash seems
-# considerably faster than manually updating path, completions, etc.
-# But auto-changing virtualenvs is extremely slow on some machines.
-if [ -e "${PYENV}" ]; then
-    eval "$(${PYENV} init - --no-rehash)"
-    # eval "$(${PYENV} virtualenv-init -)"
-fi
-
-if [ -e "${CONDA_ROOT}/bin/conda" ]; then
-    source "${CONDA_ROOT}/etc/profile.d/conda.sh"
-fi
-
-# A more zsh-specific version of the above:
-# __conda_setup="$("${CONDA_ROOT}/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
-# if [ $? -eq 0 ]; then
-#     eval "$__conda_setup"
-# else
-#     source "${CONDA_ROOT}/etc/profile.d/conda.sh" 2> /dev/null
-# fi
-# unset __conda_setup
-
-export PROFILE_SET=1
+# NOTE: Many programs that require some form of init need to go in their
+# respective RC files, as many of the effects will not carry over to
+# interactive, non-login shells (such as wrapper function definitions).

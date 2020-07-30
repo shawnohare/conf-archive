@@ -1,6 +1,8 @@
 # zshrc is sourced by interactive shells.
 # /etc/zprofile and ~/.zprofile are sourced before.
 
+# aliases
+export ISHELL="zsh"
 source "${XDG_CONFIG_HOME}/sh/rc.sh" 2&> /dev/null
 
 # ----------------------------------------------------------------------------
@@ -267,9 +269,14 @@ setopt extendedglob
 setopt nomatch
 setopt notify
 
+# Setup conda
+if [[ -f "${XDG_CONFIG_HOME}/sh/postrc.sh" ]]; then
+    source "${XDG_CONFIG_HOME}/sh/postrc.sh"
+fi
+
 # ----------------------------------------------------------------------------
 # prompt
-[ -f "${ZDOTDIR}/prompt.zsh" ] && source "${ZDOTDIR}/prompt.zsh"
+# [ -f "${ZDOTDIR}/prompt.zsh" ] && source "${ZDOTDIR}/prompt.zsh"
 
 # ----------------------------------------------------------------------------
 # finish

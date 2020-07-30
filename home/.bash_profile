@@ -1,2 +1,5 @@
 # source the appropriate files
-source "${HOME}/.profile" > /dev/null 2>&1
+
+if [ -z "${PROFILE_SET}" ]; then
+    source "${HOME}/.profile" > /dev/null 2>&1
+fi

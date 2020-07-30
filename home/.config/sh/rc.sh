@@ -1,5 +1,7 @@
 # Source for purely interactive shells, i.e., shells invoked after login.
 # Most configuration here is for bash-style shells (e.g., zsh)
+# TODO: Could set this up as pre, post so that shell specific RCs can source
+# common things in whatever order makes sense.
 
 # =========================================================================
 # aliases
@@ -23,3 +25,6 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias emc="emacsclient"
+
+
+

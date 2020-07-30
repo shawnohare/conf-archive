@@ -2,9 +2,9 @@
 # It is assumed that this make file is run from within the root directory.
 
 # Paths are relative to where make is invoked.
-# root:= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-# home:=$(root)home
-# bin:= $(root)bin
+root:= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+home:=$(root)home
+bin:= $(root)bin
 # TODO: Some parts should probably be split into a separate distro specific
 # Makefile, e.g., ~/conf/$distro/Makefile
 XDG_CACHE_HOME ?= "${HOME}/.cache"
@@ -152,9 +152,28 @@ stack :
 	test -e "/usr/local/bin/stack" || curl -sSL "https://get.haskellstack.org/"
 	/usr/local/bin/stack setup
 
+# FIXME: There might be an issue with sourcing these init files instead of
+# evaluating from the appropriate rc. It might not be possible to have the
+# appropriate script sourced from subshells.
+conda:
+	# bash -l $(bin)/conda/install
+	mkdir -p "${XDG_DATA_HOME}/conda"
+	conda shell.zsh hook > "${XDG_DATA_HOME}/conda/init.zsh"
+	conda shell.bash hook > "${XDG_DATA_HOME}/conda/init.bash"
+	conda shell.xonsh hook > "${XDG_DATA_HOME}/conda/init.xonsh"
+	conda shell.fish hook > "${XDG_DATA_HOME}/conda/init.fish"
+
+
+pyenv:
+	mkdir -p "${XDG_DATA_HOME}/pyenv"
+	pyenv init - --no-rehash bash > "${XDG_DATA_HOME}/pyenv/init.bash"
+	pyenv init - --no-rehash zsh > "${XDG_DATA_HOME}/pyenv/init.zsh"
+	pyenv init - --no-rehash fish > "${XDG_DATA_HOME}/pyenv/init.fish"
+
 starship:
 	# Create init files
+	mkdir -p "${XDG_DATA_HOME}/starship"
 	starship init zsh --print-full-init > "${XDG_DATA_HOME}/starship/init.zsh"
-	starship init bash --print-full-init > "${XDG_DATA_HOME}/starship/init.sh"
+	starship init bash --print-full-init > "${XDG_DATA_HOME}/starship/init.bash"
 	starship init fish --print-full-init > "${XDG_DATA_HOME}/starship/init.fish"
 

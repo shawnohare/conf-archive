@@ -8,6 +8,7 @@
 # interactive, non-login will source ~/.bashrc
 
 # ----------------------------------------------------------------------------
+export ISHELL="bash"
 source "${HOME}/.profile" > /dev/null 2>&1
 source "$XDG_CONFIG_HOME}/sh/rc.sh" > /dev/null 2>&1
 export PYENV_SHELL=bash
@@ -80,4 +81,5 @@ shopt -s xpg_echo
 # source "${XDG_CONFIG_HOME}/fzf/fzf.bash" > /dev/null 2>&1
 # source "/usr/local/etc/profile.d/bash_completion.sh" > /dev/null 2>&1
 
+source "${XDG_CONFIG_HOME}/sh/postrc.sh" > /dev/null 2>&1
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -1,12 +1,4 @@
-# set the prompt using starship if its available.
-
-starship=$(command -v starship)
-starship_init="${XDG_DATA_HOME}/starship/init.zsh"
-
-# output of starship init zsh
-if [ ! -z "${starship}" ] && [ -f "${starship_init}" ]; then
-    source "${starship_init}"
-else
+if [ -z "${STARSHIP_SHELL}" ]; then
     autoload -Uz vcs_info
     # autoload -U colors && colors
     setopt PROMPT_SUBST
@@ -43,7 +35,7 @@ else
     date="%F{cyan}%D{%Y-%m-%dT%T}%f"
     indicator="❯"
     indicator="$"
-    # PROMPT='
-    # ${user}@${machine} ${dir} ${date} ${vcs_info_msg_0_} $(python_venv)
-    # %(?.%F{blue}.%F{red})${indicator}%f '
+    PROMPT='
+${user}@${machine} ${dir} ${date} ${vcs_info_msg_0_} $(python_venv)
+%(?.%F{blue}.%F{red})${indicator}%f '
 fi
