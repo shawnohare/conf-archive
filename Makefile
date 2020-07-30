@@ -12,7 +12,7 @@ XDG_CONFIG_HOME ?= "${HOME}/.config"
 XDG_BIN_HOME ?= "${HOME}/.local/bin"
 XDG_DATA_HOME ?= "${HOME}/.local/share"
 XDG_OPT_HOME ?= "${HOME}/.local/opt"
-XDG_SRC_HOME ?= "${HOME}/.local/src
+XDG_SRC_HOME ?= "${HOME}/.local/src"
 op_pkg := "op_linux_amd64_v0.5.7.zip"
 albert_pkg := "albert_0.16.1_amd64.deb"
 
