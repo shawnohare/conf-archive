@@ -20,9 +20,9 @@ source "${HOME}/.nix-profile/etc/profile.d/nix.sh" 2> /dev/null
 # TODO: could potentially source starship, pyenv and conda
 # init scripts here.
 # sourcing created scripts is a bit faster and seems more robust.
-# source "${XDG_DATA_HOME}/pyenv/init.${ISHELL}" 2&> /dev/null
-# source "${XDG_DATA_HOME}/conda/init.${ISHELL}" 2&> /dev/null
-# source "${XDG_DATA_HOME}/starship/init.${ISHELL}" 2&> /dev/null
+source "${XDG_DATA_HOME}/pyenv/init.${ISHELL}" 2&> /dev/null
+source "${XDG_DATA_HOME}/conda/init.${ISHELL}" 2&> /dev/null
+source "${XDG_DATA_HOME}/starship/init.${ISHELL}" 2&> /dev/null
 
 # pyenv init script always prepends shims to path.
 # conda init does not seem to do this if an env is already activated.
