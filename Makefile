@@ -84,7 +84,12 @@ stash: $(XDG_OPT_HOME)/stash
 	make -C $< install
 
 link:
-	stash -v -f -t "${HOME}" home
+	stash -f -t "${HOME}" home
+	ln -s -f "${XDG_BIN_HOME}" "${HOME}/bin"
+	ln -s -f "${XDG_CONFIG_HOME}" "${HOME}/etc"
+	ln -s -f "${XDG_DATA_HOME}" "${HOME}/share"
+	ln -s -f "${XDG_OPT_HOME}" "${HOME}/opt"
+	ln -s -f "${XDG_SRC_HOME}" "${HOME}/src"
 	# stash -v -f -t "${XDG_CONFIG_HOME}/zsh" home/.config/zsh
 
 unlink:
@@ -96,16 +101,11 @@ dirs:
 	# sudo mkdir -p /usr/local/bin
 	# sudo chmod 775 /usr/local/opt
 	mkdir -p "${XDG_BIN_HOME}"
-	ln -s -f "${XDG_BIN_HOME}" "${HOME}/bin"
 	mkdir -p "${XDG_CONFIG_HOME}"
-	ln -s -f "${XDG_CONFIG_HOME}" "${HOME}/etc"
 	mkdir -p "${XDG_CACHE_HOME}"
 	mkdir -p "${XDG_DATA_HOME}"
-	ln -s -f "${XDG_DATA_HOME}" "${HOME}/share"
 	mkdir -p "${XDG_OPT_HOME}"
-	ln -s -f "${XDG_OPT_HOME}" "${HOME}/opt"
 	mkdir -p "${XDG_SRC_HOME}"
-	ln -s -f "${XDG_SRC_HOME}" "${HOME}/src"
 	mkdir -p "${HOME}/tmp"
 	mkdir -p "${XDG_DATA_HOME}/man/man1"
 	mkdir -p "${XDG_DATA_HOME}/man/man2"

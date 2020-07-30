@@ -9,7 +9,7 @@
 " python hosts are neovim specific.
 
 if executable('conda')
-    let s:python_host_prefix = $CONDA_ROOT . '/envs'
+    let s:python_host_prefix = $CONDA_ENVS_HOME
 else
     let s:python_host_prefix = $PYENV_ROOT . '/versions'
 endif
