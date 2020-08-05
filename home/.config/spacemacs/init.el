@@ -1,4 +1,4 @@
-;; -*- mode: emacs-lisp -*-
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
@@ -26,7 +26,6 @@ This function should only modify configuration layer settings."
    ;; a layer lazily. (default t)
    dotspacemacs-ask-for-lazy-installation t
 
-   ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
    dotspacemacs-configuration-layer-path '()
@@ -49,6 +48,7 @@ This function should only modify configuration layer settings."
                       ;; auto-completion-complete-with-key-sequence-delay 0.1    ;; default 0.1
                       ;; auto-completion-private-snippets-directory nil          ;; default nil
                       )
+     better-defaults
      ;; (colors :variables colors-colorize-identifiers 'variables)
      emacs-lisp
      git
@@ -65,7 +65,8 @@ This function should only modify configuration layer settings."
      javascript
      latex
      markdown
-     neotree
+     multiple-cursors
+     ;; neotree
      org
      (python :variables
              python-test-runner '(pytest nose)
@@ -77,6 +78,7 @@ This function should only modify configuration layer settings."
      spell-checking
      sql
      syntax-checking
+     treemacs
      (version-control :variables
                       version-control-global-margin t)
      yaml
@@ -193,9 +195,9 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(solarized-dark
-                         spacemacs-dark
+   dotspacemacs-themes '(spacemacs-dark
                          spacemacs-light
+                         solarized-dark
                          )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
@@ -211,8 +213,8 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("SF Mono"
-                               :size 11
+   dotspacemacs-default-font '("JetBrainsMono Nerd Font"
+                               :size 12
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
