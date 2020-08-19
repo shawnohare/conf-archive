@@ -1,3 +1,5 @@
+scan_timeout = 25
+
 [aws]
 symbol = " "
 
@@ -41,7 +43,7 @@ symbol = " "
 symbol = " "
 
 [memory_usage]
-disabled = false
+disabled = true
 symbol = " "
 show_percentage = true
 
@@ -62,7 +64,9 @@ symbol = " "
 
 [python]
 symbol = " "
+# pyenv_version_name = true
 scan_for_pyfiles = false  # slow if true
+disabled = true
 
 [ruby]
 symbol = " "

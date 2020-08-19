@@ -20,8 +20,8 @@ if [ -z "${STARSHIP_SHELL}" ]; then
         if [ ! -z "${VIRTUAL_ENV}" ]; then
             out="%F{green}pyenv%f:$(basename ${VIRTUAL_ENV} 2> /dev/null) "
         fi
-        if [ ! -z "${CONDA_PREFIX}" ]; then
-            out="${out}%F{green}conda%f:$(basename ${CONDA_PREFIX} 2> /dev/null)"
+        if [ ! -z "${CONDA_DEFAULT_ENV}" ]; then
+            out="${out}%F{green}conda%f: ${CONDA_DEFAULT_ENV} 2> /dev/null)"
         fi
         echo "${out}"
     }

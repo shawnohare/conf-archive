@@ -19,6 +19,10 @@ let g:python_host_prog  = s:python_host_prefix . '/neovim2/bin/python'
 let g:python3_host_prog  = s:python_host_prefix . '/neovim3/bin/python'
 let g:loaded_python_provider = 0
 
+if exists('g:vscode')
+    exit 0
+endif
+
 
 let g:is_bash = 1
 " set shell=zsh
@@ -33,6 +37,8 @@ try
     :source $XDG_CONFIG_HOME/nvim/pkg.vim
 catch
 endtry
+
+
 
 
 " ==========================================================================
@@ -267,6 +273,7 @@ let g:pandoc#syntax#codeblocks#embeds#langs = [
     \ 'sql',
     \ 'ini=dosini',
     \ 'cfg',
+    \ 'json',
     \ ]
 
 " --------------------------------------------------------------------------
@@ -291,6 +298,8 @@ let g:markdown_fenced_languages = [
     \ 'python',
     \ 'bash=sh',
     \ 'sql',
+    \ 'json',
+    \ 'yaml',
     \ ]
 
 

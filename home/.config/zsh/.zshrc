@@ -3,7 +3,7 @@
 
 # aliases
 export ISHELL="zsh"
-source "${XDG_CONFIG_HOME}/sh/rc.sh" 2&> /dev/null
+source "${XDG_CONFIG_HOME}/sh/init.sh" 2&> /dev/null
 
 # ----------------------------------------------------------------------------
 # Load plugins.

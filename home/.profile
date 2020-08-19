@@ -7,7 +7,7 @@
 # (e.g., pyenv and nix).  It should be sourced by the shell's corresponding
 # file if it exists, (e.g., .bash_profile, .zprofile).
 #
-# Non-inheritted settings, like aliases our custom ~/.config/rc.sh and sourced
+# Non-inheritted settings, like aliases are in ~/.config/sh/init.sh and sourced
 # from the shell specific rc file (e.g., .bashrc, .zshrc)
 
 if [ -z "${ENV_SET+x}" ]; then
