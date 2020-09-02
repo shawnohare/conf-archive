@@ -3,7 +3,6 @@ name: neovim3
 channels:
   - conda-forge
 dependencies:
-  - python=3.8.3
-  - pip
-  - setuptools
+  # Seems to be a weird error with 3.8 on macos
+  - python=3.7
   - pynvim

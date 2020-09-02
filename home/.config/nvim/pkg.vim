@@ -41,7 +41,7 @@ function! s:coc_install_extensions() abort
     call coc#add_extension(
         \ 'coc-json',
         \ 'coc-snippets',
-        \ 'coc-python',
+        \ 'coc-pyright',
         \ 'coc-html',
         \ 'coc-css',
         \ 'coc-yaml',
@@ -85,16 +85,6 @@ function! s:coc_init(hooktype, name) abort
 endfunction
 
 
-function! s:firenvim_install(hooktype, name) abort
-    call firenvim#install(0)
-endfunction
-
-function! s:ghost_install(hooktype, name) abort
-    " FIXME: https://github.com/raghur/vim-ghost/issues/35
-    " TODO: Install the vim-ghost python deps in the neovim3 virtualenv?
-    " :GhostInstall
-endfunction
-
 
 function! s:pack_init() abort
     packadd minpac
@@ -132,30 +122,35 @@ function! s:pack_init() abort
     call minpac#add('tpope/vim-repeat')
     call minpac#add('tpope/vim-surround')
 
+    call minpac#add('nvim-treesitter/nvim-treesitter', {'type': 'opt'})
+
     " Experiment with ncm2.
     " NOTE: ncm2 suffers from requiring multiple dependencies.
-    call minpac#add('ncm2/ncm2') | call minpac#add('roxma/nvim-yarp')
-    call minpac#add('ncm2/ncm2-path')
-    call minpac#add('ncm2/ncm2-bufword')
-    call minpac#add('ncm2/ncm2-pyclang')
-    call minpac#add('ncm2/float-preview.nvim')
-    " call minpac#add('ncm2/ncm2-ultisnips') | call minpac#add('SirVer/ultisnips')
-    call minpac#add('ncm2/ncm2-vim') | call minpac#add('Shougo/neco-vim')
-    call minpac#add('ncm2/ncm2-vim-lsp')
+    " call minpac#add('ncm2/ncm2') | call minpac#add('roxma/nvim-yarp')
+    " call minpac#add('ncm2/ncm2-path')
+    " call minpac#add('ncm2/ncm2-bufword')
+    " call minpac#add('ncm2/ncm2-pyclang')
+    " call minpac#add('ncm2/float-preview.nvim')
+    " " call minpac#add('ncm2/ncm2-ultisnips') | call minpac#add('SirVer/ultisnips')
+    " call minpac#add('ncm2/ncm2-vim') | call minpac#add('Shougo/neco-vim')
+    " call minpac#add('ncm2/ncm2-vim-lsp')
 
     " Optional packages here. Useful when experimenting.
-    call minpac#add('w0rp/ale', {'type': 'opt'})
+    " call minpac#add('w0rp/ale', {'type': 'opt'})
+    "
+    " Language Clients
     call minpac#add('autozimu/LanguageClient-neovim', {
                 \ 'branch': 'next',
                 \ 'do': {-> system('bash install.sh')},
                 \ 'type': 'opt'
                 \ })
-    call minpac#add('junegunn/fzf', { 'do': {-> system('bash install --all')}})
+    " call minpac#add('natebosch/vim-lsc', {'type': 'opt'})
+    " call minpac#add('prabirshrestha/vim-lsp', {'type': 'opt'})
+    " call minpac#add('prabirshrestha/async.vim', {'type': 'opt'})
+    " call minpac#add('junegunn/fzf', { 'do': {-> system('bash install --all')}})
     " call minpac#add('glacambre/firenvim', { 'do': {-> function('s:firenvim_install')}})
     " call minpac#add('raghur/vim-ghost', { 'do': {-> function('s:ghost_install'}})
-    call minpac#add('natebosch/vim-lsc', {'type': 'opt'})
-    call minpac#add('prabirshrestha/vim-lsp', {'type': 'opt'})
-    call minpac#add('prabirshrestha/async.vim', {'type': 'opt'})
+    "
 
     " CoC (node based LSC)
     " NOTE:
@@ -166,14 +161,15 @@ function! s:pack_init() abort
     "   - So could version manage the extensions explicitly in git by
     "     defining the package.json file
     "
-    " call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': function('s:coc_init')})
+    "
+    call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': function('s:coc_init')})
 endfunction
 
 " Define user commands for updating/cleaning the plugins.
 " Each of them calls s:pack_init() to load minpac and register
 " the information of plugins, then performs the task.
-command! PackUpdate call s:pack_init() | call minpac#clean() | call minpac#update()
-command! PackClean  call s:pack_init() | call minpac#clean()
+command! PkgUpdate call s:pack_init() | call minpac#clean() | call minpac#update()
+command! PkgClean  call s:pack_init() | call minpac#clean()
 command! CocInstallExtensions call s:pack_init() | call s:coc_install_extensions()
 
 
@@ -187,9 +183,3 @@ if empty(glob(s:minpac_home))
     autocmd VimEnter * source $MYVIMRC
 endif
 
-" Load optional packages.
-" packadd ale
-" packadd coc.nvim
-packadd LanguageClient-neovim
-" packadd vim-lsc
-" packadd vim-lsp | packadd async.vim

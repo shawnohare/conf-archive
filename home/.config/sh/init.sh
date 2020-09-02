@@ -25,7 +25,7 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias emc="emacsclient"
-alias ci="code-insiders"
+alias code="code-insiders"
 
 
 

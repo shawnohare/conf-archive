@@ -1,51 +1,70 @@
 #! /usr/bin/env bash
 
-install_miniforge() {
+CONDA_ROOT="${CONDA_ROOT:-${HOME}/.conda}"
+
+# Create environments from an environment file.
+install_venvs() {
+    # TODO: Think through this path a bit more
+    for path in ${CONDA_ROOT}/envs/*.yml; do
+        conda env update --file "${path}"
+    done
+}
+
+install() {
     if [ -e "${CONDA_ROOT}/condabin/conda" ]; then
         echo "conda already installed in ${CONDA_ROOT}"
         return 0
     fi
 
+    local prefix=$1
+
+    if [ -z $1 ]; then
+        echo "No installer prefix specified."
+    fi
+
+    local arch=$(uname -m)
     local os="UNKNOWN"
     case "$(uname -s)" in
         "Darwin" ) os="MacOSX";;
         "Linux" ) os="Linux";;
     esac
 
-    local arch=$(uname -m)
-    local installer_name="Miniforge3-${os}-${arch}.sh"
-    local installer="${installer_name}"
-    local prefix="https://github.com/conda-forge/miniforge/releases/latest/download"
+    # Construct url to installer and installer basename: e.g., Miniconda3-latest-MacOSX-64.sh
+    local url="${prefix}-${os}-${arch}.sh"
+    local installer=$(basename "${url}")
 
     if [ ! -e "${installer}" ]; then
-        # curl -L "${prefix}/${installer_name}" -o "${installer}"
-        curl -LO "${prefix}/${installer_name}"
+        curl -LO "${prefix}/${installer}"
     fi
 
+    # Check to see the actual install script was downloaded.
     if [ ! -e "${installer}" ] || [ "$(head -n 1 ${installer})" = "Not Found" ]; then
-        echo "Unable to install miniforge3."
+        echo "Unable to install ${installer}"
         exit 1
     fi
 
+    # Don't screw with any rc files.
     bash "${installer}" -b -p "${CONDA_ROOT}"
     rm -f "${installer}"
 }
 
-# Create environments from an environment file.
-install_venvs() {
-    for path in ~/.conda/envs/*.yml; do
-        conda env update --file "${path}"
-    done
-}
 
 main() {
-    if [ ! "${PROFILE_SET}" = 1 ]; then
-        echo "Please source ${HOME}/.profile."
-        exit 1
-    fi
 
-    install_miniforge
+    case $1 in
+        miniforge)
+            prefix="https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3"
+            ;;
+        miniconda)
+            prefix="https://repo.anaconda.com/miniconda/Miniconda3-latest"
+            ;;
+        *)
+            echo "Unsupported distribution ${1:-UNKNOWN}. Choose either miniforge or miniconda."
+            exit 1
+    esac
+    install "${prefix}"
     install_venvs
 }
 
 main "$@"
+

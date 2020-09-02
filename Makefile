@@ -119,9 +119,6 @@ dirs:
 	# sudo mkdir -p /usr/local/share/man/man1
 	# sudo mkdir -p /usr/local/share/man/man2
 	# bash and zsh cannot create dirs for history files.
-	mkdir -p "${XDG_DATA_HOME}/bash"
-	mkdir -p "${XDG_DATA_HOME}/zsh"
-	mkdir -p "${XDG_DATA_HOME}/starship"
 
 pkgs:
 	$(bin)/pkgs

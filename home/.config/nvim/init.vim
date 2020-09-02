@@ -14,13 +14,14 @@ else
     let s:python_host_prefix = $PYENV_ROOT . '/versions'
 endif
 
-
 let g:python_host_prog  = s:python_host_prefix . '/neovim2/bin/python'
 let g:python3_host_prog  = s:python_host_prefix . '/neovim3/bin/python'
 let g:loaded_python_provider = 0
 
 if exists('g:vscode')
-    exit 0
+    " TODO: Could source code values here.
+    " Or could maintain two different rcs.
+    finish
 endif
 
 
@@ -29,6 +30,8 @@ let g:is_bash = 1
 let mapleader = "\<Space>"
 let g:initialized = get(g:, 'initialized', 0)
 
+" --------------------------------------------------------------------------
+"  commands
 command! Conf :e $MYVIMRC
 command! Reload :source $MYVIMRC
 
@@ -39,10 +42,27 @@ catch
 endtry
 
 
+" ==========================================================================
+" package loading
+" Load optional packages
+" --- language server protocol (lsp) clients
+" packadd ale
+packadd coc.nvim
+" packadd LanguageClient-neovim
+" packadd vim-lsc
+" packadd vim-lsp | packadd async.vim
+
+" FIXME: nvim-treesitter is a lua plugin, and it does not seem that
+" packages in the start dir are searched for lua code (not part of rtp?).
+" So the question is whether we should make all packages optional. That way
+" loading can be more easily configured which packages we load, without
+" deleting the source.
+packadd nvim-treesitter
 
 
 " ==========================================================================
 " PACKAGE CONFIGS
+"
 "
 " --------------------------------------------------------------------------
 " ack
@@ -65,168 +85,35 @@ let g:strip_whitespace_confirm      = 0
 let g:strip_whitespace_on_save      = 1
 
 " --------------------------------------------------------------------------
-" vim-lsc config
-" NOTE: 2019-01-06T15:01:47-0800
-" Completion works for class attributes, but type info not provided.
-" This appears to be true also for LanguageClient-Neovim.
-" The default invokations mimic vim commands, which is a plus.
-" Seems to call python3complete?
-" set completefunc=lsc#complete#complete
-let g:lsc_enable_autocomplete = v:true
-" let g:lsc_auto_map = v:true " Use defaults
-let g:lsc_auto_map = {
-    \ 'defaults': v:true,
-    \ 'GoToDefinition': '<C-]>',
-    \ 'FindReferences': 'gr',
-    \ 'NextReference': '<C-n>',
-    \ 'PreviousReference': '<C-p>',
-    \ 'FindImplementations': 'gI',
-    \ 'FindCodeActions': 'ga',
-    \ 'DocumentSymbol': 'go',
-    \ 'WorkspaceSymbol': 'gS',
-    \ 'ShowHover': 'v:true',
-    \ 'SignatureHelp': '<C-m>',
-    \ 'Completion': 'completefunc',
-    \}
-
-" Default mappings.
-" <C-]>                   |:LSClientGoToDefinition|
-" gr                      |:LSClientFindReferences|
-" <C-n>                   |:LSClientNextReference|
-" <C-p>                   |:LSClientPreviousReference|
-" gI                      |:LSClientFindImplementations|
-" go                      |:LSClientDocumentSymbol|
-" gS                      |:LSClientWorkspaceSymbol|
-" ga                      |:LSClientFindCodeActions|
-" gR                      |:LSClientRename|
-" |K| (via |keywordprg|)  |:LSClientShowHover|
-"
-let g:lsc_server_commands = {
-        \ 'python': 'pyls',
-        \ }
-
-" --------------------------------------------------------------------------
 "  ncm2 config
 " let g:ncm2#auto_popup = 0
 " let g:ncm2#manual_complete_length=[[1,3],[7,1]]
 " let g:ncm2_pyclang#library_path = '/usr/local/opt/llvm/lib'
 
 " Comment below to disable ncm2"
-autocmd BufEnter * call ncm2#enable_for_buffer()
-inoremap <c-space> <c-r>=ncm2#force_trigger()<cr>
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" begin experiment
+" autocmd BufEnter * call ncm2#enable_for_buffer()
+" inoremap <c-space> <c-r>=ncm2#force_trigger()<cr>
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" end experiment
 " imap <C-x><C-o> <Plug>(ncm2_manual_trigger)
 " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<c-r>=ncm2#force_trigger()<cr>"
 
+" --------------------------------------------------------------------------
+" LSP
+" Source one of the config files in the lsp subdir
+
+
+try
+    :source $XDG_CONFIG_HOME/lsp/coc.vim
+    " :source $XDG_CONFIG_HOME/lsp/languageClient.vim
+catch
+endtry
 
 " --------------------------------------------------------------------------
-" ale
-" 2018-10-18T17:24:26+0000: ALE now serves as a (limited) LSP client, and
-" provides things such as basic autocompletion.
-" - Currently no way to make completion manual.
-" - Deoplete and Jedi offer better completion (e.g., self.<complete>)
-" - Linter severity is often already reported in menu.
-let g:ale_linters = {
-      \ 'c': ['cquery'],
-      \ 'go': ['golangserver'],
-      \ 'python': ['pyls', 'flake8', 'mypy'],
-      \ 'sh': ['language_server', 'shellcheck', 'shfmt'],
-      \ }
-let g:ale_fixers= {
-      \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-      \ 'sh': ['shfmt'],
-      \ 'python': ['black'],
-      \ }
-let g:ale_fix_on_save          = 1
-let g:ale_completion_enabled   = 1
-let g:ale_completion_delay     = 100
-let g:ale_echo_msg_format      = '[%linter%]% code%: %s'
-let g:ale_lint_on_enter        = 0
-let g:ale_lint_on_save         = 0
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_open_list            = 1
-let g:ale_set_ballons          = 1
-let g:ale_sign_error           = "✖" " ☓, ⚐
-let g:ale_sign_warning         = "⚠"
-let g:ale_python_black_options = "--py36"
-
-" nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-" nmap <silent> <C-j> <Plug>(ale_next_wrap)
-" nmap <leader>fix <Plug>(ale_fix)
-" nmap <leader>lint <Plug>(ale_lint)
-" nmap <leader>find <Plug>(ale_find_references)
-" nmap <leader>gd <Plug>(ale_go_to_definition)
-" nmap <leader>gh <Plug>(ale_hover)
-" nmap <leader>info <Plug>(ale_hover)
-
-" --------------------------------------------------------------------------
-" coc config
-" Accept completion snippets with <CR> instead of standard <C-y>.
-" But, need to have autoselect enabled.
-let g:coc_snippet_next = '<TAB>'
-let g:coc_snippet_prev = '<S-TAB>'
-
-" inoremap <silent><expr> <c-space> coc#refresh()
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gh <Plug>(coc-action-doHover)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
-" vmap <leader>fmt  <Plug>(coc-format-selected)
-" nmap <leader>fmt  <Plug>(coc-format-selected)
-
-" --------------------------------------------------------------------------
-" LanguageClient config
-let g:LanguageClient_autoStart = 1
-let g:LanguageClient_diagnosticsEnable = 1
-let g:LanguageClient_useFloatingHover = 1
-let g:LanguageClient_useVirtualText = 0
-let g:LanguageClient_serverCommands = {
-            \ 'cpp': ['clangd'],
-            \ 'sh': ['bash-language-server', 'start'],
-            \ 'python': ['pyls'],
-            \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-            \ }
-
-" set formatexpr=LanguageClient#textDocument_rangeFormatting_sync()
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-" nnoremap <silent> <Leader>lss :call LanguageClient_textDocument_documentSymbol()<CR>
-" nnoremap <silent> <Leader>lsd :call LanguageClient_textDocument_hover()<CR>
-" nnoremap <silent> <Leader>lsr :call LanguageClient_textDocument_rename()<CR>
-" set completefunc=LanguageClient#complete
-" inoremap <silent> <c-space> <c-x><c-o>
-
-" --------------------------------------------------------------------------
-" vim-lsp config
-" NOTE: buggy, a:args can't be passed to lsp#register_server
-" function! s:register_language_server(args) abort
-"     if executable(a:args["name"])
-"         echo a:args
-"         autocmd User lsp_setup call lsp#register_server(a:args)
-"     endif
-" endfunction
-"
-" call s:register_language_server({
-"        \ 'name': 'pyls',
-"        \ 'cmd': {server_info->['pyls']},
-"        \ 'whitelist': ['python'],
-"        \ })
-if executable('pyls')
-    " pip install python-language-server
-    autocmd User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'whitelist': ['python'],
-        \ })
-endif
-
-let g:lsp_signs_enabled           = 1         " enable signs
-let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-let g:lsp_signs_error             = {'text': '✖'}
-let g:lsp_signs_warning           = {'text': '⚠'}
-let g:lsp_signs_hint              = {'text': '•'}
+"  treesitter
+"  FIXME: Has some interesting features that compete with lsp, but slow load.
+lua require('treesitter')
 
 " --------------------------------------------------------------------------
 " netrw (built-in)
@@ -243,6 +130,7 @@ set autochdir
 
  " Toggle Lexplore with Ctrl-E
 " map <silent> <C-E> :Lexplore <CR>
+
 
 " --------------------------------------------------------------------------
 " syntax / polyglot config
@@ -276,13 +164,18 @@ let g:pandoc#syntax#codeblocks#embeds#langs = [
     \ 'json',
     \ ]
 
+"  --------------------------------------------------------------------------
+"  vimtex
+let g:tex_flavor = 'latex'
+
 " --------------------------------------------------------------------------
 " comment config
 autocmd FileType cfg setlocal commentstring=#\ %s
 autocmd FileType sql setlocal commentstring=--\ %s
 autocmd FileType pgsql setlocal commentstring=--\ %s
 autocmd FileType xdefaults setlocal commentstring=!\ %s
-
+autocmd FileType groovy setlocal commentstring=//\ %s
+autocmd FileType Jenkinsfile setlocal commentstring=//\ %s
 " --------------------------------------------------------------------------
 " signify config
 " Can set guibg colors for Diff* to make the sign column more colorful.

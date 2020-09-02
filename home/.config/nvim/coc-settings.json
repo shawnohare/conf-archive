@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "~/.local/opt/pyenv/shims/python",
-    "python.venvPath": "~/.local/opt/pyenv"
+    "python.pythonPath": "python",
+    "python.venvPath": "~/.conda/envs"
 
 }
