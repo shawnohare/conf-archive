@@ -121,6 +121,7 @@ function! s:pack_init() abort
     call minpac#add('tpope/vim-fugitive')
     call minpac#add('tpope/vim-repeat')
     call minpac#add('tpope/vim-surround')
+    call minpac#add('psliwka/vim-smoothie')
 
     call minpac#add('nvim-treesitter/nvim-treesitter', {'type': 'opt'})
 

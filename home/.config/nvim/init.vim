@@ -112,8 +112,7 @@ endtry
 
 " --------------------------------------------------------------------------
 "  treesitter
-"  FIXME: Has some interesting features that compete with lsp, but slow load.
-lua require('treesitter')
+lua require('pkgs.treesitter')
 
 " --------------------------------------------------------------------------
 " netrw (built-in)
