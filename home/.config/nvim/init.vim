@@ -58,6 +58,8 @@ packadd coc.nvim
 " loading can be more easily configured which packages we load, without
 " deleting the source.
 packadd nvim-treesitter
+packadd nvim-tree.lua
+packadd nvim-web-devicons
 
 
 " ==========================================================================
@@ -111,7 +113,12 @@ catch
 endtry
 
 " --------------------------------------------------------------------------
-"  treesitter
+"  tree config
+lua require('pkgs.tree')
+
+
+" --------------------------------------------------------------------------
+"  treesitter config
 lua require('pkgs.treesitter')
 
 " --------------------------------------------------------------------------
