@@ -127,6 +127,10 @@ function! s:pack_init() abort
     call minpac#add('nvim-treesitter/nvim-treesitter', {'type': 'opt'})
     call minpac#add('kyazdani42/nvim-tree.lua', {'type': 'opt'})
     call minpac#add('kyazdani42/nvim-web-devicons', {'type': 'opt'})
+    call minpac#add('RishabhRD/popfix', {'type': 'opt'})
+    call minpac#add('RishabhRD/nvim-lsputils', {'type': 'opt'})
+    call minpac#add('neovim/nvim-lspconfig', {'type': 'opt'})
+
 
     " Experiment with ncm2.
     " NOTE: ncm2 suffers from requiring multiple dependencies.

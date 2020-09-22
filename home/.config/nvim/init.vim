@@ -45,21 +45,29 @@ endtry
 " ==========================================================================
 " package loading
 " Load optional packages
+"
 " --- language server protocol (lsp) clients
+"  Choose one external client or use the builtin.
 " packadd ale
-packadd coc.nvim
 " packadd LanguageClient-neovim
 " packadd vim-lsc
 " packadd vim-lsp | packadd async.vim
+" packadd coc.nvim
 
-" FIXME: nvim-treesitter is a lua plugin, and it does not seem that
-" packages in the start dir are searched for lua code (not part of rtp?).
-" So the question is whether we should make all packages optional. That way
-" loading can be more easily configured which packages we load, without
-" deleting the source.
+" treesitter provides smart syntax highlighting. Sometimes buggy.
 packadd nvim-treesitter
+" nvim-tree.lua, accessed via LuaTree commands, is a file manager like ranger.
 packadd nvim-tree.lua
+" pretty filetype images.
 packadd nvim-web-devicons
+
+" packages related to builtin neovim lsp functionality.
+" https://rishabhrd.github.io/jekyll/update/2020/09/19/nvim_lsp_config.html
+" lspconfig wraps the builtin lsp functionality with standard configs.
+packadd nvim-lspconfig
+" lsputils and popfix
+" packadd popfix
+packadd nvim-lsputils
 
 
 " ==========================================================================
@@ -119,7 +127,7 @@ lua require('pkgs.tree')
 
 " --------------------------------------------------------------------------
 "  treesitter config
-lua require('pkgs.treesitter')
+" lua require('pkgs.treesitter')
 
 " --------------------------------------------------------------------------
 " netrw (built-in)
