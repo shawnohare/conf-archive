@@ -1,0 +1,16 @@
+;; (defvar config-home (expand-file-name "emacs" (or (getenv "XDG_CONFIG_HOME") "~/.config")))
+
+(
+ ("default"   . ((user-emacs-directory . "~/.config/emacs/default")))
+ ("spacemacs" . ((user-emacs-directory . "~/src/spacemacs")
+                 (server-name . "spacemacs")
+                 (custom-file . "~/.config/spacemacs/custom.el")
+                 ;; (env . (("SPACEMACSDIR" . "~/.spacemacs.d"))))
+                 )
+ )
+ ("doom"      . ((user-emacs-directory . "~/src/doom-emacs")
+                 (server-name . "doom")
+                 ;; (custom-file . "~/.config/doom/custom.el")
+                 )
+ )
+)
