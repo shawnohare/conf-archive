@@ -19,12 +19,25 @@ case "${OSTYPE}" in
         ;;
 esac
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  if [ -f "/Applications/Emacs.app/Contents/MacOS/Emacs" ]; then
+    alias emacs="env TERM=screen-24bit /Applications/Emacs.app/Contents/MacOS/Emacs"
+    alias emacscnw="env TERM=screen-24bit /Applications/Emacs.app/Contents/MacOS/Emacs -nw"
+    export EMACS="/Applications/Emacs.app/Contents/MacOS/Emacs"
+  fi
+
+  if [ -f "/Applications/Emacs.app/Contents/MacOS/bin/emacsclient" ]; then
+    alias emc="env TERM=screen-24bit /Applications/Emacs.app/Contents/MacOS/bin/emacsclient"
+  fi
+else
+    alias emc="emacsclient"
+fi
+
 alias la="ls -GFlashi"
 alias ll="ls -GFlshi"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
-alias emc="emacsclient"
 alias code="code-insiders"
 
 

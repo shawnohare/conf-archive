@@ -1,15 +1,22 @@
-
+;; Backup of main emacs init file. It should be placed in
+;; ~/.emacs.d/init.el or $XDG_CONFIG_HOME/emacs/init.el
+;; ===========================================================================
 ;; (package-initialize) should be commented when using spacemacs.
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 ;; (package-initialize)
+;; ===========================================================================
 
 (setq spacemacs-start-directory "~/.emacs.d/spacemacs/")
 (setq custom-file "~/.emacs.d/custom.el")
 (load-file (concat spacemacs-start-directory "init.el"))
 
+;; ===========================================================================
+;; attempt at vanilla configs
+
+;; ===========================================================================
 ;; Helm with init
 ; (use-package helm
 ;   :diminish helm-mode
@@ -36,6 +43,7 @@
 ;    ("C-x C-f" . helm-find-files)))
 
 
+;; ===========================================================================
 ; ;; Evil config that uses evil-leader.  We should probably use general instead.
 ; (use-package evil
 ;   :init
