@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+
+readonly profile="${EMACS_PROFILES_HOME}/doom"
+git clone --depth 1 https://github.com/hlissner/doom-emacs "${profile}"
+cd "${profile}"
+bin/doom install
+

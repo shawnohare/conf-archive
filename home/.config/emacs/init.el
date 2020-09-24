@@ -31,30 +31,40 @@
 ;; (package-initialize)
 
 ;;; Code:
-(defvar config-home (expand-file-name "emacs" (or (getenv "XDG_CONFIG_HOME") "~/.config")))
-(defvar chemacs-profiles-path (expand-file-name "profiles.el" config-home))
-(defvar chemacs-default-profile-path (expand-file-name "default-profile.el" config-home))
+;;; Emacs 27+ can utilize XDG base dir specification.
+; (defvar xdg-config-home (or (getenv "XDG_CONFIG_HOME") "~/.config"))
+(setenv "XDG_CONFIG_HOME" (or (getenv "XDG_CONFIG_HOME") "~/.config"))
+(setenv "EMACS_CONFIG_HOME" (or (getenv "EMACS_CONFIG_HOME") (substitute-in-file-name "${XDG_CONFIG_HOME}/emacs")))
+;; Define a standardized location for stored profiles.
+;; Distributions such as doom and spacemacs should be cloned into here.
+(setenv "EMACS_PROFILES_HOME" (or (getenv "EMACS_PROFILES_HOME") (substitute-in-file-name "${EMACS_CONFIG_HOME}/profiles")))
+;; Define file specifying profiles and mapping of attributes to set on load.
+;; NOTE: This file will not have access to the variables defined here, it seems.
+(defvar emacs-config-home (getenv "EMACS_CONFIG_HOME"))
+(defvar emacs-profiles-conf (expand-file-name "profiles.el" emacs-config-home))
+;; A default profile can be set by specifying a name in default-profile
+(defvar emacs-default-profile-conf (expand-file-name "default-profile" emacs-config-home))
 ;; original chemacs
-;; (defvar chemacs-profiles-path "~/.emacs-profiles.el")
-;; (defvar chemacs-default-profile-path "~/.emacs-profile")
+;; (defvar emacs-profiles-conf "~/.emacs-profiles.el")
+;; (defvar emacs-default-profile-conf "~/.emacs-profile")
 
 ;; TODO: Update to respect XDG variable?
-(when (not (file-exists-p chemacs-profiles-path))
-  (with-temp-file chemacs-profiles-path
+(when (not (file-exists-p emacs-profiles-conf))
+  (with-temp-file emacs-profiles-conf
     (insert "((\"default\" . ((user-emacs-directory . \"~/.config/emacs\"))))")))
 
 (defvar chemacs-emacs-profiles
   (with-temp-buffer
-    (insert-file-contents chemacs-profiles-path)
+    (insert-file-contents emacs-profiles-conf)
     (goto-char (point-min))
     (read (current-buffer))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun chemacs-detect-default-profile ()
-  (if (file-exists-p chemacs-default-profile-path)
+  (if (file-exists-p emacs-default-profile-conf)
       (with-temp-buffer
-        (insert-file-contents chemacs-default-profile-path)
+        (insert-file-contents emacs-default-profile-conf)
         (goto-char (point-min))
         ;; (buffer-string))
         (symbol-name (read (current-buffer)) ))
@@ -84,7 +94,7 @@
 
 (defun chemacs-load-profile (profile)
   (when (not (chemacs-get-emacs-profile profile))
-    (error "No profile `%s' in %s" profile chemacs-profiles-path))
+    (error "No profile `%s' in %s" profile emacs-profiles-conf))
   (setq chemacs-current-emacs-profile profile)
   (let* ((emacs-directory (file-name-as-directory
                            (chemacs-emacs-profile-key 'user-emacs-directory)))
