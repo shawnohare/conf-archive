@@ -98,10 +98,6 @@ function! s:pack_init() abort
     call minpac#add('ntpeters/vim-better-whitespace')
 
     " Colorscheme plugins
-    " call minpac#add('icymind/NeoSolarized', {'type': 'opt'})
-    " call minpac#add('morhetz/gruvbox')
-    " call minpac#add('romainl/flattened')
-    " call minpac#add('lifepillar/vim-solarized8', {'type': 'opt'})
 
     " call minpac#add('vim-airline/vim-airline')
     " call minpac#add('wellle/targets.vim')
@@ -169,7 +165,6 @@ function! s:pack_init() abort
     "   - So could version manage the extensions explicitly in git by
     "     defining the package.json file
     "
-
     call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': function('s:coc_init')})
 endfunction
 
