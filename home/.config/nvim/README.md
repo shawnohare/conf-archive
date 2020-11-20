@@ -3,11 +3,11 @@
 We use [deoplete](https://github.com/Shougo/deoplete.nvim) for
 autocompletion. Another option is YouCompleteMe.
 
-# Python 
+# Python
 
-## Pyenv 
+## Pyenv
 
-As of Tue, 01 Mar 2016 11:03:54 -0800, it seems the best way to 
+As of Tue, 01 Mar 2016 11:03:54 -0800, it seems the best way to
 use pyenv versions of Python with Neovim is to manually install the
 neovim python package using the pip associated to the appropriate version
 of Python specified by pyenv.  E.g:

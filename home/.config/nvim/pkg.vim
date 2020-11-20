@@ -121,8 +121,16 @@ function! s:pack_init() abort
     call minpac#add('tpope/vim-fugitive')
     call minpac#add('tpope/vim-repeat')
     call minpac#add('tpope/vim-surround')
+    call minpac#add('psliwka/vim-smoothie')
 
+    " NOTE: lua packages must be optional when using minpac it seems.
     call minpac#add('nvim-treesitter/nvim-treesitter', {'type': 'opt'})
+    call minpac#add('kyazdani42/nvim-tree.lua', {'type': 'opt'})
+    call minpac#add('kyazdani42/nvim-web-devicons', {'type': 'opt'})
+    call minpac#add('RishabhRD/popfix', {'type': 'opt'})
+    call minpac#add('RishabhRD/nvim-lsputils', {'type': 'opt'})
+    call minpac#add('neovim/nvim-lspconfig', {'type': 'opt'})
+
 
     " Experiment with ncm2.
     " NOTE: ncm2 suffers from requiring multiple dependencies.
@@ -161,7 +169,7 @@ function! s:pack_init() abort
     "   - So could version manage the extensions explicitly in git by
     "     defining the package.json file
     "
-    "
+
     call minpac#add('neoclide/coc.nvim', {'type': 'opt', 'do': function('s:coc_init')})
 endfunction
 
