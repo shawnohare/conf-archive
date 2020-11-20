@@ -1,11 +1,11 @@
 #! /usr/bin/env bash
 
-CONDA_ROOT="${CONDA_ROOT:-${HOME}/.conda}"
+CONDA_HOME="${CONDA_HOME:-${HOME}/.conda}"
 
 # Create environments from an environment file.
 install_venvs() {
     # TODO: Think through this path a bit more
-    for path in ${CONDA_ROOT}/envs/*.yml; do
+    for path in ${CONDA_HOME}/envs/*.yml; do
         conda env update --file "${path}"
     done
 }
@@ -34,7 +34,7 @@ install() {
     local installer=$(basename "${url}")
 
     if [ ! -e "${installer}" ]; then
-        curl -LO "${prefix}/${installer}"
+        curl -LO "${url}"
     fi
 
     # Check to see the actual install script was downloaded.
@@ -63,7 +63,7 @@ main() {
             exit 1
     esac
     install "${prefix}"
-    install_venvs
+    # install_venvs
 }
 
 main "$@"
