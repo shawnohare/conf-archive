@@ -45,19 +45,29 @@ endtry
 " ==========================================================================
 " package loading
 " Load optional packages
+"
 " --- language server protocol (lsp) clients
+"  Choose one external client or use the builtin.
 " packadd ale
-packadd coc.nvim
 " packadd LanguageClient-neovim
 " packadd vim-lsc
 " packadd vim-lsp | packadd async.vim
+packadd coc.nvim
 
-" FIXME: nvim-treesitter is a lua plugin, and it does not seem that
-" packages in the start dir are searched for lua code (not part of rtp?).
-" So the question is whether we should make all packages optional. That way
-" loading can be more easily configured which packages we load, without
-" deleting the source.
+" treesitter provides smart syntax highlighting. Sometimes buggy.
 packadd nvim-treesitter
+" nvim-tree.lua, accessed via LuaTree commands, is a file manager like ranger.
+" packadd nvim-tree.lua
+" pretty filetype images.
+" packadd nvim-web-devicons
+
+" packages related to builtin neovim lsp functionality.
+" https://rishabhrd.github.io/jekyll/update/2020/09/19/nvim_lsp_config.html
+" lspconfig wraps the builtin lsp functionality with standard configs.
+" packadd nvim-lspconfig
+" lsputils and popfix
+" packadd popfix
+" packadd nvim-lsputils
 
 
 " ==========================================================================
@@ -85,35 +95,21 @@ let g:strip_whitespace_confirm      = 0
 let g:strip_whitespace_on_save      = 1
 
 " --------------------------------------------------------------------------
-"  ncm2 config
-" let g:ncm2#auto_popup = 0
-" let g:ncm2#manual_complete_length=[[1,3],[7,1]]
-" let g:ncm2_pyclang#library_path = '/usr/local/opt/llvm/lib'
-
-" Comment below to disable ncm2"
-" begin experiment
-" autocmd BufEnter * call ncm2#enable_for_buffer()
-" inoremap <c-space> <c-r>=ncm2#force_trigger()<cr>
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" end experiment
-" imap <C-x><C-o> <Plug>(ncm2_manual_trigger)
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<c-r>=ncm2#force_trigger()<cr>"
-
-" --------------------------------------------------------------------------
-" LSP
+" LSP and completion configs
 " Source one of the config files in the lsp subdir
-
 
 try
     :source $XDG_CONFIG_HOME/lsp/coc.vim
     " :source $XDG_CONFIG_HOME/lsp/languageClient.vim
+    " :source $XDG_CONFIG_HOME/ncm2.vim
 catch
 endtry
 
 " --------------------------------------------------------------------------
-"  treesitter
-"  FIXME: Has some interesting features that compete with lsp, but slow load.
-lua require('treesitter')
+"  lua package configs
+"  Each file represents a lua configuration for a particular package.
+lua require('pkgs.tree')
+lua require('pkgs.treesitter')
 
 " --------------------------------------------------------------------------
 " netrw (built-in)
@@ -127,10 +123,6 @@ let g:netrw_preview   = 1      " default to vertical splitting for preview
 " let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 set autochdir
-
- " Toggle Lexplore with Ctrl-E
-" map <silent> <C-E> :Lexplore <CR>
-
 
 " --------------------------------------------------------------------------
 " syntax / polyglot config
@@ -218,6 +210,7 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " FIXME: inserts textpumvisible() ? "\-" : "\\
 " #inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
 " --------------------------------------------------------------------------
 " wildmenu config
 set wildmenu     " command-line completion
@@ -262,20 +255,6 @@ set signcolumn="yes"
 " Colorschemes
 set termguicolors
 set background=dark
-
-" --- gruvbox
-let g:gruvbox_bold = 1
-let g:gruvbox_italic = 1
-let g:gruvbox_italicize_comments = 1
-" let g:gruvbox_italicize_strings = 1
-let g:gruvbox_undercurl = 1
-let g:gruvbox_underline = 1
-let g:gruvbox_invert_selection = 0
-let g:gruvbox_contrast_dark = 'medium'
-
-
-" --- one
-let g:one_allow_italics = 1
 
 try
     colorscheme sim
