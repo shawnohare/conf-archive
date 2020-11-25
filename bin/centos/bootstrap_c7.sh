@@ -17,18 +17,6 @@ sudo echo $(which zsh) >> /etc/shells
 sudo chsh -s $(which zsh) centos
 
 # -----------------------------------------------------------------------------
-# linuxbrew
-# NOTE: linuxbrew will install gcc 5.5 which breaks 4.8.5 used by centos7
-# UPDATE: 2020-07-24T21:16:48-0700: conda supports a c-compiler and compilers
-# metapackage that will install an ABI compatible c-compiler.
-sudo yum install -y perl-devel
-sudo yum groupinstall -y 'Development Tools'
-sudo yum install -y curl file git
-sudo yum install -y libxcrypt-compat # needed by Fedora 30 and up
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-
-
-# -----------------------------------------------------------------------------
 # FIXME: could not get the dnf install to work. Missing some package?
 # dnf - yum replacement used on centos8. Cannot install from epel anymore...
 # sudo yum install epel-release
