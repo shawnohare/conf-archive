@@ -2,7 +2,9 @@
 
 # Personal configs
 sudo yum install -y git wget curl
-git clone https://github.com/shawnohare/conf
+if [[ ! -e "${HOME}/conf" ]]; then
+	git clone --depth=1 https://github.com/shawnohare/conf "${HOME}/conf"
+fi
 source ~/conf/home/.profile
 cd ~/conf && make init
 
