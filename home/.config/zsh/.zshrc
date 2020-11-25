@@ -23,13 +23,17 @@ function plug() {
 
 plug "junegunn/fzf"                           "shell/completion.zsh"
 plug "junegunn/fzf"                           "shell/key-bindings.zsh"
-plug "rupa/z"                                 "z.sh"
+# NOTE: z-lua can be used instead
+# plug "rupa/z"                                 "z.sh"
+# when using z-lua installed via nix:
+eval "$(z --init enhanced zsh 2&> /dev/null)"
 plug "zsh-users/zsh-completions"              "zsh-completions.plugin.zsh"
 plug "zsh-users/zsh-autosuggestions"          "zsh-autosuggestions.zsh"
 plug "hlissner/zsh-autopair"                  "autopair.zsh"
 plug "zsh-users/zsh-syntax-highlighting"      "zsh-syntax-highlighting.zsh"
 plug "zsh-users/zsh-history-substring-search" "zsh-history-substring-search.zsh"
 plug "esc/conda-zsh-completion"               "conda-zsh-completion.plugin.zsh"
+
 
 # source "${PYENV_ROOT}/completions/pyenv.zsh"
 # ----------------------------------------------------------------------------

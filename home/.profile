@@ -28,6 +28,7 @@ PATH="/usr/local/opt/bin:/opt/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
 PATH="${HOME}/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/bin:${PATH}"
 PATH="${CONDA_OPT_HOME}/bin:${CONDA_ROOT}/condabin:${PYENV_ROOT}/bin:${PATH}"
 PATH="${HOME}/bin:${XDG_BIN_HOME}:${PATH}"
+PATH="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:${PATH}"
 export PATH
 
 

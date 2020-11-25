@@ -13,7 +13,13 @@
 # Multi-user installs source the nix-daemon.sh in /etc profiles but
 # single-user installs do not modify those files. Moreover, a multi-user
 # install does not appear to provide the nix.sh script in the user profile link
-source "${HOME}/.nix-profile/etc/profile.d/nix.sh" 2> /dev/null
+if [ -d $HOME/.nix-profile/etc/profile.d ]; then
+  for i in $HOME/.nix-profile/etc/profile.d/*.sh; do
+    if [ -r $i ]; then
+      source $i
+    fi
+  done
+fi
 
 
 
