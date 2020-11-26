@@ -6,10 +6,44 @@ Simplicity, speed and portability take precedence over the elaborate and general
 
 The configuration files are organized to take advantage of a basic
 symlink farm manager similar to `stow`. For example, the tree structure of
-`src` is symlinked to `$HOME`, except that directories are actually created
+`home/` is symlinked to `$HOME`, except that directories are actually created
 so that app data files do not unexpectedly appear in this repository.
 
 Generally, the file organization is inspired by BSD and the XDG spec.
+
+# Future Directions (Nix)
+
+The [Nix package manager][nixos] has matured significantly over the
+past few years. I'd like to utilize the [Nix ecosystem][nix-eco] more fully
+for both personal and developer configuration management.
+A layer on top of Nix is [home-manager project][home-manager]
+lets one specify significant portion of
+one's config for various machines, users, and roles, often using the Nix
+expressions for app configurations.
+
+[Hugo Reeve's post][hugoreeves-nix-home-post] details his experience using
+home-manager, and of and
+[his home-manager configuration][hugoreeves-nix-home-repo]
+looks to serve as a good example.
+
+The [nix-darwin][nix-darwin] project is roughly equivalent to NixOS on macOS.
+As per StackOverflow:
+
+> What nix-darwin adds is configuration and service management using the same
+> mechanism as NixOS and it's mostly intended for users that use or know NixOS
+> and want to have some of the same features on a mac.
+
+The [unofficial Nix community wiki][nix-wiki] looks to be a good source of
+information.
+
+
+[nixos]: <https://nixos.org> "NixOS"
+[nix-eco]: <https://nixos.wiki/wiki/Nix_Ecosystem>
+[home-manager]: <https://github.com/nix-community/home-manager>
+[nix-wiki]: <https://nixos.wiki>
+[nix-darwin]: <https://github.com/LnL7/nix-darwin>
+[hugoreeves-nix-home-post]: <https://hugoreeves.com/posts/2019/nix-home/>
+[hugoreeves-nix-home-repo]<https://github.com/HugoReeves/nix-home/>
 
 
 # Manual Initialization
