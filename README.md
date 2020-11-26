@@ -43,7 +43,7 @@ information.
 [nix-wiki]: <https://nixos.wiki>
 [nix-darwin]: <https://github.com/LnL7/nix-darwin>
 [hugoreeves-nix-home-post]: <https://hugoreeves.com/posts/2019/nix-home/>
-[hugoreeves-nix-home-repo]<https://github.com/HugoReeves/nix-home/>
+[hugoreeves-nix-home-repo]: <https://github.com/HugoReeves/nix-home/>
 
 
 # Manual Initialization
