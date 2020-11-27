@@ -22,9 +22,12 @@ one's config for various machines, users, and roles, often using the Nix
 expressions for app configurations.
 
 [Hugo Reeve's post][hugoreeves-nix-home-post] details his experience using
-home-manager, and of and
+home-manager, and
 [his home-manager configuration][hugoreeves-nix-home-repo]
 looks to serve as a good example.
+
+The [nixflk repo][nixflk] is a NixOS configuration template using flakes.
+It utilies home-manager.
 
 The [nix-darwin][nix-darwin] project is roughly equivalent to NixOS on macOS.
 As per StackOverflow:
@@ -38,10 +41,11 @@ information.
 
 
 [nixos]: <https://nixos.org> "NixOS"
-[nix-eco]: <https://nixos.wiki/wiki/Nix_Ecosystem>
-[home-manager]: <https://github.com/nix-community/home-manager>
-[nix-wiki]: <https://nixos.wiki>
-[nix-darwin]: <https://github.com/LnL7/nix-darwin>
+[nix-eco]: <https://nixos.wiki/wiki/Nix_Ecosystem> "Nix Ecosystem"
+[home-manager]: <https://github.com/nix-community/home-manager> "Home Manager"
+[nix-wiki]: <https://nixos.wiki> "Unofficial Nix Wiki"
+[nix-darwin]: <https://github.com/LnL7/nix-darwin> "Nix Darwin"
+[nixflk]]: <https://github.com/nrdxp/nixflk> "nixflk"
 [hugoreeves-nix-home-post]: <https://hugoreeves.com/posts/2019/nix-home/>
 [hugoreeves-nix-home-repo]: <https://github.com/HugoReeves/nix-home/>
 
