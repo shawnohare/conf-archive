@@ -23,10 +23,12 @@ function plug() {
 
 plug "junegunn/fzf"                           "shell/completion.zsh"
 plug "junegunn/fzf"                           "shell/key-bindings.zsh"
-# NOTE: z-lua can be used instead
+# NOTE: z.lua can be used instead or z.sh
 # plug "rupa/z"                                 "z.sh"
 # when using z-lua installed via nix:
-eval "$(z --init enhanced zsh 2&> /dev/null)"
+# eval "$(z --init enhanced zsh 2&> /dev/null)"
+# But it's also available as a zsh plugin it seems.
+plug "skywind3000/z.lua"                      "z.lua.plugin.zsh"
 plug "zsh-users/zsh-completions"              "zsh-completions.plugin.zsh"
 plug "zsh-users/zsh-autosuggestions"          "zsh-autosuggestions.zsh"
 plug "hlissner/zsh-autopair"                  "autopair.zsh"
