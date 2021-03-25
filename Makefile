@@ -15,9 +15,9 @@ XDG_OPT_HOME ?= "${HOME}/.local/opt"
 XDG_SRC_HOME ?= "${HOME}/.local/src"
 conda := "$(CONDA_ROOT)/condabin/conda"
 
-.PHONY: dirs link unlink brew go nix python rust stack toolchains install
+.PHONY: mkdirs link unlink brew go nix python rust stack toolchains install
 
-init: dirs stash link
+init: mkdirs stash link
 	$(info Please restart another shell session to ensure proper env.)
 
 $(XDG_OPT_HOME)/stash:
@@ -28,17 +28,22 @@ stash: $(XDG_OPT_HOME)/stash
 
 link:
 	stash -f -t "${HOME}" home
-	ln -s -f "${XDG_BIN_HOME}" "${HOME}/bin"
-	ln -s -f "${XDG_CONFIG_HOME}" "${HOME}/etc"
-	ln -s -f "${XDG_DATA_HOME}" "${HOME}/share"
-	ln -s -f "${XDG_OPT_HOME}" "${HOME}/opt"
-	ln -s -f "${XDG_SRC_HOME}" "${HOME}/src"
+	ln -sfh "${XDG_BIN_HOME}" "${HOME}/bin"
+	ln -sfh "${XDG_CONFIG_HOME}" "${HOME}/etc"
+	ln -sfh "${XDG_DATA_HOME}" "${HOME}/share"
+	ln -sfh "${XDG_OPT_HOME}" "${HOME}/opt"
+	ln -sfh "${XDG_SRC_HOME}" "${HOME}/src"
+	ln -sfh "${XDG_VAR_HOME}" "${HOME}/var"
+	# bins
+	ln -sf "${POETRY_HOME}/bin/poetry" "${XDG_BIN_HOME}/poetry"
+	ln -sf "${CONDA_ROOT}/condabin/conda" "${XDG_BIN_HOME}/conda"
+	ln -sf "${CONDA_ROOT}/condabin/mamba" "${XDG_BIN_HOME}/mamba"
 	# stash -v -f -t "${XDG_CONFIG_HOME}/zsh" home/.config/zsh
 
 unlink:
 	stash -v -f -D -t "${HOME}" home
 
-dirs:
+mkdirs:
 	# sudo mkdir -p /usr/local/opt
 	# sudo mkdir -p /usr/local/share
 	# sudo mkdir -p /usr/local/bin
@@ -61,7 +66,9 @@ dirs:
 	mkdir -p "${XDG_DATA_HOME}/man/man8"
 	# sudo mkdir -p /usr/local/share/man/man1
 	# sudo mkdir -p /usr/local/share/man/man2
-	# bash and zsh cannot create dirs for history files.
+	# bash and zsh cannotcreate mkdirs for history files.
+	mkdir -p "${XDG_DATA_HOME}/bash"
+	mkdir -p "${XDG_DATA_HOME}/zsh"
 
 /usr/local/bin/brew:
 	/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"

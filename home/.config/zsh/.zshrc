@@ -111,7 +111,7 @@ unalias run-help &> /dev/null
 #
 # ----------------------------------------------------------------------------
 # history
-HISTFILE="${ZDOTDIR}/history"
+HISTFILE="${ZSHDATA}/history"
 HISTSIZE=2048                    # lines to maintain in memory
 SAVEHIST=100000                  # lines to maintain in history file
 setopt share_history             # share hist between sessions
@@ -282,7 +282,10 @@ fi
 
 # ----------------------------------------------------------------------------
 # prompt
-# [ -f "${ZDOTDIR}/prompt.zsh" ] && source "${ZDOTDIR}/prompt.zsh"
+
+if [ $(command -v starship) ]; then
+    source <(starship init zsh --print-full-init)
+fi
 
 # ----------------------------------------------------------------------------
 # finish

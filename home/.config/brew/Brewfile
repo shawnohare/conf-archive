@@ -1,10 +1,11 @@
-tap 'caskroom/cask'
+tap 'homebrew/cask-fonts'
+tap 'homebrew/cask-fonts'
 tap 'homebrew/bundle'
 tap 'homebrew/core'
 cask '1password'
 cask 'iterm2'
 cask 'jetbrains-toolbox'
-cask font-jetbrainsmono-nerd-font
+cask 'font-jetbrains-mono-nerd-font'
 cask 'little-snitch'
 cask 'micro-snitch'
 cask 'skim'

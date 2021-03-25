@@ -1,3 +1,10 @@
+starship=$(command -v starship)
+
+# output of starship init zsh
+if [ $(command -v starship) ]; then
+    source <("${starship}" init zsh --print-full-init)
+fi
+
 # ZSH has a quirk where `preexec` is only run if a command is actually run (i.e
 # pressing ENTER at an empty command line will not cause preexec to fire). This
 # can cause timing issues, as a user who presses "ENTER" without running a command
@@ -7,13 +14,6 @@
 # after drawing the prompt. This ensures that the timing for one command is only
 # ever drawn once (for the prompt immediately after it is run).
 
-# TODO: Currently the path to starship is hard-coded, perhaps for speed?
-starship=$(command -v starship)
-
-# output of starship init zsh
-if [ ! -z "${starship}" ]; then
-    source <("${starship}" init zsh --print-full-init)
-fi
 
 # output of starship init zsh --print-ful-init (without hardcoded paths)
 # if [ ! -z "${starship}" ]; then

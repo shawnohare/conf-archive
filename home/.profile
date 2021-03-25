@@ -23,11 +23,12 @@ fi
 #    source /etc/profile
 #fi
 
+PATH="/usr/local/bin:/usr/local/sbin:/usr/local/opt/bin:/opt/bin:${PATH}"
 PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
-PATH="/usr/local/opt/bin:/opt/bin:/usr/local/bin:/usr/local/sbin:${PATH}"
 PATH="${HOME}/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/bin:${PATH}"
-PATH="${CONDA_OPT_HOME}/bin:${CONDA_ROOT}/condabin:${PYENV_ROOT}/bin:${PATH}"
-PATH="${HOME}/bin:${XDG_BIN_HOME}:${PATH}"
+PATH="${CONDA_OPT_HOME}/bin:${PYENV_ROOT}/bin:${PATH}"
+# PATH="${CONDA_OPT_HOME}/bin:${CONDA_ROOT}/condabin:${PYENV_ROOT}/bin:${PATH}"
+PATH="${XDG_BIN_HOME}:${PATH}"
 PATH="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:${PATH}"
 export PATH
 
@@ -45,3 +46,6 @@ export PATH
 # NOTE: Many programs that require some form of init need to go in their
 # respective RC files, as many of the effects will not carry over to
 # interactive, non-login shells (such as wrapper function definitions).
+
+# added by Snowflake SnowSQL installer v1.2
+export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH

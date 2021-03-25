@@ -39,19 +39,36 @@ install() {
 
     # Check to see the actual install script was downloaded.
     if [ ! -e "${installer}" ] || [ "$(head -n 1 ${installer})" = "Not Found" ]; then
-        echo "Unable to install ${installer}"
+        echo "Unable to download ${installer}"
         exit 1
     fi
 
     # Don't screw with any rc files.
     bash "${installer}" -b -p "${CONDA_ROOT}"
-    rm -f "${installer}"
+    if [ -e "${CONDA_ROOT}/condabin/conda" ]; then
+        echo "Sucessfully installed ${CONDA_ROOT}"
+        rm -f "${installer}"
+    else
+        echo "Unable to install distribution. Exiting."
+        exit 1
+    fi
+    return 0
 }
 
 
 main() {
 
-    case $1 in
+    if [ -z "${CONDA_ROOT+x}" ]; then
+        echo "CONDA_ROOT env var not set. Aborting."
+        return 0
+    fi
+
+    local readonly dist="$1"
+
+    case "${dist}" in
+        mambaforge)
+            prefix="https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge"
+            ;;
         miniforge)
             prefix="https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3"
             ;;
@@ -59,12 +76,18 @@ main() {
             prefix="https://repo.anaconda.com/miniconda/Miniconda3-latest"
             ;;
         *)
-            echo "Unsupported distribution ${1:-UNKNOWN}. Choose either miniforge or miniconda."
+            echo "Unsupported distribution ${dist}. Choose mambaforge, miniforge, miniconda."
             exit 1
     esac
     install "${prefix}"
     # install_venvs
 }
 
-main "$@"
+
+if [ -z "${1+x}" ]; then
+    main mambaforge
+else
+    main "$@"
+fi
+
 
