@@ -26,6 +26,7 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias emc="emacsclient"
 alias code="code-insiders"
+alias oni="oni2"
 alias vi="nvim"
 
 
