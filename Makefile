@@ -28,12 +28,13 @@ stash: $(XDG_OPT_HOME)/stash
 
 link:
 	stash -f -t "${HOME}" home
-	ln -sfh "${XDG_BIN_HOME}" "${HOME}/bin"
-	ln -sfh "${XDG_CONFIG_HOME}" "${HOME}/etc"
-	ln -sfh "${XDG_DATA_HOME}" "${HOME}/share"
-	ln -sfh "${XDG_OPT_HOME}" "${HOME}/opt"
-	ln -sfh "${XDG_SRC_HOME}" "${HOME}/src"
-	ln -sfh "${XDG_VAR_HOME}" "${HOME}/var"
+	# FIXME: ln -h not valid in Linux
+	rm -f "${HOME}/bin" && ln -sf "${XDG_BIN_HOME}" "${HOME}/bin"
+	rm -f "${HOME}/etc" && ln -sf "${XDG_CONFIG_HOME}" "${HOME}/etc"
+	rm -f "${HOME}/share" && ln -sf "${XDG_DATA_HOME}" "${HOME}/share"
+	rm -f "${HOME}/opt" && ln -sf "${XDG_OPT_HOME}" "${HOME}/opt"
+	rm -f "${HOME}/src" && ln -sf "${XDG_SRC_HOME}" "${HOME}/src"
+	rm -f "${HOME}/var" && ln -sf "${XDG_VAR_HOME}" "${HOME}/var"
 	# bins
 	ln -sf "${POETRY_HOME}/bin/poetry" "${XDG_BIN_HOME}/poetry"
 	ln -sf "${CONDA_ROOT}/condabin/conda" "${XDG_BIN_HOME}/conda"
