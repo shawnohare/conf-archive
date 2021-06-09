@@ -283,10 +283,6 @@ fi
 # ----------------------------------------------------------------------------
 # prompt
 
-if [ $(command -v starship) ]; then
-    source <(starship init zsh --print-full-init)
-fi
-
 # ----------------------------------------------------------------------------
 # finish
 export ZSHRC_SET=1

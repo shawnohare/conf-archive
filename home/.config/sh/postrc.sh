@@ -18,13 +18,13 @@
 # single-user installs do not modify those files. Moreover, a multi-user
 # install does not appear to provide the nix.sh script in the user profile link
 # ----------------------------------------------------------------------------
-if [ -d $HOME/.nix-profile/etc/profile.d ]; then
-  for i in $HOME/.nix-profile/etc/profile.d/*.sh; do
-    if [ -r $i ]; then
-      source $i
-    fi
-  done
-fi
+# if [ -d $HOME/.nix-profile/etc/profile.d ]; then
+#   for i in $HOME/.nix-profile/etc/profile.d/*.sh; do
+#     if [ -r $i ]; then
+#       source $i
+#     fi
+#   done
+# fi
 
 # ----------------------------------------------------------------------------
 # python
@@ -46,3 +46,4 @@ fi
 # ----------------------------------------------------------------------------
 source <(starship init ${ISHELL} --print-full-init 2&> /dev/null)
 # source "${XDG_DATA_HOME}/starship/init.${ISHELL}" 2&> /dev/null
+

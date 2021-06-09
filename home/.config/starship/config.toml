@@ -49,7 +49,7 @@ symbol = " "
 symbol = " "
 
 [memory_usage]
-disabled = false
+disabled = true
 symbol = " "
 show_percentage = true
 

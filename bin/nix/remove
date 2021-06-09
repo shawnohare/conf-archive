@@ -15,7 +15,8 @@ for conf in profile bashrc zshrc; do
 done
 
 # Remove nix build user
-for i in $(seq 1 $(sysctl -n hw.ncpu)); do
+# for i in $(seq 1 $(sysctl -n hw.ncpu)); do
+for i in {1..32}; do
     if id -u "nixbld$i" ; then
         sudo /usr/bin/dscl . -delete "/Users/nixbld$i"
     fi
@@ -30,3 +31,16 @@ rm -rf $HOME/{.nix-channels,.nix-defexpr,.nix-profile,.config/nixpkgs}
 
 # rm -rf ${XDG_CONFIG_HOME}/nixpkgs
 sudo rm -rf /etc/nix /nix /var/root/.nix-profile /var/root/.nix-defexpr /var/root/.nix-channels
+
+# Manual steps
+# Note: a multi-user installation is possible. See https://nixos.org/nix/manual/#sect-multi-user-installation
+# Creating volume and mountpoint /nix.
+
+#      ------------------------------------------------------------------
+#     | This installer will create a volume for the nix store and        |
+#     | configure it to mount at /nix.  Follow these steps to uninstall. |
+#      ------------------------------------------------------------------
+
+#   1. Remove the entry from fstab using 'sudo vifs'
+#   2. Destroy the data volume using 'diskutil apfs deleteVolume'
+#   3. Remove the 'nix' line from /etc/synthetic.conf or the file

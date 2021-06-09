@@ -12,7 +12,6 @@
 
 
 [ -e "${HOME}/.profile" ] && source "${HOME}/.profile"
-source "${XDG_DATA_HOME}/conda/init.zsh" > /dev/null 2>&1
 
 # Remove duplicate path entries. Order can get wonky though. Avoid!
 # typeset -aU path

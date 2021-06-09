@@ -23,14 +23,9 @@ fi
 #    source /etc/profile
 #fi
 
-PATH="/usr/local/bin:/usr/local/sbin:/usr/local/opt/bin:/opt/bin:${PATH}"
-PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
-PATH="${HOME}/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/bin:${PATH}"
-PATH="${CONDA_OPT_HOME}/bin:${PYENV_ROOT}/bin:${PATH}"
-# PATH="${CONDA_OPT_HOME}/bin:${CONDA_ROOT}/condabin:${PYENV_ROOT}/bin:${PATH}"
-PATH="${XDG_BIN_HOME}:${PATH}"
-PATH="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:${PATH}"
-export PATH
+# nix installer always complains when it sees nix in this file, so we move path
+# setting to a separate location.
+source "${XDG_CONFIG_HOME}/sh/path.sh"
 
 
 # ----------------------------------------------------------------------------

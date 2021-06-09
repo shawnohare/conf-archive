@@ -1,4 +1,4 @@
-# install the user env packages via nix-env -iA nixpkgs.{myGuiPackages,myPackages}
+# install the user env packages via nix-env -iA nixpkgs.{gui,cli}
 # NOTE: Installing specific versions.
 # https://github.com/NixOS/nixpkgs/issues/9682
 # https://github.com/NixOS/nixpkgs/issues/93327
