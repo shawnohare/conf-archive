@@ -221,6 +221,14 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " #inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
+" nvim-compe
+inoremap <silent><expr> <C-Space> compe#complete()
+" <CR> already handled by pears?
+" inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
 " --------------------------------------------------------------------------
 " wildmenu config
 set wildmenu     " command-line completion
@@ -318,25 +326,25 @@ set smartcase
 
 " --------------------------------------------------------------------------
 " STATUSLINE
-if !g:initialized
-    set laststatus=2        " Always display statusline.
-    " set paste is obsolete in neovim
-    " set statusline+=%(%)%#ModeMsg#%{&paste?'\ PASTE\ ':''}%*  " paste mode
-    set statusline+=%{mode()}\ \| " Current mode.
-    set statusline+=\ b:\%n\ \| " Buffer number.
-    set statusline+=\ %F\ \| "tail of the filename if f or full path if F
-    " set statusline+=%{fugitive#statusline()}  " git branch
-    set statusline+=%=              " left/right separator
-    set statusline+=%{&fenc}\ \|\        " file encoding
-    set statusline+=%{&ff}\ \|\           "file format
-    set statusline+=%h              " help file flag
-    set statusline+=%m              " modified flag
-    set statusline+=%w              " preview windowflag: [Preview]
-    set statusline+=%r              " read only flag
-    set statusline+=%y\ \|\          " filetype
-    set statusline+=%p%%\ %l:%c " % through file : line num: column num
-    set statusline+=%#warningmsg#
-    set statusline+=%*
-endif
+" if !g:initialized
+"     set laststatus=2        " Always display statusline.
+"     " set paste is obsolete in neovim
+"     " set statusline+=%(%)%#ModeMsg#%{&paste?'\ PASTE\ ':''}%*  " paste mode
+"     set statusline+=%{mode()}\ \| " Current mode.
+"     set statusline+=\ b:\%n\ \| " Buffer number.
+"     set statusline+=\ %F\ \| "tail of the filename if f or full path if F
+"     " set statusline+=%{fugitive#statusline()}  " git branch
+"     set statusline+=%=              " left/right separator
+"     set statusline+=%{&fenc}\ \|\        " file encoding
+"     set statusline+=%{&ff}\ \|\           "file format
+"     set statusline+=%h              " help file flag
+"     set statusline+=%m              " modified flag
+"     set statusline+=%w              " preview windowflag: [Preview]
+"     set statusline+=%r              " read only flag
+"     set statusline+=%y\ \|\          " filetype
+"     set statusline+=%p%%\ %l:%c " % through file : line num: column num
+"     set statusline+=%#warningmsg#
+"     set statusline+=%*
+" endif
 
 let g:initialized = 1

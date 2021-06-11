@@ -33,6 +33,9 @@ return require('packer').startup(function(use)
             enable = true,
             -- disable = { "c", "rust" },  -- list of language that will be disabled
           },
+          indent = {
+              enable = true,
+          },
           -- incremental_selection = {
           --   enable = true,
           --   keymaps = {
@@ -72,9 +75,42 @@ return require('packer').startup(function(use)
     'neovim/nvim-lspconfig',
     -- requires = "kabouzeid/nvim-lspinstall",
     config = function()
+      local lspconfig = require('lspconfig')
+      -- Use an on_attach function to only map the following keys
+      -- after the language server attaches to the current buffer
+      local on_attach = function(client, bufnr)
+          local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+          local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+          --Enable completion triggered by <c-x><c-o>
+          -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+          -- Mappings.
+          local opts = { noremap=true, silent=true }
+
+          -- See `:help vim.lsp.*` for documentation on any of the below functions
+          -- TODO: Define keybindings to use other packages, e.g., Trouble.
+          buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+          buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+          buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+          buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+          buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+          buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+          buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+          buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+          buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+          buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+          buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+          buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+          buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+          buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+          buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+          buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+          buf_set_keymap("n", "<leader>fmt", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+      end
+
       local lspinstall = require('lspinstall')
       lspinstall.setup()
-      local servers = lspinstall.installed_servers()
 
       -- Specific server configurations.
       local configs = {
@@ -90,16 +126,16 @@ return require('packer').startup(function(use)
         }
       }
 
-      for _, server in pairs(servers) do
+      for _, server in pairs(lspinstall.installed_servers()) do
         local config = configs[server]
         if config == nil then
           config = {}
         end
-        require('lspconfig')[server].setup(config)
+        config.on_attach = on_attach
+        lspconfig[server].setup(config)
       end
 
     end
-
   }
 
   use {
@@ -133,13 +169,84 @@ return require('packer').startup(function(use)
 
   use 'folke/tokyonight.nvim'
 
+    use {
+      "folke/todo-comments.nvim",
+      requires = "nvim-lua/plenary.nvim",
+      config = function()
+        require("todo-comments").setup {
+          -- your configuration comes here
+          -- or leave it empty to use the default settings
+          -- refer to the configuration section below
+        }
+      end
+    }
+
+    use {
+        'hrsh7th/nvim-compe',
+        config = function()
+            require('compe').setup {
+              enabled = true;
+              autocomplete = true;
+              debug = false;
+              min_length = 1;
+              preselect = 'enable';
+              throttle_time = 80;
+              source_timeout = 200;
+              incomplete_delay = 400;
+              max_abbr_width = 100;
+              max_kind_width = 100;
+              max_menu_width = 100;
+              documentation = true;
+
+              source = {
+                path = true;
+                buffer = true;
+                calc = true;
+                nvim_lsp = true;
+                nvim_lua = true;
+                vsnip = true;
+                ultisnips = true;
+              };
+            }
+        end
+    }
+
+
+  -- use {
+  --     'windwp/nvim-autopairs',
+  --     config = function()
+  --         require('nvim-autopairs').setup()
+  --     end
+  -- }
 
   use {
       'steelsojka/pears.nvim',
       config = function()
-          require('pears').setup()
+          require "pears".setup(function(conf)
+              conf.on_enter(function(pears_handle)
+                if vim.fn.pumvisible() == 1 and vim.fn.complete_info().selected ~= -1 then
+                  return vim.fn["compe#confirm"]("<CR>")
+                else
+                  pears_handle()
+                end
+              end)
+            end)
       end
   }
+
+  -- use {
+  --     'shaunsingh/solarized.nvim',
+  --     config = function()
+  --         vim.g.solarized_italic_comments = false
+  --         vim.g.solarized_italic_keywords = true
+  --         vim.g.solarized_italic_functions = true
+  --         vim.g.solarized_italic_variables = false
+  --         vim.g.solarized_contrast = false
+  --         vim.g.solarized_borders = false
+  --         vim.g.solarized_disable_background = false
+  --         require('solarized').set()
+  --     end
+  --   }
 
   -- -- FIXME: Empty file finding. Look into this plugin later.
   -- use {
@@ -197,7 +304,7 @@ return require('packer').startup(function(use)
   --   --   }
   --   -- end
   -- }
-  --
+
   -- tpope plugins
   use {
     'tpope/vim-commentary',
@@ -205,8 +312,35 @@ return require('packer').startup(function(use)
     'tpope/vim-endwise',
   }
 
-  use 'mhinz/vim-signify'
+  -- use 'mhinz/vim-signify'
+  use {
+      'lewis6991/gitsigns.nvim',
+      requires = {'nvim-lua/plenary.nvim'},
+      config = function()
+          require('gitsigns').setup()
+      end
+  }
   use 'ntpeters/vim-better-whitespace'
+
+  -- Prettyish icons in lsp menus (such as completion)
+  use {
+    'onsails/lspkind-nvim',
+    config = function()
+        require('lspkind').init({
+            with_text = true,
+            preset = 'default',
+            symbol_map = {},
+        })
+    end
+  }
+
+  use {
+      'glepnir/galaxyline.nvim',
+      branch = 'main',
+      config = function()
+          require('statusline')
+      end
+  }
 
   -- Simple plugins can be specified as strings
   -- use '9mm/vim-closer'
