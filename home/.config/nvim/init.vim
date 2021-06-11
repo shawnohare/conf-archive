@@ -36,14 +36,15 @@ command! Conf :e $MYVIMRC
 command! Reload :source $MYVIMRC
 
 " Lazily load package management functions.
-try
-    :source $XDG_CONFIG_HOME/nvim/pkg.vim
-catch
-endtry
+" try
+"     :source $XDG_CONFIG_HOME/nvim/pkg.vim
+" catch
+" endtry
 
 
 " ==========================================================================
 " package loading
+" TODO: Most can likely be moved to lua/packages.lua packer configs.
 " Load optional packages
 "
 " --- language server protocol (lsp) clients
@@ -52,10 +53,10 @@ endtry
 " packadd LanguageClient-neovim
 " packadd vim-lsc
 " packadd vim-lsp | packadd async.vim
-packadd coc.nvim
+" packadd coc.nvim
 
 " treesitter provides smart syntax highlighting. Sometimes buggy.
-packadd nvim-treesitter
+" packadd nvim-treesitter
 " nvim-tree.lua, accessed via LuaTree commands, is a file manager like ranger.
 " packadd nvim-tree.lua
 " pretty filetype images.
@@ -108,8 +109,9 @@ endtry
 " --------------------------------------------------------------------------
 "  lua package configs
 "  Each file represents a lua configuration for a particular package.
-lua require('pkgs.tree')
-lua require('pkgs.treesitter')
+lua require('packages')
+" lua require('pkg.tree')
+" lua require('pkg.treesitter')
 
 " --------------------------------------------------------------------------
 " netrw (built-in)
@@ -159,6 +161,14 @@ let g:pandoc#syntax#codeblocks#embeds#langs = [
 "  --------------------------------------------------------------------------
 "  vimtex
 let g:tex_flavor = 'latex'
+
+
+" --------------------------------------------------------------------------
+" telescope
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
 " --------------------------------------------------------------------------
 " comment config
