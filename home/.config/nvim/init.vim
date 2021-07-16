@@ -99,12 +99,12 @@ let g:strip_whitespace_on_save      = 1
 " LSP and completion configs
 " Source one of the config files in the lsp subdir
 
-try
-    :source $XDG_CONFIG_HOME/lsp/coc.vim
-    " :source $XDG_CONFIG_HOME/lsp/languageClient.vim
-    " :source $XDG_CONFIG_HOME/ncm2.vim
-catch
-endtry
+" try
+"     :source $XDG_CONFIG_HOME/lsp/coc.vim
+"     " :source $XDG_CONFIG_HOME/lsp/languageClient.vim
+"     " :source $XDG_CONFIG_HOME/ncm2.vim
+" catch
+" endtry
 
 " --------------------------------------------------------------------------
 "  lua package configs
@@ -133,7 +133,7 @@ set autochdir
 "   Confer https://github.com/sheerun/vim-polyglot/issues/391
 "   But, using polyglot with pgsql leads to no highlighting. Removing polyglot
 "   from the packpath solves this.
-let g:polyglot_disabled = ['latex', 'pgsql']
+" let g:polyglot_disabled = ['latex', 'pgsql']
 
 " Can use autocmd in your ~/.config/nvim/filetype.vim
 " to enable pgsql filetype for all it for all .sql files or some finer pattern:
@@ -162,13 +162,6 @@ let g:pandoc#syntax#codeblocks#embeds#langs = [
 "  vimtex
 let g:tex_flavor = 'latex'
 
-
-" --------------------------------------------------------------------------
-" telescope
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
 " --------------------------------------------------------------------------
 " comment config
@@ -215,19 +208,6 @@ set splitright  " and to the right of the current.  Default is opposite.
 " generic completion config
 set completeopt=noinsert,menuone,noselect
 " Close preview window after selection.
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" FIXME: inserts textpumvisible() ? "\-" : "\\
-" #inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
-" nvim-compe
-inoremap <silent><expr> <C-Space> compe#complete()
-" <CR> already handled by pears?
-" inoremap <silent><expr> <CR>      compe#confirm('<CR>')
-inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 
 " --------------------------------------------------------------------------
 " wildmenu config
@@ -252,7 +232,7 @@ set wildignore+=*/target/*               " sbt target directory
 " set cursorline               " highlight current line, but slow
 set showmode                 " show current mode at bottom of screen
 set showcmd                  " show (partial) commands below statusline
-set relativenumber           " show relative line numbers
+" set relativenumber           " show relative line numbers
 set number                   " show line number of cursor
 set numberwidth=4            " always make room for 4-digit line numbers
 set textwidth=79
@@ -283,7 +263,7 @@ catch /^Vim\%((\a\+)\)\=:E185/
     colorscheme desert
 endtry
 
-" --------------------------------------------------------------------------
+" ===========================================================================
 " Editing
 set undolevels=1000            " enable many levels of undo
 set undofile                   " save undo tree to file for persistent undos
@@ -295,7 +275,7 @@ set nomodeline         " modelines are a security risk
 set autowrite          " write when moving to other buffers/windows
 
 
-" --------------------------------------------------------------------------
+" ===========================================================================
 " Folding
 set foldenable          " default to folding on, can be toggled with 'zi'
 set foldlevelstart=99   " open files completely unfolded
@@ -303,13 +283,49 @@ set foldnestmax=8       " no more than 8 levels of folds
 set foldmethod=indent   " default folding method. syntax method is SLOW.
 " set foldcolumn=1        " gutter fold marks
 
-" --------------------------------------------------------------------------
+
+" ===========================================================================
 " Key mapping
 inoremap <C-h> <BS>
 " The snippet below should let CR behave intelligently, but some plugin screws
 " it up. ncm2 maybe?
 " inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" --------------------------------------------------------------------------
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" FIXME: inserts textpumvisible() ? "\-" : "\\
+" #inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" nvim-compe
+inoremap <silent><expr> <C-Space> compe#complete()
+" <CR> already handled by autoparing package?
+" inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
+
+" These commands will navigate through buffers in order regardless of which
+" mode you are using e.g. if you change the order of buffers :bnext and
+" :bprevious will not respect the custom ordering
+nnoremap <silent><leader>bj :BufferLineCycleNext<CR>
+nnoremap <silent><leader>bk :BufferLineCyclePrev<CR>
+
+" These commands will move the current buffer backwards or forwards in the bufferline
+nnoremap <silent><leader>bmj :BufferLineMoveNext<CR>
+nnoremap <silent><leader>bmk :BufferLineMovePrev<CR>
+
+" These commands will sort buffers by directory, language, or a custom criteria
+nnoremap <silent><leader>be :BufferLineSortByExtension<CR>
+nnoremap <silent><leader>bd :BufferLineSortByDirectory<CR>
+
+" telescope
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
+" ===========================================================================
 " Indentation
 set expandtab  " <Tab> converted to softtabstop # spaces
 set softtabstop=4 " number of spaces <Tab> converted to
@@ -319,12 +335,12 @@ set shiftwidth=4 " <Tab> converts to this # spaces at beginning of line
 " set cindent " also dumb?
 filetype indent on
 
-" --------------------------------------------------------------------------
+" ===========================================================================
 " Search
 set ignorecase
 set smartcase
 
-" --------------------------------------------------------------------------
+" ===========================================================================
 " STATUSLINE
 " if !g:initialized
 "     set laststatus=2        " Always display statusline.
@@ -346,5 +362,7 @@ set smartcase
 "     set statusline+=%#warningmsg#
 "     set statusline+=%*
 " endif
+"
+" --------------------------------------------------------------------------
 
 let g:initialized = 1

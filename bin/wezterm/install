@@ -1,0 +1,6 @@
+#! /usr/bin/env bash
+
+brew tap wez/wezterm
+brew install --HEAD wezterm
+cp -r /usr/local/Cellar/wezterm/HEAD/WezTerm.app /Applications/
+
