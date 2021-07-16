@@ -45,7 +45,7 @@ information.
 [home-manager]: <https://github.com/nix-community/home-manager> "Home Manager"
 [nix-wiki]: <https://nixos.wiki> "Unofficial Nix Wiki"
 [nix-darwin]: <https://github.com/LnL7/nix-darwin> "Nix Darwin"
-[nixflk]]: <https://github.com/nrdxp/nixflk> "nixflk"
+[nixflk]: <https://github.com/nrdxp/nixflk> "nixflk"
 [hugoreeves-nix-home-post]: <https://hugoreeves.com/posts/2019/nix-home/>
 [hugoreeves-nix-home-repo]: <https://github.com/HugoReeves/nix-home/>
 
