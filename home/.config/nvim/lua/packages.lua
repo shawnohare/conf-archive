@@ -1,12 +1,11 @@
-  -- Load by calling `lua require('packages')` from your init.vim
+
+
+-- Load by calling `lua require('packages')` from your init.vim
 -- Many packages, especially those for neovim written in lua, support
 -- configurations within packer.
 --
 -- ---------------------------------------------------------------------------
 -- boostrap
---
--- TODO: Here is one.
--- TODO: Here is another.
 
 local execute = vim.api.nvim_command
 local fn = vim.fn
@@ -59,12 +58,16 @@ return require('packer').startup(function(use)
   }
 
 
-  use {
-    'lewis6991/spellsitter.nvim',
-    config = function()
-      require('spellsitter').setup()
-    end
-  }
+  -- FIXME: Checking comments too much.
+  -- use {
+  --   'lewis6991/spellsitter.nvim',
+  --   config = function()
+  --     require('spellsitter').setup({
+  --         hl = 'SpellBad',
+  --         captures = {'comment'},
+  --       })
+  --   end
+  -- }
 
   use {
     'rafamadriz/neon',
@@ -157,7 +160,7 @@ return require('packer').startup(function(use)
             settings = {
                 Lua = {
                     diagnostics = {
-                        globals = { 'vim' }
+                        globals = { 'vim', 'hs' }
                     }
                 }
             }
@@ -332,6 +335,7 @@ return require('packer').startup(function(use)
             },
           },
         }
+        -- require('telescope').load_extension('projects')
         require('telescope').load_extension('fzf')
     --   require('telescope').setup {
     --     defaults = {
@@ -419,7 +423,17 @@ return require('packer').startup(function(use)
       end
   }
 
-  use 'ntpeters/vim-better-whitespace'
+  use {
+    'ntpeters/vim-better-whitespace',
+    config = function()
+      vim.g.better_whitespace_enabled = 1
+      vim.g.better_whitespace = 1
+      vim.g.show_spaces_that_precede_tabs = 1
+      vim.g.strip_max_file_size = 100000
+      vim.g.strip_whitespace_confirm = 0
+      vim.g.strip_whitespace_on_save = 1
+    end
+  }
 
   -- Prettyish icons in lsp menus (such as completion)
   use {
@@ -512,6 +526,23 @@ return require('packer').startup(function(use)
         vim.g.polyglot_disabled = {'latex', 'pgsql'}
     end
   }
+
+  -- key remmaping
+  use {
+    'LionC/nest.nvim',
+    config = function()
+    end
+  }
+
+  -- NOTE: This will autochdir to project root, which I do not care for.
+  -- use {
+  --   "ahmedkhalf/project.nvim",
+  --   config = function()
+  --     vim.g.nvim_tree_update_cwd = 1
+  --     vim.g.nvim_tree_respect_buf_cwd = 1
+  --     require("project_nvim").setup {}
+  --   end
+  -- }
 
   -- TODO: Determine if we should use this plugin.
   -- Not generally pleased with many of the interface choices.
