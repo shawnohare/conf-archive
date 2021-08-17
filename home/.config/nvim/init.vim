@@ -31,45 +31,6 @@ let mapleader = "\<Space>"
 let g:initialized = get(g:, 'initialized', 0)
 
 " --------------------------------------------------------------------------
-"  commands
-command! Conf :e $MYVIMRC
-command! Reload :source $MYVIMRC
-
-" Lazily load package management functions.
-" try
-"     :source $XDG_CONFIG_HOME/nvim/pkg.vim
-" catch
-" endtry
-
-
-" ==========================================================================
-" package loading
-" TODO: Most can likely be moved to lua/packages.lua packer configs.
-" Load optional packages
-"
-" --- language server protocol (lsp) clients
-"  Choose one external client or use the builtin.
-" packadd ale
-" packadd LanguageClient-neovim
-" packadd vim-lsc
-" packadd vim-lsp | packadd async.vim
-" packadd coc.nvim
-
-" treesitter provides smart syntax highlighting. Sometimes buggy.
-" packadd nvim-treesitter
-" nvim-tree.lua, accessed via LuaTree commands, is a file manager like ranger.
-" packadd nvim-tree.lua
-" pretty filetype images.
-" packadd nvim-web-devicons
-
-" packages related to builtin neovim lsp functionality.
-" https://rishabhrd.github.io/jekyll/update/2020/09/19/nvim_lsp_config.html
-" lspconfig wraps the builtin lsp functionality with standard configs.
-" packadd nvim-lspconfig
-" lsputils and popfix
-" packadd popfix
-" packadd nvim-lsputils
-
 
 " ==========================================================================
 " PACKAGE CONFIGS
@@ -87,43 +48,10 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 " --------------------------------------------------------------------------
-"  better whitespace
-let g:better_whitespace_enabled     = 1
-let g:better_whitespace_verbosity   = 1
-let g:show_spaces_that_precede_tabs = 1
-let g:strip_max_file_size           = 10000
-let g:strip_whitespace_confirm      = 0
-let g:strip_whitespace_on_save      = 1
-
-" --------------------------------------------------------------------------
-" LSP and completion configs
-" Source one of the config files in the lsp subdir
-
-" try
-"     :source $XDG_CONFIG_HOME/lsp/coc.vim
-"     " :source $XDG_CONFIG_HOME/lsp/languageClient.vim
-"     " :source $XDG_CONFIG_HOME/ncm2.vim
-" catch
-" endtry
-
-" --------------------------------------------------------------------------
 "  lua package configs
 "  Each file represents a lua configuration for a particular package.
-lua require('packages')
-" lua require('pkg.tree')
-" lua require('pkg.treesitter')
+lua require('init')
 
-" --------------------------------------------------------------------------
-" netrw (built-in)
-" let g:netrw_banner    = 0      " Do not display info on top
-let g:netrw_liststyle = 3      " default to tree-style file listing
-let g:netrw_winsize   = 30     " use 30% of columns for list
-let g:netrw_preview   = 1      " default to vertical splitting for preview
-
-" Hit enter in the file browser to open the selected
-" file with :vsplit to the right of the browser.
-" let g:netrw_browse_split = 4
-let g:netrw_altv = 1
 set autochdir
 
 " --------------------------------------------------------------------------
@@ -192,10 +120,6 @@ let g:markdown_fenced_languages = [
 
 
 set inccommand=nosplit
-
-" --------------------------------------------------------------------------
-" Abbreviations
-nmap<leader>dts :put=strftime('%FT%T%z')<return>
 
 " --------------------------------------------------------------------------
 " Buffers & Windows config
@@ -311,7 +235,7 @@ inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 nnoremap <silent><leader>bj :BufferLineCycleNext<CR>
 nnoremap <silent><leader>bk :BufferLineCyclePrev<CR>
 
-" These commands will move the current buffer backwards or forwards in the bufferline
+:" These commands will move the current buffer backwards or forwards in the bufferline
 nnoremap <silent><leader>bmj :BufferLineMoveNext<CR>
 nnoremap <silent><leader>bmk :BufferLineMovePrev<CR>
 
@@ -319,11 +243,6 @@ nnoremap <silent><leader>bmk :BufferLineMovePrev<CR>
 nnoremap <silent><leader>be :BufferLineSortByExtension<CR>
 nnoremap <silent><leader>bd :BufferLineSortByDirectory<CR>
 
-" telescope
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
 " ===========================================================================
 " Indentation
