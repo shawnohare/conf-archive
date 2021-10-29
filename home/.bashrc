@@ -10,7 +10,6 @@
 # ----------------------------------------------------------------------------
 export ISHELL="bash"
 source "${HOME}/.profile" > /dev/null 2>&1
-source "$XDG_CONFIG_HOME}/sh/init.sh" > /dev/null 2>&1
 export PYENV_SHELL=bash
 export SHDATA="${XDG_DATA_HOME:-${HOME}/.local/share}/bash"
 

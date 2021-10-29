@@ -1,5 +1,3 @@
-
-
 -- Load by calling `lua require('packages')` from your init.vim
 -- Many packages, especially those for neovim written in lua, support
 -- configurations within packer.
@@ -423,15 +421,22 @@ return require('packer').startup(function(use)
       end
   }
 
+  -- use {
+  --   'ntpeters/vim-better-whitespace',
+  --   config = function()
+  --     vim.g.better_whitespace_enabled = 1
+  --     vim.g.better_whitespace = 1
+  --     vim.g.show_spaces_that_precede_tabs = 1
+  --     vim.g.strip_max_file_size = 100000
+  --     vim.g.strip_whitespace_confirm = 0
+  --     vim.g.strip_whitespace_on_save = 1
+  --   end
+  -- }
+
   use {
-    'ntpeters/vim-better-whitespace',
+    'lewis6991/spaceless.nvim',
     config = function()
-      vim.g.better_whitespace_enabled = 1
-      vim.g.better_whitespace = 1
-      vim.g.show_spaces_that_precede_tabs = 1
-      vim.g.strip_max_file_size = 100000
-      vim.g.strip_whitespace_confirm = 0
-      vim.g.strip_whitespace_on_save = 1
+      require('spaceless').setup()
     end
   }
 
@@ -531,6 +536,57 @@ return require('packer').startup(function(use)
   use {
     'LionC/nest.nvim',
     config = function()
+      local nest = require('nest')
+
+      nest.applyKeymaps {
+          -- Remove silent from ; : mapping, so that : shows up in command mode
+          -- { ';', ':' , options = { silent = false } },
+          -- { ':', ';' },
+
+          { '<leader>', {
+              -- Finding
+              { 'f', {
+                  { 'f', '<Cmd>Telescope find_files<CR>' },
+                  { 'l', '<Cmd>Telescope live_grep<CR>' },
+                  { 'g', {
+                      { 'b', '<Cmd>Telescope git_branches<CR>' },
+                      { 'c', '<Cmd>Telescope git_commits<CR>' },
+                      { 's', '<Cmd>Telescope git_status<CR>' },
+                  }},
+              }},
+
+              -- LSP.
+              { 'l', {
+                  { 'c', '<Cmd>lua vim.lsp.buf.code_actions()<CR>' },
+                  { 'r', '<Cmd>lua vim.lsp.buf.rename()<CR>' },
+                  { 's', '<Cmd>lua vim.lsp.buf.signature_help()<CR>' },
+                  { 'h', '<Cmd>lua vim.lsp.buf.hover()<CR>' },
+              }},
+
+              -- Package management.
+              { 'p', {
+                  { 's', '<Cmd>PackerSync'},
+               }},
+              },
+          },
+
+          -- Use insert mode for all nested keymaps
+          { mode = 'i', {
+
+              -- Set <expr> option for all nested keymaps
+              { options = { expr = true }, {
+                  { "<CR>",       "compe#confirm('<CR>')" },
+                  -- This is equivalent to viml `inoremap <C-Space> <expr>compe#complete()`
+                  { "<C-Space>",  "compe#complete()" },
+              }},
+
+              -- { '<C-', {
+              --     { 'h>', '<left>' },
+              --     { 'l>', '<right>' },
+              --     { 'o>', '<Esc>o' },
+              -- }},
+          }},
+      }
     end
   }
 

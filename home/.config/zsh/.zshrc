@@ -3,7 +3,37 @@
 
 # aliases
 export ISHELL="zsh"
-source "${XDG_CONFIG_HOME}/sh/init.sh" 2&> /dev/null
+
+# ============================================================================
+# aliases
+# ============================================================================
+case "${OSTYPE}" in
+    linux*)
+        alias ls="ls --color -GF"
+        ;;
+    **)
+        if [ $(command -v gls) 1> /dev/null ]; then
+            alias ls="gls --color -GF"
+        else
+            alias ls="ls -GF"
+        fi
+        ;;
+esac
+
+alias la="ls -GFlashi"
+alias ll="ls -GFlshi"
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias emc="emacsclient"
+alias code="code-insiders"
+alias oni="oni2"
+alias vi="nvim"
+alias pyv="conda activate"
+
+
+
+
 
 # ----------------------------------------------------------------------------
 # Load plugins.
@@ -275,13 +305,52 @@ setopt extendedglob
 setopt nomatch
 setopt notify
 
-# Setup conda
-if [[ -f "${XDG_CONFIG_HOME}/sh/postrc.sh" ]]; then
-    source "${XDG_CONFIG_HOME}/sh/postrc.sh"
+
+# ============================================================================
+# post rc actions
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# rbenv
+# ----------------------------------------------------------------------------
+# if command -v rbenv >/dev/null 2>&1; then
+#   eval "$(rbenv init -)"
+# fi
+
+# ----------------------------------------------------------------------------
+# Nix
+# Multi-user installs source the nix-daemon.sh in /etc profiles but
+# single-user installs do not modify those files. Moreover, a multi-user
+# install does not appear to provide the nix.sh script in the user profile link
+# ----------------------------------------------------------------------------
+# if [ -d $HOME/.nix-profile/etc/profile.d ]; then
+#   for i in $HOME/.nix-profile/etc/profile.d/*.sh; do
+#     if [ -r $i ]; then
+#       source $i
+#     fi
+#   done
+# fi
+
+# ----------------------------------------------------------------------------
+# python
+# ----------------------------------------------------------------------------
+# source "${XDG_DATA_HOME}/pyenv/init.${ISHELL}" 2&> /dev/null
+# source "${XDG_DATA_HOME}/conda/init.${ISHELL}" 2&> /dev/null
+
+source <(conda shell.${ISHELL} hook 2&> /dev/null)
+source <(pyenv init - --no-rehash ${ISHELL} 2&> /dev/null)
+
+# pyenv init script always prepends shims to path.
+# conda init does not seem to do this if an env is already activated.
+if [ ! -z "${CONDA_PREFIX+x}" ]; then
+    export PATH="${CONDA_PREFIX}/bin:$PATH"
 fi
 
 # ----------------------------------------------------------------------------
-# prompt
+# starship
+# ----------------------------------------------------------------------------
+source <(starship init ${ISHELL} --print-full-init 2&> /dev/null)
+
 
 # ----------------------------------------------------------------------------
 # finish
@@ -291,3 +360,5 @@ export ZSHRC_SET=1
 # completions / keybindings.
 # source "${XDG_CONFIG_HOME}/fzf/fzf.zsh" > /dev/null 2>&1
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export PATH="$HOME/.local/opt/pypoetry/bin:$PATH"

@@ -14,18 +14,6 @@ if [ -z "${ENV_SET+x}" ]; then
     source "${HOME}/.env" 2&> /dev/null
 fi
 
-# ----------------------------------------------------------------------------
-# PATH
-# Set this last to ensure values are not unintentionally overwritten.
-# NOTE: Tmux runs as login shell and in macos wants to run path_helper always.
-# if [ -f /etc/profile ]; then
-#    PATH=""
-#    source /etc/profile
-#fi
-
-# nix installer always complains when it sees nix in this file, so we move path
-# setting to a separate location.
-source "${XDG_CONFIG_HOME}/sh/path.sh"
 
 
 # ----------------------------------------------------------------------------

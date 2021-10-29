@@ -166,6 +166,7 @@ set lazyredraw               " don't redraw unnecessarily during macros etc.
 set nowrap                     " do not visually wrap long lines
 set linebreak                " don't break words at wrap; disabled by list
 " set list                     " show whitespace
+set listchars=tab:▷\ ,trail:·,extends:◣,precedes:◢,nbsp:○,eol:↵
 set visualbell         " flash screen instead of audio bell for alert
 " set visualbell t_vb=         " turn off visualbell effect
 set title                    " update terminal window title

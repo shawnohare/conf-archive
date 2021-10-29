@@ -12,11 +12,24 @@
 
 
 [ -e "${HOME}/.profile" ] && source "${HOME}/.profile"
+# ----------------------------------------------------------------------------
+# PATH
+# Set this last to ensure values are not unintentionally overwritten.
+# NOTE: Tmux runs as login shell and in macos wants to run path_helper always.
+# if [ -f /etc/profile ]; then
+#    PATH=""
+#    source /etc/profile
+#fi
 
-# Remove duplicate path entries. Order can get wonky though. Avoid!
-# typeset -aU path
-# path=($path)
-# export PATH
-
-
-# eval "$(direnv hook zsh)"
+# ============================================================================
+# path
+# ============================================================================
+PATH="/usr/local/bin:/usr/local/sbin:/usr/local/opt/bin:/opt/bin:${PATH}"
+PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
+PATH="${CARGO_HOME}/bin:${GOPATH}/bin:${PATH}"
+PATH="${HOME}/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/bin:${PATH}"
+PATH="${CONDA_OPT_HOME}/bin:${PYENV_ROOT}/bin:${PATH}"
+# PATH="${CONDA_OPT_HOME}/bin:${CONDA_ROOT}/condabin:${PYENV_ROOT}/bin:${PATH}"
+PATH="${XDG_BIN_HOME}:${PATH}"
+# PATH="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:${PATH}"
+export PATH
