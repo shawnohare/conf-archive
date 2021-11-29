@@ -2,6 +2,11 @@
 
 set -e pipefail
 
+echo "  Manual steps. "
+echo "  1. Remove the entry from fstab using 'sudo vifs'"
+echo "  2. Destroy the data volume using 'diskutil apfs deleteVolume'"
+echo "  3. Remove the 'nix' line from /etc/synthetic.conf or the file"
+
 if [ -f /Library/LaunchDaemons/org.nixos.nix-daemon.plist ]; then
     sudo launchctl unload /Library/LaunchDaemons/org.nixos.nix-daemon.plist
     sudo rm /Library/LaunchDaemons/org.nixos.nix-daemon.plist
@@ -44,3 +49,4 @@ sudo rm -rf /etc/nix /nix /var/root/.nix-profile /var/root/.nix-defexpr /var/roo
 #   1. Remove the entry from fstab using 'sudo vifs'
 #   2. Destroy the data volume using 'diskutil apfs deleteVolume'
 #   3. Remove the 'nix' line from /etc/synthetic.conf or the file
+
