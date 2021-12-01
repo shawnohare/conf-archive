@@ -30,7 +30,7 @@ link:
 	stash -f -t "${HOME}" home
 	# FIXME: ln -h not valid in Linux
 	rm -f "${HOME}/bin" && ln -sf "${XDG_BIN_HOME}" "${HOME}/bin"
-	rm -f "${HOME}/etc" && ln -sf "${XDG_CONFIG_HOME}" "${HOME}/etc"
+	rm -f "${HOME}/etc" && ln -sf "${HOME}/conf/home" "${HOME}/etc"
 	rm -f "${HOME}/share" && ln -sf "${XDG_DATA_HOME}" "${HOME}/share"
 	rm -f "${HOME}/opt" && ln -sf "${XDG_OPT_HOME}" "${HOME}/opt"
 	rm -f "${HOME}/src" && ln -sf "${XDG_SRC_HOME}" "${HOME}/src"
