@@ -1,189 +1,117 @@
--- Load by calling `lua require('packages')` from your init.vim
--- Many packages, especially those for neovim written in lua, support
--- configurations within packer.
---
--- ---------------------------------------------------------------------------
+---------------------------------------------------------------------------
 -- boostrap
+-- ---------------------------------------------------------------------------
+local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
-local execute = vim.api.nvim_command
-local fn = vim.fn
 
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-
-if fn.empty(fn.glob(install_path)) > 0 then
-  fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
-  execute 'packadd packer.nvim'
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  vim.fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
+  vim.api.nvim_command('packadd packer.nvim')
 end
 
 
--- ---------------------------------------------------------------------------
 -- Only required if you have packer configured as `opt`
 -- Apparently it's only loaded on require now anyway?
 -- vim.cmd [[packadd packer.nvim]]
-
+--
 return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
+  -- ------------------------------------------------------------------------
+  -- Treesitter
+  -- ------------------------------------------------------------------------
+
   use {
     'nvim-treesitter/nvim-treesitter',
-    config = function()
+   config = function()
       require('nvim-treesitter.configs').setup {
-          ensure_installed = "maintained",      -- one of "all", "maintained", "language", or a list of languages
+        ensure_installed = "maintained",      -- one of "all", "maintained", "language", or a list of languages
           highlight = {
             enable = true,
-            -- disable = { "c", "rust" },  -- list of language that will be disabled
-          },
-          -- indent = {
-          --     enable = true,
-          -- },
-          -- incremental_selection = {
-          --   enable = true,
-          --   keymaps = {
-          --     init_selection = "gnn",
-          --     node_incremental = "grn",
-          --     scope_incremental = "grc",
-          --     node_decremental = "grm",
-          --   },
-          -- },
-          -- refactor = {
-          --   highlight_definitions = {
-          --    enable = true,
-          --   },
-          -- },
-        }
+            -- disable = { "c", "rust"},  -- list of language that will be disabled
+        },
+        indent = {
+          enable = true,
+        },
+        -- incremental_selection = {
+        --   enable = true,
+        --   keymaps = {
+        --     init_selection = "gnn",
+        --     node_incremental = "grn",
+        --     scope_incremental = "grc",
+        --     node_decremental = "grm",
+        --   },
+        -- },
+        -- refactor = {
+        --   highlight_definitions = {
+        --    enable = true,
+        --  },
+        --},
+       }
     end
   }
 
-
-  -- FIXME: Checking comments too much.
-  -- use {
-  --   'lewis6991/spellsitter.nvim',
-  --   config = function()
-  --     require('spellsitter').setup({
-  --         hl = 'SpellBad',
-  --         captures = {'comment'},
-  --       })
-  --   end
-  -- }
-
   use {
-    'rafamadriz/neon',
+    'RRethy/nvim-treesitter-textsubjects',
     config = function()
-      vim.g.neon_style = "default"
-      vim.g.neon_italic_keyword = true
-      vim.g.neon_italic_function = true
+      require'nvim-treesitter.configs'.setup({
+        textsubjects = {
+          enable = true,
+          keymaps = {
+            ['.'] = 'textsubjects-smart',
+            [';'] = 'textsubjects-container-outer',
+          },
+        },
+      })
     end
   }
 
+  -- ------------------------------------------------------------------------
+  -- LSP
+  -- ------------------------------------------------------------------------
   use {
-    'kabouzeid/nvim-lspinstall',
-    -- TODO: See if we can configure which lsps get installed here.
+    'williamboman/nvim-lsp-installer',
   }
-
 
   use {
     'neovim/nvim-lspconfig',
-    -- requires = "kabouzeid/nvim-lspinstall",
+    requires = "williamboman/nvim-lsp-installer",
     config = function()
-      local lspconfig = require('lspconfig')
-      -- Use an on_attach function to only map the following keys
-      -- after the language server attaches to the current buffer
-      local on_attach = function(client, bufnr)
-          local function buf_set_keymap(...)
-            vim.api.nvim_buf_set_keymap(bufnr, ...)
-          end
-          -- local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-          --Enable completion triggered by <c-x><c-o>
-          -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-          -- Mappings.
-          -- lsp handler keys are
-          -- callHierarchy/incomingCalls
-          -- callHierarchy/outgoingCalls
-          -- textDocument/codeAction
-          -- textDocument/completion
-          -- textDocument/declaration*
-          -- textDocument/definition
-          -- textDocument/documentHighlight
-          -- textDocument/documentSymbol
-          -- textDocument/formatting
-          -- textDocument/hover
-          -- textDocument/implementation*
-          -- textDocument/publishDiagnostics
-          -- textDocument/rangeFormatting
-          -- textDocument/references
-          -- textDocument/rename
-          -- textDocument/signatureHelp
-          -- textDocument/typeDefinition*
-          -- window/logMessage
-          -- window/showMessage
-          -- window/showMessageRequest
-          -- workspace/applyEdit
-          -- workspace/symbol
-
-          -- See `:help vim.lsp.*` for documentation on any of the below functions
-          -- TODO: Define keybindings to use other packages, e.g., Trouble.
-          -- Helper packages such as lsputils and lspsaga can provide
-          -- handlers that will be used by vim.lsp.buf. Thus the keymappings
-          -- below should work with any package providing such handlers.
-          local opts = { noremap=true, silent=true }
-          buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-          buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-          buf_set_keymap('n', '<leader>el', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-          buf_set_keymap('n', '<leader>fmt', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-          buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-          buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-          buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-          buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-          buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-          buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-          buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-          buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-          buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-          buf_set_keymap('n', 'gh', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-          buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-          buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-          buf_set_keymap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-          -- lspsaga maps
-      end
-
-      local lspinstall = require('lspinstall')
-      lspinstall.setup()
-
-      -- Specific server configurations.
-      local configs = {
-        lua = {
-            settings = {
-                Lua = {
-                    diagnostics = {
-                        globals = { 'vim', 'hs' }
+      local installer = require('nvim-lsp-installer')
+      installer.on_server_ready(function(server)
+          local configs = {
+            sumneko_lua = {
+                settings = {
+                    Lua = {
+                        diagnostics = {
+                            globals = { 'vim', 'hs' }
+                        }
                     }
                 }
             }
-        }
-      }
+          }
 
-      for _, server in pairs(lspinstall.installed_servers()) do
-        local config = configs[server]
-        if config == nil then
-          config = {}
-        end
-        config.on_attach = on_attach
-        lspconfig[server].setup(config)
-      end
+          local opts = configs[server.name]
+          if opts == nil then
+            opts = {}
+          end
+
+          -- This setup() function is exactly the same as lspconfig's setup function.
+          -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+          server:setup(opts)
+          vim.cmd([[ do User LspAttach Buffers ]])
+      end)
 
       -- Disable virtual text in diagnostics.
-      vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-        vim.lsp.diagnostic.on_publish_diagnostics,
-        {
-          underline = true,
-          signs = true,
-          virtual_text = false,
-          -- signs = true,
-        }
-      )
+      -- vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+      --   vim.lsp.diagnostic.on_publish_diagnostics,
+      --   {
+      --     underline = true,
+      --     signs = true,
+      --     virtual_text = false,
+      --   }
+      -- )
 
     end
   }
@@ -200,32 +128,6 @@ return require('packer').startup(function(use)
       }
     end
   }
-
-  use {
-    'folke/lsp-colors.nvim',
-    config = function()
-      require("lsp-colors").setup({
-        Error = "#db4b4b",
-        Warning = "#e0af68",
-        Information = "#0db9d7",
-        Hint = "#10B981"
-      })
-    end
-  }
-
-  use 'folke/tokyonight.nvim'
-
-    use {
-      "folke/todo-comments.nvim",
-      requires = "nvim-lua/plenary.nvim",
-      config = function()
-        require("todo-comments").setup {
-          -- your configuration comes here
-          -- or leave it empty to use the default settings
-          -- refer to the configuration section below
-        }
-      end
-    }
 
     use {
         'hrsh7th/nvim-compe',
@@ -252,7 +154,7 @@ return require('packer').startup(function(use)
                 nvim_lua = true,
                 vsnip = true,
                 ultisnips = true,
-              },
+             },
             }
         end
     }
@@ -298,21 +200,6 @@ return require('packer').startup(function(use)
       end
   }
 
-
-  -- use {
-  --     'shaunsingh/solarized.nvim',
-  --     config = function()
-  --         vim.g.solarized_italic_comments = false
-  --         vim.g.solarized_italic_keywords = true
-  --         vim.g.solarized_italic_functions = true
-  --         vim.g.solarized_italic_variables = false
-  --         vim.g.solarized_contrast = false
-  --         vim.g.solarized_borders = false
-  --         vim.g.solarized_disable_background = false
-  --         require('solarized').set()
-  --     end
-  --   }
-  --
   use {
     'nvim-telescope/telescope-fzf-native.nvim',
     run = 'make',
@@ -330,8 +217,8 @@ return require('packer').startup(function(use)
               override_generic_sorter = true,
               override_file_sorter = true,
               case_mode = 'smart_case',
-            },
-          },
+           },
+         },
         }
         -- require('telescope').load_extension('projects')
         require('telescope').load_extension('fzf')
@@ -345,7 +232,7 @@ return require('packer').startup(function(use)
     --         '--line-number',
     --         '--column',
     --         '--smart-case'
-    --       },
+    --      },
     --       prompt_position = "bottom",
     --       prompt_prefix = "> ",
     --       selection_caret = "> ",
@@ -357,11 +244,11 @@ return require('packer').startup(function(use)
     --       layout_defaults = {
     --         horizontal = {
     --           mirror = false,
-    --         },
+    --        },
     --         vertical = {
     --           mirror = false,
-    --         },
-    --       },
+    --        },
+    --      },
     --       file_sorter =  require'telescope.sorters'.get_fuzzy_file,
     --       file_ignore_patterns = {},
     --       generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
@@ -372,10 +259,10 @@ return require('packer').startup(function(use)
     --       results_height = 1,
     --       results_width = 0.8,
     --       border = {},
-    --       borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
+    --       borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
     --       color_devicons = true,
     --       use_less = true,
-    --       set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
+    --       set_env = { ['COLORTERM'] = 'truecolor'}, -- default = nil,
     --       file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
     --       grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
     --       qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
@@ -452,32 +339,31 @@ return require('packer').startup(function(use)
     end
   }
 
+  -- use {
+  --     'glepnir/galaxyline.nvim',
+  --     branch = 'main',
+  --     config = function()
+  --         require('statusline')
+  --     end
+  -- }
+
   use {
-      'glepnir/galaxyline.nvim',
-      branch = 'main',
-      config = function()
-          require('statusline')
-      end
+    'nvim-lualine/lualine.nvim',
+    config = function()
+      -- require('lualine').setup()
+      require'lualine'.setup {
+        icons_enabled = false,
+        theme = 'auto'
+      }
+    end
   }
 
 
   use {
     'kyazdani42/nvim-tree.lua',
     requires = 'kyazdani42/nvim-web-devicons',
+
     config = function()
-        vim.g.lua_tree_side = "left"
-        vim.g.lua_tree_width = 60
-        -- vim.o.lua_tree_ignore = [".git", "node_modules", ".cache"]
-        vim.g.lua_tree_auto_open = 1  -- 0 by default, opens the tree when typing `vim $DIR` or `vim`
-        -- vim.o.lua_tree_auto_close = 1 "0 by default, closes the tree when it"s the last window
-        -- vim.o.lua_tree_follow = 1 "0 by default, this option allows the cursor to be updated when entering a buffer
-        -- vim.o.lua_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
-        -- vim.o.lua_tree_hide_dotfiles = 1 "0 by default, this option hides files and folders starting with a dot `.`
-        vim.g.lua_tree_git_hl = 1  -- 0 by default, will enable file highlight for git attributes (can be used without the icons).
-        -- vim.o.lua_tree_root_folder_modifier =  =~" "This is the default. See :help filename-modifiers for more options
-        -- vim.o.lua_tree_tab_open = 1 -- open tree when entering new tab and tree was
-        -- open
-        --
         -- vim.g.lua_tree_bindings = {
         --   edit = ["<CR>", "o"],
         --   edit_vsplit =     "<C-v>",
@@ -498,20 +384,78 @@ return require('packer').startup(function(use)
         --   next_git_item =   "]c",
         -- }
         --
-        vim.cmd([[nnoremap <silent><leader>fe :NvimTreeToggle<cr>]])
+        require('nvim-tree').setup({
+          disable_netrw       = true,
+          hijack_netrw        = true,
+          open_on_setup       = false,
+          ignore_ft_on_setup  = {},
+          auto_close          = false,
+          open_on_tab         = false,
+          hijack_cursor       = false,
+          update_cwd          = false,
+          update_to_buf_dir   = {
+            enable = true,
+            auto_open = true,
+         },
+          diagnostics = {
+            enable = false,
+            icons = {
+              hint = "",
+              info = "",
+              warning = "",
+              error = "",
+            }
+         },
+          update_focused_file = {
+            enable      = false,
+            update_cwd  = false,
+            ignore_list = {}
+         },
+          system_open = {
+            cmd  = nil,
+            args = {}
+         },
+          filters = {
+            dotfiles = false,
+            custom = {}
+         },
+          git = {
+            enable = true,
+            ignore = true,
+            timeout = 500,
+         },
+          view = {
+            width = 60,
+            height = 30,
+            hide_root_folder = false,
+            side = 'left',
+            auto_resize = false,
+            mappings = {
+              custom_only = false,
+              list = {}
+           },
+            number = false,
+            relativenumber = false
+         },
+          trash = {
+            cmd = "trash",
+            require_confirm = true
+          }
+        })
+
     end
   }
 
-  use {
-      'akinsho/nvim-bufferline.lua',
-      requires = 'kyazdani42/nvim-web-devicons',
-      config = function()
-          vim.opt.termguicolors = true
-          require('bufferline').setup {
-              diagnostics = 'nvim_lsp',
-          }
-      end
-  }
+  -- use {
+  --     'akinsho/nvim-bufferline.lua',
+  --     requires = 'kyazdani42/nvim-web-devicons',
+  --     config = function()
+  --         vim.opt.termguicolors = true
+  --         require('bufferline').setup {
+  --             diagnostics = 'nvim_lsp',
+  --         }
+  --     end
+  -- }
 
   use {
       'folke/which-key.nvim',
@@ -520,73 +464,159 @@ return require('packer').startup(function(use)
       end
   }
 
-  use {
-    'sheerun/vim-polyglot',
-    config = function()
-        -- - polyglot includes LaTeX-box, which is incompatible with vimtex.
-        -- - 2109-04-05: polyglot includes old pgsql syntax, use lifepillar's.
-        --   Confer https://github.com/sheerun/vim-polyglot/issues/391
-        --   But, using polyglot with pgsql leads to no highlighting. Removing polyglot
-        --   from the packpath solves this.
-        vim.g.polyglot_disabled = {'latex', 'pgsql'}
-    end
-  }
+  -- use {
+  --   'sheerun/vim-polyglot',
+  --   config = function()
+  --       -- - polyglot includes LaTeX-box, which is incompatible with vimtex.
+  --       -- - 2109-04-05: polyglot includes old pgsql syntax, use lifepillar's.
+  --       --   Confer https://github.com/sheerun/vim-polyglot/issues/391
+  --       --   But, using polyglot with pgsql leads to no highlighting. Removing polyglot
+  --       --   from the packpath solves this.
+  --       -- vim.g.polyglot_disabled = {'latex', 'pgsql'}
+  --   end
+  -- }
 
+  -- -------------------------------------------------------------------------
   -- key remmaping
+  -- TODO:We could probably just write our own that loops through a dict.
+  -- -------------------------------------------------------------------------
   use {
     'LionC/nest.nvim',
     config = function()
       local nest = require('nest')
 
-      nest.applyKeymaps {
-          -- Remove silent from ; : mapping, so that : shows up in command mode
-          -- { ';', ':' , options = { silent = false } },
-          -- { ':', ';' },
-
-          { '<leader>', {
-              -- Finding
-              { 'f', {
-                  { 'f', '<Cmd>Telescope find_files<CR>' },
-                  { 'l', '<Cmd>Telescope live_grep<CR>' },
-                  { 'g', {
-                      { 'b', '<Cmd>Telescope git_branches<CR>' },
-                      { 'c', '<Cmd>Telescope git_commits<CR>' },
-                      { 's', '<Cmd>Telescope git_status<CR>' },
-                  }},
-              }},
-
-              -- LSP.
-              { 'l', {
-                  { 'c', '<Cmd>lua vim.lsp.buf.code_actions()<CR>' },
-                  { 'r', '<Cmd>lua vim.lsp.buf.rename()<CR>' },
-                  { 's', '<Cmd>lua vim.lsp.buf.signature_help()<CR>' },
-                  { 'h', '<Cmd>lua vim.lsp.buf.hover()<CR>' },
-              }},
-
-              -- Package management.
-              { 'p', {
-                  { 's', '<Cmd>PackerSync'},
-               }},
+      nest.applyKeymaps({
+        -- Remove silent from ; : mapping, so that : shows up in command mode
+        -- { ';', ':' , options = { silent = false }},
+        -- { ':', ';'},
+        {
+          '<leader>',
+          {
+            -- quit buffer
+            {'qb', '<cmd>:q<CR>'},
+            {'qwa', '<cmd>qwa<CR>'},
+            {'w', '<cmd>w<CR>'},
+            -- finding
+            {
+              'f',
+              {
+                {'e', '<Cmd>NvimTreeToggle<CR>'},
+                {'b', '<Cmd>Telescope buffers<CR>'},
+                {'f', '<Cmd>Telescope find_files<CR>'},
+                {'l', '<Cmd>Telescope live_grep<CR>'},
+                {'g', {
+                  {'b', '<Cmd>Telescope git_branches<CR>'},
+                  {'c', '<Cmd>Telescope git_commits<CR>'},
+                  {'s', '<Cmd>Telescope git_status<CR>'},
+                  }
+                },
               },
+            },
+            -- language servers.
+            -- callHierarchy/incomingCalls
+            -- callHierarchy/outgoingCalls
+            -- textDocument/codeAction
+            -- textDocument/completion
+            -- textDocument/declaration*
+            -- textDocument/definition
+            -- textDocument/documentHighlight
+            -- textDocument/documentSymbol
+            -- textDocument/formatting
+            -- textDocument/hover
+            -- textDocument/implementation*
+            -- textDocument/publishDiagnostics
+            -- textDocument/rangeFormatting
+            -- textDocument/references
+            -- textDocument/rename
+            -- textDocument/signatureHelp
+            -- textDocument/typeDefinition*
+            -- window/logMessage
+            -- window/showMessage
+            -- window/showMessageRequest
+            -- workspace/applyEdit
+            -- workspace/symbol
+            {
+              'l',
+              {
+                {'a', '<cmd>lua vim.lsp.buf.code_action()<CR>'},
+                {'s', '<Cmd>lua vim.lsp.buf.signature_help()<CR>'},
+                {'h', '<Cmd>lua vim.lsp.buf.hover()<CR>'},
+                -- diagnostics
+                {
+                  'd',
+                  {
+                    {'l', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>'},
+                    {'n', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>'},
+                    {'p', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>'},
+                    {'q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>'},
+
+                  },
+                },
+                -- movement
+                {
+                  'g',
+                  {
+                    {'D', '<Cmd>lua vim.lsp.buf.declaration()<CR>'},
+                    {'d', '<Cmd>lua vim.lsp.buf.definition()<CR>'},
+                    {'h', '<cmd>lua vim.lsp.buf.references()<CR>'},
+                    {'i', '<cmd>lua vim.lsp.buf.implementation()<CR>'},
+                    {'r', '<cmd>lua vim.lsp.buf.rename()<CR>'},
+                    {'s', '<cmd>lua vim.lsp.buf.signature_help()<CR>'},
+                    {'t', '<cmd>lua vim.lsp.buf.type_definition()<CR>'},
+
+                  },
+                },
+                -- refactoring
+                {
+                  'r',
+                  {
+                    {'r', '<Cmd>lua vim.lsp.buf.rename()<CR>'},
+                    {'f', '<cmd>lua vim.lsp.buf.formatting()<CR>'},
+                  },
+                },
+                -- workspace
+                {
+                  'w',
+                  {
+                    {'a', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>'},
+                    {'l', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>'},
+                    {'r', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>'},
+                    {'s', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>'},
+                  },
+                },
+              },
+            },
+            -- Package management.
+            {
+              'pkg',
+              {
+                {'c', '<Cmd>PackerCompile<CR>'},
+                {'i', '<Cmd>PackerInstall<CR>'},
+                {'s', '<Cmd>PackerSync<CR>'},
+              },
+            },
           },
-
-          -- Use insert mode for all nested keymaps
-          { mode = 'i', {
-
-              -- Set <expr> option for all nested keymaps
-              { options = { expr = true }, {
-                  { "<CR>",       "compe#confirm('<CR>')" },
+        },
+        -- Use insert mode for all nested keymaps
+        {
+          mode = 'i',
+          {
+            -- Set <expr> option for all nested keymaps
+            {
+              options = {expr = true},
+              {
+                {"<CR>",       "compe#confirm('<CR>')"},
                   -- This is equivalent to viml `inoremap <C-Space> <expr>compe#complete()`
-                  { "<C-Space>",  "compe#complete()" },
-              }},
+                {"<C-Space>",  "compe#complete()"},
+              },
+            },
+            {"<C-h>", "<left>"},
+            {"<C-l>", "<right>"},
+            {"<C-o>", "<Esc>o"},
 
-              -- { '<C-', {
-              --     { 'h>', '<left>' },
-              --     { 'l>', '<right>' },
-              --     { 'o>', '<Esc>o' },
-              -- }},
-          }},
-      }
+          },
+        },
+      })
     end
   }
 
@@ -600,41 +630,153 @@ return require('packer').startup(function(use)
   --   end
   -- }
 
-  -- TODO: Determine if we should use this plugin.
-  -- Not generally pleased with many of the interface choices.
-  -- use {
-  --     'glepnir/lspsaga.nvim',
-  --     requires = 'neovim/nvim-lspconfig',
-  --     config = function()
-  --         local saga = require('lspsaga')
-  --         saga.init_lsp_saga()
-  --         vim.lsp.handlers['textDocument/codeAction'] = require('lspsaga.codeaction').code_action_handler
-  --         -- vim.lsp.handlers['textDocument/definition'] = require('lspsaga.provider').preview_definition
-  --         -- vim.lsp.handlers['textDocument/hover'] = require('lspsaga.hover').render_hover_doc
-  --         -- vim.lsp.handlers['textDocument/references'] = require('lspsaga.provider').lsp_finder
-  --         vim.lsp.handlers['textDocument/rename'] = require('lspsaga.rename').rename
-  --         vim.lsp.handlers['textDocument/signatureHelp'] = require('lspsaga.signaturehelp').signature_help
-  --         -- scroll down hover doc or scroll in definition preview
-  --         vim.cmd([[nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>]])
-  --         vim.cmd([[nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>]])
-  --     end
-  -- }
+  -- ------------------------------------------------------------------------
+  -- themes, colorschemes
+  -- ------------------------------------------------------------------------
+  use {
+    'olimorris/onedarkpro.nvim',
 
-  -- TODO: Determine if we should use this plugin.
-  -- use {
-  --     'RishabhRD/nvim-lsputils',
-  --     requires = 'RishabhRD/popfix',
-  --     config = function()
-  --         vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
-  --         vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
-  --         vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
-  --         vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
-  --         vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
-  --         vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
-  --         vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
-  --         vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
-  --     end
-  -- }
+    -- config = function ()
+    --   require('onedarkpro').load()
+    -- end
+    config = function()
+      local onedarkpro = require('onedarkpro')
+      onedarkpro.setup({
+        -- theme = function(), -- Override with "onedark" or "onelight". Alternatively, remove the option and the theme uses `vim.o.background` to determine
+        colors = {}, -- Override default colors. Can specify colors for "onelight" or "onedark" themes
+        hlgroups = {}, -- Override default highlight groups
+        styles = {
+            strings = "NONE", -- Style that is applied to strings
+            comments = "NONE", -- Style that is applied to comments
+            keywords = "bold", -- Style that is applied to keywords
+            functions = "italic", -- Style that is applied to functions
+            variables = "NONE", -- Style that is applied to variables
+       },
+        options = {
+            bold = true, -- Use the themes opinionated bold styles?
+            italic = true, -- Use the themes opinionated italic styles?
+            underline = true, -- Use the themes opinionated underline styles?
+            undercurl = true, -- Use the themes opinionated undercurl styles?
+            cursorline = false, -- Use cursorline highlighting?
+            transparency = false, -- Use a transparent background?
+            terminal_colors = false, -- Use the theme's colors for Neovim's :terminal?
+            window_unfocussed_color = false, -- When the window is out of focus, change the normal background?
+        }
+      })
+      -- onedarkpro.load()
+    end
+  }
+
+  use {
+    'projekt0n/github-nvim-theme',
+    after = "lualine.nvim",
+    config = function()
+      -- require('github-theme').setup({
+      --     theme_style = "dark",
+      --     comment_style = "italic",
+      --     function_style = "NONE",
+      --     keyword_style = "bold",
+      --     sidebars = { "qf", "vista_kind", "terminal", "packer"},
+      --   })
+    end
+  }
+
+  use {
+    'catppuccin/nvim',
+    config = function()
+      local catppuccin = require("catppuccin")
+      catppuccin.setup(
+          {
+              transparent_background = false,
+              term_colors = false,
+              styles = {
+                  comments = "italic",
+                  functions = "italic",
+                  keywords = "italic",
+                  strings = "NONE",
+                  variables = "NONE",
+             },
+              integrations = {
+                  treesitter = true,
+                  native_lsp = {
+                      enabled = true,
+                      virtual_text = {
+                          errors = "italic",
+                          hints = "italic",
+                          warnings = "italic",
+                          information = "italic",
+                     },
+                      underlines = {
+                          errors = "underline",
+                          hints = "underline",
+                          warnings = "underline",
+                          information = "underline",
+                     },
+                 },
+                  lsp_trouble = true,
+                  lsp_saga = false,
+                  gitgutter = false,
+                  gitsigns = false,
+                  telescope = true,
+                  nvimtree = {
+                      enabled = true,
+                      show_root = false,
+                 },
+                  which_key = true,
+                  indent_blankline = {
+                      enabled = true,
+                      colored_indent_levels = true,
+                 },
+                  dashboard = false,
+                  neogit = false,
+                  vim_sneak = false,
+                  fern = false,
+                  barbar = false,
+                  bufferline = false,
+                  markdown = true,
+                  lightspeed = false,
+                  ts_rainbow = false,
+                  hop = false,
+             },
+          }
+      )
+    end
+
+  }
+
+  use {
+    'rafamadriz/neon',
+    config = function()
+      vim.g.neon_style = "default"
+      vim.g.neon_italic_keyword = true
+      vim.g.neon_italic_function = true
+    end
+  }
+
+  use 'folke/tokyonight.nvim'
+
+  use {
+    'folke/lsp-colors.nvim',
+    config = function()
+      require("lsp-colors").setup({
+        Error = "#db4b4b",
+        Warning = "#e0af68",
+        Information = "#0db9d7",
+        Hint = "#10B981"
+      })
+    end
+  }
+
+
+  use {
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    config = function()
+      require("todo-comments").setup {
+      }
+    end
+  }
+
 
 
 

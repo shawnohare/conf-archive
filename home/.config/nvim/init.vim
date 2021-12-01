@@ -61,7 +61,7 @@ set autochdir
 "   Confer https://github.com/sheerun/vim-polyglot/issues/391
 "   But, using polyglot with pgsql leads to no highlighting. Removing polyglot
 "   from the packpath solves this.
-" let g:polyglot_disabled = ['latex', 'pgsql']
+let g:polyglot_disabled = ['latex', 'pgsql']
 
 " Can use autocmd in your ~/.config/nvim/filetype.vim
 " to enable pgsql filetype for all it for all .sql files or some finer pattern:
@@ -262,26 +262,26 @@ set smartcase
 
 " ===========================================================================
 " STATUSLINE
-" if !g:initialized
-"     set laststatus=2        " Always display statusline.
-"     " set paste is obsolete in neovim
-"     " set statusline+=%(%)%#ModeMsg#%{&paste?'\ PASTE\ ':''}%*  " paste mode
-"     set statusline+=%{mode()}\ \| " Current mode.
-"     set statusline+=\ b:\%n\ \| " Buffer number.
-"     set statusline+=\ %F\ \| "tail of the filename if f or full path if F
-"     " set statusline+=%{fugitive#statusline()}  " git branch
-"     set statusline+=%=              " left/right separator
-"     set statusline+=%{&fenc}\ \|\        " file encoding
-"     set statusline+=%{&ff}\ \|\           "file format
-"     set statusline+=%h              " help file flag
-"     set statusline+=%m              " modified flag
-"     set statusline+=%w              " preview windowflag: [Preview]
-"     set statusline+=%r              " read only flag
-"     set statusline+=%y\ \|\          " filetype
-"     set statusline+=%p%%\ %l:%c " % through file : line num: column num
-"     set statusline+=%#warningmsg#
-"     set statusline+=%*
-" endif
+if !g:initialized
+    set laststatus=2        " Always display statusline.
+    " set paste is obsolete in neovim
+    " set statusline+=%(%)%#ModeMsg#%{&paste?'\ PASTE\ ':''}%*  " paste mode
+    set statusline+=%{mode()}\ \| " Current mode.
+    set statusline+=\ b:\%n\ \| " Buffer number.
+    set statusline+=\ %F\ \| "tail of the filename if f or full path if F
+    " set statusline+=%{fugitive#statusline()}  " git branch
+    set statusline+=%=              " left/right separator
+    set statusline+=%{&fenc}\ \|\        " file encoding
+    set statusline+=%{&ff}\ \|\           "file format
+    set statusline+=%h              " help file flag
+    set statusline+=%m              " modified flag
+    set statusline+=%w              " preview windowflag: [Preview]
+    set statusline+=%r              " read only flag
+    set statusline+=%y\ \|\          " filetype
+    set statusline+=%p%%\ %l:%c " % through file : line num: column num
+    set statusline+=%#warningmsg#
+    set statusline+=%*
+endif
 "
 " --------------------------------------------------------------------------
 
