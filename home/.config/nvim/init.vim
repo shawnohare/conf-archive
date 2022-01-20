@@ -171,7 +171,7 @@ set visualbell         " flash screen instead of audio bell for alert
 " set visualbell t_vb=         " turn off visualbell effect
 set title                    " update terminal window title
 set shortmess+=A       " don't show warning for existing swapfiles
-set signcolumn="yes"
+" set signcolumn="yes"
 
 
 " --------------------------------------------------------------------------
@@ -180,11 +180,11 @@ set termguicolors
 set background=dark
 
 try
-    colorscheme sim
+    colorscheme hadalized
 catch /^Vim\%((\a\+)\)\=:E185/
     echom "Could not find colorscheme."
-    set notermguicolors
-    set noguicursor
+    " set notermguicolors
+    " set noguicursor
     colorscheme desert
 endtry
 
