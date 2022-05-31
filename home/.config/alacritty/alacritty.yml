@@ -54,7 +54,7 @@ font:
     style: Bold Italic
 
   # Point size
-  size: 12.0
+  size: 14.0
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
@@ -89,11 +89,12 @@ font:
 draw_bold_text_with_bright_colors: false
 
 
-# Sim (Solarized Improved)
 colors:
   primary:
-    background: '0x002b36' # base03
-    foreground: '0x839496' # base0
+    # background: '0x002b36' # base03
+    # foreground: '0x839496' # base0
+    background: '#00141b'
+    foreground: '#b4babc'
 
     # Bright and dim foreground colors
 
@@ -112,26 +113,54 @@ colors:
   #  cursor: '0xffffff'
 
   # Normal colors
+  # - solarizedish colors below
+  # normal:
+  #   black:   '0x073642' # base02
+  #   red:     '0xdc322f' # red
+  #   green:   '0x859900' # green
+  #   yellow:  '0xb58900' # yellow
+  #   blue:    '0x268bd2' # blue
+  #   magenta: '0xd33682' # magenta
+  #   cyan:    '0x2aa198' # cyan
+  #   white:   '0x93a1a1' # base1
   normal:
-    black:   '0x073642' # base02
-    red:     '0xdc322f' # red
-    green:   '0x859900' # green
-    yellow:  '0xb58900' # yellow
-    blue:    '0x268bd2' # blue
-    magenta: '0xd33682' # magenta
-    cyan:    '0x2aa198' # cyan
-    white:   '0x93a1a1' # base1
+    black: '#001f28'
+    red: '#ff3b41'
+    # orange: '#da7000'
+    yellow: '#979700'
+    green:  '#6ca500'
+    # spring: '#00ad63'
+    cyan: '#00a79a'
+    blue:   '#0098ee'
+    # violet: '#9374ff'
+    magenta: '#eb00e4'
+    # cerise: '#f900b7'
+    # rose: '#ff1f8b'
+    white: '#e0e3e4'
 
   # Bright colors
   bright:
-    black:   '0x586e75' # base01
-    red:     '0xcb4b16' # orange
-    green:   '0x859900' # green
-    yellow:  '0xb58900' # yellow
-    blue:    '0x268bd2' # blue
-    magenta: '0x6c71c4' # violet
-    cyan:    '0x2aa198' # cyan
-    white:   '0xeee8d5' # base2
+    # solarizedish colors below
+    # black:   '0x586e75' # base01
+    # red:     '0xcb4b16' # orange
+    # green:   '0x859900' # green
+    # yellow:  '0xb58900' # yellow
+    # blue:    '0x268bd2' # blue
+    # magenta: '0x6c71c4' # violet
+    # cyan:    '0x2aa198' # cyan
+    # white:   '0xeee8d5' # base2
+    # hadalized colors below
+    red: '#ff9890'
+    # orange: '#ff9e57'
+    yellow: '#c1c100'
+    green: '#8ad200'
+    # spring:  '#00dc7f'
+    cyan: '#00d5c5'
+    blue: '#75c1ff'
+    # violet: '#b8acff'
+    magenta: '#ff82f6'
+    # cerise: '#ff8cd0'
+    # rose: '#ff92b5'
 
   # Dim colors
   #

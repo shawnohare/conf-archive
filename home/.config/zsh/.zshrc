@@ -338,13 +338,15 @@ setopt notify
 # source "${XDG_DATA_HOME}/conda/init.${ISHELL}" 2&> /dev/null
 
 source <(conda shell.${ISHELL} hook 2&> /dev/null)
-source <(pyenv init - --no-rehash ${ISHELL} 2&> /dev/null)
+source "${MAMBA_ROOT_PREFIX}/etc/profile.d/mamba.sh" 2&> /dev/null
 
-# pyenv init script always prepends shims to path.
 # conda init does not seem to do this if an env is already activated.
 if [ ! -z "${CONDA_PREFIX+x}" ]; then
     export PATH="${CONDA_PREFIX}/bin:$PATH"
 fi
+
+# pyenv init script always prepends shims to path.
+source <(pyenv init - --no-rehash ${ISHELL} 2&> /dev/null)
 
 # ----------------------------------------------------------------------------
 # starship
@@ -361,4 +363,5 @@ export ZSHRC_SET=1
 # source "${XDG_CONFIG_HOME}/fzf/fzf.zsh" > /dev/null 2>&1
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export PATH="$HOME/.local/opt/pypoetry/bin:$PATH"
+# export PATH="$HOME/.local/opt/pypoetry/bin:$PATH"
+

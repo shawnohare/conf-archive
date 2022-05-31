@@ -16,6 +16,7 @@ return require("packer").startup(
     function(use)
         -- Packer can manage itself
         use "wbthomason/packer.nvim"
+
         -- use {
         --     "lukas-reineke/indent-blankline.nvim",
         --     config = function()
@@ -38,14 +39,16 @@ return require("packer").startup(
             "nvim-treesitter/nvim-treesitter",
             config = function()
                 require("nvim-treesitter.configs").setup {
-                    ensure_installed = "maintained", -- one of "all", "maintained", "language", or a list of languages
+                    ensure_installed = "all", -- one of "all", "language", or a list of languages
                     highlight = {
                         enable = true
                         -- disable = { "c", "rust"},  -- list of language that will be disabled
-                    }
-                    -- indent = {
-                    --   enable = true,
-                    -- },
+                    },
+                    indent = {
+                      enable = true,
+                      -- disable = {"python"},
+                      -- disable = {'yaml'},
+                    },
                     -- incremental_selection = {
                     --   enable = true,
                     --   keymaps = {
@@ -64,22 +67,22 @@ return require("packer").startup(
             end
         }
 
-        use {
-            "RRethy/nvim-treesitter-textsubjects",
-            config = function()
-                require "nvim-treesitter.configs".setup(
-                    {
-                        textsubjects = {
-                            enable = true,
-                            keymaps = {
-                                ["."] = "textsubjects-smart",
-                                [";"] = "textsubjects-container-outer"
-                            }
-                        }
-                    }
-                )
-            end
-        }
+        --use {
+        --    "RRethy/nvim-treesitter-textsubjects",
+        --    config = function()
+        --        require "nvim-treesitter.configs".setup(
+        --            {
+        --                textsubjects = {
+        --                    enable = true,
+        --                    keymaps = {
+        --                        ["."] = "textsubjects-smart",
+        --                        [";"] = "textsubjects-container-outer"
+        --                    }
+        --                }
+        --            }
+        --        )
+        --    end
+        --}
 
         -- ------------------------------------------------------------------------
         -- LSP
@@ -663,40 +666,40 @@ return require("packer").startup(
             "rktjmp/lush.nvim"
         }
 
-        use {
-            "olimorris/onedarkpro.nvim",
-            -- config = function ()
-            --   require('onedarkpro').load()
-            -- end
-            config = function()
-                local onedarkpro = require("onedarkpro")
-                onedarkpro.setup(
-                    {
-                        -- theme = function(), -- Override with "onedark" or "onelight". Alternatively, remove the option and the theme uses `vim.o.background` to determine
-                        colors = {}, -- Override default colors. Can specify colors for "onelight" or "onedark" themes
-                        hlgroups = {}, -- Override default highlight groups
-                        styles = {
-                            strings = "NONE", -- Style that is applied to strings
-                            comments = "NONE", -- Style that is applied to comments
-                            keywords = "bold", -- Style that is applied to keywords
-                            functions = "italic", -- Style that is applied to functions
-                            variables = "NONE" -- Style that is applied to variables
-                        },
-                        options = {
-                            bold = true, -- Use the themes opinionated bold styles?
-                            italic = true, -- Use the themes opinionated italic styles?
-                            underline = true, -- Use the themes opinionated underline styles?
-                            undercurl = true, -- Use the themes opinionated undercurl styles?
-                            cursorline = false, -- Use cursorline highlighting?
-                            transparency = false, -- Use a transparent background?
-                            terminal_colors = false, -- Use the theme's colors for Neovim's :terminal?
-                            window_unfocussed_color = false -- When the window is out of focus, change the normal background?
-                        }
-                    }
-                )
-                -- onedarkpro.load()
-            end
-        }
+        -- use {
+        --     "olimorris/onedarkpro.nvim",
+        --     -- config = function ()
+        --     --   require('onedarkpro').load()
+        --     -- end
+        --     config = function()
+        --         local onedarkpro = require("onedarkpro")
+        --         onedarkpro.setup(
+        --             {
+        --                 -- theme = function(), -- Override with "onedark" or "onelight". Alternatively, remove the option and the theme uses `vim.o.background` to determine
+        --                 colors = {}, -- Override default colors. Can specify colors for "onelight" or "onedark" themes
+        --                 hlgroups = {}, -- Override default highlight groups
+        --                 styles = {
+        --                     strings = "NONE", -- Style that is applied to strings
+        --                     comments = "NONE", -- Style that is applied to comments
+        --                     keywords = "bold", -- Style that is applied to keywords
+        --                     functions = "italic", -- Style that is applied to functions
+        --                     variables = "NONE" -- Style that is applied to variables
+        --                 },
+        --                 options = {
+        --                     bold = true, -- Use the themes opinionated bold styles?
+        --                     italic = true, -- Use the themes opinionated italic styles?
+        --                     underline = true, -- Use the themes opinionated underline styles?
+        --                     undercurl = true, -- Use the themes opinionated undercurl styles?
+        --                     cursorline = false, -- Use cursorline highlighting?
+        --                     transparency = false, -- Use a transparent background?
+        --                     terminal_colors = false, -- Use the theme's colors for Neovim's :terminal?
+        --                     window_unfocussed_color = false -- When the window is out of focus, change the normal background?
+        --                 }
+        --             }
+        --         )
+        --         -- onedarkpro.load()
+        --     end
+        -- }
 
         -- use {
         --     "projekt0n/github-nvim-theme",
@@ -712,92 +715,92 @@ return require("packer").startup(
         --     end
         -- }
 
-        use {
-            "catppuccin/nvim",
-            config = function()
-                local catppuccin = require("catppuccin")
-                catppuccin.setup(
-                    {
-                        transparent_background = false,
-                        term_colors = false,
-                        styles = {
-                            comments = "italic",
-                            functions = "italic",
-                            keywords = "italic",
-                            strings = "NONE",
-                            variables = "NONE"
-                        },
-                        integrations = {
-                            treesitter = true,
-                            native_lsp = {
-                                enabled = true,
-                                virtual_text = {
-                                    errors = "italic",
-                                    hints = "italic",
-                                    warnings = "italic",
-                                    information = "italic"
-                                },
-                                underlines = {
-                                    errors = "underline",
-                                    hints = "underline",
-                                    warnings = "underline",
-                                    information = "underline"
-                                }
-                            },
-                            lsp_trouble = true,
-                            lsp_saga = false,
-                            gitgutter = false,
-                            gitsigns = false,
-                            telescope = true,
-                            nvimtree = {
-                                enabled = true,
-                                show_root = false
-                            },
-                            which_key = true,
-                            indent_blankline = {
-                                enabled = true,
-                                colored_indent_levels = true
-                            },
-                            dashboard = false,
-                            neogit = false,
-                            vim_sneak = false,
-                            fern = false,
-                            barbar = false,
-                            bufferline = false,
-                            markdown = true,
-                            lightspeed = false,
-                            ts_rainbow = false,
-                            hop = false
-                        }
-                    }
-                )
-            end
-        }
+        -- use {
+        --     "catppuccin/nvim",
+        --     config = function()
+        --         local catppuccin = require("catppuccin")
+        --         catppuccin.setup(
+        --             {
+        --                 transparent_background = false,
+        --                 term_colors = false,
+        --                 styles = {
+        --                     comments = "italic",
+        --                     functions = "italic",
+        --                     keywords = "italic",
+        --                     strings = "NONE",
+        --                     variables = "NONE"
+        --                 },
+        --                 integrations = {
+        --                     treesitter = true,
+        --                     native_lsp = {
+        --                         enabled = true,
+        --                         virtual_text = {
+        --                             errors = "italic",
+        --                             hints = "italic",
+        --                             warnings = "italic",
+        --                             information = "italic"
+        --                         },
+        --                         underlines = {
+        --                             errors = "underline",
+        --                             hints = "underline",
+        --                             warnings = "underline",
+        --                             information = "underline"
+        --                         }
+        --                     },
+        --                     lsp_trouble = true,
+        --                     lsp_saga = false,
+        --                     gitgutter = false,
+        --                     gitsigns = false,
+        --                     telescope = true,
+        --                     nvimtree = {
+        --                         enabled = true,
+        --                         show_root = false
+        --                     },
+        --                     which_key = true,
+        --                     indent_blankline = {
+        --                         enabled = true,
+        --                         colored_indent_levels = true
+        --                     },
+        --                     dashboard = false,
+        --                     neogit = false,
+        --                     vim_sneak = false,
+        --                     fern = false,
+        --                     barbar = false,
+        --                     bufferline = false,
+        --                     markdown = true,
+        --                     lightspeed = false,
+        --                     ts_rainbow = false,
+        --                     hop = false
+        --                 }
+        --             }
+        --         )
+        --     end
+        -- }
 
-        use {
-            "rafamadriz/neon",
-            config = function()
-                vim.g.neon_style = "default"
-                vim.g.neon_italic_keyword = true
-                vim.g.neon_italic_function = true
-            end
-        }
+        -- use {
+        --     "rafamadriz/neon",
+        --     config = function()
+        --         vim.g.neon_style = "default"
+        --         vim.g.neon_italic_keyword = true
+        --         vim.g.neon_italic_function = true
+        --     end
+        -- }
 
-        use "folke/tokyonight.nvim"
+        -- use "folke/tokyonight.nvim"
 
-        use {
-            "folke/lsp-colors.nvim",
-            config = function()
-                require("lsp-colors").setup(
-                    {
-                        Error = "#db4b4b",
-                        Warning = "#e0af68",
-                        Information = "#0db9d7",
-                        Hint = "#10B981"
-                    }
-                )
-            end
-        }
+        -- use {
+        --     "folke/lsp-colors.nvim",
+        --     config = function()
+        --         require("lsp-colors").setup(
+        --             {
+        --                 Error = "#db4b4b",
+        --                 Warning = "#e0af68",
+        --                 Information = "#0db9d7",
+        --                 Hint = "#10B981"
+        --             }
+        --         )
+        --     end
+        -- }
 
         -- TODO:
         -- NOTE: Want to like this, but can't disable highlights.

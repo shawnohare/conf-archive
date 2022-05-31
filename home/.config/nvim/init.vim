@@ -221,13 +221,14 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " #inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
+" FIXME(indent): Possible python indent bug.
 " nvim-compe
-inoremap <silent><expr> <C-Space> compe#complete()
-" <CR> already handled by autoparing package?
-" inoremap <silent><expr> <CR>      compe#confirm('<CR>')
-inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+" inoremap <silent><expr> <C-Space> compe#complete()
+" " <CR> already handled by autoparing package?
+" " inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+" inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+" inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+" inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 
 
 " These commands will navigate through buffers in order regardless of which
@@ -251,6 +252,7 @@ set expandtab  " <Tab> converted to softtabstop # spaces
 set softtabstop=4 " number of spaces <Tab> converted to
 set tabstop=4  " number of visual spaces per <Tab> character
 set shiftwidth=4 " <Tab> converts to this # spaces at beginning of line
+" set autoindent
 " set smartindent " dumbindent?
 " set cindent " also dumb?
 filetype indent on
