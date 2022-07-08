@@ -11,25 +11,19 @@ end
 -- Only required if you have packer configured as `opt`
 -- Apparently it's only loaded on require now anyway?
 -- vim.cmd [[packadd packer.nvim]]
---
+-- ret
 return require("packer").startup(
     function(use)
         -- Packer can manage itself
         use "wbthomason/packer.nvim"
 
-        -- use {
-        --     "lukas-reineke/indent-blankline.nvim",
-        --     config = function()
-        --         require("indent_blankline").setup {
-        --             -- for example, context is off by default, use this to turn it on
-        --             show_current_context = true,
-        --             show_current_context_start = true,
-        --         }
-        --     end
-
-        -- }
-
-        use "shawnohare/hadalized.nvim"
+        -- colorscheme
+        use {
+            "shawnohare/hadalized.nvim",
+            requires = {
+                "rktjmp/lush.nvim",
+            }
+        }
 
         -- ------------------------------------------------------------------------
         -- Treesitter
@@ -46,7 +40,7 @@ return require("packer").startup(
                     },
                     indent = {
                       enable = true,
-                      -- disable = {"python"},
+                      disable = {"python"},
                       -- disable = {'yaml'},
                     },
                     -- incremental_selection = {
@@ -67,61 +61,125 @@ return require("packer").startup(
             end
         }
 
-        --use {
-        --    "RRethy/nvim-treesitter-textsubjects",
-        --    config = function()
-        --        require "nvim-treesitter.configs".setup(
-        --            {
-        --                textsubjects = {
-        --                    enable = true,
-        --                    keymaps = {
-        --                        ["."] = "textsubjects-smart",
-        --                        [";"] = "textsubjects-container-outer"
-        --                    }
-        --                }
-        --            }
-        --        )
-        --    end
-        --}
+        use {
+            'windwp/nvim-autopairs',
+            config = function()
+                require("nvim-autopairs").setup({})
+            end
+
+        }
+
+        use {
+            'hrsh7th/nvim-cmp',
+            requires = {
+                'hrsh7th/cmp-nvim-lua',
+                'hrsh7th/cmp-nvim-lsp',
+                'hrsh7th/cmp-buffer',
+                'hrsh7th/cmp-path',
+                'hrsh7th/cmp-cmdline',
+                'saadparwaiz1/cmp_luasnip',
+                'petertriho/cmp-git',
+                "onsails/lspkind-nvim",
+            },
+            config = function()
+                local cmp = require("cmp")
+                local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+                local lspkind = require("lspkind")
+
+                cmp.setup({
+                    formatting = {
+                        format = lspkind.cmp_format({
+                            mode = "symbol_text",
+                            -- preset = 'codicons'
+                            -- Can add more control.
+                            before = function(entry, vim_item)
+                                return vim_item
+                            end
+
+                        })
+                    },
+                    snippet = {
+                      -- REQUIRED - you must specify a snippet engine
+                      expand = function(args)
+                        -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+                        require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+                        -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+                        -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+                      end,
+                    },
+                    window = {
+                      completion = cmp.config.window.bordered(),
+                      documentation = cmp.config.window.bordered(),
+                    },
+                    mapping = cmp.mapping.preset.insert({
+                      -- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+                      -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                      ['<C-Space>'] = cmp.mapping.complete(),
+                      ['<C-e>'] = cmp.mapping.abort(),
+                      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+                    }),
+                    sources = cmp.config.sources({
+                      { name = 'nvim_lsp' },
+                      { name = 'nvim_lua' },
+                      -- { name = 'vsnip' }, -- For vsnip users.
+                      { name = 'luasnip' }, -- For luasnip users.
+                      -- { name = 'ultisnips' }, -- For ultisnips users.
+                      -- { name = 'snippy' }, -- For snippy users.
+                    }, {
+                      { name = 'buffer' },
+                    })
+                  })
+
+                  -- Set configuration for specific filetype.
+                  cmp.setup.filetype('gitcommit', {
+                    sources = cmp.config.sources({
+                      { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+                    }, {
+                      { name = 'buffer' },
+                    })
+                  })
+
+                  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+                  cmp.setup.cmdline('/', {
+                    mapping = cmp.mapping.preset.cmdline(),
+                    sources = {
+                      { name = 'buffer' }
+                    }
+                  })
+
+                  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+                  cmp.setup.cmdline(':', {
+                    mapping = cmp.mapping.preset.cmdline(),
+                    sources = cmp.config.sources({
+                      { name = 'path' }
+                    }, {
+                      { name = 'cmdline' }
+                    })
+                  })
+
+                  cmp.event:on(
+                    'confirm_done',
+                    cmp_autopairs.on_confirm_done()
+                  )
+            end
+        }
+
 
         -- ------------------------------------------------------------------------
         -- LSP
         -- ------------------------------------------------------------------------
-        use {
-            "williamboman/nvim-lsp-installer"
-        }
 
         use {
             "neovim/nvim-lspconfig",
-            requires = "williamboman/nvim-lsp-installer",
+            requires = {
+                "williamboman/nvim-lsp-installer",
+            },
+            after = "nvim-cmp",
             config = function()
                 local installer = require("nvim-lsp-installer")
-                installer.on_server_ready(
-                    function(server)
-                        local configs = {
-                            sumneko_lua = {
-                                settings = {
-                                    Lua = {
-                                        diagnostics = {
-                                            globals = {"vim", "hs"}
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                local lspconfig = require("lspconfig")
 
-                        local opts = configs[server.name]
-                        if opts == nil then
-                            opts = {}
-                        end
-
-                        -- This setup() function is exactly the same as lspconfig's setup function.
-                        -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-                        server:setup(opts)
-                        vim.cmd([[ do User LspAttach Buffers ]])
-                    end
-                )
-
+                -- NOTE: This can probably go into defaults?
                 -- Disable virtual text in diagnostics.
                 -- vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
                 --   vim.lsp.diagnostic.on_publish_diagnostics,
@@ -131,6 +189,74 @@ return require("packer").startup(
                 --     virtual_text = false,
                 --   }
                 -- )
+
+                -- Default args to merge into global lsp configs.
+                local defaults = {
+                    flags = {
+                        debounce_text_changes = 150,
+                    },
+                    capabilities = require('cmp_nvim_lsp').update_capabilities(
+                        vim.lsp.protocol.make_client_capabilities()
+                    ),
+                    on_attach = function(client, bufnr)
+                        vim.api.nvim_exec_autocmds('User', {pattern = 'LspAttached'})
+                    end
+                }
+
+                -- Update global default config to apply to all servers.
+                lspconfig.util.default_config = vim.tbl_deep_extend(
+                  'force',
+                  lspconfig.util.default_config,
+                  defaults
+                )
+
+                -- Server specific overrides.
+                local server_configs = {
+                    sumneko_lua = {
+                        settings = {
+                            Lua = {
+                                diagnostics = {
+                                    globals = {"vim", "hs"}
+                                }
+                            }
+                        }
+                    }
+                }
+
+                installer.on_server_ready(
+                    function(server)
+
+                        -- Get server specific configuration.
+                        local conf = server_configs[server.name]
+                        if conf == nil then
+                            conf = {}
+                        end
+
+                        -- This setup() function is exactly the same as lspconfig's setup function.
+                        -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+                        server:setup(conf)
+                        -- Do we need to attach?
+                        vim.cmd([[ do User LspAttach Buffers ]])
+                    end
+                )
+
+            end
+        }
+
+        -- -------------------------------------------------------------------
+        -- snippets
+        -- -------------------------------------------------------------------
+        use {
+            'L3MON4D3/LuaSnip',
+            requires = {
+                'rafamadriz/friendly-snippets',
+
+            },
+            -- after = 'nvim-cmp',
+            config = function()
+                -- FIXME: loaders nil
+                -- local luasnip = require("luasnip")
+                -- luasnip.loaders.from_vscode.lazy_load()
             end
         }
 
@@ -139,79 +265,6 @@ return require("packer").startup(
             requires = "kyazdani42/nvim-web-devicons",
             config = function()
                 require("trouble").setup {}
-            end
-        }
-
-        use {
-            "hrsh7th/nvim-compe",
-            config = function()
-                require("compe").setup {
-                    enabled = true,
-                    autocomplete = true,
-                    debug = false,
-                    min_length = 1,
-                    preselect = "enable",
-                    throttle_time = 80,
-                    source_timeout = 200,
-                    incomplete_delay = 400,
-                    max_abbr_width = 100,
-                    max_kind_width = 100,
-                    max_menu_width = 100,
-                    documentation = true,
-                    source = {
-                        path = true,
-                        buffer = true,
-                        calc = true,
-                        nvim_lsp = true,
-                        nvim_lua = true,
-                        vsnip = true,
-                        ultisnips = true
-                    }
-                }
-            end
-        }
-
-        -- NOTE: Accepting autocomplete suggestion caused extranous carraige return.
-        -- use {
-        --     'windwp/nvim-autopairs',
-        --     config = function()
-        --         local remap = vim.api.nvim_set_keymap
-        --         local npairs = require('nvim-autopairs')
-        --           -- skip it, if you use another global object
-        --         _G.MUtils= {}
-
-        --         vim.g.completion_confirm_key = ""
-        --         MUtils.completion_confirm = function()
-        --           if vim.fn.pumvisible() ~= 0  then
-        --             if vim.fn.complete_info()["selected"] ~= -1 then
-        --               return vim.fn["compe#confirm"](npairs.esc("<cr>"))
-        --             else
-        --               return npairs.esc("<cr>")
-        --             end
-        --           else
-        --             return npairs.autopairs_cr()
-        --           end
-        --         end
-        --         remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
-        --     end
-        -- }
-
-        use {
-            "steelsojka/pears.nvim",
-            config = function()
-                require "pears".setup(
-                    function(conf)
-                        conf.on_enter(
-                            function(pears_handle)
-                                if vim.fn.pumvisible() == 1 and vim.fn.complete_info().selected ~= -1 then
-                                    return vim.fn["compe#confirm"]("<CR>")
-                                else
-                                    pears_handle()
-                                end
-                            end
-                        )
-                    end
-                )
             end
         }
 
@@ -296,25 +349,7 @@ return require("packer").startup(
             "tpope/vim-endwise"
         }
 
-        -- NOTE: kommentary seems to prefer block comments.
-        -- NOTE: Also issues multiple commands to comment.
-        -- use {
-        --   'b3nj5m1n/kommentary',
-        --   config = function()
-        --     local conf = require('kommentary.config')
-        --     conf.use_extended_mappings()
-        --     conf.configure_language(
-        --       "default",
-        --       {
-        --         prefer_single_line_comments = true,
-        --         use_consistent_indentation = true,
-        --         ignore_whitespace = true,
-        --       }
-        --     )
-        --   end
-        -- }
 
-        -- use 'mhinz/vim-signify'
         use {
             "lewis6991/gitsigns.nvim",
             requires = {"nvim-lua/plenary.nvim"},
@@ -323,17 +358,6 @@ return require("packer").startup(
             end
         }
 
-        -- use {
-        --   'ntpeters/vim-better-whitespace',
-        --   config = function()
-        --     vim.g.better_whitespace_enabled = 1
-        --     vim.g.better_whitespace = 1
-        --     vim.g.show_spaces_that_precede_tabs = 1
-        --     vim.g.strip_max_file_size = 100000
-        --     vim.g.strip_whitespace_confirm = 0
-        --     vim.g.strip_whitespace_on_save = 1
-        --   end
-        -- }
         use {
             'TimUntersberger/neogit',
             requires = 'nvim-lua/plenary.nvim',
@@ -350,155 +374,20 @@ return require("packer").startup(
             end
         }
 
-        -- Prettyish icons in lsp menus (such as completion)
-        use {
-            "onsails/lspkind-nvim",
-            config = function()
-                require("lspkind").init(
-                    {
-                        with_text = true,
-                        preset = "default",
-                        symbol_map = {}
-                    }
-                )
-            end
-        }
-
-        -- use {
-        --     'glepnir/galaxyline.nvim',
-        --     branch = 'main',
-        --     config = function()
-        --         require('statusline')
-        --     end
-        -- }
-
-        -- use {
-        --     "nvim-lualine/lualine.nvim",
-        --     config = function()
-        --         -- require('lualine').setup()
-        --         require "lualine".setup {
-        --             icons_enabled = false,
-        --             theme = "auto"
-        --         }
-        --     end
-        -- }
-
         use {
             "kyazdani42/nvim-tree.lua",
             requires = "kyazdani42/nvim-web-devicons",
             config = function()
-                -- vim.g.lua_tree_bindings = {
-                --   edit = ["<CR>", "o"],
-                --   edit_vsplit =     "<C-v>",
-                --   edit_split =      "<C-x>",
-                --   edit_tab =        "<C-t>",
-                --   toggle_ignored =  "I",
-                --   toggle_dotfiles = "H",
-                --   refresh =         "R",
-                --   preview =         "<Tab>",
-                --   cd =              "<C-]>",
-                --   create =          "a",
-                --   remove =          "d",
-                --   rename =          "r",
-                --   cut =             "x",
-                --   copy =            "c",
-                --   paste =           "p",
-                --   prev_git_item =   "[c",
-                --   next_git_item =   "]c",
-                -- }
-                --
-                require("nvim-tree").setup(
-                    {
-                        disable_netrw = true,
-                        hijack_netrw = true,
-                        open_on_setup = false,
-                        ignore_ft_on_setup = {},
-                        auto_close = false,
-                        open_on_tab = false,
-                        hijack_cursor = false,
-                        update_cwd = false,
-                        update_to_buf_dir = {
-                            enable = true,
-                            auto_open = true
-                        },
-                        diagnostics = {
-                            enable = false,
-                            icons = {
-                                hint = "",
-                                info = "",
-                                warning = "",
-                                error = ""
-                            }
-                        },
-                        update_focused_file = {
-                            enable = false,
-                            update_cwd = false,
-                            ignore_list = {}
-                        },
-                        system_open = {
-                            cmd = nil,
-                            args = {}
-                        },
-                        filters = {
-                            dotfiles = false,
-                            custom = {}
-                        },
-                        git = {
-                            enable = true,
-                            ignore = true,
-                            timeout = 500
-                        },
-                        view = {
-                            width = 60,
-                            height = 30,
-                            hide_root_folder = false,
-                            side = "left",
-                            auto_resize = false,
-                            mappings = {
-                                custom_only = false,
-                                list = {}
-                            },
-                            number = false,
-                            relativenumber = false
-                        },
-                        trash = {
-                            cmd = "trash",
-                            require_confirm = true
-                        }
-                    }
-                )
+                require("nvim-tree").setup({})
             end
         }
-
-        -- use {
-        --     'akinsho/nvim-bufferline.lua',
-        --     requires = 'kyazdani42/nvim-web-devicons',
-        --     config = function()
-        --         vim.opt.termguicolors = true
-        --         require('bufferline').setup {
-        --             diagnostics = 'nvim_lsp',
-        --         }
-        --     end
-        -- }
 
         use {
             "folke/which-key.nvim",
             config = function()
-                require("which-key").setup {}
+                require("which-key").setup({})
             end
         }
-
-        -- use {
-        --   'sheerun/vim-polyglot',
-        --   config = function()
-        --       -- - polyglot includes LaTeX-box, which is incompatible with vimtex.
-        --       -- - 2109-04-05: polyglot includes old pgsql syntax, use lifepillar's.
-        --       --   Confer https://github.com/sheerun/vim-polyglot/issues/391
-        --       --   But, using polyglot with pgsql leads to no highlighting. Removing polyglot
-        --       --   from the packpath solves this.
-        --       -- vim.g.polyglot_disabled = {'latex', 'pgsql'}
-        --   end
-        -- }
 
         -- -------------------------------------------------------------------------
         -- key remmaping
@@ -647,160 +536,6 @@ return require("packer").startup(
                 )
             end
         }
-
-        -- NOTE: This will autochdir to project root, which I do not care for.
-        -- use {
-        --   "ahmedkhalf/project.nvim",
-        --   config = function()
-        --     vim.g.nvim_tree_update_cwd = 1
-        --     vim.g.nvim_tree_respect_buf_cwd = 1
-        --     require("project_nvim").setup {}
-        --   end
-        -- }
-
-        -- ------------------------------------------------------------------------
-        -- themes, colorschemes
-        -- ------------------------------------------------------------------------
-
-        use {
-            "rktjmp/lush.nvim"
-        }
-
-        -- use {
-        --     "olimorris/onedarkpro.nvim",
-        --     -- config = function ()
-        --     --   require('onedarkpro').load()
-        --     -- end
-        --     config = function()
-        --         local onedarkpro = require("onedarkpro")
-        --         onedarkpro.setup(
-        --             {
-        --                 -- theme = function(), -- Override with "onedark" or "onelight". Alternatively, remove the option and the theme uses `vim.o.background` to determine
-        --                 colors = {}, -- Override default colors. Can specify colors for "onelight" or "onedark" themes
-        --                 hlgroups = {}, -- Override default highlight groups
-        --                 styles = {
-        --                     strings = "NONE", -- Style that is applied to strings
-        --                     comments = "NONE", -- Style that is applied to comments
-        --                     keywords = "bold", -- Style that is applied to keywords
-        --                     functions = "italic", -- Style that is applied to functions
-        --                     variables = "NONE" -- Style that is applied to variables
-        --                 },
-        --                 options = {
-        --                     bold = true, -- Use the themes opinionated bold styles?
-        --                     italic = true, -- Use the themes opinionated italic styles?
-        --                     underline = true, -- Use the themes opinionated underline styles?
-        --                     undercurl = true, -- Use the themes opinionated undercurl styles?
-        --                     cursorline = false, -- Use cursorline highlighting?
-        --                     transparency = false, -- Use a transparent background?
-        --                     terminal_colors = false, -- Use the theme's colors for Neovim's :terminal?
-        --                     window_unfocussed_color = false -- When the window is out of focus, change the normal background?
-        --                 }
-        --             }
-        --         )
-        --         -- onedarkpro.load()
-        --     end
-        -- }
-
-        -- use {
-        --     "projekt0n/github-nvim-theme",
-        --     after = "lualine.nvim",
-        --     config = function()
-        --         -- require('github-theme').setup({
-        --         --     theme_style = "dark",
-        --         --     comment_style = "italic",
-        --         --     function_style = "NONE",
-        --         --     keyword_style = "bold",
-        --         --     sidebars = { "qf", "vista_kind", "terminal", "packer"},
-        --         --   })
-        --     end
-        -- }
-
-        -- use {
-        --     "catppuccin/nvim",
-        --     config = function()
-        --         local catppuccin = require("catppuccin")
-        --         catppuccin.setup(
-        --             {
-        --                 transparent_background = false,
-        --                 term_colors = false,
-        --                 styles = {
-        --                     comments = "italic",
-        --                     functions = "italic",
-        --                     keywords = "italic",
-        --                     strings = "NONE",
-        --                     variables = "NONE"
-        --                 },
-        --                 integrations = {
-        --                     treesitter = true,
-        --                     native_lsp = {
-        --                         enabled = true,
-        --                         virtual_text = {
-        --                             errors = "italic",
-        --                             hints = "italic",
-        --                             warnings = "italic",
-        --                             information = "italic"
-        --                         },
-        --                         underlines = {
-        --                             errors = "underline",
-        --                             hints = "underline",
-        --                             warnings = "underline",
-        --                             information = "underline"
-        --                         }
-        --                     },
-        --                     lsp_trouble = true,
-        --                     lsp_saga = false,
-        --                     gitgutter = false,
-        --                     gitsigns = false,
-        --                     telescope = true,
-        --                     nvimtree = {
-        --                         enabled = true,
-        --                         show_root = false
-        --                     },
-        --                     which_key = true,
-        --                     indent_blankline = {
-        --                         enabled = true,
-        --                         colored_indent_levels = true
-        --                     },
-        --                     dashboard = false,
-        --                     neogit = false,
-        --                     vim_sneak = false,
-        --                     fern = false,
-        --                     barbar = false,
-        --                     bufferline = false,
-        --                     markdown = true,
-        --                     lightspeed = false,
-        --                     ts_rainbow = false,
-        --                     hop = false
-        --                 }
-        --             }
-        --         )
-        --     end
-        -- }
-
-        -- use {
-        --     "rafamadriz/neon",
-        --     config = function()
-        --         vim.g.neon_style = "default"
-        --         vim.g.neon_italic_keyword = true
-        --         vim.g.neon_italic_function = true
-        --     end
-        -- }
-
-        -- use "folke/tokyonight.nvim"
-
-        -- use {
-        --     "folke/lsp-colors.nvim",
-        --     config = function()
-        --         require("lsp-colors").setup(
-        --             {
-        --                 Error = "#db4b4b",
-        --                 Warning = "#e0af68",
-        --                 Information = "#0db9d7",
-        --                 Hint = "#10B981"
-        --             }
-        --         )
-        --     end
-        -- }
 
         -- TODO:
         -- NOTE: Want to like this, but can't disable highlights.
