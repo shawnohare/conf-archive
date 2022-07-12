@@ -1,5 +1,9 @@
 # User configuration files
 
+NOTE: We are actively experimenting with a configuration setup utilizing a
+nix+home-manager flake and a bare repository for files not managed within the
+flake. We expect the present repository to be archived at some point.
+
 # Introduction
 
 Simplicity, speed and portability take precedence over the elaborate and general-purpose.
